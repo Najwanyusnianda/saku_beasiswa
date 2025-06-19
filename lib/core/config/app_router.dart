@@ -4,8 +4,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/widgets/main_app_shell.dart';
 import 'package:saku_beasiswa/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:saku_beasiswa/features/applications/presentation/screens/application_detail_screen.dart';
+import 'package:saku_beasiswa/features/applications/presentation/screens/my_applications_screen.dart';
 import 'package:saku_beasiswa/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:saku_beasiswa/features/profile/presentation/screens/profile_setup_screen.dart';
+import 'package:saku_beasiswa/features/templates/presentation/screens/template_browser_screen.dart';
 import 'package:saku_beasiswa/features/templates/presentation/screens/template_sync_screen.dart';
 
 part 'app_router.g.dart';
@@ -33,7 +36,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
   // TODO: Add logic to check if onboarding is complete
-  const bool isOnboardingComplete = false; // We'll make this dynamic later
+  const bool isOnboardingComplete = true; // We'll make this dynamic later
 
   return GoRouter(
     initialLocation: isOnboardingComplete ? '/dashboard' : '/onboarding',
@@ -70,14 +73,23 @@ GoRouter goRouter(Ref ref) {
           GoRoute(
             path: '/templates',
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: PlaceholderScreen(title: 'Discover Templates'),
+              child: TemplateBrowserScreen(),
             ),
           ),
           GoRoute(
             path: '/applications',
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: PlaceholderScreen(title: 'My Applications'),
+              child: MyApplicationsScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return ApplicationDetailScreen(applicationId: id);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/profile',
@@ -89,17 +101,4 @@ GoRouter goRouter(Ref ref) {
       )
     ],
   );
-}
-
-// A class to hold all our route constants, making them type-safe and easy to use.
-class AppRoute {
-  const AppRoute({required this.path, required this.name});
-
-  final String path;
-  final String name;
-
-  static const AppRoute onboarding = AppRoute(path: '/onboarding', name: 'onboarding');
-  static const AppRoute profileSetup = AppRoute(path: '/profile-setup', name: 'profileSetup');
-  static const AppRoute templateSync = AppRoute(path: '/template-sync', name: 'templateSync');
-  // static const AppRoute home = AppRoute(path: '/home', name: 'home');
 }

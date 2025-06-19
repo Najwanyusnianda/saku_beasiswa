@@ -108,7 +108,7 @@ class DashboardScreen extends ConsumerWidget {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, st) => const Text('Could not load tasks'),
+            error: (err, st) => const Text('Could not load tasks '),
           ),
 
           const SizedBox(height: 32),
@@ -128,34 +128,6 @@ class DashboardScreen extends ConsumerWidget {
             ),
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // TEMPORARY: Seed data for testing
-          final db = ref.read(appDatabaseProvider);
-          await db.batch((batch) {
-            // Clear old data first
-            batch.deleteWhere(db.applications, (row) => const drift.Constant(true));
-            batch.deleteWhere(db.tasks, (row) => const drift.Constant(true));
-
-            // Add new data
-            batch.insertAll(db.applications, [
-              ApplicationsCompanion.insert(templateId: 'lpdp-2024', deadline: DateTime.now().add(const Duration(days: 28))),
-              ApplicationsCompanion.insert(templateId: 'aas-2024', deadline: DateTime.now().add(const Duration(days: 50))),
-              ApplicationsCompanion.insert(templateId: 'chevening-2024', deadline: DateTime.now().add(const Duration(days: 70))),
-            ]);
-          });
-          // Retrieve the ID of the first application to link tasks to it
-          final firstApp = await (db.select(db.applications)..limit(1)).getSingle();
-          await db.batch((batch){
-            batch.insertAll(db.tasks, [
-              TasksCompanion.insert(applicationId: firstApp.id, title: 'Finalize LPDP Essay', dueDate: drift.Value(DateTime.now().add(const Duration(days: 3)))),
-              TasksCompanion.insert(applicationId: firstApp.id, title: 'Get Recommendation Letter', dueDate: drift.Value(DateTime.now().add(const Duration(days: 6)))),
-            ]);
-          });
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dummy data seeded!')));
-        },
-        child: const Icon(Iconsax.programming_arrows),
       ),
     );
   }

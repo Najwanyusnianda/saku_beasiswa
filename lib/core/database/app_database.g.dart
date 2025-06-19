@@ -1222,6 +1222,18 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('Other'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1229,6 +1241,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     title,
     status,
     dueDate,
+    category,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1276,6 +1289,12 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
       );
     }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    }
     return context;
   }
 
@@ -1305,6 +1324,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}due_date'],
       ),
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
     );
   }
 
@@ -1320,12 +1343,14 @@ class Task extends DataClass implements Insertable<Task> {
   final String title;
   final String status;
   final DateTime? dueDate;
+  final String category;
   const Task({
     required this.id,
     required this.applicationId,
     required this.title,
     required this.status,
     this.dueDate,
+    required this.category,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1337,6 +1362,7 @@ class Task extends DataClass implements Insertable<Task> {
     if (!nullToAbsent || dueDate != null) {
       map['due_date'] = Variable<DateTime>(dueDate);
     }
+    map['category'] = Variable<String>(category);
     return map;
   }
 
@@ -1349,6 +1375,7 @@ class Task extends DataClass implements Insertable<Task> {
       dueDate: dueDate == null && nullToAbsent
           ? const Value.absent()
           : Value(dueDate),
+      category: Value(category),
     );
   }
 
@@ -1363,6 +1390,7 @@ class Task extends DataClass implements Insertable<Task> {
       title: serializer.fromJson<String>(json['title']),
       status: serializer.fromJson<String>(json['status']),
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
+      category: serializer.fromJson<String>(json['category']),
     );
   }
   @override
@@ -1374,6 +1402,7 @@ class Task extends DataClass implements Insertable<Task> {
       'title': serializer.toJson<String>(title),
       'status': serializer.toJson<String>(status),
       'dueDate': serializer.toJson<DateTime?>(dueDate),
+      'category': serializer.toJson<String>(category),
     };
   }
 
@@ -1383,12 +1412,14 @@ class Task extends DataClass implements Insertable<Task> {
     String? title,
     String? status,
     Value<DateTime?> dueDate = const Value.absent(),
+    String? category,
   }) => Task(
     id: id ?? this.id,
     applicationId: applicationId ?? this.applicationId,
     title: title ?? this.title,
     status: status ?? this.status,
     dueDate: dueDate.present ? dueDate.value : this.dueDate,
+    category: category ?? this.category,
   );
   Task copyWithCompanion(TasksCompanion data) {
     return Task(
@@ -1399,6 +1430,7 @@ class Task extends DataClass implements Insertable<Task> {
       title: data.title.present ? data.title.value : this.title,
       status: data.status.present ? data.status.value : this.status,
       dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+      category: data.category.present ? data.category.value : this.category,
     );
   }
 
@@ -1409,13 +1441,15 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('applicationId: $applicationId, ')
           ..write('title: $title, ')
           ..write('status: $status, ')
-          ..write('dueDate: $dueDate')
+          ..write('dueDate: $dueDate, ')
+          ..write('category: $category')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, applicationId, title, status, dueDate);
+  int get hashCode =>
+      Object.hash(id, applicationId, title, status, dueDate, category);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1424,7 +1458,8 @@ class Task extends DataClass implements Insertable<Task> {
           other.applicationId == this.applicationId &&
           other.title == this.title &&
           other.status == this.status &&
-          other.dueDate == this.dueDate);
+          other.dueDate == this.dueDate &&
+          other.category == this.category);
 }
 
 class TasksCompanion extends UpdateCompanion<Task> {
@@ -1433,12 +1468,14 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<String> title;
   final Value<String> status;
   final Value<DateTime?> dueDate;
+  final Value<String> category;
   const TasksCompanion({
     this.id = const Value.absent(),
     this.applicationId = const Value.absent(),
     this.title = const Value.absent(),
     this.status = const Value.absent(),
     this.dueDate = const Value.absent(),
+    this.category = const Value.absent(),
   });
   TasksCompanion.insert({
     this.id = const Value.absent(),
@@ -1446,6 +1483,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     required String title,
     this.status = const Value.absent(),
     this.dueDate = const Value.absent(),
+    this.category = const Value.absent(),
   }) : applicationId = Value(applicationId),
        title = Value(title);
   static Insertable<Task> custom({
@@ -1454,6 +1492,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<String>? title,
     Expression<String>? status,
     Expression<DateTime>? dueDate,
+    Expression<String>? category,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1461,6 +1500,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (title != null) 'title': title,
       if (status != null) 'status': status,
       if (dueDate != null) 'due_date': dueDate,
+      if (category != null) 'category': category,
     });
   }
 
@@ -1470,6 +1510,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Value<String>? title,
     Value<String>? status,
     Value<DateTime?>? dueDate,
+    Value<String>? category,
   }) {
     return TasksCompanion(
       id: id ?? this.id,
@@ -1477,6 +1518,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       title: title ?? this.title,
       status: status ?? this.status,
       dueDate: dueDate ?? this.dueDate,
+      category: category ?? this.category,
     );
   }
 
@@ -1498,6 +1540,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (dueDate.present) {
       map['due_date'] = Variable<DateTime>(dueDate.value);
     }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
     return map;
   }
 
@@ -1508,7 +1553,8 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('applicationId: $applicationId, ')
           ..write('title: $title, ')
           ..write('status: $status, ')
-          ..write('dueDate: $dueDate')
+          ..write('dueDate: $dueDate, ')
+          ..write('category: $category')
           ..write(')'))
         .toString();
   }
@@ -2498,6 +2544,7 @@ typedef $$TasksTableCreateCompanionBuilder =
       required String title,
       Value<String> status,
       Value<DateTime?> dueDate,
+      Value<String> category,
     });
 typedef $$TasksTableUpdateCompanionBuilder =
     TasksCompanion Function({
@@ -2506,6 +2553,7 @@ typedef $$TasksTableUpdateCompanionBuilder =
       Value<String> title,
       Value<String> status,
       Value<DateTime?> dueDate,
+      Value<String> category,
     });
 
 final class $$TasksTableReferences
@@ -2557,6 +2605,11 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<DateTime> get dueDate => $composableBuilder(
     column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2613,6 +2666,11 @@ class $$TasksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ApplicationsTableOrderingComposer get applicationId {
     final $$ApplicationsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2657,6 +2715,9 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<DateTime> get dueDate =>
       $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
 
   $$ApplicationsTableAnnotationComposer get applicationId {
     final $$ApplicationsTableAnnotationComposer composer = $composerBuilder(
@@ -2715,12 +2776,14 @@ class $$TasksTableTableManager
                 Value<String> title = const Value.absent(),
                 Value<String> status = const Value.absent(),
                 Value<DateTime?> dueDate = const Value.absent(),
+                Value<String> category = const Value.absent(),
               }) => TasksCompanion(
                 id: id,
                 applicationId: applicationId,
                 title: title,
                 status: status,
                 dueDate: dueDate,
+                category: category,
               ),
           createCompanionCallback:
               ({
@@ -2729,12 +2792,14 @@ class $$TasksTableTableManager
                 required String title,
                 Value<String> status = const Value.absent(),
                 Value<DateTime?> dueDate = const Value.absent(),
+                Value<String> category = const Value.absent(),
               }) => TasksCompanion.insert(
                 id: id,
                 applicationId: applicationId,
                 title: title,
                 status: status,
                 dueDate: dueDate,
+                category: category,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -2819,7 +2884,7 @@ class $AppDatabaseManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appDatabaseHash() => r'3d3a397d2ea952fc020fce0506793a5564e93530';
+String _$appDatabaseHash() => r'8c69eb46d45206533c176c88a926608e79ca927d';
 
 /// See also [appDatabase].
 @ProviderFor(appDatabase)

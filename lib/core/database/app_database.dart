@@ -77,6 +77,8 @@ class Tasks extends Table {
   TextColumn get status => text().withDefault(const Constant('pending'))();
   // Optional due date for a specific task
   DateTimeColumn get dueDate => dateTime().nullable()();
+  // Category for grouping tasks
+  TextColumn get category => text().withDefault(const Constant('Other'))();
 }
 
 
@@ -186,7 +188,7 @@ LazyDatabase _openConnection() {
 // --- PROVIDERS ---
 // A Riverpod provider to give the rest of the app access to the database instance.
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) {
+AppDatabase appDatabase(Ref ref) {
   return AppDatabase();
 }
 
@@ -230,6 +232,11 @@ class ScholarshipTemplateRepository {
   ScholarshipTemplateRepository(this._db);
 
   // Method to find matching templates based on a user's profile
+  // Watches the entire templates table for changes.
+  Stream<List<ScholarshipTemplate>> watchAllTemplates() {
+    return _db.select(_db.scholarshipTemplates).watch();
+  }
+
   Future<List<ScholarshipTemplate>> findMatchingTemplates(UserProfile profile) async {
     // Artificial delay to simulate a network call and show our loading animation
     await Future.delayed(const Duration(seconds: 3));
@@ -254,6 +261,14 @@ class ScholarshipTemplateRepository {
     
     return query.get();
   }
+}
+
+// --- NEW DATA CLASS for Joined Data ---
+class ApplicationWithTemplate {
+  final Application application;
+  final ScholarshipTemplate template;
+
+  ApplicationWithTemplate({required this.application, required this.template});
 }
 
 // --- NEW REPOSITORY FOR APPLICATIONS ---
@@ -296,5 +311,107 @@ class ApplicationRepository {
       ..limit(3); // Show top 3 priority tasks
 
     return query.watch();
+  }
+
+  // Creates a new Application in the database from a given template ID.
+  Future<void> createApplicationFromTemplate(String templateId) async {
+    final newApplicationCompanion = ApplicationsCompanion(
+      templateId: Value(templateId),
+      deadline: Value(DateTime.now().add(const Duration(days: 90))),
+      status: const Value('in_progress'),
+    );
+    
+    // Insert the application and get its newly generated ID
+    final newApplication = await _db.into(_db.applications).insertReturning(newApplicationCompanion);
+
+    // Seed default tasks with categories
+    final defaultTasks = [
+      TasksCompanion.insert(applicationId: newApplication.id,
+      title: 'Prepare CV/Resume', category: const Value('Personal'), 
+      dueDate: Value(DateTime.now().add(const Duration(days: 15)))),
+      TasksCompanion.insert(applicationId: newApplication.id,
+      title: 'Write Personal Statement', 
+      category: const Value('Personal'), 
+      dueDate: Value(DateTime.now().add(const Duration(days: 30)))),
+      TasksCompanion.insert(
+        applicationId: newApplication.id,
+        title: 'Scan Passport',
+        category: const Value('Personal'),
+      ),
+      TasksCompanion.insert(
+        applicationId: newApplication.id,
+        title: 'Request Recommendation Letters',
+        category: const Value('Academic'),
+      ),
+      TasksCompanion.insert(
+        applicationId: newApplication.id,
+        title: 'Translate Academic Transcript',
+        category: const Value('Academic'),
+      ),
+      TasksCompanion.insert(
+        applicationId: newApplication.id,
+        title: 'Get TOEFL/IELTS Certificate',
+        category: const Value('Academic'),
+      ),
+      TasksCompanion.insert(
+        applicationId: newApplication.id,
+        title: 'Prepare Financial Statements',
+        category: const Value('Financial'),
+      ),
+
+    ];
+
+    await _db.batch((batch) {
+      batch.insertAll(_db.tasks, defaultTasks);
+    });
+  }
+  
+  // Watches all tasks for a specific application ID.
+  Stream<List<Task>> watchTasksForApplication(int applicationId) {
+    return (_db.select(_db.tasks)..where((tbl) => tbl.applicationId.equals(applicationId))).watch();
+  }
+
+  // Updates the status of a specific task.
+  Future<void> updateTaskStatus(int taskId, bool isCompleted) async {
+    final status = isCompleted ? 'completed' : 'pending';
+    await (_db.update(_db.tasks)..where((tbl) => tbl.id.equals(taskId)))
+        .write(TasksCompanion(status: Value(status)));
+  }
+
+  // Watches all applications and joins them with their template details.
+  Stream<List<ApplicationWithTemplate>> watchAllApplications() {
+    final query = _db.select(_db.applications).join([
+      innerJoin(
+        _db.scholarshipTemplates,
+        _db.scholarshipTemplates.id.equalsExp(_db.applications.templateId),
+      ),
+    ]);
+    
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        return ApplicationWithTemplate(
+          application: row.readTable(_db.applications),
+          template: row.readTable(_db.scholarshipTemplates),
+        );
+      }).toList();
+    });
+  }
+
+  // Watches a single application by its ID and joins it with template details.
+  Stream<ApplicationWithTemplate> watchApplicationById(int id) {
+    final query = _db.select(_db.applications).join([
+      innerJoin(
+        _db.scholarshipTemplates,
+        _db.scholarshipTemplates.id.equalsExp(_db.applications.templateId),
+      ),
+    ])
+    ..where(_db.applications.id.equals(id));
+      
+    return query.watchSingle().map((row) {
+      return ApplicationWithTemplate(
+        application: row.readTable(_db.applications),
+        template: row.readTable(_db.scholarshipTemplates),
+      );
+    });
   }
 }
