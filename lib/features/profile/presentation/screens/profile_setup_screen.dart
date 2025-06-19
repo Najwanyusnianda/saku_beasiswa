@@ -20,12 +20,13 @@ class ProfileSetupScreen extends ConsumerWidget {
     final formState = ref.watch(profileSetupProvider);
     final formNotifier = ref.read(profileSetupProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tell Us About You'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
+return Scaffold(
+    appBar: AppBar(
+      title: const Text('Tell Us About You'),
+      centerTitle: true,
+    ),
+    body: SafeArea(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,9 +36,9 @@ class ProfileSetupScreen extends ConsumerWidget {
               style: textTheme.bodyMedium,
             ),
             const SizedBox(height: 32),
-
             // --- Study Level Dropdown ---
-            Text('What is your current/target study level?', style: textTheme.titleSmall),
+            Text('What is your current/target study level?',
+                style: textTheme.titleSmall),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: formState.studyLevel,
@@ -58,9 +59,9 @@ class ProfileSetupScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 24),
-
             // --- Field of Study Dropdown ---
-            Text('What is your field of study?', style: textTheme.titleSmall),
+            Text('What is your field of study?',
+                style: textTheme.titleSmall),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: formState.fieldOfStudy,
@@ -80,13 +81,14 @@ class ProfileSetupScreen extends ConsumerWidget {
                 if (value != null) formNotifier.setFieldOfStudy(value);
               },
             ),
-            
             // Note: Target countries will be added in the next iteration for simplicity.
             // A multi-select chip field would be ideal here.
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
+    ),
+    bottomNavigationBar: SafeArea(
+      child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -101,13 +103,14 @@ class ProfileSetupScreen extends ConsumerWidget {
             // Save the profile and navigate to template sync on success
             final success = await formNotifier.saveProfile();
             if (success && context.mounted) {
-              // Navigate to the template sync screen after saving
-              context.goNamed(AppRoute.templateSync.name);
+              print('Profile saved successfully');
+              context.go('/template-sync');
             }
           },
           child: const Text('Continue'),
         ),
       ),
+    ),
     );
   }
 }

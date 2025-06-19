@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:saku_beasiswa/core/widgets/main_app_shell.dart';
+import 'package:saku_beasiswa/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:saku_beasiswa/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:saku_beasiswa/features/profile/presentation/screens/profile_setup_screen.dart';
 import 'package:saku_beasiswa/features/templates/presentation/screens/template_sync_screen.dart';
 
 part 'app_router.g.dart';
 
-// A placeholder screen for routes we haven't created yet.
+// Placeholder for other main screens
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -27,37 +28,65 @@ class PlaceholderScreen extends StatelessWidget {
 
 // Private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-// Using riverpod_generator to create a provider for our router.
-// This is the best practice for accessing the router globally.
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
+  // TODO: Add logic to check if onboarding is complete
+  const bool isOnboardingComplete = false; // We'll make this dynamic later
+
   return GoRouter(
-    initialLocation: AppRoute.onboarding.path,
+    initialLocation: isOnboardingComplete ? '/dashboard' : '/onboarding',
     navigatorKey: _rootNavigatorKey,
-    debugLogDiagnostics: true, // Set to false in production
+    debugLogDiagnostics: true,
     routes: [
+      // Routes outside the main app shell (like onboarding)
       GoRoute(
-        path: AppRoute.onboarding.path,
-        name: AppRoute.onboarding.name,
+        path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
-        path: AppRoute.profileSetup.path,
-        name: AppRoute.profileSetup.name,
+        path: '/profile-setup',
         builder: (context, state) => const ProfileSetupScreen(),
       ),
       GoRoute(
-        path: AppRoute.templateSync.path,
-        name: AppRoute.templateSync.name,
+        path: '/template-sync',
         builder: (context, state) => const TemplateSyncScreen(),
       ),
-      // We will add more routes here, e.g., for the main dashboard
-      // GoRoute(
-      //   path: AppRoute.home.path,
-      //   name: AppRoute.home.name,
-      //   builder: (context, state) => const HomeScreen(),
-      // ),
+
+      // Main application routes with a persistent bottom navigation bar
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, child) {
+          return MainAppShell(child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/dashboard',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: DashboardScreen(),
+            ),
+          ),
+          GoRoute(
+            path: '/templates',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PlaceholderScreen(title: 'Discover Templates'),
+            ),
+          ),
+          GoRoute(
+            path: '/applications',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PlaceholderScreen(title: 'My Applications'),
+            ),
+          ),
+          GoRoute(
+            path: '/profile',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PlaceholderScreen(title: 'User Profile'),
+            ),
+          ),
+        ],
+      )
     ],
   );
 }

@@ -80,7 +80,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: TextButton(
                 onPressed: () {
                   // Navigate to the next screen using GoRouter
-                  context.goNamed(AppRoute.profileSetup.name);
+                  print('Skipping onboarding');
+                  context.go('/profile-setup');
                 },
                 child: const Text('Skip'),
               ),
@@ -132,7 +133,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     ),
                     onPressed: () {
                       if (isLastPage) {
-                        context.goNamed(AppRoute.profileSetup.name);
+                        print('Onboarding complete, navigating to profile setup');
+                        context.go('/profile-setup');
+                        
                       } else {
                         _pageController.nextPage(
                           duration: const Duration(milliseconds: 300),

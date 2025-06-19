@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_matching_provider.dart';
-
+import 'package:go_router/go_router.dart';
 class TemplateSyncScreen extends ConsumerWidget {
   const TemplateSyncScreen({super.key});
 
@@ -86,7 +86,8 @@ class TemplateSyncScreen extends ConsumerWidget {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: Navigate to the main dashboard
+                    // Use go() to clear the onboarding stack and start fresh
+                    context.go('/dashboard');
                   },
                   child: const Text('Go to Dashboard'),
                 ),

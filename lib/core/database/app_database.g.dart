@@ -809,12 +809,719 @@ class ScholarshipTemplatesCompanion
   }
 }
 
+class $ApplicationsTable extends Applications
+    with TableInfo<$ApplicationsTable, Application> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ApplicationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _templateIdMeta = const VerificationMeta(
+    'templateId',
+  );
+  @override
+  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
+    'template_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES scholarship_templates (id)',
+    ),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('in_progress'),
+  );
+  static const VerificationMeta _deadlineMeta = const VerificationMeta(
+    'deadline',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
+    'deadline',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    status,
+    deadline,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'applications';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Application> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('template_id')) {
+      context.handle(
+        _templateIdMeta,
+        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_templateIdMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('deadline')) {
+      context.handle(
+        _deadlineMeta,
+        deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deadlineMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Application map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Application(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      templateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template_id'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      deadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deadline'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ApplicationsTable createAlias(String alias) {
+    return $ApplicationsTable(attachedDatabase, alias);
+  }
+}
+
+class Application extends DataClass implements Insertable<Application> {
+  final int id;
+  final String templateId;
+  final String status;
+  final DateTime deadline;
+  final DateTime createdAt;
+  const Application({
+    required this.id,
+    required this.templateId,
+    required this.status,
+    required this.deadline,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['template_id'] = Variable<String>(templateId);
+    map['status'] = Variable<String>(status);
+    map['deadline'] = Variable<DateTime>(deadline);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ApplicationsCompanion toCompanion(bool nullToAbsent) {
+    return ApplicationsCompanion(
+      id: Value(id),
+      templateId: Value(templateId),
+      status: Value(status),
+      deadline: Value(deadline),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory Application.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Application(
+      id: serializer.fromJson<int>(json['id']),
+      templateId: serializer.fromJson<String>(json['templateId']),
+      status: serializer.fromJson<String>(json['status']),
+      deadline: serializer.fromJson<DateTime>(json['deadline']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'templateId': serializer.toJson<String>(templateId),
+      'status': serializer.toJson<String>(status),
+      'deadline': serializer.toJson<DateTime>(deadline),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  Application copyWith({
+    int? id,
+    String? templateId,
+    String? status,
+    DateTime? deadline,
+    DateTime? createdAt,
+  }) => Application(
+    id: id ?? this.id,
+    templateId: templateId ?? this.templateId,
+    status: status ?? this.status,
+    deadline: deadline ?? this.deadline,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  Application copyWithCompanion(ApplicationsCompanion data) {
+    return Application(
+      id: data.id.present ? data.id.value : this.id,
+      templateId: data.templateId.present
+          ? data.templateId.value
+          : this.templateId,
+      status: data.status.present ? data.status.value : this.status,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Application(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('status: $status, ')
+          ..write('deadline: $deadline, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, templateId, status, deadline, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Application &&
+          other.id == this.id &&
+          other.templateId == this.templateId &&
+          other.status == this.status &&
+          other.deadline == this.deadline &&
+          other.createdAt == this.createdAt);
+}
+
+class ApplicationsCompanion extends UpdateCompanion<Application> {
+  final Value<int> id;
+  final Value<String> templateId;
+  final Value<String> status;
+  final Value<DateTime> deadline;
+  final Value<DateTime> createdAt;
+  const ApplicationsCompanion({
+    this.id = const Value.absent(),
+    this.templateId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ApplicationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String templateId,
+    this.status = const Value.absent(),
+    required DateTime deadline,
+    this.createdAt = const Value.absent(),
+  }) : templateId = Value(templateId),
+       deadline = Value(deadline);
+  static Insertable<Application> custom({
+    Expression<int>? id,
+    Expression<String>? templateId,
+    Expression<String>? status,
+    Expression<DateTime>? deadline,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (templateId != null) 'template_id': templateId,
+      if (status != null) 'status': status,
+      if (deadline != null) 'deadline': deadline,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ApplicationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? templateId,
+    Value<String>? status,
+    Value<DateTime>? deadline,
+    Value<DateTime>? createdAt,
+  }) {
+    return ApplicationsCompanion(
+      id: id ?? this.id,
+      templateId: templateId ?? this.templateId,
+      status: status ?? this.status,
+      deadline: deadline ?? this.deadline,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (templateId.present) {
+      map['template_id'] = Variable<String>(templateId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (deadline.present) {
+      map['deadline'] = Variable<DateTime>(deadline.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ApplicationsCompanion(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('status: $status, ')
+          ..write('deadline: $deadline, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _applicationIdMeta = const VerificationMeta(
+    'applicationId',
+  );
+  @override
+  late final GeneratedColumn<int> applicationId = GeneratedColumn<int>(
+    'application_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES applications (id)',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _dueDateMeta = const VerificationMeta(
+    'dueDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
+    'due_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    applicationId,
+    title,
+    status,
+    dueDate,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tasks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Task> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('application_id')) {
+      context.handle(
+        _applicationIdMeta,
+        applicationId.isAcceptableOrUnknown(
+          data['application_id']!,
+          _applicationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_applicationIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('due_date')) {
+      context.handle(
+        _dueDateMeta,
+        dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Task map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Task(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      applicationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}application_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      dueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due_date'],
+      ),
+    );
+  }
+
+  @override
+  $TasksTable createAlias(String alias) {
+    return $TasksTable(attachedDatabase, alias);
+  }
+}
+
+class Task extends DataClass implements Insertable<Task> {
+  final int id;
+  final int applicationId;
+  final String title;
+  final String status;
+  final DateTime? dueDate;
+  const Task({
+    required this.id,
+    required this.applicationId,
+    required this.title,
+    required this.status,
+    this.dueDate,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['application_id'] = Variable<int>(applicationId);
+    map['title'] = Variable<String>(title);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || dueDate != null) {
+      map['due_date'] = Variable<DateTime>(dueDate);
+    }
+    return map;
+  }
+
+  TasksCompanion toCompanion(bool nullToAbsent) {
+    return TasksCompanion(
+      id: Value(id),
+      applicationId: Value(applicationId),
+      title: Value(title),
+      status: Value(status),
+      dueDate: dueDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dueDate),
+    );
+  }
+
+  factory Task.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Task(
+      id: serializer.fromJson<int>(json['id']),
+      applicationId: serializer.fromJson<int>(json['applicationId']),
+      title: serializer.fromJson<String>(json['title']),
+      status: serializer.fromJson<String>(json['status']),
+      dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'applicationId': serializer.toJson<int>(applicationId),
+      'title': serializer.toJson<String>(title),
+      'status': serializer.toJson<String>(status),
+      'dueDate': serializer.toJson<DateTime?>(dueDate),
+    };
+  }
+
+  Task copyWith({
+    int? id,
+    int? applicationId,
+    String? title,
+    String? status,
+    Value<DateTime?> dueDate = const Value.absent(),
+  }) => Task(
+    id: id ?? this.id,
+    applicationId: applicationId ?? this.applicationId,
+    title: title ?? this.title,
+    status: status ?? this.status,
+    dueDate: dueDate.present ? dueDate.value : this.dueDate,
+  );
+  Task copyWithCompanion(TasksCompanion data) {
+    return Task(
+      id: data.id.present ? data.id.value : this.id,
+      applicationId: data.applicationId.present
+          ? data.applicationId.value
+          : this.applicationId,
+      title: data.title.present ? data.title.value : this.title,
+      status: data.status.present ? data.status.value : this.status,
+      dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Task(')
+          ..write('id: $id, ')
+          ..write('applicationId: $applicationId, ')
+          ..write('title: $title, ')
+          ..write('status: $status, ')
+          ..write('dueDate: $dueDate')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, applicationId, title, status, dueDate);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Task &&
+          other.id == this.id &&
+          other.applicationId == this.applicationId &&
+          other.title == this.title &&
+          other.status == this.status &&
+          other.dueDate == this.dueDate);
+}
+
+class TasksCompanion extends UpdateCompanion<Task> {
+  final Value<int> id;
+  final Value<int> applicationId;
+  final Value<String> title;
+  final Value<String> status;
+  final Value<DateTime?> dueDate;
+  const TasksCompanion({
+    this.id = const Value.absent(),
+    this.applicationId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.status = const Value.absent(),
+    this.dueDate = const Value.absent(),
+  });
+  TasksCompanion.insert({
+    this.id = const Value.absent(),
+    required int applicationId,
+    required String title,
+    this.status = const Value.absent(),
+    this.dueDate = const Value.absent(),
+  }) : applicationId = Value(applicationId),
+       title = Value(title);
+  static Insertable<Task> custom({
+    Expression<int>? id,
+    Expression<int>? applicationId,
+    Expression<String>? title,
+    Expression<String>? status,
+    Expression<DateTime>? dueDate,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (applicationId != null) 'application_id': applicationId,
+      if (title != null) 'title': title,
+      if (status != null) 'status': status,
+      if (dueDate != null) 'due_date': dueDate,
+    });
+  }
+
+  TasksCompanion copyWith({
+    Value<int>? id,
+    Value<int>? applicationId,
+    Value<String>? title,
+    Value<String>? status,
+    Value<DateTime?>? dueDate,
+  }) {
+    return TasksCompanion(
+      id: id ?? this.id,
+      applicationId: applicationId ?? this.applicationId,
+      title: title ?? this.title,
+      status: status ?? this.status,
+      dueDate: dueDate ?? this.dueDate,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (applicationId.present) {
+      map['application_id'] = Variable<int>(applicationId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (dueDate.present) {
+      map['due_date'] = Variable<DateTime>(dueDate.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TasksCompanion(')
+          ..write('id: $id, ')
+          ..write('applicationId: $applicationId, ')
+          ..write('title: $title, ')
+          ..write('status: $status, ')
+          ..write('dueDate: $dueDate')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $UserProfilesTable userProfiles = $UserProfilesTable(this);
   late final $ScholarshipTemplatesTable scholarshipTemplates =
       $ScholarshipTemplatesTable(this);
+  late final $ApplicationsTable applications = $ApplicationsTable(this);
+  late final $TasksTable tasks = $TasksTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -822,6 +1529,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     userProfiles,
     scholarshipTemplates,
+    applications,
+    tasks,
   ];
 }
 
@@ -1029,6 +1738,41 @@ typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$ScholarshipTemplatesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ScholarshipTemplatesTable,
+          ScholarshipTemplate
+        > {
+  $$ScholarshipTemplatesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ApplicationsTable, List<Application>>
+  _applicationsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.applications,
+    aliasName: $_aliasNameGenerator(
+      db.scholarshipTemplates.id,
+      db.applications.templateId,
+    ),
+  );
+
+  $$ApplicationsTableProcessedTableManager get applicationsRefs {
+    final manager = $$ApplicationsTableTableManager(
+      $_db,
+      $_db.applications,
+    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_applicationsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$ScholarshipTemplatesTableFilterComposer
     extends Composer<_$AppDatabase, $ScholarshipTemplatesTable> {
   $$ScholarshipTemplatesTableFilterComposer({
@@ -1072,6 +1816,31 @@ class $$ScholarshipTemplatesTableFilterComposer
     column: $table.targetCountries,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> applicationsRefs(
+    Expression<bool> Function($$ApplicationsTableFilterComposer f) f,
+  ) {
+    final $$ApplicationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.applications,
+      getReferencedColumn: (t) => t.templateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ApplicationsTableFilterComposer(
+            $db: $db,
+            $table: $db.applications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ScholarshipTemplatesTableOrderingComposer
@@ -1156,6 +1925,31 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     column: $table.targetCountries,
     builder: (column) => column,
   );
+
+  Expression<T> applicationsRefs<T extends Object>(
+    Expression<T> Function($$ApplicationsTableAnnotationComposer a) f,
+  ) {
+    final $$ApplicationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.applications,
+      getReferencedColumn: (t) => t.templateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ApplicationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.applications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ScholarshipTemplatesTableTableManager
@@ -1169,16 +1963,9 @@ class $$ScholarshipTemplatesTableTableManager
           $$ScholarshipTemplatesTableAnnotationComposer,
           $$ScholarshipTemplatesTableCreateCompanionBuilder,
           $$ScholarshipTemplatesTableUpdateCompanionBuilder,
-          (
-            ScholarshipTemplate,
-            BaseReferences<
-              _$AppDatabase,
-              $ScholarshipTemplatesTable,
-              ScholarshipTemplate
-            >,
-          ),
+          (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
           ScholarshipTemplate,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool applicationsRefs})
         > {
   $$ScholarshipTemplatesTableTableManager(
     _$AppDatabase db,
@@ -1240,9 +2027,43 @@ class $$ScholarshipTemplatesTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ScholarshipTemplatesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({applicationsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (applicationsRefs) db.applications],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (applicationsRefs)
+                    await $_getPrefetchedData<
+                      ScholarshipTemplate,
+                      $ScholarshipTemplatesTable,
+                      Application
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ScholarshipTemplatesTableReferences
+                          ._applicationsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ScholarshipTemplatesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).applicationsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.templateId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -1257,16 +2078,728 @@ typedef $$ScholarshipTemplatesTableProcessedTableManager =
       $$ScholarshipTemplatesTableAnnotationComposer,
       $$ScholarshipTemplatesTableCreateCompanionBuilder,
       $$ScholarshipTemplatesTableUpdateCompanionBuilder,
-      (
-        ScholarshipTemplate,
-        BaseReferences<
-          _$AppDatabase,
-          $ScholarshipTemplatesTable,
-          ScholarshipTemplate
-        >,
-      ),
+      (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
       ScholarshipTemplate,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool applicationsRefs})
+    >;
+typedef $$ApplicationsTableCreateCompanionBuilder =
+    ApplicationsCompanion Function({
+      Value<int> id,
+      required String templateId,
+      Value<String> status,
+      required DateTime deadline,
+      Value<DateTime> createdAt,
+    });
+typedef $$ApplicationsTableUpdateCompanionBuilder =
+    ApplicationsCompanion Function({
+      Value<int> id,
+      Value<String> templateId,
+      Value<String> status,
+      Value<DateTime> deadline,
+      Value<DateTime> createdAt,
+    });
+
+final class $$ApplicationsTableReferences
+    extends BaseReferences<_$AppDatabase, $ApplicationsTable, Application> {
+  $$ApplicationsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ScholarshipTemplatesTable _templateIdTable(_$AppDatabase db) =>
+      db.scholarshipTemplates.createAlias(
+        $_aliasNameGenerator(
+          db.applications.templateId,
+          db.scholarshipTemplates.id,
+        ),
+      );
+
+  $$ScholarshipTemplatesTableProcessedTableManager get templateId {
+    final $_column = $_itemColumn<String>('template_id')!;
+
+    final manager = $$ScholarshipTemplatesTableTableManager(
+      $_db,
+      $_db.scholarshipTemplates,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$TasksTable, List<Task>> _tasksRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.tasks,
+    aliasName: $_aliasNameGenerator(db.applications.id, db.tasks.applicationId),
+  );
+
+  $$TasksTableProcessedTableManager get tasksRefs {
+    final manager = $$TasksTableTableManager(
+      $_db,
+      $_db.tasks,
+    ).filter((f) => f.applicationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_tasksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ApplicationsTableFilterComposer
+    extends Composer<_$AppDatabase, $ApplicationsTable> {
+  $$ApplicationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
+    column: $table.deadline,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ScholarshipTemplatesTableFilterComposer get templateId {
+    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.templateId,
+      referencedTable: $db.scholarshipTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.scholarshipTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> tasksRefs(
+    Expression<bool> Function($$TasksTableFilterComposer f) f,
+  ) {
+    final $$TasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.applicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableFilterComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ApplicationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ApplicationsTable> {
+  $$ApplicationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
+    column: $table.deadline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ScholarshipTemplatesTableOrderingComposer get templateId {
+    final $$ScholarshipTemplatesTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableOrderingComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ApplicationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ApplicationsTable> {
+  $$ApplicationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
+    final $$ScholarshipTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  Expression<T> tasksRefs<T extends Object>(
+    Expression<T> Function($$TasksTableAnnotationComposer a) f,
+  ) {
+    final $$TasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.applicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ApplicationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ApplicationsTable,
+          Application,
+          $$ApplicationsTableFilterComposer,
+          $$ApplicationsTableOrderingComposer,
+          $$ApplicationsTableAnnotationComposer,
+          $$ApplicationsTableCreateCompanionBuilder,
+          $$ApplicationsTableUpdateCompanionBuilder,
+          (Application, $$ApplicationsTableReferences),
+          Application,
+          PrefetchHooks Function({bool templateId, bool tasksRefs})
+        > {
+  $$ApplicationsTableTableManager(_$AppDatabase db, $ApplicationsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ApplicationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ApplicationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ApplicationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> templateId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> deadline = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ApplicationsCompanion(
+                id: id,
+                templateId: templateId,
+                status: status,
+                deadline: deadline,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String templateId,
+                Value<String> status = const Value.absent(),
+                required DateTime deadline,
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ApplicationsCompanion.insert(
+                id: id,
+                templateId: templateId,
+                status: status,
+                deadline: deadline,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ApplicationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({templateId = false, tasksRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (tasksRefs) db.tasks],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (templateId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.templateId,
+                                referencedTable: $$ApplicationsTableReferences
+                                    ._templateIdTable(db),
+                                referencedColumn: $$ApplicationsTableReferences
+                                    ._templateIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (tasksRefs)
+                    await $_getPrefetchedData<
+                      Application,
+                      $ApplicationsTable,
+                      Task
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ApplicationsTableReferences
+                          ._tasksRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ApplicationsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).tasksRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.applicationId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ApplicationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ApplicationsTable,
+      Application,
+      $$ApplicationsTableFilterComposer,
+      $$ApplicationsTableOrderingComposer,
+      $$ApplicationsTableAnnotationComposer,
+      $$ApplicationsTableCreateCompanionBuilder,
+      $$ApplicationsTableUpdateCompanionBuilder,
+      (Application, $$ApplicationsTableReferences),
+      Application,
+      PrefetchHooks Function({bool templateId, bool tasksRefs})
+    >;
+typedef $$TasksTableCreateCompanionBuilder =
+    TasksCompanion Function({
+      Value<int> id,
+      required int applicationId,
+      required String title,
+      Value<String> status,
+      Value<DateTime?> dueDate,
+    });
+typedef $$TasksTableUpdateCompanionBuilder =
+    TasksCompanion Function({
+      Value<int> id,
+      Value<int> applicationId,
+      Value<String> title,
+      Value<String> status,
+      Value<DateTime?> dueDate,
+    });
+
+final class $$TasksTableReferences
+    extends BaseReferences<_$AppDatabase, $TasksTable, Task> {
+  $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ApplicationsTable _applicationIdTable(_$AppDatabase db) =>
+      db.applications.createAlias(
+        $_aliasNameGenerator(db.tasks.applicationId, db.applications.id),
+      );
+
+  $$ApplicationsTableProcessedTableManager get applicationId {
+    final $_column = $_itemColumn<int>('application_id')!;
+
+    final manager = $$ApplicationsTableTableManager(
+      $_db,
+      $_db.applications,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_applicationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
+  $$TasksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ApplicationsTableFilterComposer get applicationId {
+    final $$ApplicationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.applicationId,
+      referencedTable: $db.applications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ApplicationsTableFilterComposer(
+            $db: $db,
+            $table: $db.applications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TasksTableOrderingComposer
+    extends Composer<_$AppDatabase, $TasksTable> {
+  $$TasksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ApplicationsTableOrderingComposer get applicationId {
+    final $$ApplicationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.applicationId,
+      referencedTable: $db.applications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ApplicationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.applications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TasksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TasksTable> {
+  $$TasksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dueDate =>
+      $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  $$ApplicationsTableAnnotationComposer get applicationId {
+    final $$ApplicationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.applicationId,
+      referencedTable: $db.applications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ApplicationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.applications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TasksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TasksTable,
+          Task,
+          $$TasksTableFilterComposer,
+          $$TasksTableOrderingComposer,
+          $$TasksTableAnnotationComposer,
+          $$TasksTableCreateCompanionBuilder,
+          $$TasksTableUpdateCompanionBuilder,
+          (Task, $$TasksTableReferences),
+          Task,
+          PrefetchHooks Function({bool applicationId})
+        > {
+  $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TasksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TasksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TasksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> applicationId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> dueDate = const Value.absent(),
+              }) => TasksCompanion(
+                id: id,
+                applicationId: applicationId,
+                title: title,
+                status: status,
+                dueDate: dueDate,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int applicationId,
+                required String title,
+                Value<String> status = const Value.absent(),
+                Value<DateTime?> dueDate = const Value.absent(),
+              }) => TasksCompanion.insert(
+                id: id,
+                applicationId: applicationId,
+                title: title,
+                status: status,
+                dueDate: dueDate,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TasksTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({applicationId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (applicationId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.applicationId,
+                                referencedTable: $$TasksTableReferences
+                                    ._applicationIdTable(db),
+                                referencedColumn: $$TasksTableReferences
+                                    ._applicationIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TasksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TasksTable,
+      Task,
+      $$TasksTableFilterComposer,
+      $$TasksTableOrderingComposer,
+      $$TasksTableAnnotationComposer,
+      $$TasksTableCreateCompanionBuilder,
+      $$TasksTableUpdateCompanionBuilder,
+      (Task, $$TasksTableReferences),
+      Task,
+      PrefetchHooks Function({bool applicationId})
     >;
 
 class $AppDatabaseManager {
@@ -1276,6 +2809,10 @@ class $AppDatabaseManager {
       $$UserProfilesTableTableManager(_db, _db.userProfiles);
   $$ScholarshipTemplatesTableTableManager get scholarshipTemplates =>
       $$ScholarshipTemplatesTableTableManager(_db, _db.scholarshipTemplates);
+  $$ApplicationsTableTableManager get applications =>
+      $$ApplicationsTableTableManager(_db, _db.applications);
+  $$TasksTableTableManager get tasks =>
+      $$TasksTableTableManager(_db, _db.tasks);
 }
 
 // **************************************************************************
@@ -1300,7 +2837,7 @@ final appDatabaseProvider = Provider<AppDatabase>.internal(
 // ignore: unused_element
 typedef AppDatabaseRef = ProviderRef<AppDatabase>;
 String _$userProfileRepositoryHash() =>
-    r'74026ac43c0505f92e874b43a0c1eca7a2dfc137';
+    r'562ca02ce728655b8b2dd547763ba5b00522728d';
 
 /// See also [userProfileRepository].
 @ProviderFor(userProfileRepository)
@@ -1320,7 +2857,7 @@ final userProfileRepositoryProvider =
 typedef UserProfileRepositoryRef =
     AutoDisposeProviderRef<UserProfileRepository>;
 String _$scholarshipTemplateRepositoryHash() =>
-    r'e280cb424dd55f28f116ed53b9fd56a2c5f451a0';
+    r'e1206a6741ded01e43e86eedabf55c0f4b612b9a';
 
 /// See also [scholarshipTemplateRepository].
 @ProviderFor(scholarshipTemplateRepository)
@@ -1339,5 +2876,25 @@ final scholarshipTemplateRepositoryProvider =
 // ignore: unused_element
 typedef ScholarshipTemplateRepositoryRef =
     AutoDisposeProviderRef<ScholarshipTemplateRepository>;
+String _$applicationRepositoryHash() =>
+    r'3f98f11a5a7132b35b822871b5b74b487c588c46';
+
+/// See also [applicationRepository].
+@ProviderFor(applicationRepository)
+final applicationRepositoryProvider =
+    AutoDisposeProvider<ApplicationRepository>.internal(
+      applicationRepository,
+      name: r'applicationRepositoryProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$applicationRepositoryHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ApplicationRepositoryRef =
+    AutoDisposeProviderRef<ApplicationRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

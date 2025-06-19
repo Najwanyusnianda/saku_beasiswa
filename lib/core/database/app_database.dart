@@ -5,6 +5,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'app_database.g.dart';
 
@@ -52,28 +53,70 @@ class ScholarshipTemplates extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// --- NEW TABLES ---
+@DataClassName('Application')
+class Applications extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  // Links to the template this application was created from.
+  TextColumn get templateId => text().references(ScholarshipTemplates, #id)();
+  
+  // "in_progress", "submitted", "accepted", "rejected"
+  TextColumn get status => text().withDefault(const Constant('in_progress'))();
+  DateTimeColumn get deadline => dateTime()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DataClassName('Task')
+class Tasks extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  // Links to the application this task belongs to.
+  IntColumn get applicationId => integer().references(Applications, #id)();
+
+  TextColumn get title => text()();
+  // "pending", "completed"
+  TextColumn get status => text().withDefault(const Constant('pending'))();
+  // Optional due date for a specific task
+  DateTimeColumn get dueDate => dateTime().nullable()();
+}
+
+
+
+
+
+
+
 // --- DATABASE CLASS ---
 // This is the main database class. The annotation `@DriftDatabase` tells
 // the generator what tables to include.
-@DriftDatabase(tables: [UserProfiles, ScholarshipTemplates])
+@DriftDatabase(
+  tables: [
+    UserProfiles, 
+  ScholarshipTemplates,
+  Applications,
+  Tasks
+  ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2; // Increment this when you change tables
+  int get schemaVersion => 3; // Increment this when you change tables
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
-      // SEED the database with initial templates on creation
       await _seedTemplates(this);
     },
     onUpgrade: (m, from, to) async {
-      // Logic for future migrations if the schema changes
-      if (from == 1) {
+      if (from < 2) {
+        // Migration logic from version 1 to 2
         await m.createTable(scholarshipTemplates);
         await _seedTemplates(this);
+      }
+      if (from < 3) {
+        // Migration logic from version 2 to 3
+        await m.createTable(applications);
+        await m.createTable(tasks);
       }
     },
   );
@@ -150,7 +193,7 @@ AppDatabase appDatabase(AppDatabaseRef ref) {
 // A provider for our user profile repository.
 // Repositories are the bridge between our UI/logic and the database.
 @riverpod
-UserProfileRepository userProfileRepository(UserProfileRepositoryRef ref) {
+UserProfileRepository userProfileRepository(Ref ref) {
   return UserProfileRepository(ref.watch(appDatabaseProvider));
 }
 
@@ -178,7 +221,7 @@ class UserProfileRepository {
 
 // --- NEW REPOSITORY FOR TEMPLATES ---
 @riverpod
-ScholarshipTemplateRepository scholarshipTemplateRepository(ScholarshipTemplateRepositoryRef ref) {
+ScholarshipTemplateRepository scholarshipTemplateRepository(Ref ref) {
   return ScholarshipTemplateRepository(ref.watch(appDatabaseProvider));
 }
 
@@ -210,5 +253,48 @@ class ScholarshipTemplateRepository {
       });
     
     return query.get();
+  }
+}
+
+// --- NEW REPOSITORY FOR APPLICATIONS ---
+@riverpod
+ApplicationRepository applicationRepository(Ref ref) {
+  return ApplicationRepository(ref.watch(appDatabaseProvider));
+}
+
+class ApplicationRepository {
+  final AppDatabase _db;
+  ApplicationRepository(this._db);
+
+  // Method to count active applications (in_progress)
+  Stream<int> watchActiveApplicationsCount() {
+    final query = _db.select(_db.applications)
+      ..where((tbl) => tbl.status.equals('in_progress'));
+    
+    // Watch the query and map the result list to its length.
+    return query.watch().map((listOfApps) => listOfApps.length);
+  }
+
+  // Method to find the next upcoming deadline for an active application
+  Stream<Application?> watchNextDeadline() {
+    final query = _db.select(_db.applications)
+      ..where((tbl) => tbl.status.equals('in_progress'))
+      ..orderBy([(tbl) => OrderingTerm(expression: tbl.deadline, mode: OrderingMode.asc)])
+      ..limit(1);
+      
+    // watch a query that returns a single result
+    return query.watchSingleOrNull();
+  }
+
+  // Method to get today's focus tasks (due in the next 7 days, and not completed)
+  Stream<List<Task>> watchTodaysFocusTasks() {
+    final sevenDaysFromNow = DateTime.now().add(const Duration(days: 7));
+
+    final query = _db.select(_db.tasks)
+      ..where((tbl) => tbl.status.equals('pending') & tbl.dueDate.isSmallerOrEqualValue(sevenDaysFromNow))
+      ..orderBy([(tbl) => OrderingTerm(expression: tbl.dueDate, mode: OrderingMode.asc)])
+      ..limit(3); // Show top 3 priority tasks
+
+    return query.watch();
   }
 }
