@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:saku_beasiswa/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:saku_beasiswa/features/profile/presentation/screens/profile_setup_screen.dart';
+import 'package:saku_beasiswa/features/templates/presentation/screens/template_sync_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -46,6 +47,11 @@ GoRouter goRouter(Ref ref) {
         name: AppRoute.profileSetup.name,
         builder: (context, state) => const ProfileSetupScreen(),
       ),
+      GoRoute(
+        path: AppRoute.templateSync.path,
+        name: AppRoute.templateSync.name,
+        builder: (context, state) => const TemplateSyncScreen(),
+      ),
       // We will add more routes here, e.g., for the main dashboard
       // GoRoute(
       //   path: AppRoute.home.path,
@@ -65,5 +71,6 @@ class AppRoute {
 
   static const AppRoute onboarding = AppRoute(path: '/onboarding', name: 'onboarding');
   static const AppRoute profileSetup = AppRoute(path: '/profile-setup', name: 'profileSetup');
+  static const AppRoute templateSync = AppRoute(path: '/template-sync', name: 'templateSync');
   // static const AppRoute home = AppRoute(path: '/home', name: 'home');
 }

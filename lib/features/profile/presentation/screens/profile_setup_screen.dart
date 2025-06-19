@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:saku_beasiswa/core/config/app_router.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/profile/presentation/providers/profile_setup_provider.dart';
 
@@ -96,14 +98,11 @@ class ProfileSetupScreen extends ConsumerWidget {
             ),
           ),
           onPressed: () async {
-            // Here we call the save method from our provider
+            // Save the profile and navigate to template sync on success
             final success = await formNotifier.saveProfile();
             if (success && context.mounted) {
-              // TODO: Navigate to the next screen (Template Sync)
-              // For now, we'll just pop back to show it worked
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Profile Saved!')),
-              );
+              // Navigate to the template sync screen after saving
+              context.goNamed(AppRoute.templateSync.name);
             }
           },
           child: const Text('Continue'),
