@@ -875,6 +875,15 @@ class $ApplicationsTable extends Applications
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -882,6 +891,7 @@ class $ApplicationsTable extends Applications
     status,
     deadline,
     createdAt,
+    notes,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -926,6 +936,12 @@ class $ApplicationsTable extends Applications
         createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
       );
     }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
     return context;
   }
 
@@ -955,6 +971,10 @@ class $ApplicationsTable extends Applications
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
     );
   }
 
@@ -970,12 +990,14 @@ class Application extends DataClass implements Insertable<Application> {
   final String status;
   final DateTime deadline;
   final DateTime createdAt;
+  final String? notes;
   const Application({
     required this.id,
     required this.templateId,
     required this.status,
     required this.deadline,
     required this.createdAt,
+    this.notes,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -985,6 +1007,9 @@ class Application extends DataClass implements Insertable<Application> {
     map['status'] = Variable<String>(status);
     map['deadline'] = Variable<DateTime>(deadline);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
     return map;
   }
 
@@ -995,6 +1020,9 @@ class Application extends DataClass implements Insertable<Application> {
       status: Value(status),
       deadline: Value(deadline),
       createdAt: Value(createdAt),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
     );
   }
 
@@ -1009,6 +1037,7 @@ class Application extends DataClass implements Insertable<Application> {
       status: serializer.fromJson<String>(json['status']),
       deadline: serializer.fromJson<DateTime>(json['deadline']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      notes: serializer.fromJson<String?>(json['notes']),
     );
   }
   @override
@@ -1020,6 +1049,7 @@ class Application extends DataClass implements Insertable<Application> {
       'status': serializer.toJson<String>(status),
       'deadline': serializer.toJson<DateTime>(deadline),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'notes': serializer.toJson<String?>(notes),
     };
   }
 
@@ -1029,12 +1059,14 @@ class Application extends DataClass implements Insertable<Application> {
     String? status,
     DateTime? deadline,
     DateTime? createdAt,
+    Value<String?> notes = const Value.absent(),
   }) => Application(
     id: id ?? this.id,
     templateId: templateId ?? this.templateId,
     status: status ?? this.status,
     deadline: deadline ?? this.deadline,
     createdAt: createdAt ?? this.createdAt,
+    notes: notes.present ? notes.value : this.notes,
   );
   Application copyWithCompanion(ApplicationsCompanion data) {
     return Application(
@@ -1045,6 +1077,7 @@ class Application extends DataClass implements Insertable<Application> {
       status: data.status.present ? data.status.value : this.status,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      notes: data.notes.present ? data.notes.value : this.notes,
     );
   }
 
@@ -1055,13 +1088,15 @@ class Application extends DataClass implements Insertable<Application> {
           ..write('templateId: $templateId, ')
           ..write('status: $status, ')
           ..write('deadline: $deadline, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, templateId, status, deadline, createdAt);
+  int get hashCode =>
+      Object.hash(id, templateId, status, deadline, createdAt, notes);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1070,7 +1105,8 @@ class Application extends DataClass implements Insertable<Application> {
           other.templateId == this.templateId &&
           other.status == this.status &&
           other.deadline == this.deadline &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.notes == this.notes);
 }
 
 class ApplicationsCompanion extends UpdateCompanion<Application> {
@@ -1079,12 +1115,14 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
   final Value<String> status;
   final Value<DateTime> deadline;
   final Value<DateTime> createdAt;
+  final Value<String?> notes;
   const ApplicationsCompanion({
     this.id = const Value.absent(),
     this.templateId = const Value.absent(),
     this.status = const Value.absent(),
     this.deadline = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
   });
   ApplicationsCompanion.insert({
     this.id = const Value.absent(),
@@ -1092,6 +1130,7 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
     this.status = const Value.absent(),
     required DateTime deadline,
     this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
   }) : templateId = Value(templateId),
        deadline = Value(deadline);
   static Insertable<Application> custom({
@@ -1100,6 +1139,7 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
     Expression<String>? status,
     Expression<DateTime>? deadline,
     Expression<DateTime>? createdAt,
+    Expression<String>? notes,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1107,6 +1147,7 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
       if (status != null) 'status': status,
       if (deadline != null) 'deadline': deadline,
       if (createdAt != null) 'created_at': createdAt,
+      if (notes != null) 'notes': notes,
     });
   }
 
@@ -1116,6 +1157,7 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
     Value<String>? status,
     Value<DateTime>? deadline,
     Value<DateTime>? createdAt,
+    Value<String?>? notes,
   }) {
     return ApplicationsCompanion(
       id: id ?? this.id,
@@ -1123,6 +1165,7 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
       status: status ?? this.status,
       deadline: deadline ?? this.deadline,
       createdAt: createdAt ?? this.createdAt,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -1144,6 +1187,9 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
     return map;
   }
 
@@ -1154,7 +1200,8 @@ class ApplicationsCompanion extends UpdateCompanion<Application> {
           ..write('templateId: $templateId, ')
           ..write('status: $status, ')
           ..write('deadline: $deadline, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes')
           ..write(')'))
         .toString();
   }
@@ -2135,6 +2182,7 @@ typedef $$ApplicationsTableCreateCompanionBuilder =
       Value<String> status,
       required DateTime deadline,
       Value<DateTime> createdAt,
+      Value<String?> notes,
     });
 typedef $$ApplicationsTableUpdateCompanionBuilder =
     ApplicationsCompanion Function({
@@ -2143,6 +2191,7 @@ typedef $$ApplicationsTableUpdateCompanionBuilder =
       Value<String> status,
       Value<DateTime> deadline,
       Value<DateTime> createdAt,
+      Value<String?> notes,
     });
 
 final class $$ApplicationsTableReferences
@@ -2217,6 +2266,11 @@ class $$ApplicationsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2298,6 +2352,11 @@ class $$ApplicationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ScholarshipTemplatesTableOrderingComposer get templateId {
     final $$ScholarshipTemplatesTableOrderingComposer composer =
         $composerBuilder(
@@ -2343,6 +2402,9 @@ class $$ApplicationsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
 
   $$ScholarshipTemplatesTableAnnotationComposer get templateId {
     final $$ScholarshipTemplatesTableAnnotationComposer composer =
@@ -2427,12 +2489,14 @@ class $$ApplicationsTableTableManager
                 Value<String> status = const Value.absent(),
                 Value<DateTime> deadline = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
               }) => ApplicationsCompanion(
                 id: id,
                 templateId: templateId,
                 status: status,
                 deadline: deadline,
                 createdAt: createdAt,
+                notes: notes,
               ),
           createCompanionCallback:
               ({
@@ -2441,12 +2505,14 @@ class $$ApplicationsTableTableManager
                 Value<String> status = const Value.absent(),
                 required DateTime deadline,
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
               }) => ApplicationsCompanion.insert(
                 id: id,
                 templateId: templateId,
                 status: status,
                 deadline: deadline,
                 createdAt: createdAt,
+                notes: notes,
               ),
           withReferenceMapper: (p0) => p0
               .map(

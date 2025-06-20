@@ -64,6 +64,9 @@ class Applications extends Table {
   TextColumn get status => text().withDefault(const Constant('in_progress'))();
   DateTimeColumn get deadline => dateTime()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  
+  // User's notes for the application
+  TextColumn get notes => text().nullable()();
 }
 
 @DataClassName('Task')
@@ -101,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3; // Increment this when you change tables
+  int get schemaVersion => 4; // Increment this when you change tables
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -119,6 +122,10 @@ class AppDatabase extends _$AppDatabase {
         // Migration logic from version 2 to 3
         await m.createTable(applications);
         await m.createTable(tasks);
+      }
+      if (from < 4) {
+        // Migration logic from version 3 to 4
+        await m.addColumn(applications, applications.notes as GeneratedColumn<Object>);
       }
     },
   );
@@ -280,6 +287,15 @@ ApplicationRepository applicationRepository(Ref ref) {
 class ApplicationRepository {
   final AppDatabase _db;
   ApplicationRepository(this._db);
+
+  // Updates the notes for a specific application
+  Future<void> updateNotes(int applicationId, String notes) async {
+    await (_db.update(_db.applications)..where((tbl) => tbl.id.equals(applicationId)))
+        .write(ApplicationsCompanion(
+          id: Value(applicationId),
+          notes: Value(notes),
+        ));
+  }
 
   // Method to count active applications (in_progress)
   Stream<int> watchActiveApplicationsCount() {

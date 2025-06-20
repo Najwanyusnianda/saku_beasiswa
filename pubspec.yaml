@@ -52,6 +52,7 @@ dependencies:
   iconsax_flutter: ^1.0.1
   percent_indicator: ^4.2.5
   timeline_tile: ^2.0.0
+  easy_debounce: ^2.0.3
 
 dev_dependencies:
   flutter_test:

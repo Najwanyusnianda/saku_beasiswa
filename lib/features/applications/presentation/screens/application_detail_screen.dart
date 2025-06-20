@@ -4,6 +4,7 @@ import 'package:saku_beasiswa/features/applications/presentation/providers/my_ap
 import 'package:saku_beasiswa/features/applications/presentation/widgets/overview_tab.dart';
 import 'package:saku_beasiswa/features/applications/presentation/widgets/requirements_tab.dart';
 import 'package:saku_beasiswa/features/applications/presentation/widgets/timeline_tab.dart';
+import 'package:saku_beasiswa/features/applications/presentation/widgets/notes_tab.dart';
 
 // Make it a ConsumerStatefulWidget
 class ApplicationDetailScreen extends ConsumerStatefulWidget {
@@ -65,7 +66,7 @@ class _ApplicationDetailScreenState extends ConsumerState<ApplicationDetailScree
           // Placeholders for other tabs
           RequirementsTab(applicationId: _applicationIdAsInt),
           TimelineTab(applicationId: _applicationIdAsInt),
-          Center(child: Text('Notes Tab')),
+          NotesTab(applicationId: _applicationIdAsInt),
         ],
       ),
     );
