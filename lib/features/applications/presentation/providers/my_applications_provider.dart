@@ -79,3 +79,27 @@ Future<List<TimelineEvent>> applicationTimeline(Ref ref, int applicationId) asyn
     return events;
   
 }
+
+// This provider watches the list of tasks for an application and calculates
+// the completion percentage. It's a `.family` provider because it depends on the application ID.
+@riverpod
+Stream<double> applicationCompletionPercentage(
+  Ref ref,
+  int applicationId,
+) {
+  // Watch the tasks for the given application.
+  final tasksStream = ref.watch(applicationTasksProvider(applicationId).stream);
+  
+  // Use .map() to transform the stream of List<Task> into a stream of double (percentage).
+  return tasksStream.map((tasks) {
+    if (tasks.isEmpty) {
+      return 0.0; // If there are no tasks, completion is 0%.
+    }
+    
+    // Count how many tasks are marked 'completed'.
+    final completedTasks = tasks.where((task) => task.status == 'completed').length;
+    
+    // Calculate the percentage.
+    return completedTasks / tasks.length;
+  });
+}

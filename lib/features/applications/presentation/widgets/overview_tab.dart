@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 
@@ -15,11 +15,9 @@ class OverviewTab extends ConsumerWidget {
     // Watch the family provider, passing in the application ID
     final applicationAsync = ref.watch(applicationDetailProvider(applicationId));
     final textTheme = Theme.of(context).textTheme;
-
+    final completionAsync = ref.watch(applicationCompletionPercentageProvider(applicationId));
     return applicationAsync.when(
       data: (appWithTemplate) {
-        // Static for now, will be calculated later
-        const double completion = 0.25; 
         final daysLeft = appWithTemplate.application.deadline.difference(DateTime.now()).inDays;
 
         return ListView(
@@ -34,20 +32,46 @@ class OverviewTab extends ConsumerWidget {
                   children: [
                     Text('Overall Progress', style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 16),
-                    LinearPercentIndicator(
-                      lineHeight: 12.0,
-                      percent: completion,
-                      backgroundColor: AppColors.outline,
-                      progressColor: AppColors.success,
-                      barRadius: const Radius.circular(6),
-                      animation: true,
-                    ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        '${(completion * 100).toInt()}% Complete',
-                        style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, color: AppColors.success),
+                    // Use the `when` of the completion provider here
+                    completionAsync.when(
+                      data: (completion) => Column(
+                        children: [
+                          LinearPercentIndicator(
+                            lineHeight: 12.0,
+                            percent: completion,
+                            backgroundColor: AppColors.outline,
+                            progressColor: AppColors.success,
+                            barRadius: const Radius.circular(6),
+                            animation: true,
+                            animationDuration: 1000,
+                            padding: EdgeInsets.zero,
+                          ),
+                          const SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              '${(completion * 100).toInt()}% Complete',
+                              style: textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.success,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      loading: () => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                      ),
+                      error: (error, stack) => Text(
+                        'Could not load progress',
+                        style: textTheme.bodySmall?.copyWith(color: AppColors.error),
                       ),
                     ),
                   ],

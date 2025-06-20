@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
+import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 
-class ApplicationListItem extends StatelessWidget {
+class ApplicationListItem extends ConsumerWidget {
   final ApplicationWithTemplate item;
   final VoidCallback onTap;
 
@@ -16,11 +18,13 @@ class ApplicationListItem extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final daysLeft = item.application.deadline.difference(DateTime.now()).inDays;
-    // We'll use a static completion percentage for now.
-    const double completion = 0.25;
+
+    // Watch the new provider, passing in the application ID
+    final completionAsync = ref.watch(applicationCompletionPercentageProvider(item.application.id));
+
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -65,19 +69,36 @@ class ApplicationListItem extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: LinearPercentIndicator(
-                      lineHeight: 8.0,
-                      percent: completion,
-                      backgroundColor: AppColors.outline,
-                      progressColor: AppColors.success,
-                      barRadius: const Radius.circular(4),
+                    child: completionAsync.when(
+                      data: (completion) => LinearPercentIndicator(
+                        lineHeight: 8.0,
+                        percent: completion,
+                        backgroundColor: AppColors.outline,
+                        progressColor: AppColors.success,
+                        barRadius: const Radius.circular(4),
+                        animation: true,
+                      ),
+                      loading: () => const SizedBox(
+                        height: 8,
+                        child: Center(
+                          child: LinearProgressIndicator(),
+                        ),
+                      ),
+                      error: (_, __) => const SizedBox.shrink(),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    '${(completion * 100).toInt()}%',
-                    style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600, color: AppColors.success),
-                  ),
+                  completionAsync.when(
+                    data: (completion) => Text(
+                      '${(completion * 100).toInt()}%',
+                      style: textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.success,
+                      ),
+                    ),
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, __) => const SizedBox.shrink(),
+                  )
                 ],
               )
             ],

@@ -4,11 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/config/app_router.dart';
 import 'package:saku_beasiswa/core/constants/app_theme.dart';
+import 'package:saku_beasiswa/core/services/notification_service.dart';
 
-void main() {
+void main() async {
+  // Ensure Flutter bindings are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Create a provider container to access providers before runApp
+  final container = ProviderContainer();
+  
+  // Initialize the notification service
+  await container.read(notificationServiceProvider).init();
+  
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    // We use UncontrolledProviderScope to pass the pre-initialized container
+    UncontrolledProviderScope(
+      container: container,
+      child: const MyApp(),
     ),
   );
 }

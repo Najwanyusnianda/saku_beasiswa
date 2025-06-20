@@ -419,5 +419,134 @@ class _ApplicationTimelineProviderElement
       (origin as ApplicationTimelineProvider).applicationId;
 }
 
+String _$applicationCompletionPercentageHash() =>
+    r'55b86b3d658d92062a543d389a05d1e495e5eb46';
+
+/// See also [applicationCompletionPercentage].
+@ProviderFor(applicationCompletionPercentage)
+const applicationCompletionPercentageProvider =
+    ApplicationCompletionPercentageFamily();
+
+/// See also [applicationCompletionPercentage].
+class ApplicationCompletionPercentageFamily extends Family<AsyncValue<double>> {
+  /// See also [applicationCompletionPercentage].
+  const ApplicationCompletionPercentageFamily();
+
+  /// See also [applicationCompletionPercentage].
+  ApplicationCompletionPercentageProvider call(int applicationId) {
+    return ApplicationCompletionPercentageProvider(applicationId);
+  }
+
+  @override
+  ApplicationCompletionPercentageProvider getProviderOverride(
+    covariant ApplicationCompletionPercentageProvider provider,
+  ) {
+    return call(provider.applicationId);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'applicationCompletionPercentageProvider';
+}
+
+/// See also [applicationCompletionPercentage].
+class ApplicationCompletionPercentageProvider
+    extends AutoDisposeStreamProvider<double> {
+  /// See also [applicationCompletionPercentage].
+  ApplicationCompletionPercentageProvider(int applicationId)
+    : this._internal(
+        (ref) => applicationCompletionPercentage(
+          ref as ApplicationCompletionPercentageRef,
+          applicationId,
+        ),
+        from: applicationCompletionPercentageProvider,
+        name: r'applicationCompletionPercentageProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$applicationCompletionPercentageHash,
+        dependencies: ApplicationCompletionPercentageFamily._dependencies,
+        allTransitiveDependencies:
+            ApplicationCompletionPercentageFamily._allTransitiveDependencies,
+        applicationId: applicationId,
+      );
+
+  ApplicationCompletionPercentageProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.applicationId,
+  }) : super.internal();
+
+  final int applicationId;
+
+  @override
+  Override overrideWith(
+    Stream<double> Function(ApplicationCompletionPercentageRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ApplicationCompletionPercentageProvider._internal(
+        (ref) => create(ref as ApplicationCompletionPercentageRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        applicationId: applicationId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<double> createElement() {
+    return _ApplicationCompletionPercentageProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ApplicationCompletionPercentageProvider &&
+        other.applicationId == applicationId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, applicationId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ApplicationCompletionPercentageRef
+    on AutoDisposeStreamProviderRef<double> {
+  /// The parameter `applicationId` of this provider.
+  int get applicationId;
+}
+
+class _ApplicationCompletionPercentageProviderElement
+    extends AutoDisposeStreamProviderElement<double>
+    with ApplicationCompletionPercentageRef {
+  _ApplicationCompletionPercentageProviderElement(super.provider);
+
+  @override
+  int get applicationId =>
+      (origin as ApplicationCompletionPercentageProvider).applicationId;
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:saku_beasiswa/core/services/notification_service.dart';
 
 part 'app_database.g.dart';
 
@@ -280,13 +281,15 @@ class ApplicationWithTemplate {
 
 // --- NEW REPOSITORY FOR APPLICATIONS ---
 @riverpod
-ApplicationRepository applicationRepository(Ref ref) {
-  return ApplicationRepository(ref.watch(appDatabaseProvider));
+ApplicationRepository applicationRepository(ApplicationRepositoryRef ref) {
+  // Pass the ref to the repository
+  return ApplicationRepository(ref.watch(appDatabaseProvider), ref);
 }
 
 class ApplicationRepository {
   final AppDatabase _db;
-  ApplicationRepository(this._db);
+  final Ref ref; // Add a Ref property
+  ApplicationRepository(this._db, this.ref); // Update constructor
 
   // Updates the notes for a specific application
   Future<void> updateNotes(int applicationId, String notes) async {
@@ -333,12 +336,15 @@ class ApplicationRepository {
   Future<void> createApplicationFromTemplate(String templateId) async {
     final newApplicationCompanion = ApplicationsCompanion(
       templateId: Value(templateId),
-      deadline: Value(DateTime.now().add(const Duration(days: 90))),
+      deadline: Value(DateTime.now().add(const Duration(minutes: 1))),
       status: const Value('in_progress'),
     );
     
     // Insert the application and get its newly generated ID
     final newApplication = await _db.into(_db.applications).insertReturning(newApplicationCompanion);
+
+    // --- SCHEDULE NOTIFICATIONS ---
+    await ref.read(notificationServiceProvider).scheduleDeadlineReminders(newApplication);
 
     // Seed default tasks with categories
     final defaultTasks = [
