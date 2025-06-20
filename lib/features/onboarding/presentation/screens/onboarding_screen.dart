@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:saku_beasiswa/core/config/app_router.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/onboarding/presentation/widgets/onboarding_page_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

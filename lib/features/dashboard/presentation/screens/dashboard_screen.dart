@@ -7,8 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/dashboard/presentation/providers/dashboard_providers.dart';
 import 'package:saku_beasiswa/features/dashboard/presentation/widgets/status_card.dart';
-import 'package:saku_beasiswa/core/database/app_database.dart';
-import 'package:drift/drift.dart' as drift;
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});

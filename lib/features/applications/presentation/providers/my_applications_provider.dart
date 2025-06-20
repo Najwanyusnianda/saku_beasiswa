@@ -3,6 +3,7 @@
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:saku_beasiswa/features/applications/domain/timeline_event.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';

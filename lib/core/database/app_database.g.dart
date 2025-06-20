@@ -403,6 +403,49 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _websiteMeta = const VerificationMeta(
+    'website',
+  );
+  @override
+  late final GeneratedColumn<String> website = GeneratedColumn<String>(
+    'website',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _regionMeta = const VerificationMeta('region');
+  @override
+  late final GeneratedColumn<String> region = GeneratedColumn<String>(
+    'region',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('International'),
+  );
+  static const VerificationMeta _defaultStagesMeta = const VerificationMeta(
+    'defaultStages',
+  );
+  @override
+  late final GeneratedColumn<String> defaultStages = GeneratedColumn<String>(
+    'default_stages',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -412,6 +455,10 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     studyLevels,
     fieldsOfStudy,
     targetCountries,
+    description,
+    website,
+    region,
+    defaultStages,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -488,6 +535,36 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     } else if (isInserting) {
       context.missing(_targetCountriesMeta);
     }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('website')) {
+      context.handle(
+        _websiteMeta,
+        website.isAcceptableOrUnknown(data['website']!, _websiteMeta),
+      );
+    }
+    if (data.containsKey('region')) {
+      context.handle(
+        _regionMeta,
+        region.isAcceptableOrUnknown(data['region']!, _regionMeta),
+      );
+    }
+    if (data.containsKey('default_stages')) {
+      context.handle(
+        _defaultStagesMeta,
+        defaultStages.isAcceptableOrUnknown(
+          data['default_stages']!,
+          _defaultStagesMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -525,6 +602,22 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         DriftSqlType.string,
         data['${effectivePrefix}target_countries'],
       )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      website: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}website'],
+      ),
+      region: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}region'],
+      )!,
+      defaultStages: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}default_stages'],
+      ),
     );
   }
 
@@ -543,6 +636,10 @@ class ScholarshipTemplate extends DataClass
   final String studyLevels;
   final String fieldsOfStudy;
   final String targetCountries;
+  final String? description;
+  final String? website;
+  final String region;
+  final String? defaultStages;
   const ScholarshipTemplate({
     required this.id,
     required this.name,
@@ -551,6 +648,10 @@ class ScholarshipTemplate extends DataClass
     required this.studyLevels,
     required this.fieldsOfStudy,
     required this.targetCountries,
+    this.description,
+    this.website,
+    required this.region,
+    this.defaultStages,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -564,6 +665,16 @@ class ScholarshipTemplate extends DataClass
     map['study_levels'] = Variable<String>(studyLevels);
     map['fields_of_study'] = Variable<String>(fieldsOfStudy);
     map['target_countries'] = Variable<String>(targetCountries);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || website != null) {
+      map['website'] = Variable<String>(website);
+    }
+    map['region'] = Variable<String>(region);
+    if (!nullToAbsent || defaultStages != null) {
+      map['default_stages'] = Variable<String>(defaultStages);
+    }
     return map;
   }
 
@@ -578,6 +689,16 @@ class ScholarshipTemplate extends DataClass
       studyLevels: Value(studyLevels),
       fieldsOfStudy: Value(fieldsOfStudy),
       targetCountries: Value(targetCountries),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      website: website == null && nullToAbsent
+          ? const Value.absent()
+          : Value(website),
+      region: Value(region),
+      defaultStages: defaultStages == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultStages),
     );
   }
 
@@ -594,6 +715,10 @@ class ScholarshipTemplate extends DataClass
       studyLevels: serializer.fromJson<String>(json['studyLevels']),
       fieldsOfStudy: serializer.fromJson<String>(json['fieldsOfStudy']),
       targetCountries: serializer.fromJson<String>(json['targetCountries']),
+      description: serializer.fromJson<String?>(json['description']),
+      website: serializer.fromJson<String?>(json['website']),
+      region: serializer.fromJson<String>(json['region']),
+      defaultStages: serializer.fromJson<String?>(json['defaultStages']),
     );
   }
   @override
@@ -607,6 +732,10 @@ class ScholarshipTemplate extends DataClass
       'studyLevels': serializer.toJson<String>(studyLevels),
       'fieldsOfStudy': serializer.toJson<String>(fieldsOfStudy),
       'targetCountries': serializer.toJson<String>(targetCountries),
+      'description': serializer.toJson<String?>(description),
+      'website': serializer.toJson<String?>(website),
+      'region': serializer.toJson<String>(region),
+      'defaultStages': serializer.toJson<String?>(defaultStages),
     };
   }
 
@@ -618,6 +747,10 @@ class ScholarshipTemplate extends DataClass
     String? studyLevels,
     String? fieldsOfStudy,
     String? targetCountries,
+    Value<String?> description = const Value.absent(),
+    Value<String?> website = const Value.absent(),
+    String? region,
+    Value<String?> defaultStages = const Value.absent(),
   }) => ScholarshipTemplate(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -626,6 +759,12 @@ class ScholarshipTemplate extends DataClass
     studyLevels: studyLevels ?? this.studyLevels,
     fieldsOfStudy: fieldsOfStudy ?? this.fieldsOfStudy,
     targetCountries: targetCountries ?? this.targetCountries,
+    description: description.present ? description.value : this.description,
+    website: website.present ? website.value : this.website,
+    region: region ?? this.region,
+    defaultStages: defaultStages.present
+        ? defaultStages.value
+        : this.defaultStages,
   );
   ScholarshipTemplate copyWithCompanion(ScholarshipTemplatesCompanion data) {
     return ScholarshipTemplate(
@@ -644,6 +783,14 @@ class ScholarshipTemplate extends DataClass
       targetCountries: data.targetCountries.present
           ? data.targetCountries.value
           : this.targetCountries,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      website: data.website.present ? data.website.value : this.website,
+      region: data.region.present ? data.region.value : this.region,
+      defaultStages: data.defaultStages.present
+          ? data.defaultStages.value
+          : this.defaultStages,
     );
   }
 
@@ -656,7 +803,11 @@ class ScholarshipTemplate extends DataClass
           ..write('logoUrl: $logoUrl, ')
           ..write('studyLevels: $studyLevels, ')
           ..write('fieldsOfStudy: $fieldsOfStudy, ')
-          ..write('targetCountries: $targetCountries')
+          ..write('targetCountries: $targetCountries, ')
+          ..write('description: $description, ')
+          ..write('website: $website, ')
+          ..write('region: $region, ')
+          ..write('defaultStages: $defaultStages')
           ..write(')'))
         .toString();
   }
@@ -670,6 +821,10 @@ class ScholarshipTemplate extends DataClass
     studyLevels,
     fieldsOfStudy,
     targetCountries,
+    description,
+    website,
+    region,
+    defaultStages,
   );
   @override
   bool operator ==(Object other) =>
@@ -681,7 +836,11 @@ class ScholarshipTemplate extends DataClass
           other.logoUrl == this.logoUrl &&
           other.studyLevels == this.studyLevels &&
           other.fieldsOfStudy == this.fieldsOfStudy &&
-          other.targetCountries == this.targetCountries);
+          other.targetCountries == this.targetCountries &&
+          other.description == this.description &&
+          other.website == this.website &&
+          other.region == this.region &&
+          other.defaultStages == this.defaultStages);
 }
 
 class ScholarshipTemplatesCompanion
@@ -693,6 +852,10 @@ class ScholarshipTemplatesCompanion
   final Value<String> studyLevels;
   final Value<String> fieldsOfStudy;
   final Value<String> targetCountries;
+  final Value<String?> description;
+  final Value<String?> website;
+  final Value<String> region;
+  final Value<String?> defaultStages;
   final Value<int> rowid;
   const ScholarshipTemplatesCompanion({
     this.id = const Value.absent(),
@@ -702,6 +865,10 @@ class ScholarshipTemplatesCompanion
     this.studyLevels = const Value.absent(),
     this.fieldsOfStudy = const Value.absent(),
     this.targetCountries = const Value.absent(),
+    this.description = const Value.absent(),
+    this.website = const Value.absent(),
+    this.region = const Value.absent(),
+    this.defaultStages = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ScholarshipTemplatesCompanion.insert({
@@ -712,6 +879,10 @@ class ScholarshipTemplatesCompanion
     required String studyLevels,
     required String fieldsOfStudy,
     required String targetCountries,
+    this.description = const Value.absent(),
+    this.website = const Value.absent(),
+    this.region = const Value.absent(),
+    this.defaultStages = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -727,6 +898,10 @@ class ScholarshipTemplatesCompanion
     Expression<String>? studyLevels,
     Expression<String>? fieldsOfStudy,
     Expression<String>? targetCountries,
+    Expression<String>? description,
+    Expression<String>? website,
+    Expression<String>? region,
+    Expression<String>? defaultStages,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -737,6 +912,10 @@ class ScholarshipTemplatesCompanion
       if (studyLevels != null) 'study_levels': studyLevels,
       if (fieldsOfStudy != null) 'fields_of_study': fieldsOfStudy,
       if (targetCountries != null) 'target_countries': targetCountries,
+      if (description != null) 'description': description,
+      if (website != null) 'website': website,
+      if (region != null) 'region': region,
+      if (defaultStages != null) 'default_stages': defaultStages,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -749,6 +928,10 @@ class ScholarshipTemplatesCompanion
     Value<String>? studyLevels,
     Value<String>? fieldsOfStudy,
     Value<String>? targetCountries,
+    Value<String?>? description,
+    Value<String?>? website,
+    Value<String>? region,
+    Value<String?>? defaultStages,
     Value<int>? rowid,
   }) {
     return ScholarshipTemplatesCompanion(
@@ -759,6 +942,10 @@ class ScholarshipTemplatesCompanion
       studyLevels: studyLevels ?? this.studyLevels,
       fieldsOfStudy: fieldsOfStudy ?? this.fieldsOfStudy,
       targetCountries: targetCountries ?? this.targetCountries,
+      description: description ?? this.description,
+      website: website ?? this.website,
+      region: region ?? this.region,
+      defaultStages: defaultStages ?? this.defaultStages,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -787,6 +974,18 @@ class ScholarshipTemplatesCompanion
     if (targetCountries.present) {
       map['target_countries'] = Variable<String>(targetCountries.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (website.present) {
+      map['website'] = Variable<String>(website.value);
+    }
+    if (region.present) {
+      map['region'] = Variable<String>(region.value);
+    }
+    if (defaultStages.present) {
+      map['default_stages'] = Variable<String>(defaultStages.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -803,6 +1002,10 @@ class ScholarshipTemplatesCompanion
           ..write('studyLevels: $studyLevels, ')
           ..write('fieldsOfStudy: $fieldsOfStudy, ')
           ..write('targetCountries: $targetCountries, ')
+          ..write('description: $description, ')
+          ..write('website: $website, ')
+          ..write('region: $region, ')
+          ..write('defaultStages: $defaultStages, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1817,6 +2020,10 @@ typedef $$ScholarshipTemplatesTableCreateCompanionBuilder =
       required String studyLevels,
       required String fieldsOfStudy,
       required String targetCountries,
+      Value<String?> description,
+      Value<String?> website,
+      Value<String> region,
+      Value<String?> defaultStages,
       Value<int> rowid,
     });
 typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
@@ -1828,6 +2035,10 @@ typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
       Value<String> studyLevels,
       Value<String> fieldsOfStudy,
       Value<String> targetCountries,
+      Value<String?> description,
+      Value<String?> website,
+      Value<String> region,
+      Value<String?> defaultStages,
       Value<int> rowid,
     });
 
@@ -1910,6 +2121,26 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get website => $composableBuilder(
+    column: $table.website,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get region => $composableBuilder(
+    column: $table.region,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get defaultStages => $composableBuilder(
+    column: $table.defaultStages,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> applicationsRefs(
     Expression<bool> Function($$ApplicationsTableFilterComposer f) f,
   ) {
@@ -1979,6 +2210,26 @@ class $$ScholarshipTemplatesTableOrderingComposer
     column: $table.targetCountries,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get website => $composableBuilder(
+    column: $table.website,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get region => $composableBuilder(
+    column: $table.region,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get defaultStages => $composableBuilder(
+    column: $table.defaultStages,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ScholarshipTemplatesTableAnnotationComposer
@@ -2016,6 +2267,22 @@ class $$ScholarshipTemplatesTableAnnotationComposer
 
   GeneratedColumn<String> get targetCountries => $composableBuilder(
     column: $table.targetCountries,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get website =>
+      $composableBuilder(column: $table.website, builder: (column) => column);
+
+  GeneratedColumn<String> get region =>
+      $composableBuilder(column: $table.region, builder: (column) => column);
+
+  GeneratedColumn<String> get defaultStages => $composableBuilder(
+    column: $table.defaultStages,
     builder: (column) => column,
   );
 
@@ -2088,6 +2355,10 @@ class $$ScholarshipTemplatesTableTableManager
                 Value<String> studyLevels = const Value.absent(),
                 Value<String> fieldsOfStudy = const Value.absent(),
                 Value<String> targetCountries = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<String?> website = const Value.absent(),
+                Value<String> region = const Value.absent(),
+                Value<String?> defaultStages = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScholarshipTemplatesCompanion(
                 id: id,
@@ -2097,6 +2368,10 @@ class $$ScholarshipTemplatesTableTableManager
                 studyLevels: studyLevels,
                 fieldsOfStudy: fieldsOfStudy,
                 targetCountries: targetCountries,
+                description: description,
+                website: website,
+                region: region,
+                defaultStages: defaultStages,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2108,6 +2383,10 @@ class $$ScholarshipTemplatesTableTableManager
                 required String studyLevels,
                 required String fieldsOfStudy,
                 required String targetCountries,
+                Value<String?> description = const Value.absent(),
+                Value<String?> website = const Value.absent(),
+                Value<String> region = const Value.absent(),
+                Value<String?> defaultStages = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScholarshipTemplatesCompanion.insert(
                 id: id,
@@ -2117,6 +2396,10 @@ class $$ScholarshipTemplatesTableTableManager
                 studyLevels: studyLevels,
                 fieldsOfStudy: fieldsOfStudy,
                 targetCountries: targetCountries,
+                description: description,
+                website: website,
+                region: region,
+                defaultStages: defaultStages,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -3008,7 +3291,7 @@ final scholarshipTemplateRepositoryProvider =
 typedef ScholarshipTemplateRepositoryRef =
     AutoDisposeProviderRef<ScholarshipTemplateRepository>;
 String _$applicationRepositoryHash() =>
-    r'3f98f11a5a7132b35b822871b5b74b487c588c46';
+    r'8858b7a7554ee04e4ab86fb994067301fd8465e4';
 
 /// See also [applicationRepository].
 @ProviderFor(applicationRepository)
