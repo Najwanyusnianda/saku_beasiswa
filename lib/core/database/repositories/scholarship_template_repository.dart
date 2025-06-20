@@ -11,6 +11,11 @@ class ScholarshipTemplateRepository {
     return _db.select(_db.scholarshipTemplates).watch();
   }
 
+    // New method to get a single template by its ID
+  Future<ScholarshipTemplate> getTemplateById(String id) async {
+    return await (_db.select(_db.scholarshipTemplates)..where((tbl) => tbl.id.equals(id))).getSingle();
+  }
+
   Future<List<ScholarshipTemplate>> findMatchingTemplates(UserProfile profile) async {
     // Artificial delay to simulate a network call and show our loading animation
     await Future.delayed(const Duration(seconds: 3));

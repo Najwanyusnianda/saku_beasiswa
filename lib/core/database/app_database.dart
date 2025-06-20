@@ -6,16 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:saku_beasiswa/core/services/notification_service.dart';
 
 import 'tables/user_profiles.dart';
 import 'tables/scholarship_templates.dart';
@@ -116,7 +106,7 @@ ScholarshipTemplateRepository scholarshipTemplateRepository(Ref ref) {
 
 // --- NEW REPOSITORY FOR APPLICATIONS ---
 @riverpod
-ApplicationRepository applicationRepository(ApplicationRepositoryRef ref) {
+ApplicationRepository applicationRepository(Ref ref) {
   // Pass the ref to the repository
   return ApplicationRepository(ref.watch(appDatabaseProvider), ref);
 }

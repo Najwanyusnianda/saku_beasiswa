@@ -5,6 +5,8 @@ import 'package:saku_beasiswa/features/applications/presentation/widgets/overvie
 import 'package:saku_beasiswa/features/applications/presentation/widgets/requirements_tab.dart';
 import 'package:saku_beasiswa/features/applications/presentation/widgets/timeline_tab.dart';
 import 'package:saku_beasiswa/features/applications/presentation/widgets/notes_tab.dart';
+import 'package:saku_beasiswa/features/applications/presentation/widgets/add_task_dialog.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 // Make it a ConsumerStatefulWidget
 class ApplicationDetailScreen extends ConsumerStatefulWidget {
@@ -24,6 +26,7 @@ class _ApplicationDetailScreenState extends ConsumerState<ApplicationDetailScree
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(() => setState(() {}));
     _applicationIdAsInt = int.parse(widget.applicationId);
   }
 
@@ -69,6 +72,17 @@ class _ApplicationDetailScreenState extends ConsumerState<ApplicationDetailScree
           NotesTab(applicationId: _applicationIdAsInt),
         ],
       ),
+      floatingActionButton: _tabController.index == 1 
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AddTaskDialog(applicationId: _applicationIdAsInt),
+                );
+              },
+              child: const Icon(Iconsax.add),
+            )
+          : null,
     );
   }
 }

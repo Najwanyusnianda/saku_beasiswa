@@ -11,3 +11,12 @@ Stream<List<ScholarshipTemplate>> allTemplates(Ref ref) {
   final repo = ref.watch(scholarshipTemplateRepositoryProvider);
   return repo.watchAllTemplates();
 }
+
+// --- NEW PROVIDER ---
+// Fetches the details for a single template.
+// The ".family" modifier allows us to pass the ID as a parameter.
+@riverpod
+Future<ScholarshipTemplate> templateDetail(Ref ref, String templateId) {
+  final repo = ref.watch(scholarshipTemplateRepositoryProvider);
+  return repo.getTemplateById(templateId);
+}

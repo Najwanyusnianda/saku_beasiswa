@@ -5,58 +5,68 @@ import 'package:saku_beasiswa/core/database/app_database.dart';
 
 class TemplateCard extends StatelessWidget {
   final ScholarshipTemplate template;
+  final bool isAdded;
   final VoidCallback onAdd;
+  final VoidCallback? onTap; // New callback for navigation
 
   const TemplateCard({
     super.key,
     required this.template,
+    required this.isAdded,
     required this.onAdd,
+    this.onTap, // Add to constructor
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: AppColors.primary.withOpacity(0.1),
-              child: const Icon(Iconsax.award, color: AppColors.primary),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    template.name,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    template.providerName,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
-                  ),
-                ],
+      clipBehavior: Clip.antiAlias,
+      child: InkWell( // Use InkWell for the ripple effect and tap handling
+        onTap: onTap, // Assign the navigation callback here
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: AppColors.primary.withOpacity(0.1),
+                child: const Icon(Iconsax.award, color: AppColors.primary),
               ),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: onAdd,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      template.name,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      template.providerName,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
+                    ),
+                  ],
+                ),
               ),
-              child: const Text('Add'),
-            )
-          ],
+              const SizedBox(width: 16),
+              // This button's onPressed will now work correctly
+              if (isAdded)
+                TextButton.icon(
+                  onPressed: null,
+                  icon: const Icon(Iconsax.tick_circle, color: AppColors.success),
+                  label: const Text('Added', style: TextStyle(color: AppColors.success)),
+                )
+              else
+                ElevatedButton(
+                  onPressed: onAdd,
+                  child: const Text('Add'),
+                )
+            ],
+          ),
         ),
       ),
     );

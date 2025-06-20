@@ -10,7 +10,7 @@ import 'package:saku_beasiswa/features/onboarding/presentation/screens/onboardin
 import 'package:saku_beasiswa/features/profile/presentation/screens/profile_setup_screen.dart';
 import 'package:saku_beasiswa/features/templates/presentation/screens/template_browser_screen.dart';
 import 'package:saku_beasiswa/features/templates/presentation/screens/template_sync_screen.dart';
-
+import 'package:saku_beasiswa/features/templates/presentation/screens/template_detail_screen.dart';
 part 'app_router.g.dart';
 
 // Placeholder for other main screens
@@ -75,6 +75,16 @@ GoRouter goRouter(Ref ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: TemplateBrowserScreen(),
             ),
+            // Add a sub-route for the detail page
+            routes: [
+              GoRoute(
+                path: ':id', // The path will be /templates/some-template-id
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!; // Get the ID from the URL
+                  return TemplateDetailScreen(templateId: id);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/applications',

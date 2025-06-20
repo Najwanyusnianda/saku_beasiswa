@@ -1,3 +1,5 @@
+// lib/core/database/repositories/application_repository.dart
+
 import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,6 +74,11 @@ class ApplicationRepository {
       
     // watch a query that returns a single result
     return query.watchSingleOrNull();
+  }
+
+    // New method to add a single task to an application
+  Future<void> addTask(TasksCompanion task) async {
+    await _db.into(_db.tasks).insert(task);
   }
 
   // Method to get today's focus tasks (due in the next 7 days, and not completed)
