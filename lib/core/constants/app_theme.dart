@@ -85,6 +85,17 @@ class AppTheme {
           ),
         ),
       ),
+      
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary, // Blue text
+          side: const BorderSide(color: AppColors.primary), // Blue border
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        ),
+      ),
       textTheme: const TextTheme(
         // Example headline
         headlineMedium: TextStyle(

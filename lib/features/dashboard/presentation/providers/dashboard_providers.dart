@@ -3,6 +3,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 
 part 'dashboard_providers.g.dart';
 

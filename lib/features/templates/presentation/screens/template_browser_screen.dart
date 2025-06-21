@@ -5,6 +5,7 @@ import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_filter_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/widgets/template_card.dart';
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:go_router/go_router.dart';
 
 class TemplateBrowserScreen extends ConsumerWidget {
@@ -92,13 +93,26 @@ class TemplateBrowserScreen extends ConsumerWidget {
                         onTap: () { // Pass the navigation logic to the card's onTap
                           context.go('/templates/${templateWithStatus.template.id}');
                         },
-                        onAdd: () { // The onAdd logic is unchanged
-                          ref.read(applicationRepositoryProvider).createApplicationFromTemplate(templateWithStatus.template.id);
+                        onAdd: () async {
+                          // Hide any existing snackbars
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          
+                          // Call the repository and get the newly created application
+                          final newApp = await ref.read(applicationRepositoryProvider)
+                              .createApplicationFromTemplate(templateWithStatus.template.id);
+
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('${templateWithStatus.template.name} added to your applications!'),
+                                content: Text('${templateWithStatus.template.name} added!'),
                                 behavior: SnackBarBehavior.floating,
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () {
+                                    // Call the delete method if Undo is pressed
+                                    ref.read(applicationRepositoryProvider).deleteApplication(newApp.id);
+                                  },
+                                ),
                               ),
                             );
                           }

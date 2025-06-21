@@ -53,17 +53,16 @@ class TemplateCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // This button's onPressed will now work correctly
+              // Show a checkmark when added, or a plus icon for quick add
               if (isAdded)
-                TextButton.icon(
-                  onPressed: null,
-                  icon: const Icon(Iconsax.tick_circle, color: AppColors.success),
-                  label: const Text('Added', style: TextStyle(color: AppColors.success)),
-                )
+                const Icon(Iconsax.tick_circle, color: AppColors.success, size: 28)
               else
-                ElevatedButton(
+                IconButton(
+                  icon: const Icon(Iconsax.add_circle),
+                  color: AppColors.primary,
+                  iconSize: 28,
                   onPressed: onAdd,
-                  child: const Text('Add'),
+                  tooltip: 'Quick Add',
                 )
             ],
           ),

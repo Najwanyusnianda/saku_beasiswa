@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
@@ -41,7 +42,7 @@ class TemplateWithStatus {
 // --- Main Filtered Data Provider ---
 
 @riverpod
-Stream<List<TemplateWithStatus>> filteredTemplates(FilteredTemplatesRef ref) {
+Stream<List<TemplateWithStatus>> filteredTemplates(Ref ref) {
   // Watch all the data sources and filters
   final allTemplatesAsync = ref.watch(allTemplatesProvider);
   final myApplicationsAsync = ref.watch(myApplicationsProvider);
@@ -67,14 +68,14 @@ Stream<List<TemplateWithStatus>> filteredTemplates(FilteredTemplatesRef ref) {
   // Apply all filters
   final filtered = templates.where((template) {
     // Region Filter Logic
-    final regionMatch = regionFilter == 'All' || template.region == regionFilter;
+    //final regionMatch = regionFilter == 'All' || template.region == regionFilter;
 
     // Search Query Filter Logic
     final searchMatch = searchQuery.isEmpty ||
                         template.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
                         template.providerName.toLowerCase().contains(searchQuery.toLowerCase());
     
-    return regionMatch && searchMatch;
+    return searchMatch;
   }).toList();
 
   // Map the final list to our new data class with the "added" status

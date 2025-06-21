@@ -12,9 +12,10 @@ import 'tables/scholarship_templates.dart';
 import 'tables/applications.dart';
 import 'tables/tasks.dart';
 
-import 'repositories/user_profile_repository.dart';
-import 'repositories/scholarship_template_repository.dart';
-import 'repositories/application_repository.dart';
+// Import the new table files
+import 'tables/template_tasks.dart';
+import 'tables/template_documents.dart';
+
 
 import 'seed/seed_templates.dart';
 
@@ -30,16 +31,20 @@ part 'app_database.g.dart';
 // the generator what tables to include.
 @DriftDatabase(
   tables: [
-  UserProfiles, 
-  ScholarshipTemplates,
-  Applications,
-  Tasks
-  ])
+    UserProfiles,
+    ScholarshipTemplates,
+    Applications,
+    Tasks,
+    // Add the new tables to the database
+    TemplateTasks,
+    TemplateDocuments
+  ]
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5; // Increment this when you change tables
+  int get schemaVersion => 7; // Incremented from 6 to 7
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -48,28 +53,27 @@ class AppDatabase extends _$AppDatabase {
       await seedTemplates(this);
     },
     onUpgrade: (m, from, to) async {
-      if (from < 2) {
-        // Migration logic from version 1 to 2
-        await m.createTable(scholarshipTemplates);
-        await seedTemplates(this);
-      }
-      if (from < 3) {
-        // Migration logic from version 2 to 3
-        await m.createTable(applications);
-        await m.createTable(tasks);
-      }
-      if (from < 4) {
-        // Migration logic from version 3 to 4
-        await m.addColumn(applications, applications.notes as GeneratedColumn<Object>);
-      }
-      if (from < 5) {
-        // Migration from version 4 to 5
-        await m.addColumn(scholarshipTemplates, scholarshipTemplates.description as GeneratedColumn);
-        await m.addColumn(scholarshipTemplates, scholarshipTemplates.website as GeneratedColumn);
-        await m.addColumn(scholarshipTemplates, scholarshipTemplates.region as GeneratedColumn);
-        await m.addColumn(scholarshipTemplates, scholarshipTemplates.defaultStages as GeneratedColumn);
-      }
-    },
+          // You can add custom migration logic for each version bump
+          if (from < 6) {
+            // Since this is a major schema change, the simplest approach during
+            // development is to delete the old tables and recreate them.
+            // A more advanced migration would preserve user data.
+            await m.deleteTable('scholarship_templates');
+            await m.deleteTable('template_tasks'); // In case they existed
+            await m.deleteTable('template_documents'); // In case they existed
+
+            await m.createTable(scholarshipTemplates);
+            await m.createTable(templateTasks);
+            await m.createTable(templateDocuments);
+            await seedTemplates(this); // Re-seed with new structure
+          }
+         if (from < 7) {
+            // Add the new columns to the existing applications table
+            await m.addColumn(applications, applications.customName);
+            await m.addColumn(applications, applications.customColor);
+            await m.addColumn(applications, applications.customIcon);
+          }
+        },
   );
 }
 
@@ -91,22 +95,23 @@ AppDatabase appDatabase(Ref ref) {
   return AppDatabase();
 }
 
-// A provider for our user profile repository.
-// Repositories are the bridge between our UI/logic and the database.
-@riverpod
-UserProfileRepository userProfileRepository(Ref ref) {
-  return UserProfileRepository(ref.watch(appDatabaseProvider));
-}
+// // A provider for our user profile repository.
+// // Repositories are the bridge between our UI/logic and the database.
+// @riverpod
+// UserProfileRepository userProfileRepository(Ref ref) {
+//   return UserProfileRepository(ref.watch(appDatabaseProvider));
+// }
 
-// --- NEW REPOSITORY FOR TEMPLATES ---
-@riverpod
-ScholarshipTemplateRepository scholarshipTemplateRepository(Ref ref) {
-  return ScholarshipTemplateRepository(ref.watch(appDatabaseProvider));
-}
-
-// --- NEW REPOSITORY FOR APPLICATIONS ---
-@riverpod
-ApplicationRepository applicationRepository(Ref ref) {
-  // Pass the ref to the repository
-  return ApplicationRepository(ref.watch(appDatabaseProvider), ref);
-}
+// // --- NEW REPOSITORY FOR TEMPLATES ---
+// /*
+// @riverpod
+// ScholarshipTemplateRepository scholarshipTemplateRepository(Ref ref) {
+//   return ScholarshipTemplateRepository(ref.watch(appDatabaseProvider));
+// }
+// */
+// // --- NEW REPOSITORY FOR APPLICATIONS ---
+// @riverpod
+// ApplicationRepository applicationRepository(Ref ref) {
+//   // Pass the ref to the repository
+//   return ApplicationRepository(ref.watch(appDatabaseProvider), ref);
+// }

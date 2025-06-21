@@ -1,10 +1,14 @@
 // lib/core/database/repositories/application_repository.dart
 
 import 'dart:convert';
-import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/core/services/notification_service.dart';
+import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
+import 'package:drift/drift.dart';
+
+part 'application_repository.g.dart';
 
 class ApplicationWithTemplate {
   final Application application;
@@ -12,40 +16,68 @@ class ApplicationWithTemplate {
   ApplicationWithTemplate({required this.application, required this.template});
 }
 
+// Define the provider for the repository in this file
+@riverpod
+ApplicationRepository applicationRepository(Ref ref) {
+  return ApplicationRepository(ref.watch(appDatabaseProvider), ref);
+}
+
+
 class ApplicationRepository {
   final AppDatabase _db;
   final Ref ref;
   ApplicationRepository(this._db, this.ref);
 
-  Future<void> createApplicationFromTemplate(String templateId) async {
-    final template = await (_db.select(_db.scholarshipTemplates)..where((tbl) => tbl.id.equals(templateId))).getSingle();
-    final newApplicationCompanion = ApplicationsCompanion(
-      templateId: Value(templateId),
-      deadline: Value(DateTime.now().add(const Duration(days: 90))),
-      status: const Value('in_progress'),
-    );
-    final newApplication = await _db.into(_db.applications).insertReturning(newApplicationCompanion);
-    await ref.read(notificationServiceProvider).scheduleDeadlineReminders(newApplication);
+  // --- UPDATED METHOD ---
+  // Creates an application and its associated tasks from a template.
+  Future<Application> createApplicationFromTemplate(String templateId) async {
+    final mainDeadline = DateTime.now().add(const Duration(days: 90));
 
-    final List<TasksCompanion> tasksToInsert = [];
-    if (template.defaultStages != null && template.defaultStages!.isNotEmpty) {
-      final stages = jsonDecode(template.defaultStages!) as List;
-      for (var stage in stages) {
+    final newApplicationCompanion = ApplicationsCompanion.insert(
+      templateId: templateId,
+      deadline: mainDeadline,
+      status: Value('in_progress'),
+    );
+    
+    // Create the application and return the resulting object
+    final newApplication = await _db.into(_db.applications).insertReturning(newApplicationCompanion);
+
+    // Fetch and insert tasks (logic is unchanged)
+    final templateTasks = await (_db.select(_db.templateTasks)..where((tbl) => tbl.templateId.equals(templateId))).get();
+    if (templateTasks.isNotEmpty) {
+      final List<TasksCompanion> tasksToInsert = [];
+      for (final templateTask in templateTasks) {
+        DateTime? taskDueDate;
+        if (templateTask.offsetDays != null) {
+          taskDueDate = mainDeadline.add(Duration(days: templateTask.offsetDays!));
+        }
         tasksToInsert.add(
           TasksCompanion.insert(
             applicationId: newApplication.id,
-            title: stage['title'] ?? 'Untitled Task',
-            category: Value(stage['category'] ?? 'Other'),
+            title: templateTask.label,
+            category: Value(templateTask.stage ?? 'Other'),
+            dueDate: Value(taskDueDate),
           ),
         );
       }
+      await _db.batch((batch) => batch.insertAll(_db.tasks, tasksToInsert));
     }
-    if (tasksToInsert.isNotEmpty) {
-      await _db.batch((batch) {
-        batch.insertAll(_db.tasks, tasksToInsert);
-      });
-    }
+
+    return newApplication;
   }
+
+    // --- NEW METHOD ---
+  // Deletes an application and all its associated tasks.
+  Future<void> deleteApplication(int applicationId) async {
+    // It's good practice to wrap multi-table deletes in a transaction
+    return _db.transaction(() async {
+      // Delete all tasks associated with the application
+      await (_db.delete(_db.tasks)..where((tbl) => tbl.applicationId.equals(applicationId))).go();
+      // Delete the main application entry
+      await (_db.delete(_db.applications)..where((tbl) => tbl.id.equals(applicationId))).go();
+    });
+  }
+
 
   // Updates the notes for a specific application
   Future<void> updateNotes(int applicationId, String notes) async {
@@ -141,4 +173,44 @@ class ApplicationRepository {
       );
     });
   }
+
+    // --- NEW METHOD FOR THE WIZARD ---
+  Future<void> createCustomApplication(CustomiseWizardState wizardState) async {
+    // 1. Create the Application using data from the wizard state
+    final newApplication = await _db.into(_db.applications).insertReturning(
+      ApplicationsCompanion.insert(
+        templateId: wizardState.fullTemplate.template.id,
+        deadline: wizardState.mainDeadline!, // Assumes deadline is set
+        status: const Value('in_progress'),
+        customName: Value(wizardState.customName),
+        customColor: Value(wizardState.customColor),
+      ),
+    );
+
+    // 2. Get the list of tasks the user selected in the wizard
+    final tasksToCreate = wizardState.customizedTasks;
+    if (tasksToCreate.isEmpty) return;
+
+    // 3. Create real Tasks from the customized list
+    final List<TasksCompanion> tasksToInsert = [];
+    for (final customTask in tasksToCreate) {
+      DateTime? taskDueDate;
+      if (customTask.offsetDays != null) {
+        taskDueDate = wizardState.mainDeadline!.add(Duration(days: customTask.offsetDays!));
+      }
+      tasksToInsert.add(
+        TasksCompanion.insert(
+          applicationId: newApplication.id,
+          title: customTask.label,
+          category: Value(customTask.stage ?? 'Other'),
+          dueDate: Value(taskDueDate),
+        ),
+      );
+    }
+    
+    // 4. Batch insert all the new tasks
+    await _db.batch((batch) {
+      batch.insertAll(_db.tasks, tasksToInsert);
+    });
+}
 }

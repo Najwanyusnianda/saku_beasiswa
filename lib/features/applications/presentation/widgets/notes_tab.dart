@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 
 class NotesTab extends ConsumerStatefulWidget {

@@ -14,4 +14,9 @@ class Applications extends Table {
   
   // User's notes for the application
   TextColumn get notes => text().nullable()();
+    // --- NEW COLUMNS FOR PERSONALIZATION ---
+  TextColumn get customName => text().nullable()();
+  TextColumn get customColor => text().nullable()();
+  TextColumn get customIcon => text().nullable()();
+
 }

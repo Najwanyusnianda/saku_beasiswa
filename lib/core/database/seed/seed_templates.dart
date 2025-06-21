@@ -1,66 +1,70 @@
 import 'package:drift/drift.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 
+// The main function to call during migration/creation
 Future<void> seedTemplates(AppDatabase db) async {
-  final templates = [
-    const ScholarshipTemplatesCompanion(
-      id: Value('lpdp-2024'),
-      name: Value('Beasiswa LPDP Reguler'),
-      providerName: Value('Kemenkeu RI'),
-      studyLevels: Value('S2,S3'),
-      fieldsOfStudy: Value('All'),
-      targetCountries: Value('Global'),
-      description: Value('Beasiswa reguler dari Lembaga Pengelola Dana Pendidikan untuk jenjang S2 dan S3.'),
-      website: Value('https://lpdp.kemenkeu.go.id/'),
-      region: Value('International'),
-    ),
-    const ScholarshipTemplatesCompanion(
-      id: Value('aas-2024'),
-      name: Value('Australia Awards Scholarship'),
-      providerName: Value('Australian Government'),
-      studyLevels: Value('S2,S3'),
-      fieldsOfStudy: Value('All'),
-      targetCountries: Value('Australia'),
-      description: Value('Scholarship from the Australian government for postgraduate studies.'),
-      website: Value('https://www.australiaawardsindonesia.org/'),
-      region: Value('International'),
-    ),
-    const ScholarshipTemplatesCompanion(
-      id: Value('chevening-2024'),
-      name: Value('Chevening Scholarship'),
-      providerName: Value('UK Government'),
-      studyLevels: Value('S2'),
-      fieldsOfStudy: Value('All'),
-      targetCountries: Value('UK'),
-      description: Value('UK government’s global scholarship programme, funded by the Foreign, Commonwealth & Development Office.'),
-      website: Value('https://www.chevening.org/'),
-      region: Value('International'),
-    ),
-    const ScholarshipTemplatesCompanion(
-      id: Value('unggul-2024'),
-      name: Value('Beasiswa Unggulan'),
-      providerName: Value('Kemendikbudristek'),
-      studyLevels: Value('S1,S2,S3'),
-      fieldsOfStudy: Value('All'),
-      targetCountries: Value('Indonesia'),
-      description: Value('Beasiswa dari pemerintah Indonesia untuk putra-putri terbaik bangsa Indonesia.'),
-      website: Value('https://beasiswaunggulan.kemdikbud.go.id/'),
-      region: Value('Indonesia'),
-    ),
-    const ScholarshipTemplatesCompanion(
-      id: Value('comp-sci-usa-2024'),
-      name: Value('Fulbright Scholarship (STEM)'),
-      providerName: Value('AMINEF (USA Government)'),
-      studyLevels: Value('S2,S3'),
-      fieldsOfStudy: Value('Computer Science,Engineering'),
-      targetCountries: Value('USA'),
-      description: Value('Scholarship for master\'s or doctoral degree in the US for STEM fields.'),
-      website: Value('https://www.aminef.or.id/grants-for-indonesians/fulbright-programs/scholarship/'),
-      region: Value('International'),
-    ),
+  await _seedLpdp(db);
+  await _seedChevening(db);
+  // Add calls to other seed functions here
+}
+
+// Private function to seed a single, complex template
+Future<void> _seedLpdp(AppDatabase db) async {
+  const templateId = 'lpdp_master_2025';
+
+  // 1. Insert the main template data
+  await db.into(db.scholarshipTemplates).insert(
+        ScholarshipTemplatesCompanion.insert(
+          id: templateId,
+          name: 'LPDP – Master Scholarship',
+          providerName: 'Kemenkeu RI',
+          shortDescription: Value('Full tuition & living allowance for Indonesian citizens.'),
+          country: Value('Global'),
+          studyLevel: 'MASTER',
+          color: Value('#0F6B86'),
+          website: Value('https://lpdp.kemenkeu.go.id'),
+          author: Value('Official'),
+          version: Value(2),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
+
+  // 2. Insert the related tasks for this template
+  final tasks = [
+    TemplateTasksCompanion.insert(templateId: templateId, label: 'Research eligible universities', offsetDays: Value(-120)),
+    TemplateTasksCompanion.insert(templateId: templateId, label: 'Book IELTS test', offsetDays: Value(-90)),
+    TemplateTasksCompanion.insert(templateId: templateId, label: 'Draft motivation letter', offsetDays: Value(-75)),
+    TemplateTasksCompanion.insert(templateId: templateId, label: 'Medical check-up', offsetDays: Value(-20), isMandatory: Value(false)),
+    TemplateTasksCompanion.insert(templateId: templateId, label: 'Submit online form', offsetDays: Value(0)),
   ];
-  
-  await db.batch((batch) {
-    batch.insertAll(db.scholarshipTemplates, templates, mode: InsertMode.insertOrReplace);
-  });
+  await db.batch((batch) => batch.insertAll(db.templateTasks, tasks, mode: InsertMode.insertOrReplace));
+
+  // 3. Insert the related documents for this template
+  final documents = [
+    TemplateDocumentsCompanion.insert(templateId: templateId, name: 'IELTS ≥6.5'),
+    TemplateDocumentsCompanion.insert(templateId: templateId, name: 'Passport Scan'),
+    TemplateDocumentsCompanion.insert(templateId: templateId, name: 'Statement of Purpose'),
+  ];
+  await db.batch((batch) => batch.insertAll(db.templateDocuments, documents, mode: InsertMode.insertOrReplace));
+}
+
+
+Future<void> _seedChevening(AppDatabase db) async {
+  const templateId = 'chevening_master_2025';
+  await db.into(db.scholarshipTemplates).insert(
+      ScholarshipTemplatesCompanion.insert(
+        id: templateId,
+        name: 'Chevening Scholarship',
+        providerName: 'UK Government',
+        studyLevel: 'MASTER',
+        country: Value('UK'),
+        shortDescription: Value('Global scholarship for future leaders to study in the UK.'),
+        color: Value('#E84D1F'),
+        website: Value('https://www.chevening.org/'),
+        author: Value('Official'),
+        version: Value(1),
+      ),
+      mode: InsertMode.insertOrReplace,
+  );
+  // Add tasks and documents for Chevening similarly...
 }
