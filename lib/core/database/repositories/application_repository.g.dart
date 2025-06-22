@@ -9,7 +9,9 @@ part of 'application_repository.dart';
 String _$applicationRepositoryHash() =>
     r'93dff45d71875167bed09b500ce9895d92d8ada1';
 
-/// See also [applicationRepository].
+/// Riverpod provider for the [ApplicationRepository].
+///
+/// Copied from [applicationRepository].
 @ProviderFor(applicationRepository)
 final applicationRepositoryProvider =
     AutoDisposeProvider<ApplicationRepository>.internal(

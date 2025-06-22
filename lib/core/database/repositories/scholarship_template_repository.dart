@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
-import 'package:saku_beasiswa/core/database/repositories/user_profile_repository.dart';
 import 'package:saku_beasiswa/features/profile/data/profile_setup_form_model.dart';
 part 'scholarship_template_repository.g.dart';
 

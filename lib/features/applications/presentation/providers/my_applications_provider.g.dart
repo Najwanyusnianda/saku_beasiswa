@@ -6,26 +6,7 @@ part of 'my_applications_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myApplicationsHash() => r'17aef9a6eba5b7fd68ffa6f128aa051d66099ea1';
-
-/// See also [myApplications].
-@ProviderFor(myApplications)
-final myApplicationsProvider =
-    AutoDisposeStreamProvider<List<ApplicationWithTemplate>>.internal(
-      myApplications,
-      name: r'myApplicationsProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$myApplicationsHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef MyApplicationsRef =
-    AutoDisposeStreamProviderRef<List<ApplicationWithTemplate>>;
-String _$applicationDetailHash() => r'4b7922fa4a991091e63abe076e4ef0e373c87444';
+String _$applicationStatusHash() => r'77e8dc5083a37a37ac283cdebe960f23606b5796';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -47,6 +28,146 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [applicationStatus].
+@ProviderFor(applicationStatus)
+const applicationStatusProvider = ApplicationStatusFamily();
+
+/// See also [applicationStatus].
+class ApplicationStatusFamily extends Family<ApplicationStatus> {
+  /// See also [applicationStatus].
+  const ApplicationStatusFamily();
+
+  /// See also [applicationStatus].
+  ApplicationStatusProvider call(int applicationId) {
+    return ApplicationStatusProvider(applicationId);
+  }
+
+  @override
+  ApplicationStatusProvider getProviderOverride(
+    covariant ApplicationStatusProvider provider,
+  ) {
+    return call(provider.applicationId);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'applicationStatusProvider';
+}
+
+/// See also [applicationStatus].
+class ApplicationStatusProvider extends AutoDisposeProvider<ApplicationStatus> {
+  /// See also [applicationStatus].
+  ApplicationStatusProvider(int applicationId)
+    : this._internal(
+        (ref) => applicationStatus(ref as ApplicationStatusRef, applicationId),
+        from: applicationStatusProvider,
+        name: r'applicationStatusProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$applicationStatusHash,
+        dependencies: ApplicationStatusFamily._dependencies,
+        allTransitiveDependencies:
+            ApplicationStatusFamily._allTransitiveDependencies,
+        applicationId: applicationId,
+      );
+
+  ApplicationStatusProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.applicationId,
+  }) : super.internal();
+
+  final int applicationId;
+
+  @override
+  Override overrideWith(
+    ApplicationStatus Function(ApplicationStatusRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ApplicationStatusProvider._internal(
+        (ref) => create(ref as ApplicationStatusRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        applicationId: applicationId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<ApplicationStatus> createElement() {
+    return _ApplicationStatusProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ApplicationStatusProvider &&
+        other.applicationId == applicationId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, applicationId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ApplicationStatusRef on AutoDisposeProviderRef<ApplicationStatus> {
+  /// The parameter `applicationId` of this provider.
+  int get applicationId;
+}
+
+class _ApplicationStatusProviderElement
+    extends AutoDisposeProviderElement<ApplicationStatus>
+    with ApplicationStatusRef {
+  _ApplicationStatusProviderElement(super.provider);
+
+  @override
+  int get applicationId => (origin as ApplicationStatusProvider).applicationId;
+}
+
+String _$myApplicationsHash() => r'17aef9a6eba5b7fd68ffa6f128aa051d66099ea1';
+
+/// See also [myApplications].
+@ProviderFor(myApplications)
+final myApplicationsProvider =
+    AutoDisposeStreamProvider<List<ApplicationWithTemplate>>.internal(
+      myApplications,
+      name: r'myApplicationsProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$myApplicationsHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef MyApplicationsRef =
+    AutoDisposeStreamProviderRef<List<ApplicationWithTemplate>>;
+String _$applicationDetailHash() => r'4b7922fa4a991091e63abe076e4ef0e373c87444';
 
 /// See also [applicationDetail].
 @ProviderFor(applicationDetail)
@@ -289,6 +410,127 @@ class _ApplicationTasksProviderElement
 
   @override
   int get applicationId => (origin as ApplicationTasksProvider).applicationId;
+}
+
+String _$nextUpcomingTaskHash() => r'ba05431490466fdbe493bc1bb20668c6dff5cc8a';
+
+/// See also [nextUpcomingTask].
+@ProviderFor(nextUpcomingTask)
+const nextUpcomingTaskProvider = NextUpcomingTaskFamily();
+
+/// See also [nextUpcomingTask].
+class NextUpcomingTaskFamily extends Family<AsyncValue<Task?>> {
+  /// See also [nextUpcomingTask].
+  const NextUpcomingTaskFamily();
+
+  /// See also [nextUpcomingTask].
+  NextUpcomingTaskProvider call(int applicationId) {
+    return NextUpcomingTaskProvider(applicationId);
+  }
+
+  @override
+  NextUpcomingTaskProvider getProviderOverride(
+    covariant NextUpcomingTaskProvider provider,
+  ) {
+    return call(provider.applicationId);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'nextUpcomingTaskProvider';
+}
+
+/// See also [nextUpcomingTask].
+class NextUpcomingTaskProvider extends AutoDisposeFutureProvider<Task?> {
+  /// See also [nextUpcomingTask].
+  NextUpcomingTaskProvider(int applicationId)
+    : this._internal(
+        (ref) => nextUpcomingTask(ref as NextUpcomingTaskRef, applicationId),
+        from: nextUpcomingTaskProvider,
+        name: r'nextUpcomingTaskProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$nextUpcomingTaskHash,
+        dependencies: NextUpcomingTaskFamily._dependencies,
+        allTransitiveDependencies:
+            NextUpcomingTaskFamily._allTransitiveDependencies,
+        applicationId: applicationId,
+      );
+
+  NextUpcomingTaskProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.applicationId,
+  }) : super.internal();
+
+  final int applicationId;
+
+  @override
+  Override overrideWith(
+    FutureOr<Task?> Function(NextUpcomingTaskRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: NextUpcomingTaskProvider._internal(
+        (ref) => create(ref as NextUpcomingTaskRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        applicationId: applicationId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Task?> createElement() {
+    return _NextUpcomingTaskProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NextUpcomingTaskProvider &&
+        other.applicationId == applicationId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, applicationId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin NextUpcomingTaskRef on AutoDisposeFutureProviderRef<Task?> {
+  /// The parameter `applicationId` of this provider.
+  int get applicationId;
+}
+
+class _NextUpcomingTaskProviderElement
+    extends AutoDisposeFutureProviderElement<Task?>
+    with NextUpcomingTaskRef {
+  _NextUpcomingTaskProviderElement(super.provider);
+
+  @override
+  int get applicationId => (origin as NextUpcomingTaskProvider).applicationId;
 }
 
 String _$applicationTimelineHash() =>

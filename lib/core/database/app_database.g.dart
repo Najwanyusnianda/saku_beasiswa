@@ -370,6 +370,17 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _longDescriptionMeta = const VerificationMeta(
+    'longDescription',
+  );
+  @override
+  late final GeneratedColumn<String> longDescription = GeneratedColumn<String>(
+    'long_description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _countryMeta = const VerificationMeta(
     'country',
   );
@@ -392,21 +403,110 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  static const VerificationMeta _fieldOfStudyMeta = const VerificationMeta(
+    'fieldOfStudy',
+  );
   @override
-  late final GeneratedColumn<String> color = GeneratedColumn<String>(
-    'default_color',
+  late final GeneratedColumn<String> fieldOfStudy = GeneratedColumn<String>(
+    'field_of_study',
     aliasedName,
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _websiteMeta = const VerificationMeta(
-    'website',
+  static const VerificationMeta _fundingTypeMeta = const VerificationMeta(
+    'fundingType',
   );
   @override
-  late final GeneratedColumn<String> website = GeneratedColumn<String>(
-    'official_url',
+  late final GeneratedColumn<String> fundingType = GeneratedColumn<String>(
+    'funding_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fundingAmountMeta = const VerificationMeta(
+    'fundingAmount',
+  );
+  @override
+  late final GeneratedColumn<String> fundingAmount = GeneratedColumn<String>(
+    'funding_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _applicationDeadlineMeta =
+      const VerificationMeta('applicationDeadline');
+  @override
+  late final GeneratedColumn<DateTime> applicationDeadline =
+      GeneratedColumn<DateTime>(
+        'application_deadline',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _programStartDateMeta = const VerificationMeta(
+    'programStartDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> programStartDate =
+      GeneratedColumn<DateTime>(
+        'program_start_date',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _applicationDurationMonthsMeta =
+      const VerificationMeta('applicationDurationMonths');
+  @override
+  late final GeneratedColumn<int> applicationDurationMonths =
+      GeneratedColumn<int>(
+        'application_duration_months',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _eligibilityMeta = const VerificationMeta(
+    'eligibility',
+  );
+  @override
+  late final GeneratedColumn<String> eligibility = GeneratedColumn<String>(
+    'eligibility',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _requiredGPAMeta = const VerificationMeta(
+    'requiredGPA',
+  );
+  @override
+  late final GeneratedColumn<String> requiredGPA = GeneratedColumn<String>(
+    'required_g_p_a',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _languageRequirementsMeta =
+      const VerificationMeta('languageRequirements');
+  @override
+  late final GeneratedColumn<String> languageRequirements =
+      GeneratedColumn<String>(
+        'language_requirements',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+    'default_color',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -421,12 +521,12 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _eligibilityMeta = const VerificationMeta(
-    'eligibility',
+  static const VerificationMeta _websiteMeta = const VerificationMeta(
+    'website',
   );
   @override
-  late final GeneratedColumn<String> eligibility = GeneratedColumn<String>(
-    'eligibility',
+  late final GeneratedColumn<String> website = GeneratedColumn<String>(
+    'official_url',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -464,21 +564,99 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _usageCountMeta = const VerificationMeta(
+    'usageCount',
+  );
+  @override
+  late final GeneratedColumn<int> usageCount = GeneratedColumn<int>(
+    'usage_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _successRateMeta = const VerificationMeta(
+    'successRate',
+  );
+  @override
+  late final GeneratedColumn<int> successRate = GeneratedColumn<int>(
+    'success_rate',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _averageMatchScoreMeta = const VerificationMeta(
+    'averageMatchScore',
+  );
+  @override
+  late final GeneratedColumn<double> averageMatchScore =
+      GeneratedColumn<double>(
+        'average_match_score',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isFeaturedMeta = const VerificationMeta(
+    'isFeatured',
+  );
+  @override
+  late final GeneratedColumn<bool> isFeatured = GeneratedColumn<bool>(
+    'is_featured',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_featured" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
     name,
     providerName,
     shortDescription,
+    longDescription,
     country,
     studyLevel,
-    color,
-    website,
-    icon,
+    fieldOfStudy,
+    fundingType,
+    fundingAmount,
+    applicationDeadline,
+    programStartDate,
+    applicationDurationMonths,
     eligibility,
+    requiredGPA,
+    languageRequirements,
+    color,
+    icon,
+    website,
     version,
     lastUpdated,
     author,
+    usageCount,
+    successRate,
+    averageMatchScore,
+    isActive,
+    isFeatured,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -525,6 +703,15 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         ),
       );
     }
+    if (data.containsKey('long_description')) {
+      context.handle(
+        _longDescriptionMeta,
+        longDescription.isAcceptableOrUnknown(
+          data['long_description']!,
+          _longDescriptionMeta,
+        ),
+      );
+    }
     if (data.containsKey('country')) {
       context.handle(
         _countryMeta,
@@ -539,22 +726,58 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     } else if (isInserting) {
       context.missing(_studyLevelMeta);
     }
-    if (data.containsKey('default_color')) {
+    if (data.containsKey('field_of_study')) {
       context.handle(
-        _colorMeta,
-        color.isAcceptableOrUnknown(data['default_color']!, _colorMeta),
+        _fieldOfStudyMeta,
+        fieldOfStudy.isAcceptableOrUnknown(
+          data['field_of_study']!,
+          _fieldOfStudyMeta,
+        ),
       );
     }
-    if (data.containsKey('official_url')) {
+    if (data.containsKey('funding_type')) {
       context.handle(
-        _websiteMeta,
-        website.isAcceptableOrUnknown(data['official_url']!, _websiteMeta),
+        _fundingTypeMeta,
+        fundingType.isAcceptableOrUnknown(
+          data['funding_type']!,
+          _fundingTypeMeta,
+        ),
       );
     }
-    if (data.containsKey('icon')) {
+    if (data.containsKey('funding_amount')) {
       context.handle(
-        _iconMeta,
-        icon.isAcceptableOrUnknown(data['icon']!, _iconMeta),
+        _fundingAmountMeta,
+        fundingAmount.isAcceptableOrUnknown(
+          data['funding_amount']!,
+          _fundingAmountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('application_deadline')) {
+      context.handle(
+        _applicationDeadlineMeta,
+        applicationDeadline.isAcceptableOrUnknown(
+          data['application_deadline']!,
+          _applicationDeadlineMeta,
+        ),
+      );
+    }
+    if (data.containsKey('program_start_date')) {
+      context.handle(
+        _programStartDateMeta,
+        programStartDate.isAcceptableOrUnknown(
+          data['program_start_date']!,
+          _programStartDateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('application_duration_months')) {
+      context.handle(
+        _applicationDurationMonthsMeta,
+        applicationDurationMonths.isAcceptableOrUnknown(
+          data['application_duration_months']!,
+          _applicationDurationMonthsMeta,
+        ),
       );
     }
     if (data.containsKey('eligibility')) {
@@ -564,6 +787,42 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
           data['eligibility']!,
           _eligibilityMeta,
         ),
+      );
+    }
+    if (data.containsKey('required_g_p_a')) {
+      context.handle(
+        _requiredGPAMeta,
+        requiredGPA.isAcceptableOrUnknown(
+          data['required_g_p_a']!,
+          _requiredGPAMeta,
+        ),
+      );
+    }
+    if (data.containsKey('language_requirements')) {
+      context.handle(
+        _languageRequirementsMeta,
+        languageRequirements.isAcceptableOrUnknown(
+          data['language_requirements']!,
+          _languageRequirementsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('default_color')) {
+      context.handle(
+        _colorMeta,
+        color.isAcceptableOrUnknown(data['default_color']!, _colorMeta),
+      );
+    }
+    if (data.containsKey('icon')) {
+      context.handle(
+        _iconMeta,
+        icon.isAcceptableOrUnknown(data['icon']!, _iconMeta),
+      );
+    }
+    if (data.containsKey('official_url')) {
+      context.handle(
+        _websiteMeta,
+        website.isAcceptableOrUnknown(data['official_url']!, _websiteMeta),
       );
     }
     if (data.containsKey('version')) {
@@ -585,6 +844,42 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
       context.handle(
         _authorMeta,
         author.isAcceptableOrUnknown(data['author']!, _authorMeta),
+      );
+    }
+    if (data.containsKey('usage_count')) {
+      context.handle(
+        _usageCountMeta,
+        usageCount.isAcceptableOrUnknown(data['usage_count']!, _usageCountMeta),
+      );
+    }
+    if (data.containsKey('success_rate')) {
+      context.handle(
+        _successRateMeta,
+        successRate.isAcceptableOrUnknown(
+          data['success_rate']!,
+          _successRateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('average_match_score')) {
+      context.handle(
+        _averageMatchScoreMeta,
+        averageMatchScore.isAcceptableOrUnknown(
+          data['average_match_score']!,
+          _averageMatchScoreMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('is_featured')) {
+      context.handle(
+        _isFeaturedMeta,
+        isFeatured.isAcceptableOrUnknown(data['is_featured']!, _isFeaturedMeta),
       );
     }
     return context;
@@ -612,6 +907,10 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         DriftSqlType.string,
         data['${effectivePrefix}short_description'],
       ),
+      longDescription: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}long_description'],
+      ),
       country: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}country'],
@@ -620,21 +919,53 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         DriftSqlType.string,
         data['${effectivePrefix}study_level'],
       )!,
+      fieldOfStudy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}field_of_study'],
+      ),
+      fundingType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}funding_type'],
+      ),
+      fundingAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}funding_amount'],
+      ),
+      applicationDeadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}application_deadline'],
+      ),
+      programStartDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}program_start_date'],
+      ),
+      applicationDurationMonths: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}application_duration_months'],
+      ),
+      eligibility: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}eligibility'],
+      ),
+      requiredGPA: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}required_g_p_a'],
+      ),
+      languageRequirements: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}language_requirements'],
+      ),
       color: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}default_color'],
-      ),
-      website: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}official_url'],
       ),
       icon: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}icon'],
       ),
-      eligibility: attachedDatabase.typeMapping.read(
+      website: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}eligibility'],
+        data['${effectivePrefix}official_url'],
       ),
       version: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -648,6 +979,26 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         DriftSqlType.string,
         data['${effectivePrefix}author'],
       ),
+      usageCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}usage_count'],
+      ),
+      successRate: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}success_rate'],
+      ),
+      averageMatchScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}average_match_score'],
+      ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      isFeatured: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_featured'],
+      )!,
     );
   }
 
@@ -663,29 +1014,57 @@ class ScholarshipTemplate extends DataClass
   final String name;
   final String providerName;
   final String? shortDescription;
+  final String? longDescription;
   final String? country;
   final String studyLevel;
-  final String? color;
-  final String? website;
-  final String? icon;
+  final String? fieldOfStudy;
+  final String? fundingType;
+  final String? fundingAmount;
+  final DateTime? applicationDeadline;
+  final DateTime? programStartDate;
+  final int? applicationDurationMonths;
   final String? eligibility;
+  final String? requiredGPA;
+  final String? languageRequirements;
+  final String? color;
+  final String? icon;
+  final String? website;
   final int version;
   final DateTime? lastUpdated;
   final String? author;
+  final int? usageCount;
+  final int? successRate;
+  final double? averageMatchScore;
+  final bool isActive;
+  final bool isFeatured;
   const ScholarshipTemplate({
     required this.id,
     required this.name,
     required this.providerName,
     this.shortDescription,
+    this.longDescription,
     this.country,
     required this.studyLevel,
-    this.color,
-    this.website,
-    this.icon,
+    this.fieldOfStudy,
+    this.fundingType,
+    this.fundingAmount,
+    this.applicationDeadline,
+    this.programStartDate,
+    this.applicationDurationMonths,
     this.eligibility,
+    this.requiredGPA,
+    this.languageRequirements,
+    this.color,
+    this.icon,
+    this.website,
     required this.version,
     this.lastUpdated,
     this.author,
+    this.usageCount,
+    this.successRate,
+    this.averageMatchScore,
+    required this.isActive,
+    required this.isFeatured,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -696,21 +1075,50 @@ class ScholarshipTemplate extends DataClass
     if (!nullToAbsent || shortDescription != null) {
       map['short_description'] = Variable<String>(shortDescription);
     }
+    if (!nullToAbsent || longDescription != null) {
+      map['long_description'] = Variable<String>(longDescription);
+    }
     if (!nullToAbsent || country != null) {
       map['country'] = Variable<String>(country);
     }
     map['study_level'] = Variable<String>(studyLevel);
+    if (!nullToAbsent || fieldOfStudy != null) {
+      map['field_of_study'] = Variable<String>(fieldOfStudy);
+    }
+    if (!nullToAbsent || fundingType != null) {
+      map['funding_type'] = Variable<String>(fundingType);
+    }
+    if (!nullToAbsent || fundingAmount != null) {
+      map['funding_amount'] = Variable<String>(fundingAmount);
+    }
+    if (!nullToAbsent || applicationDeadline != null) {
+      map['application_deadline'] = Variable<DateTime>(applicationDeadline);
+    }
+    if (!nullToAbsent || programStartDate != null) {
+      map['program_start_date'] = Variable<DateTime>(programStartDate);
+    }
+    if (!nullToAbsent || applicationDurationMonths != null) {
+      map['application_duration_months'] = Variable<int>(
+        applicationDurationMonths,
+      );
+    }
+    if (!nullToAbsent || eligibility != null) {
+      map['eligibility'] = Variable<String>(eligibility);
+    }
+    if (!nullToAbsent || requiredGPA != null) {
+      map['required_g_p_a'] = Variable<String>(requiredGPA);
+    }
+    if (!nullToAbsent || languageRequirements != null) {
+      map['language_requirements'] = Variable<String>(languageRequirements);
+    }
     if (!nullToAbsent || color != null) {
       map['default_color'] = Variable<String>(color);
-    }
-    if (!nullToAbsent || website != null) {
-      map['official_url'] = Variable<String>(website);
     }
     if (!nullToAbsent || icon != null) {
       map['icon'] = Variable<String>(icon);
     }
-    if (!nullToAbsent || eligibility != null) {
-      map['eligibility'] = Variable<String>(eligibility);
+    if (!nullToAbsent || website != null) {
+      map['official_url'] = Variable<String>(website);
     }
     map['version'] = Variable<int>(version);
     if (!nullToAbsent || lastUpdated != null) {
@@ -719,6 +1127,17 @@ class ScholarshipTemplate extends DataClass
     if (!nullToAbsent || author != null) {
       map['author'] = Variable<String>(author);
     }
+    if (!nullToAbsent || usageCount != null) {
+      map['usage_count'] = Variable<int>(usageCount);
+    }
+    if (!nullToAbsent || successRate != null) {
+      map['success_rate'] = Variable<int>(successRate);
+    }
+    if (!nullToAbsent || averageMatchScore != null) {
+      map['average_match_score'] = Variable<double>(averageMatchScore);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['is_featured'] = Variable<bool>(isFeatured);
     return map;
   }
 
@@ -730,20 +1149,48 @@ class ScholarshipTemplate extends DataClass
       shortDescription: shortDescription == null && nullToAbsent
           ? const Value.absent()
           : Value(shortDescription),
+      longDescription: longDescription == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longDescription),
       country: country == null && nullToAbsent
           ? const Value.absent()
           : Value(country),
       studyLevel: Value(studyLevel),
-      color: color == null && nullToAbsent
+      fieldOfStudy: fieldOfStudy == null && nullToAbsent
           ? const Value.absent()
-          : Value(color),
-      website: website == null && nullToAbsent
+          : Value(fieldOfStudy),
+      fundingType: fundingType == null && nullToAbsent
           ? const Value.absent()
-          : Value(website),
-      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+          : Value(fundingType),
+      fundingAmount: fundingAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fundingAmount),
+      applicationDeadline: applicationDeadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(applicationDeadline),
+      programStartDate: programStartDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(programStartDate),
+      applicationDurationMonths:
+          applicationDurationMonths == null && nullToAbsent
+          ? const Value.absent()
+          : Value(applicationDurationMonths),
       eligibility: eligibility == null && nullToAbsent
           ? const Value.absent()
           : Value(eligibility),
+      requiredGPA: requiredGPA == null && nullToAbsent
+          ? const Value.absent()
+          : Value(requiredGPA),
+      languageRequirements: languageRequirements == null && nullToAbsent
+          ? const Value.absent()
+          : Value(languageRequirements),
+      color: color == null && nullToAbsent
+          ? const Value.absent()
+          : Value(color),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+      website: website == null && nullToAbsent
+          ? const Value.absent()
+          : Value(website),
       version: Value(version),
       lastUpdated: lastUpdated == null && nullToAbsent
           ? const Value.absent()
@@ -751,6 +1198,17 @@ class ScholarshipTemplate extends DataClass
       author: author == null && nullToAbsent
           ? const Value.absent()
           : Value(author),
+      usageCount: usageCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(usageCount),
+      successRate: successRate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(successRate),
+      averageMatchScore: averageMatchScore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(averageMatchScore),
+      isActive: Value(isActive),
+      isFeatured: Value(isFeatured),
     );
   }
 
@@ -764,15 +1222,39 @@ class ScholarshipTemplate extends DataClass
       name: serializer.fromJson<String>(json['name']),
       providerName: serializer.fromJson<String>(json['providerName']),
       shortDescription: serializer.fromJson<String?>(json['shortDescription']),
+      longDescription: serializer.fromJson<String?>(json['longDescription']),
       country: serializer.fromJson<String?>(json['country']),
       studyLevel: serializer.fromJson<String>(json['studyLevel']),
-      color: serializer.fromJson<String?>(json['color']),
-      website: serializer.fromJson<String?>(json['website']),
-      icon: serializer.fromJson<String?>(json['icon']),
+      fieldOfStudy: serializer.fromJson<String?>(json['fieldOfStudy']),
+      fundingType: serializer.fromJson<String?>(json['fundingType']),
+      fundingAmount: serializer.fromJson<String?>(json['fundingAmount']),
+      applicationDeadline: serializer.fromJson<DateTime?>(
+        json['applicationDeadline'],
+      ),
+      programStartDate: serializer.fromJson<DateTime?>(
+        json['programStartDate'],
+      ),
+      applicationDurationMonths: serializer.fromJson<int?>(
+        json['applicationDurationMonths'],
+      ),
       eligibility: serializer.fromJson<String?>(json['eligibility']),
+      requiredGPA: serializer.fromJson<String?>(json['requiredGPA']),
+      languageRequirements: serializer.fromJson<String?>(
+        json['languageRequirements'],
+      ),
+      color: serializer.fromJson<String?>(json['color']),
+      icon: serializer.fromJson<String?>(json['icon']),
+      website: serializer.fromJson<String?>(json['website']),
       version: serializer.fromJson<int>(json['version']),
       lastUpdated: serializer.fromJson<DateTime?>(json['lastUpdated']),
       author: serializer.fromJson<String?>(json['author']),
+      usageCount: serializer.fromJson<int?>(json['usageCount']),
+      successRate: serializer.fromJson<int?>(json['successRate']),
+      averageMatchScore: serializer.fromJson<double?>(
+        json['averageMatchScore'],
+      ),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      isFeatured: serializer.fromJson<bool>(json['isFeatured']),
     );
   }
   @override
@@ -783,15 +1265,31 @@ class ScholarshipTemplate extends DataClass
       'name': serializer.toJson<String>(name),
       'providerName': serializer.toJson<String>(providerName),
       'shortDescription': serializer.toJson<String?>(shortDescription),
+      'longDescription': serializer.toJson<String?>(longDescription),
       'country': serializer.toJson<String?>(country),
       'studyLevel': serializer.toJson<String>(studyLevel),
-      'color': serializer.toJson<String?>(color),
-      'website': serializer.toJson<String?>(website),
-      'icon': serializer.toJson<String?>(icon),
+      'fieldOfStudy': serializer.toJson<String?>(fieldOfStudy),
+      'fundingType': serializer.toJson<String?>(fundingType),
+      'fundingAmount': serializer.toJson<String?>(fundingAmount),
+      'applicationDeadline': serializer.toJson<DateTime?>(applicationDeadline),
+      'programStartDate': serializer.toJson<DateTime?>(programStartDate),
+      'applicationDurationMonths': serializer.toJson<int?>(
+        applicationDurationMonths,
+      ),
       'eligibility': serializer.toJson<String?>(eligibility),
+      'requiredGPA': serializer.toJson<String?>(requiredGPA),
+      'languageRequirements': serializer.toJson<String?>(languageRequirements),
+      'color': serializer.toJson<String?>(color),
+      'icon': serializer.toJson<String?>(icon),
+      'website': serializer.toJson<String?>(website),
       'version': serializer.toJson<int>(version),
       'lastUpdated': serializer.toJson<DateTime?>(lastUpdated),
       'author': serializer.toJson<String?>(author),
+      'usageCount': serializer.toJson<int?>(usageCount),
+      'successRate': serializer.toJson<int?>(successRate),
+      'averageMatchScore': serializer.toJson<double?>(averageMatchScore),
+      'isActive': serializer.toJson<bool>(isActive),
+      'isFeatured': serializer.toJson<bool>(isFeatured),
     };
   }
 
@@ -800,15 +1298,29 @@ class ScholarshipTemplate extends DataClass
     String? name,
     String? providerName,
     Value<String?> shortDescription = const Value.absent(),
+    Value<String?> longDescription = const Value.absent(),
     Value<String?> country = const Value.absent(),
     String? studyLevel,
-    Value<String?> color = const Value.absent(),
-    Value<String?> website = const Value.absent(),
-    Value<String?> icon = const Value.absent(),
+    Value<String?> fieldOfStudy = const Value.absent(),
+    Value<String?> fundingType = const Value.absent(),
+    Value<String?> fundingAmount = const Value.absent(),
+    Value<DateTime?> applicationDeadline = const Value.absent(),
+    Value<DateTime?> programStartDate = const Value.absent(),
+    Value<int?> applicationDurationMonths = const Value.absent(),
     Value<String?> eligibility = const Value.absent(),
+    Value<String?> requiredGPA = const Value.absent(),
+    Value<String?> languageRequirements = const Value.absent(),
+    Value<String?> color = const Value.absent(),
+    Value<String?> icon = const Value.absent(),
+    Value<String?> website = const Value.absent(),
     int? version,
     Value<DateTime?> lastUpdated = const Value.absent(),
     Value<String?> author = const Value.absent(),
+    Value<int?> usageCount = const Value.absent(),
+    Value<int?> successRate = const Value.absent(),
+    Value<double?> averageMatchScore = const Value.absent(),
+    bool? isActive,
+    bool? isFeatured,
   }) => ScholarshipTemplate(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -816,15 +1328,43 @@ class ScholarshipTemplate extends DataClass
     shortDescription: shortDescription.present
         ? shortDescription.value
         : this.shortDescription,
+    longDescription: longDescription.present
+        ? longDescription.value
+        : this.longDescription,
     country: country.present ? country.value : this.country,
     studyLevel: studyLevel ?? this.studyLevel,
-    color: color.present ? color.value : this.color,
-    website: website.present ? website.value : this.website,
-    icon: icon.present ? icon.value : this.icon,
+    fieldOfStudy: fieldOfStudy.present ? fieldOfStudy.value : this.fieldOfStudy,
+    fundingType: fundingType.present ? fundingType.value : this.fundingType,
+    fundingAmount: fundingAmount.present
+        ? fundingAmount.value
+        : this.fundingAmount,
+    applicationDeadline: applicationDeadline.present
+        ? applicationDeadline.value
+        : this.applicationDeadline,
+    programStartDate: programStartDate.present
+        ? programStartDate.value
+        : this.programStartDate,
+    applicationDurationMonths: applicationDurationMonths.present
+        ? applicationDurationMonths.value
+        : this.applicationDurationMonths,
     eligibility: eligibility.present ? eligibility.value : this.eligibility,
+    requiredGPA: requiredGPA.present ? requiredGPA.value : this.requiredGPA,
+    languageRequirements: languageRequirements.present
+        ? languageRequirements.value
+        : this.languageRequirements,
+    color: color.present ? color.value : this.color,
+    icon: icon.present ? icon.value : this.icon,
+    website: website.present ? website.value : this.website,
     version: version ?? this.version,
     lastUpdated: lastUpdated.present ? lastUpdated.value : this.lastUpdated,
     author: author.present ? author.value : this.author,
+    usageCount: usageCount.present ? usageCount.value : this.usageCount,
+    successRate: successRate.present ? successRate.value : this.successRate,
+    averageMatchScore: averageMatchScore.present
+        ? averageMatchScore.value
+        : this.averageMatchScore,
+    isActive: isActive ?? this.isActive,
+    isFeatured: isFeatured ?? this.isFeatured,
   );
   ScholarshipTemplate copyWithCompanion(ScholarshipTemplatesCompanion data) {
     return ScholarshipTemplate(
@@ -836,21 +1376,61 @@ class ScholarshipTemplate extends DataClass
       shortDescription: data.shortDescription.present
           ? data.shortDescription.value
           : this.shortDescription,
+      longDescription: data.longDescription.present
+          ? data.longDescription.value
+          : this.longDescription,
       country: data.country.present ? data.country.value : this.country,
       studyLevel: data.studyLevel.present
           ? data.studyLevel.value
           : this.studyLevel,
-      color: data.color.present ? data.color.value : this.color,
-      website: data.website.present ? data.website.value : this.website,
-      icon: data.icon.present ? data.icon.value : this.icon,
+      fieldOfStudy: data.fieldOfStudy.present
+          ? data.fieldOfStudy.value
+          : this.fieldOfStudy,
+      fundingType: data.fundingType.present
+          ? data.fundingType.value
+          : this.fundingType,
+      fundingAmount: data.fundingAmount.present
+          ? data.fundingAmount.value
+          : this.fundingAmount,
+      applicationDeadline: data.applicationDeadline.present
+          ? data.applicationDeadline.value
+          : this.applicationDeadline,
+      programStartDate: data.programStartDate.present
+          ? data.programStartDate.value
+          : this.programStartDate,
+      applicationDurationMonths: data.applicationDurationMonths.present
+          ? data.applicationDurationMonths.value
+          : this.applicationDurationMonths,
       eligibility: data.eligibility.present
           ? data.eligibility.value
           : this.eligibility,
+      requiredGPA: data.requiredGPA.present
+          ? data.requiredGPA.value
+          : this.requiredGPA,
+      languageRequirements: data.languageRequirements.present
+          ? data.languageRequirements.value
+          : this.languageRequirements,
+      color: data.color.present ? data.color.value : this.color,
+      icon: data.icon.present ? data.icon.value : this.icon,
+      website: data.website.present ? data.website.value : this.website,
       version: data.version.present ? data.version.value : this.version,
       lastUpdated: data.lastUpdated.present
           ? data.lastUpdated.value
           : this.lastUpdated,
       author: data.author.present ? data.author.value : this.author,
+      usageCount: data.usageCount.present
+          ? data.usageCount.value
+          : this.usageCount,
+      successRate: data.successRate.present
+          ? data.successRate.value
+          : this.successRate,
+      averageMatchScore: data.averageMatchScore.present
+          ? data.averageMatchScore.value
+          : this.averageMatchScore,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      isFeatured: data.isFeatured.present
+          ? data.isFeatured.value
+          : this.isFeatured,
     );
   }
 
@@ -861,35 +1441,63 @@ class ScholarshipTemplate extends DataClass
           ..write('name: $name, ')
           ..write('providerName: $providerName, ')
           ..write('shortDescription: $shortDescription, ')
+          ..write('longDescription: $longDescription, ')
           ..write('country: $country, ')
           ..write('studyLevel: $studyLevel, ')
-          ..write('color: $color, ')
-          ..write('website: $website, ')
-          ..write('icon: $icon, ')
+          ..write('fieldOfStudy: $fieldOfStudy, ')
+          ..write('fundingType: $fundingType, ')
+          ..write('fundingAmount: $fundingAmount, ')
+          ..write('applicationDeadline: $applicationDeadline, ')
+          ..write('programStartDate: $programStartDate, ')
+          ..write('applicationDurationMonths: $applicationDurationMonths, ')
           ..write('eligibility: $eligibility, ')
+          ..write('requiredGPA: $requiredGPA, ')
+          ..write('languageRequirements: $languageRequirements, ')
+          ..write('color: $color, ')
+          ..write('icon: $icon, ')
+          ..write('website: $website, ')
           ..write('version: $version, ')
           ..write('lastUpdated: $lastUpdated, ')
-          ..write('author: $author')
+          ..write('author: $author, ')
+          ..write('usageCount: $usageCount, ')
+          ..write('successRate: $successRate, ')
+          ..write('averageMatchScore: $averageMatchScore, ')
+          ..write('isActive: $isActive, ')
+          ..write('isFeatured: $isFeatured')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     name,
     providerName,
     shortDescription,
+    longDescription,
     country,
     studyLevel,
-    color,
-    website,
-    icon,
+    fieldOfStudy,
+    fundingType,
+    fundingAmount,
+    applicationDeadline,
+    programStartDate,
+    applicationDurationMonths,
     eligibility,
+    requiredGPA,
+    languageRequirements,
+    color,
+    icon,
+    website,
     version,
     lastUpdated,
     author,
-  );
+    usageCount,
+    successRate,
+    averageMatchScore,
+    isActive,
+    isFeatured,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -898,15 +1506,29 @@ class ScholarshipTemplate extends DataClass
           other.name == this.name &&
           other.providerName == this.providerName &&
           other.shortDescription == this.shortDescription &&
+          other.longDescription == this.longDescription &&
           other.country == this.country &&
           other.studyLevel == this.studyLevel &&
-          other.color == this.color &&
-          other.website == this.website &&
-          other.icon == this.icon &&
+          other.fieldOfStudy == this.fieldOfStudy &&
+          other.fundingType == this.fundingType &&
+          other.fundingAmount == this.fundingAmount &&
+          other.applicationDeadline == this.applicationDeadline &&
+          other.programStartDate == this.programStartDate &&
+          other.applicationDurationMonths == this.applicationDurationMonths &&
           other.eligibility == this.eligibility &&
+          other.requiredGPA == this.requiredGPA &&
+          other.languageRequirements == this.languageRequirements &&
+          other.color == this.color &&
+          other.icon == this.icon &&
+          other.website == this.website &&
           other.version == this.version &&
           other.lastUpdated == this.lastUpdated &&
-          other.author == this.author);
+          other.author == this.author &&
+          other.usageCount == this.usageCount &&
+          other.successRate == this.successRate &&
+          other.averageMatchScore == this.averageMatchScore &&
+          other.isActive == this.isActive &&
+          other.isFeatured == this.isFeatured);
 }
 
 class ScholarshipTemplatesCompanion
@@ -915,30 +1537,58 @@ class ScholarshipTemplatesCompanion
   final Value<String> name;
   final Value<String> providerName;
   final Value<String?> shortDescription;
+  final Value<String?> longDescription;
   final Value<String?> country;
   final Value<String> studyLevel;
-  final Value<String?> color;
-  final Value<String?> website;
-  final Value<String?> icon;
+  final Value<String?> fieldOfStudy;
+  final Value<String?> fundingType;
+  final Value<String?> fundingAmount;
+  final Value<DateTime?> applicationDeadline;
+  final Value<DateTime?> programStartDate;
+  final Value<int?> applicationDurationMonths;
   final Value<String?> eligibility;
+  final Value<String?> requiredGPA;
+  final Value<String?> languageRequirements;
+  final Value<String?> color;
+  final Value<String?> icon;
+  final Value<String?> website;
   final Value<int> version;
   final Value<DateTime?> lastUpdated;
   final Value<String?> author;
+  final Value<int?> usageCount;
+  final Value<int?> successRate;
+  final Value<double?> averageMatchScore;
+  final Value<bool> isActive;
+  final Value<bool> isFeatured;
   final Value<int> rowid;
   const ScholarshipTemplatesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.providerName = const Value.absent(),
     this.shortDescription = const Value.absent(),
+    this.longDescription = const Value.absent(),
     this.country = const Value.absent(),
     this.studyLevel = const Value.absent(),
-    this.color = const Value.absent(),
-    this.website = const Value.absent(),
-    this.icon = const Value.absent(),
+    this.fieldOfStudy = const Value.absent(),
+    this.fundingType = const Value.absent(),
+    this.fundingAmount = const Value.absent(),
+    this.applicationDeadline = const Value.absent(),
+    this.programStartDate = const Value.absent(),
+    this.applicationDurationMonths = const Value.absent(),
     this.eligibility = const Value.absent(),
+    this.requiredGPA = const Value.absent(),
+    this.languageRequirements = const Value.absent(),
+    this.color = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.website = const Value.absent(),
     this.version = const Value.absent(),
     this.lastUpdated = const Value.absent(),
     this.author = const Value.absent(),
+    this.usageCount = const Value.absent(),
+    this.successRate = const Value.absent(),
+    this.averageMatchScore = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isFeatured = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ScholarshipTemplatesCompanion.insert({
@@ -946,15 +1596,29 @@ class ScholarshipTemplatesCompanion
     required String name,
     required String providerName,
     this.shortDescription = const Value.absent(),
+    this.longDescription = const Value.absent(),
     this.country = const Value.absent(),
     required String studyLevel,
-    this.color = const Value.absent(),
-    this.website = const Value.absent(),
-    this.icon = const Value.absent(),
+    this.fieldOfStudy = const Value.absent(),
+    this.fundingType = const Value.absent(),
+    this.fundingAmount = const Value.absent(),
+    this.applicationDeadline = const Value.absent(),
+    this.programStartDate = const Value.absent(),
+    this.applicationDurationMonths = const Value.absent(),
     this.eligibility = const Value.absent(),
+    this.requiredGPA = const Value.absent(),
+    this.languageRequirements = const Value.absent(),
+    this.color = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.website = const Value.absent(),
     this.version = const Value.absent(),
     this.lastUpdated = const Value.absent(),
     this.author = const Value.absent(),
+    this.usageCount = const Value.absent(),
+    this.successRate = const Value.absent(),
+    this.averageMatchScore = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.isFeatured = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -965,15 +1629,29 @@ class ScholarshipTemplatesCompanion
     Expression<String>? name,
     Expression<String>? providerName,
     Expression<String>? shortDescription,
+    Expression<String>? longDescription,
     Expression<String>? country,
     Expression<String>? studyLevel,
-    Expression<String>? color,
-    Expression<String>? website,
-    Expression<String>? icon,
+    Expression<String>? fieldOfStudy,
+    Expression<String>? fundingType,
+    Expression<String>? fundingAmount,
+    Expression<DateTime>? applicationDeadline,
+    Expression<DateTime>? programStartDate,
+    Expression<int>? applicationDurationMonths,
     Expression<String>? eligibility,
+    Expression<String>? requiredGPA,
+    Expression<String>? languageRequirements,
+    Expression<String>? color,
+    Expression<String>? icon,
+    Expression<String>? website,
     Expression<int>? version,
     Expression<DateTime>? lastUpdated,
     Expression<String>? author,
+    Expression<int>? usageCount,
+    Expression<int>? successRate,
+    Expression<double>? averageMatchScore,
+    Expression<bool>? isActive,
+    Expression<bool>? isFeatured,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -981,15 +1659,32 @@ class ScholarshipTemplatesCompanion
       if (name != null) 'name': name,
       if (providerName != null) 'provider_name': providerName,
       if (shortDescription != null) 'short_description': shortDescription,
+      if (longDescription != null) 'long_description': longDescription,
       if (country != null) 'country': country,
       if (studyLevel != null) 'study_level': studyLevel,
-      if (color != null) 'default_color': color,
-      if (website != null) 'official_url': website,
-      if (icon != null) 'icon': icon,
+      if (fieldOfStudy != null) 'field_of_study': fieldOfStudy,
+      if (fundingType != null) 'funding_type': fundingType,
+      if (fundingAmount != null) 'funding_amount': fundingAmount,
+      if (applicationDeadline != null)
+        'application_deadline': applicationDeadline,
+      if (programStartDate != null) 'program_start_date': programStartDate,
+      if (applicationDurationMonths != null)
+        'application_duration_months': applicationDurationMonths,
       if (eligibility != null) 'eligibility': eligibility,
+      if (requiredGPA != null) 'required_g_p_a': requiredGPA,
+      if (languageRequirements != null)
+        'language_requirements': languageRequirements,
+      if (color != null) 'default_color': color,
+      if (icon != null) 'icon': icon,
+      if (website != null) 'official_url': website,
       if (version != null) 'version': version,
       if (lastUpdated != null) 'last_updated': lastUpdated,
       if (author != null) 'author': author,
+      if (usageCount != null) 'usage_count': usageCount,
+      if (successRate != null) 'success_rate': successRate,
+      if (averageMatchScore != null) 'average_match_score': averageMatchScore,
+      if (isActive != null) 'is_active': isActive,
+      if (isFeatured != null) 'is_featured': isFeatured,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -999,15 +1694,29 @@ class ScholarshipTemplatesCompanion
     Value<String>? name,
     Value<String>? providerName,
     Value<String?>? shortDescription,
+    Value<String?>? longDescription,
     Value<String?>? country,
     Value<String>? studyLevel,
-    Value<String?>? color,
-    Value<String?>? website,
-    Value<String?>? icon,
+    Value<String?>? fieldOfStudy,
+    Value<String?>? fundingType,
+    Value<String?>? fundingAmount,
+    Value<DateTime?>? applicationDeadline,
+    Value<DateTime?>? programStartDate,
+    Value<int?>? applicationDurationMonths,
     Value<String?>? eligibility,
+    Value<String?>? requiredGPA,
+    Value<String?>? languageRequirements,
+    Value<String?>? color,
+    Value<String?>? icon,
+    Value<String?>? website,
     Value<int>? version,
     Value<DateTime?>? lastUpdated,
     Value<String?>? author,
+    Value<int?>? usageCount,
+    Value<int?>? successRate,
+    Value<double?>? averageMatchScore,
+    Value<bool>? isActive,
+    Value<bool>? isFeatured,
     Value<int>? rowid,
   }) {
     return ScholarshipTemplatesCompanion(
@@ -1015,15 +1724,30 @@ class ScholarshipTemplatesCompanion
       name: name ?? this.name,
       providerName: providerName ?? this.providerName,
       shortDescription: shortDescription ?? this.shortDescription,
+      longDescription: longDescription ?? this.longDescription,
       country: country ?? this.country,
       studyLevel: studyLevel ?? this.studyLevel,
-      color: color ?? this.color,
-      website: website ?? this.website,
-      icon: icon ?? this.icon,
+      fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
+      fundingType: fundingType ?? this.fundingType,
+      fundingAmount: fundingAmount ?? this.fundingAmount,
+      applicationDeadline: applicationDeadline ?? this.applicationDeadline,
+      programStartDate: programStartDate ?? this.programStartDate,
+      applicationDurationMonths:
+          applicationDurationMonths ?? this.applicationDurationMonths,
       eligibility: eligibility ?? this.eligibility,
+      requiredGPA: requiredGPA ?? this.requiredGPA,
+      languageRequirements: languageRequirements ?? this.languageRequirements,
+      color: color ?? this.color,
+      icon: icon ?? this.icon,
+      website: website ?? this.website,
       version: version ?? this.version,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       author: author ?? this.author,
+      usageCount: usageCount ?? this.usageCount,
+      successRate: successRate ?? this.successRate,
+      averageMatchScore: averageMatchScore ?? this.averageMatchScore,
+      isActive: isActive ?? this.isActive,
+      isFeatured: isFeatured ?? this.isFeatured,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1043,23 +1767,56 @@ class ScholarshipTemplatesCompanion
     if (shortDescription.present) {
       map['short_description'] = Variable<String>(shortDescription.value);
     }
+    if (longDescription.present) {
+      map['long_description'] = Variable<String>(longDescription.value);
+    }
     if (country.present) {
       map['country'] = Variable<String>(country.value);
     }
     if (studyLevel.present) {
       map['study_level'] = Variable<String>(studyLevel.value);
     }
+    if (fieldOfStudy.present) {
+      map['field_of_study'] = Variable<String>(fieldOfStudy.value);
+    }
+    if (fundingType.present) {
+      map['funding_type'] = Variable<String>(fundingType.value);
+    }
+    if (fundingAmount.present) {
+      map['funding_amount'] = Variable<String>(fundingAmount.value);
+    }
+    if (applicationDeadline.present) {
+      map['application_deadline'] = Variable<DateTime>(
+        applicationDeadline.value,
+      );
+    }
+    if (programStartDate.present) {
+      map['program_start_date'] = Variable<DateTime>(programStartDate.value);
+    }
+    if (applicationDurationMonths.present) {
+      map['application_duration_months'] = Variable<int>(
+        applicationDurationMonths.value,
+      );
+    }
+    if (eligibility.present) {
+      map['eligibility'] = Variable<String>(eligibility.value);
+    }
+    if (requiredGPA.present) {
+      map['required_g_p_a'] = Variable<String>(requiredGPA.value);
+    }
+    if (languageRequirements.present) {
+      map['language_requirements'] = Variable<String>(
+        languageRequirements.value,
+      );
+    }
     if (color.present) {
       map['default_color'] = Variable<String>(color.value);
-    }
-    if (website.present) {
-      map['official_url'] = Variable<String>(website.value);
     }
     if (icon.present) {
       map['icon'] = Variable<String>(icon.value);
     }
-    if (eligibility.present) {
-      map['eligibility'] = Variable<String>(eligibility.value);
+    if (website.present) {
+      map['official_url'] = Variable<String>(website.value);
     }
     if (version.present) {
       map['version'] = Variable<int>(version.value);
@@ -1069,6 +1826,21 @@ class ScholarshipTemplatesCompanion
     }
     if (author.present) {
       map['author'] = Variable<String>(author.value);
+    }
+    if (usageCount.present) {
+      map['usage_count'] = Variable<int>(usageCount.value);
+    }
+    if (successRate.present) {
+      map['success_rate'] = Variable<int>(successRate.value);
+    }
+    if (averageMatchScore.present) {
+      map['average_match_score'] = Variable<double>(averageMatchScore.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (isFeatured.present) {
+      map['is_featured'] = Variable<bool>(isFeatured.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1083,15 +1855,29 @@ class ScholarshipTemplatesCompanion
           ..write('name: $name, ')
           ..write('providerName: $providerName, ')
           ..write('shortDescription: $shortDescription, ')
+          ..write('longDescription: $longDescription, ')
           ..write('country: $country, ')
           ..write('studyLevel: $studyLevel, ')
-          ..write('color: $color, ')
-          ..write('website: $website, ')
-          ..write('icon: $icon, ')
+          ..write('fieldOfStudy: $fieldOfStudy, ')
+          ..write('fundingType: $fundingType, ')
+          ..write('fundingAmount: $fundingAmount, ')
+          ..write('applicationDeadline: $applicationDeadline, ')
+          ..write('programStartDate: $programStartDate, ')
+          ..write('applicationDurationMonths: $applicationDurationMonths, ')
           ..write('eligibility: $eligibility, ')
+          ..write('requiredGPA: $requiredGPA, ')
+          ..write('languageRequirements: $languageRequirements, ')
+          ..write('color: $color, ')
+          ..write('icon: $icon, ')
+          ..write('website: $website, ')
           ..write('version: $version, ')
           ..write('lastUpdated: $lastUpdated, ')
           ..write('author: $author, ')
+          ..write('usageCount: $usageCount, ')
+          ..write('successRate: $successRate, ')
+          ..write('averageMatchScore: $averageMatchScore, ')
+          ..write('isActive: $isActive, ')
+          ..write('isFeatured: $isFeatured, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2988,15 +3774,29 @@ typedef $$ScholarshipTemplatesTableCreateCompanionBuilder =
       required String name,
       required String providerName,
       Value<String?> shortDescription,
+      Value<String?> longDescription,
       Value<String?> country,
       required String studyLevel,
-      Value<String?> color,
-      Value<String?> website,
-      Value<String?> icon,
+      Value<String?> fieldOfStudy,
+      Value<String?> fundingType,
+      Value<String?> fundingAmount,
+      Value<DateTime?> applicationDeadline,
+      Value<DateTime?> programStartDate,
+      Value<int?> applicationDurationMonths,
       Value<String?> eligibility,
+      Value<String?> requiredGPA,
+      Value<String?> languageRequirements,
+      Value<String?> color,
+      Value<String?> icon,
+      Value<String?> website,
       Value<int> version,
       Value<DateTime?> lastUpdated,
       Value<String?> author,
+      Value<int?> usageCount,
+      Value<int?> successRate,
+      Value<double?> averageMatchScore,
+      Value<bool> isActive,
+      Value<bool> isFeatured,
       Value<int> rowid,
     });
 typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
@@ -3005,15 +3805,29 @@ typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String> providerName,
       Value<String?> shortDescription,
+      Value<String?> longDescription,
       Value<String?> country,
       Value<String> studyLevel,
-      Value<String?> color,
-      Value<String?> website,
-      Value<String?> icon,
+      Value<String?> fieldOfStudy,
+      Value<String?> fundingType,
+      Value<String?> fundingAmount,
+      Value<DateTime?> applicationDeadline,
+      Value<DateTime?> programStartDate,
+      Value<int?> applicationDurationMonths,
       Value<String?> eligibility,
+      Value<String?> requiredGPA,
+      Value<String?> languageRequirements,
+      Value<String?> color,
+      Value<String?> icon,
+      Value<String?> website,
       Value<int> version,
       Value<DateTime?> lastUpdated,
       Value<String?> author,
+      Value<int?> usageCount,
+      Value<int?> successRate,
+      Value<double?> averageMatchScore,
+      Value<bool> isActive,
+      Value<bool> isFeatured,
       Value<int> rowid,
     });
 
@@ -3126,6 +3940,11 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get longDescription => $composableBuilder(
+    column: $table.longDescription,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get country => $composableBuilder(
     column: $table.country,
     builder: (column) => ColumnFilters(column),
@@ -3136,13 +3955,53 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get color => $composableBuilder(
-    column: $table.color,
+  ColumnFilters<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get website => $composableBuilder(
-    column: $table.website,
+  ColumnFilters<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fundingAmount => $composableBuilder(
+    column: $table.fundingAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get programStartDate => $composableBuilder(
+    column: $table.programStartDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get applicationDurationMonths => $composableBuilder(
+    column: $table.applicationDurationMonths,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get eligibility => $composableBuilder(
+    column: $table.eligibility,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get requiredGPA => $composableBuilder(
+    column: $table.requiredGPA,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get color => $composableBuilder(
+    column: $table.color,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3151,8 +4010,8 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get eligibility => $composableBuilder(
-    column: $table.eligibility,
+  ColumnFilters<String> get website => $composableBuilder(
+    column: $table.website,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3168,6 +4027,31 @@ class $$ScholarshipTemplatesTableFilterComposer
 
   ColumnFilters<String> get author => $composableBuilder(
     column: $table.author,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get successRate => $composableBuilder(
+    column: $table.successRate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get averageMatchScore => $composableBuilder(
+    column: $table.averageMatchScore,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isFeatured => $composableBuilder(
+    column: $table.isFeatured,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3276,6 +4160,11 @@ class $$ScholarshipTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get longDescription => $composableBuilder(
+    column: $table.longDescription,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get country => $composableBuilder(
     column: $table.country,
     builder: (column) => ColumnOrderings(column),
@@ -3286,13 +4175,53 @@ class $$ScholarshipTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get color => $composableBuilder(
-    column: $table.color,
+  ColumnOrderings<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get website => $composableBuilder(
-    column: $table.website,
+  ColumnOrderings<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fundingAmount => $composableBuilder(
+    column: $table.fundingAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get programStartDate => $composableBuilder(
+    column: $table.programStartDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get applicationDurationMonths => $composableBuilder(
+    column: $table.applicationDurationMonths,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get eligibility => $composableBuilder(
+    column: $table.eligibility,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get requiredGPA => $composableBuilder(
+    column: $table.requiredGPA,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get color => $composableBuilder(
+    column: $table.color,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3301,8 +4230,8 @@ class $$ScholarshipTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get eligibility => $composableBuilder(
-    column: $table.eligibility,
+  ColumnOrderings<String> get website => $composableBuilder(
+    column: $table.website,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3318,6 +4247,31 @@ class $$ScholarshipTemplatesTableOrderingComposer
 
   ColumnOrderings<String> get author => $composableBuilder(
     column: $table.author,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get successRate => $composableBuilder(
+    column: $table.successRate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get averageMatchScore => $composableBuilder(
+    column: $table.averageMatchScore,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isFeatured => $composableBuilder(
+    column: $table.isFeatured,
     builder: (column) => ColumnOrderings(column),
   );
 }
@@ -3347,6 +4301,11 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get longDescription => $composableBuilder(
+    column: $table.longDescription,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get country =>
       $composableBuilder(column: $table.country, builder: (column) => column);
 
@@ -3355,19 +4314,59 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get color =>
-      $composableBuilder(column: $table.color, builder: (column) => column);
+  GeneratedColumn<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
+    builder: (column) => column,
+  );
 
-  GeneratedColumn<String> get website =>
-      $composableBuilder(column: $table.website, builder: (column) => column);
+  GeneratedColumn<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => column,
+  );
 
-  GeneratedColumn<String> get icon =>
-      $composableBuilder(column: $table.icon, builder: (column) => column);
+  GeneratedColumn<String> get fundingAmount => $composableBuilder(
+    column: $table.fundingAmount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get programStartDate => $composableBuilder(
+    column: $table.programStartDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get applicationDurationMonths => $composableBuilder(
+    column: $table.applicationDurationMonths,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get eligibility => $composableBuilder(
     column: $table.eligibility,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get requiredGPA => $composableBuilder(
+    column: $table.requiredGPA,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<String> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
+
+  GeneratedColumn<String> get website =>
+      $composableBuilder(column: $table.website, builder: (column) => column);
 
   GeneratedColumn<int> get version =>
       $composableBuilder(column: $table.version, builder: (column) => column);
@@ -3379,6 +4378,29 @@ class $$ScholarshipTemplatesTableAnnotationComposer
 
   GeneratedColumn<String> get author =>
       $composableBuilder(column: $table.author, builder: (column) => column);
+
+  GeneratedColumn<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get successRate => $composableBuilder(
+    column: $table.successRate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get averageMatchScore => $composableBuilder(
+    column: $table.averageMatchScore,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFeatured => $composableBuilder(
+    column: $table.isFeatured,
+    builder: (column) => column,
+  );
 
   Expression<T> applicationsRefs<T extends Object>(
     Expression<T> Function($$ApplicationsTableAnnotationComposer a) f,
@@ -3501,30 +4523,58 @@ class $$ScholarshipTemplatesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String> providerName = const Value.absent(),
                 Value<String?> shortDescription = const Value.absent(),
+                Value<String?> longDescription = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<String> studyLevel = const Value.absent(),
-                Value<String?> color = const Value.absent(),
-                Value<String?> website = const Value.absent(),
-                Value<String?> icon = const Value.absent(),
+                Value<String?> fieldOfStudy = const Value.absent(),
+                Value<String?> fundingType = const Value.absent(),
+                Value<String?> fundingAmount = const Value.absent(),
+                Value<DateTime?> applicationDeadline = const Value.absent(),
+                Value<DateTime?> programStartDate = const Value.absent(),
+                Value<int?> applicationDurationMonths = const Value.absent(),
                 Value<String?> eligibility = const Value.absent(),
+                Value<String?> requiredGPA = const Value.absent(),
+                Value<String?> languageRequirements = const Value.absent(),
+                Value<String?> color = const Value.absent(),
+                Value<String?> icon = const Value.absent(),
+                Value<String?> website = const Value.absent(),
                 Value<int> version = const Value.absent(),
                 Value<DateTime?> lastUpdated = const Value.absent(),
                 Value<String?> author = const Value.absent(),
+                Value<int?> usageCount = const Value.absent(),
+                Value<int?> successRate = const Value.absent(),
+                Value<double?> averageMatchScore = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<bool> isFeatured = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScholarshipTemplatesCompanion(
                 id: id,
                 name: name,
                 providerName: providerName,
                 shortDescription: shortDescription,
+                longDescription: longDescription,
                 country: country,
                 studyLevel: studyLevel,
-                color: color,
-                website: website,
-                icon: icon,
+                fieldOfStudy: fieldOfStudy,
+                fundingType: fundingType,
+                fundingAmount: fundingAmount,
+                applicationDeadline: applicationDeadline,
+                programStartDate: programStartDate,
+                applicationDurationMonths: applicationDurationMonths,
                 eligibility: eligibility,
+                requiredGPA: requiredGPA,
+                languageRequirements: languageRequirements,
+                color: color,
+                icon: icon,
+                website: website,
                 version: version,
                 lastUpdated: lastUpdated,
                 author: author,
+                usageCount: usageCount,
+                successRate: successRate,
+                averageMatchScore: averageMatchScore,
+                isActive: isActive,
+                isFeatured: isFeatured,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3533,30 +4583,58 @@ class $$ScholarshipTemplatesTableTableManager
                 required String name,
                 required String providerName,
                 Value<String?> shortDescription = const Value.absent(),
+                Value<String?> longDescription = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 required String studyLevel,
-                Value<String?> color = const Value.absent(),
-                Value<String?> website = const Value.absent(),
-                Value<String?> icon = const Value.absent(),
+                Value<String?> fieldOfStudy = const Value.absent(),
+                Value<String?> fundingType = const Value.absent(),
+                Value<String?> fundingAmount = const Value.absent(),
+                Value<DateTime?> applicationDeadline = const Value.absent(),
+                Value<DateTime?> programStartDate = const Value.absent(),
+                Value<int?> applicationDurationMonths = const Value.absent(),
                 Value<String?> eligibility = const Value.absent(),
+                Value<String?> requiredGPA = const Value.absent(),
+                Value<String?> languageRequirements = const Value.absent(),
+                Value<String?> color = const Value.absent(),
+                Value<String?> icon = const Value.absent(),
+                Value<String?> website = const Value.absent(),
                 Value<int> version = const Value.absent(),
                 Value<DateTime?> lastUpdated = const Value.absent(),
                 Value<String?> author = const Value.absent(),
+                Value<int?> usageCount = const Value.absent(),
+                Value<int?> successRate = const Value.absent(),
+                Value<double?> averageMatchScore = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<bool> isFeatured = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScholarshipTemplatesCompanion.insert(
                 id: id,
                 name: name,
                 providerName: providerName,
                 shortDescription: shortDescription,
+                longDescription: longDescription,
                 country: country,
                 studyLevel: studyLevel,
-                color: color,
-                website: website,
-                icon: icon,
+                fieldOfStudy: fieldOfStudy,
+                fundingType: fundingType,
+                fundingAmount: fundingAmount,
+                applicationDeadline: applicationDeadline,
+                programStartDate: programStartDate,
+                applicationDurationMonths: applicationDurationMonths,
                 eligibility: eligibility,
+                requiredGPA: requiredGPA,
+                languageRequirements: languageRequirements,
+                color: color,
+                icon: icon,
+                website: website,
                 version: version,
                 lastUpdated: lastUpdated,
                 author: author,
+                usageCount: usageCount,
+                successRate: successRate,
+                averageMatchScore: averageMatchScore,
+                isActive: isActive,
+                isFeatured: isFeatured,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

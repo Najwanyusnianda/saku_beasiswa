@@ -58,5 +58,41 @@ final todaysFocusTasksProvider = AutoDisposeStreamProvider<List<Task>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodaysFocusTasksRef = AutoDisposeStreamProviderRef<List<Task>>;
+String _$overdueTasksCountHash() => r'4329b8c645a0a5374439971f53dc55862590ebe9';
+
+/// See also [overdueTasksCount].
+@ProviderFor(overdueTasksCount)
+final overdueTasksCountProvider = AutoDisposeStreamProvider<int>.internal(
+  overdueTasksCount,
+  name: r'overdueTasksCountProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$overdueTasksCountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef OverdueTasksCountRef = AutoDisposeStreamProviderRef<int>;
+String _$todaysFocusHash() => r'21d1989d9793520eebc83bd784752cc6dd377e0f';
+
+/// See also [todaysFocus].
+@ProviderFor(todaysFocus)
+final todaysFocusProvider =
+    AutoDisposeStreamProvider<List<TaskWithApplicationInfo>>.internal(
+      todaysFocus,
+      name: r'todaysFocusProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$todaysFocusHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef TodaysFocusRef =
+    AutoDisposeStreamProviderRef<List<TaskWithApplicationInfo>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

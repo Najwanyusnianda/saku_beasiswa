@@ -35,7 +35,7 @@ class CustomiseWizardState {
     List<TemplateDocument>? customizedDocuments,
   }) {
     return CustomiseWizardState(
-      fullTemplate: this.fullTemplate,
+      fullTemplate: fullTemplate,
       mainDeadline: mainDeadline ?? this.mainDeadline,
       customizedTasks: customizedTasks ?? this.customizedTasks,
       customizedDocuments: customizedDocuments ?? this.customizedDocuments,

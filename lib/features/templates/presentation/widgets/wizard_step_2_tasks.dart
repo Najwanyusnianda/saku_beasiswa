@@ -58,7 +58,7 @@ class WizardStep2Tasks extends ConsumerWidget {
           ),
         
         // Show toggled-off tasks with strikethrough
-        const Divider(),
+        const Divider(key: ValueKey('divider')),
         ...allTasks
             .where((task) => !selectedTasks.any((t) => t.id == task.id))
             .map((task) => SwitchListTile(

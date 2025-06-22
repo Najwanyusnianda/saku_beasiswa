@@ -1,3 +1,4 @@
+// lib/core/database/tables/tasks.dart
 import 'package:drift/drift.dart';
 import 'applications.dart';
 

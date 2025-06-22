@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -43,8 +44,10 @@ part 'app_database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
+  AppDatabase.forTesting(super.e);
+
   @override
-  int get schemaVersion => 7; // Incremented from 6 to 7
+  int get schemaVersion => 9; // Incremented from 6 to 7
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -72,6 +75,13 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(applications, applications.customName);
             await m.addColumn(applications, applications.customColor);
             await m.addColumn(applications, applications.customIcon);
+          }
+          if (from < 9) {
+            // --- Logika Migrasi untuk Skema Template Baru ---
+            // Hapus tabel lama jika ada (opsional, tapi lebih bersih)
+            await m.deleteTable('scholarship_templates');
+            // Buat kembali tabel dengan skema baru yang lengkap
+            await m.createTable(scholarshipTemplates);
           }
         },
   );

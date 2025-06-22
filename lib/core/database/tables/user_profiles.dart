@@ -1,3 +1,4 @@
+// lib/core/database/tables/user_profiles.dart
 import 'package:drift/drift.dart';
 
 @DataClassName('UserProfile')

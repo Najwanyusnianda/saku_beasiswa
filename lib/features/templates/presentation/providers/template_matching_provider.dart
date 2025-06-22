@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart' as drift;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

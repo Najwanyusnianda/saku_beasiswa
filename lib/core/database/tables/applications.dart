@@ -1,3 +1,4 @@
+// lib/core/database/tables/applications.dart
 import 'package:drift/drift.dart';
 import 'scholarship_templates.dart';
 

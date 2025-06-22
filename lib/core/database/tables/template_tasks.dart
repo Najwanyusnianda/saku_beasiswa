@@ -1,3 +1,4 @@
+// lib/core/database/tables/template_tasks.dart
 import 'package:drift/drift.dart';
 import 'package:saku_beasiswa/core/database/tables/scholarship_templates.dart';
 

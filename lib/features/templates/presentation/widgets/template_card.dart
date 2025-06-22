@@ -30,7 +30,7 @@ class TemplateCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 child: const Icon(Iconsax.award, color: AppColors.primary),
               ),
               const SizedBox(width: 16),
