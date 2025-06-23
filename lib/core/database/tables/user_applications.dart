@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:saku_beasiswa/core/database/tables/scholarship_templates.dart';
+import 'package:saku_beasiswa/core/enums/document_status.dart';
 
 
 
@@ -50,4 +51,22 @@ class UserTasks extends Table {
   
   // Concrete due date, calculated from milestone end + task offset
   DateTimeColumn get dueDate => dateTime()();
+}
+
+
+
+
+@DataClassName('UserDocument')
+class UserDocuments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userApplicationId => integer().references(UserApplications, #id)();
+  
+  // The name of the document, e.g., "Scan Ijazah S1"
+  TextColumn get name => text()();
+  
+  // The current status of this document for this application
+  IntColumn get status => intEnum<DocumentStatus>().withDefault(const Constant(0))();
+  
+  // Optional notes specific to this document
+  TextColumn get notes => text().nullable()();
 }

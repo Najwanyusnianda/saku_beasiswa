@@ -41,6 +41,7 @@ part 'app_database.g.dart';
     UserApplications,
     UserMilestones,
     UserTasks,
+    UserDocuments,
   ]
 )
 class AppDatabase extends _$AppDatabase {
@@ -49,7 +50,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 11; // bumped for user application tables
+  int get schemaVersion => 12; // bumped for user documents table
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -97,6 +98,9 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(userApplications);
             await m.createTable(userMilestones);
             await m.createTable(userTasks);
+          }
+          if (from < 12) {
+            await m.createTable(UserDocuments);
           }
         },
   );

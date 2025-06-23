@@ -27,24 +27,22 @@ class WizardStep2Timeline extends ConsumerWidget {
     return WizardCard(
       step: 2,
       title: 'Review Your Timeline',
-      child: Expanded(
-        child: ListView(
-          children: [
-            const Text(
-              "Here is your calculated schedule. You can adjust individual milestone deadlines or uncheck tasks you don't need.",
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            ...wizardState.fullTemplate.milestonesWithTasks.entries.map((entry) {
-              return _MilestoneEditorTile(
-                milestone: entry.key,
-                tasks: entry.value,
-                wizardState: wizardState,
-                templateId: templateId,
-              );
-            })
-          ],
-        ),
+      child: Column(
+        children: [
+          const Text(
+            "Here is your calculated schedule. You can adjust individual milestone deadlines or uncheck tasks you don't need.",
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ...wizardState.fullTemplate.milestonesWithTasks.entries.map((entry) {
+            return _MilestoneEditorTile(
+              milestone: entry.key,
+              tasks: entry.value,
+              wizardState: wizardState,
+              templateId: templateId,
+            );
+          })
+        ],
       ),
     );
   }

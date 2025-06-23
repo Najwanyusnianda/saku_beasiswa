@@ -3943,6 +3943,368 @@ class UserTasksCompanion extends UpdateCompanion<UserTask> {
   }
 }
 
+class $UserDocumentsTable extends UserDocuments
+    with TableInfo<$UserDocumentsTable, UserDocument> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserDocumentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userApplicationIdMeta = const VerificationMeta(
+    'userApplicationId',
+  );
+  @override
+  late final GeneratedColumn<int> userApplicationId = GeneratedColumn<int>(
+    'user_application_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES user_applications (id)',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<DocumentStatus, int> status =
+      GeneratedColumn<int>(
+        'status',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(0),
+      ).withConverter<DocumentStatus>($UserDocumentsTable.$converterstatus);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userApplicationId,
+    name,
+    status,
+    notes,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_documents';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserDocument> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_application_id')) {
+      context.handle(
+        _userApplicationIdMeta,
+        userApplicationId.isAcceptableOrUnknown(
+          data['user_application_id']!,
+          _userApplicationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_userApplicationIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserDocument map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserDocument(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userApplicationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_application_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      status: $UserDocumentsTable.$converterstatus.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}status'],
+        )!,
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+    );
+  }
+
+  @override
+  $UserDocumentsTable createAlias(String alias) {
+    return $UserDocumentsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<DocumentStatus, int, int> $converterstatus =
+      const EnumIndexConverter<DocumentStatus>(DocumentStatus.values);
+}
+
+class UserDocument extends DataClass implements Insertable<UserDocument> {
+  final int id;
+  final int userApplicationId;
+  final String name;
+  final DocumentStatus status;
+  final String? notes;
+  const UserDocument({
+    required this.id,
+    required this.userApplicationId,
+    required this.name,
+    required this.status,
+    this.notes,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_application_id'] = Variable<int>(userApplicationId);
+    map['name'] = Variable<String>(name);
+    {
+      map['status'] = Variable<int>(
+        $UserDocumentsTable.$converterstatus.toSql(status),
+      );
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  UserDocumentsCompanion toCompanion(bool nullToAbsent) {
+    return UserDocumentsCompanion(
+      id: Value(id),
+      userApplicationId: Value(userApplicationId),
+      name: Value(name),
+      status: Value(status),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+    );
+  }
+
+  factory UserDocument.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserDocument(
+      id: serializer.fromJson<int>(json['id']),
+      userApplicationId: serializer.fromJson<int>(json['userApplicationId']),
+      name: serializer.fromJson<String>(json['name']),
+      status: $UserDocumentsTable.$converterstatus.fromJson(
+        serializer.fromJson<int>(json['status']),
+      ),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userApplicationId': serializer.toJson<int>(userApplicationId),
+      'name': serializer.toJson<String>(name),
+      'status': serializer.toJson<int>(
+        $UserDocumentsTable.$converterstatus.toJson(status),
+      ),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  UserDocument copyWith({
+    int? id,
+    int? userApplicationId,
+    String? name,
+    DocumentStatus? status,
+    Value<String?> notes = const Value.absent(),
+  }) => UserDocument(
+    id: id ?? this.id,
+    userApplicationId: userApplicationId ?? this.userApplicationId,
+    name: name ?? this.name,
+    status: status ?? this.status,
+    notes: notes.present ? notes.value : this.notes,
+  );
+  UserDocument copyWithCompanion(UserDocumentsCompanion data) {
+    return UserDocument(
+      id: data.id.present ? data.id.value : this.id,
+      userApplicationId: data.userApplicationId.present
+          ? data.userApplicationId.value
+          : this.userApplicationId,
+      name: data.name.present ? data.name.value : this.name,
+      status: data.status.present ? data.status.value : this.status,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserDocument(')
+          ..write('id: $id, ')
+          ..write('userApplicationId: $userApplicationId, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userApplicationId, name, status, notes);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserDocument &&
+          other.id == this.id &&
+          other.userApplicationId == this.userApplicationId &&
+          other.name == this.name &&
+          other.status == this.status &&
+          other.notes == this.notes);
+}
+
+class UserDocumentsCompanion extends UpdateCompanion<UserDocument> {
+  final Value<int> id;
+  final Value<int> userApplicationId;
+  final Value<String> name;
+  final Value<DocumentStatus> status;
+  final Value<String?> notes;
+  const UserDocumentsCompanion({
+    this.id = const Value.absent(),
+    this.userApplicationId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.status = const Value.absent(),
+    this.notes = const Value.absent(),
+  });
+  UserDocumentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int userApplicationId,
+    required String name,
+    this.status = const Value.absent(),
+    this.notes = const Value.absent(),
+  }) : userApplicationId = Value(userApplicationId),
+       name = Value(name);
+  static Insertable<UserDocument> custom({
+    Expression<int>? id,
+    Expression<int>? userApplicationId,
+    Expression<String>? name,
+    Expression<int>? status,
+    Expression<String>? notes,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userApplicationId != null) 'user_application_id': userApplicationId,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (notes != null) 'notes': notes,
+    });
+  }
+
+  UserDocumentsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userApplicationId,
+    Value<String>? name,
+    Value<DocumentStatus>? status,
+    Value<String?>? notes,
+  }) {
+    return UserDocumentsCompanion(
+      id: id ?? this.id,
+      userApplicationId: userApplicationId ?? this.userApplicationId,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userApplicationId.present) {
+      map['user_application_id'] = Variable<int>(userApplicationId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<int>(
+        $UserDocumentsTable.$converterstatus.toSql(status.value),
+      );
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserDocumentsCompanion(')
+          ..write('id: $id, ')
+          ..write('userApplicationId: $userApplicationId, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3959,6 +4321,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $UserMilestonesTable userMilestones = $UserMilestonesTable(this);
   late final $UserTasksTable userTasks = $UserTasksTable(this);
+  late final $UserDocumentsTable userDocuments = $UserDocumentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3972,6 +4335,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     userApplications,
     userMilestones,
     userTasks,
+    userDocuments,
   ];
 }
 
@@ -6214,6 +6578,27 @@ final class $$UserApplicationsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$UserDocumentsTable, List<UserDocument>>
+  _userDocumentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userDocuments,
+    aliasName: $_aliasNameGenerator(
+      db.userApplications.id,
+      db.userDocuments.userApplicationId,
+    ),
+  );
+
+  $$UserDocumentsTableProcessedTableManager get userDocumentsRefs {
+    final manager = $$UserDocumentsTableTableManager(
+      $_db,
+      $_db.userDocuments,
+    ).filter((f) => f.userApplicationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userDocumentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UserApplicationsTableFilterComposer
@@ -6294,6 +6679,31 @@ class $$UserApplicationsTableFilterComposer
           }) => $$UserMilestonesTableFilterComposer(
             $db: $db,
             $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> userDocumentsRefs(
+    Expression<bool> Function($$UserDocumentsTableFilterComposer f) f,
+  ) {
+    final $$UserDocumentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userDocuments,
+      getReferencedColumn: (t) => t.userApplicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserDocumentsTableFilterComposer(
+            $db: $db,
+            $table: $db.userDocuments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -6447,6 +6857,31 @@ class $$UserApplicationsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> userDocumentsRefs<T extends Object>(
+    Expression<T> Function($$UserDocumentsTableAnnotationComposer a) f,
+  ) {
+    final $$UserDocumentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userDocuments,
+      getReferencedColumn: (t) => t.userApplicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserDocumentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userDocuments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UserApplicationsTableTableManager
@@ -6462,7 +6897,11 @@ class $$UserApplicationsTableTableManager
           $$UserApplicationsTableUpdateCompanionBuilder,
           (UserApplication, $$UserApplicationsTableReferences),
           UserApplication,
-          PrefetchHooks Function({bool templateId, bool userMilestonesRefs})
+          PrefetchHooks Function({
+            bool templateId,
+            bool userMilestonesRefs,
+            bool userDocumentsRefs,
+          })
         > {
   $$UserApplicationsTableTableManager(
     _$AppDatabase db,
@@ -6522,11 +6961,16 @@ class $$UserApplicationsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({templateId = false, userMilestonesRefs = false}) {
+              ({
+                templateId = false,
+                userMilestonesRefs = false,
+                userDocumentsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (userMilestonesRefs) db.userMilestones,
+                    if (userDocumentsRefs) db.userDocuments,
                   ],
                   addJoins:
                       <
@@ -6585,6 +7029,27 @@ class $$UserApplicationsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (userDocumentsRefs)
+                        await $_getPrefetchedData<
+                          UserApplication,
+                          $UserApplicationsTable,
+                          UserDocument
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UserApplicationsTableReferences
+                              ._userDocumentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UserApplicationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userDocumentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userApplicationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -6605,7 +7070,11 @@ typedef $$UserApplicationsTableProcessedTableManager =
       $$UserApplicationsTableUpdateCompanionBuilder,
       (UserApplication, $$UserApplicationsTableReferences),
       UserApplication,
-      PrefetchHooks Function({bool templateId, bool userMilestonesRefs})
+      PrefetchHooks Function({
+        bool templateId,
+        bool userMilestonesRefs,
+        bool userDocumentsRefs,
+      })
     >;
 typedef $$UserMilestonesTableCreateCompanionBuilder =
     UserMilestonesCompanion Function({
@@ -7364,6 +7833,327 @@ typedef $$UserTasksTableProcessedTableManager =
       UserTask,
       PrefetchHooks Function({bool userMilestoneId})
     >;
+typedef $$UserDocumentsTableCreateCompanionBuilder =
+    UserDocumentsCompanion Function({
+      Value<int> id,
+      required int userApplicationId,
+      required String name,
+      Value<DocumentStatus> status,
+      Value<String?> notes,
+    });
+typedef $$UserDocumentsTableUpdateCompanionBuilder =
+    UserDocumentsCompanion Function({
+      Value<int> id,
+      Value<int> userApplicationId,
+      Value<String> name,
+      Value<DocumentStatus> status,
+      Value<String?> notes,
+    });
+
+final class $$UserDocumentsTableReferences
+    extends BaseReferences<_$AppDatabase, $UserDocumentsTable, UserDocument> {
+  $$UserDocumentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UserApplicationsTable _userApplicationIdTable(_$AppDatabase db) =>
+      db.userApplications.createAlias(
+        $_aliasNameGenerator(
+          db.userDocuments.userApplicationId,
+          db.userApplications.id,
+        ),
+      );
+
+  $$UserApplicationsTableProcessedTableManager get userApplicationId {
+    final $_column = $_itemColumn<int>('user_application_id')!;
+
+    final manager = $$UserApplicationsTableTableManager(
+      $_db,
+      $_db.userApplications,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userApplicationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$UserDocumentsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserDocumentsTable> {
+  $$UserDocumentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<DocumentStatus, DocumentStatus, int>
+  get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UserApplicationsTableFilterComposer get userApplicationId {
+    final $$UserApplicationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableFilterComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserDocumentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserDocumentsTable> {
+  $$UserDocumentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UserApplicationsTableOrderingComposer get userApplicationId {
+    final $$UserApplicationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserDocumentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserDocumentsTable> {
+  $$UserDocumentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<DocumentStatus, int> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  $$UserApplicationsTableAnnotationComposer get userApplicationId {
+    final $$UserApplicationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserDocumentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserDocumentsTable,
+          UserDocument,
+          $$UserDocumentsTableFilterComposer,
+          $$UserDocumentsTableOrderingComposer,
+          $$UserDocumentsTableAnnotationComposer,
+          $$UserDocumentsTableCreateCompanionBuilder,
+          $$UserDocumentsTableUpdateCompanionBuilder,
+          (UserDocument, $$UserDocumentsTableReferences),
+          UserDocument,
+          PrefetchHooks Function({bool userApplicationId})
+        > {
+  $$UserDocumentsTableTableManager(_$AppDatabase db, $UserDocumentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserDocumentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserDocumentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserDocumentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userApplicationId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DocumentStatus> status = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => UserDocumentsCompanion(
+                id: id,
+                userApplicationId: userApplicationId,
+                name: name,
+                status: status,
+                notes: notes,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userApplicationId,
+                required String name,
+                Value<DocumentStatus> status = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => UserDocumentsCompanion.insert(
+                id: id,
+                userApplicationId: userApplicationId,
+                name: name,
+                status: status,
+                notes: notes,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserDocumentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userApplicationId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userApplicationId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userApplicationId,
+                                referencedTable: $$UserDocumentsTableReferences
+                                    ._userApplicationIdTable(db),
+                                referencedColumn: $$UserDocumentsTableReferences
+                                    ._userApplicationIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$UserDocumentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserDocumentsTable,
+      UserDocument,
+      $$UserDocumentsTableFilterComposer,
+      $$UserDocumentsTableOrderingComposer,
+      $$UserDocumentsTableAnnotationComposer,
+      $$UserDocumentsTableCreateCompanionBuilder,
+      $$UserDocumentsTableUpdateCompanionBuilder,
+      (UserDocument, $$UserDocumentsTableReferences),
+      UserDocument,
+      PrefetchHooks Function({bool userApplicationId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7384,6 +8174,8 @@ class $AppDatabaseManager {
       $$UserMilestonesTableTableManager(_db, _db.userMilestones);
   $$UserTasksTableTableManager get userTasks =>
       $$UserTasksTableTableManager(_db, _db.userTasks);
+  $$UserDocumentsTableTableManager get userDocuments =>
+      $$UserDocumentsTableTableManager(_db, _db.userDocuments);
 }
 
 // **************************************************************************

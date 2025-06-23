@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Important imports for our data structures
 import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
@@ -17,11 +18,13 @@ class FullUserApplication {
   final UserApplication application;
   final ScholarshipTemplate template;
   final Map<UserMilestone, List<UserTask>> milestonesWithTasks;
+  final List<UserDocument> documents;
 
   FullUserApplication({
     required this.application,
     required this.template,
     required this.milestonesWithTasks,
+    required this.documents,
   });
 }
 
@@ -141,7 +144,7 @@ class ApplicationRepository {
       return rows.map((row) {
         final app = row.readTable(_db.userApplications);
         final template = row.readTable(_db.scholarshipTemplates);
-        return FullUserApplication(application: app, template: template, milestonesWithTasks: {}); // Return empty map for list view
+        return FullUserApplication(application: app, template: template, milestonesWithTasks: {}, documents: []); // Return empty map for list view
       }).toList();
     });
   }
@@ -201,12 +204,18 @@ class ApplicationRepository {
         .get();
       milestonesWithTasks[milestone] = tasks;
     }
-    
-    return FullUserApplication(
-      application: application,
-      template: template,
-      milestonesWithTasks: milestonesWithTasks,
-    );
+      // NEW: Fetch all UserDocuments for this application
+  final documents = await (_db.select(_db.userDocuments)
+    ..where((d) => d.userApplicationId.equals(userApplicationId)))
+    .get();
+
+  return FullUserApplication(
+    application: application,
+    template: template,
+    milestonesWithTasks: milestonesWithTasks,
+    documents: documents, // <-- PASS THE DOCUMENTS HERE
+  );
+
   }
 
   // Add this new method as well, for the completion percentage provider
@@ -303,4 +312,34 @@ Future<List<FocusTask>> getTodaysFocusTasks() async {
   return result;
 }
 
+
+// --- Milestone Management ---
+Future<UserMilestone> addUserMilestone(UserMilestonesCompanion milestone) async {
+  return _db.into(_db.userMilestones).insertReturning(milestone);
+}
+
+Future<void> updateUserMilestone(UserMilestone milestone) async {
+  await _db.update(_db.userMilestones).replace(milestone);
+}
+
+Future<void> deleteUserMilestone(int milestoneId) async {
+  // Must also delete child tasks
+  await _db.transaction(() async {
+    await (_db.delete(_db.userTasks)..where((t) => t.userMilestoneId.equals(milestoneId))).go();
+    await (_db.delete(_db.userMilestones)..where((m) => m.id.equals(milestoneId))).go();
+  });
+}
+
+// --- Task Management ---
+Future<UserTask> addUserTask(UserTasksCompanion task) async {
+  return _db.into(_db.userTasks).insertReturning(task);
+}
+
+Future<void> updateUserTask(UserTask task) async {
+  await _db.update(_db.userTasks).replace(task);
+}
+
+Future<void> deleteUserTask(int taskId) async {
+  await (_db.delete(_db.userTasks)..where((t) => t.id.equals(taskId))).go();
+}
 }

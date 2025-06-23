@@ -17,7 +17,10 @@ Future<void> seedTemplates(AppDatabase db) async {
 // --- REFACTORED LPDP SEED FUNCTION ---
 Future<void> _seedLPDP(AppDatabase db) async {
     const templateId = 'lpdp_master_2025';
-
+    await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = ?);', [templateId]);
+    await db.customStatement('DELETE FROM template_milestones WHERE template_id = ?;', [templateId]);
+  await db.customStatement('DELETE FROM template_documents WHERE template_id = ?;', [templateId]);
+    await db.customStatement('DELETE FROM scholarship_templates WHERE id = ?;', [templateId]);
     // 1. Seed Template Utama (without the complex string fields)
     await db.into(db.scholarshipTemplates).insert(
           ScholarshipTemplatesCompanion.insert(
@@ -131,10 +134,10 @@ Future<void> _seedLPDP(AppDatabase db) async {
 Future<void> _seedChevening(AppDatabase db) async {
   const templateId = 'chevening_master_2025';
 
-  await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = "$templateId");');
-  await db.customStatement('DELETE FROM template_milestones WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM template_documents WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM scholarship_templates WHERE id = "$templateId";');
+    await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = ?);', [templateId]);
+    await db.customStatement('DELETE FROM template_milestones WHERE template_id = ?;', [templateId]);
+  await db.customStatement('DELETE FROM template_documents WHERE template_id = ?;', [templateId]);
+    await db.customStatement('DELETE FROM scholarship_templates WHERE id = ?;', [templateId]);
 
   await db.into(db.scholarshipTemplates).insert(
     ScholarshipTemplatesCompanion.insert(
@@ -194,10 +197,10 @@ Future<void> _seedChevening(AppDatabase db) async {
 Future<void> _seedFulbright(AppDatabase db) async {
   const templateId = 'fulbright_master_2025';
 
-  await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = "$templateId");');
-  await db.customStatement('DELETE FROM template_milestones WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM template_documents WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM scholarship_templates WHERE id = "$templateId";');
+    await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = ?);', [templateId]);
+    await db.customStatement('DELETE FROM template_milestones WHERE template_id = ?;', [templateId]);
+  await db.customStatement('DELETE FROM template_documents WHERE template_id = ?;', [templateId]);
+      await db.customStatement('DELETE FROM scholarship_templates WHERE id = ?;', [templateId]);
 
   await db.into(db.scholarshipTemplates).insert(
     ScholarshipTemplatesCompanion.insert(
@@ -258,10 +261,10 @@ Future<void> _seedFulbright(AppDatabase db) async {
 Future<void> _seedAAS(AppDatabase db) async {
   const templateId = 'aas_master_2025';
 
-  await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = "$templateId");');
-  await db.customStatement('DELETE FROM template_milestones WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM template_documents WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM scholarship_templates WHERE id = "$templateId";');
+    await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = ?);', [templateId]);
+    await db.customStatement('DELETE FROM template_milestones WHERE template_id = ?;', [templateId]);
+      await db.customStatement('DELETE FROM template_documents WHERE template_id = ?;', [templateId]);
+      await db.customStatement('DELETE FROM scholarship_templates WHERE id = ?;', [templateId]);
 
   await db.into(db.scholarshipTemplates).insert(
     ScholarshipTemplatesCompanion.insert(
@@ -321,10 +324,10 @@ Future<void> _seedAAS(AppDatabase db) async {
 Future<void> _seedKOICA(AppDatabase db) async {
   const templateId = 'koica_master_2025';
 
-  await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = "$templateId");');
-  await db.customStatement('DELETE FROM template_milestones WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM template_documents WHERE template_id = "$templateId";');
-  await db.customStatement('DELETE FROM scholarship_templates WHERE id = "$templateId";');
+    await db.customStatement('DELETE FROM template_tasks WHERE milestone_id IN (SELECT id FROM template_milestones WHERE template_id = ?);', [templateId]);
+    await db.customStatement('DELETE FROM template_milestones WHERE template_id = ?;', [templateId]);
+      await db.customStatement('DELETE FROM template_documents WHERE template_id = ?;', [templateId]);
+      await db.customStatement('DELETE FROM scholarship_templates WHERE id = ?;', [templateId]);
 
   await db.into(db.scholarshipTemplates).insert(
     ScholarshipTemplatesCompanion.insert(
