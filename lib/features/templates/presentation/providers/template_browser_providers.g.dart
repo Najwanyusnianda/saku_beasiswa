@@ -25,7 +25,7 @@ final allTemplatesProvider =
 // ignore: unused_element
 typedef AllTemplatesRef =
     AutoDisposeStreamProviderRef<List<ScholarshipTemplate>>;
-String _$templateDetailHash() => r'6472dfa6898750061a42a0e14f9431fed40f8e02';
+String _$templateDetailHash() => r'e6996f9e43d92199f39e2beaf1ad15a882847bc3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -53,7 +53,8 @@ class _SystemHash {
 const templateDetailProvider = TemplateDetailFamily();
 
 /// See also [templateDetail].
-class TemplateDetailFamily extends Family<AsyncValue<FullScholarshipTemplate>> {
+class TemplateDetailFamily
+    extends Family<AsyncValue<FullScholarshipTemplateWithMilestones>> {
   /// See also [templateDetail].
   const TemplateDetailFamily();
 
@@ -86,7 +87,7 @@ class TemplateDetailFamily extends Family<AsyncValue<FullScholarshipTemplate>> {
 
 /// See also [templateDetail].
 class TemplateDetailProvider
-    extends AutoDisposeFutureProvider<FullScholarshipTemplate> {
+    extends AutoDisposeFutureProvider<FullScholarshipTemplateWithMilestones> {
   /// See also [templateDetail].
   TemplateDetailProvider(String templateId)
     : this._internal(
@@ -116,7 +117,9 @@ class TemplateDetailProvider
 
   @override
   Override overrideWith(
-    FutureOr<FullScholarshipTemplate> Function(TemplateDetailRef provider)
+    FutureOr<FullScholarshipTemplateWithMilestones> Function(
+      TemplateDetailRef provider,
+    )
     create,
   ) {
     return ProviderOverride(
@@ -134,7 +137,8 @@ class TemplateDetailProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<FullScholarshipTemplate> createElement() {
+  AutoDisposeFutureProviderElement<FullScholarshipTemplateWithMilestones>
+  createElement() {
     return _TemplateDetailProviderElement(this);
   }
 
@@ -155,13 +159,14 @@ class TemplateDetailProvider
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 mixin TemplateDetailRef
-    on AutoDisposeFutureProviderRef<FullScholarshipTemplate> {
+    on AutoDisposeFutureProviderRef<FullScholarshipTemplateWithMilestones> {
   /// The parameter `templateId` of this provider.
   String get templateId;
 }
 
 class _TemplateDetailProviderElement
-    extends AutoDisposeFutureProviderElement<FullScholarshipTemplate>
+    extends
+        AutoDisposeFutureProviderElement<FullScholarshipTemplateWithMilestones>
     with TemplateDetailRef {
   _TemplateDetailProviderElement(super.provider);
 

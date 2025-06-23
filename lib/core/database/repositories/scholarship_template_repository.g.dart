@@ -7,12 +7,12 @@ part of 'scholarship_template_repository.dart';
 // **************************************************************************
 
 String _$scholarshipTemplateRepositoryHash() =>
-    r'e1206a6741ded01e43e86eedabf55c0f4b612b9a';
+    r'e3c69ca6af8d85ead21a7aa2c2c865ef3b632e78';
 
 /// See also [scholarshipTemplateRepository].
 @ProviderFor(scholarshipTemplateRepository)
 final scholarshipTemplateRepositoryProvider =
-    AutoDisposeProvider<ScholarshipTemplateRepository>.internal(
+    Provider<ScholarshipTemplateRepository>.internal(
       scholarshipTemplateRepository,
       name: r'scholarshipTemplateRepositoryProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,6 +25,6 @@ final scholarshipTemplateRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ScholarshipTemplateRepositoryRef =
-    AutoDisposeProviderRef<ScholarshipTemplateRepository>;
+    ProviderRef<ScholarshipTemplateRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

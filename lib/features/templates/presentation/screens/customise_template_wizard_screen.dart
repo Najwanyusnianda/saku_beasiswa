@@ -7,7 +7,7 @@ import 'package:saku_beasiswa/core/database/repositories/application_repository.
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
 // Import the refactored step widgets
 import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_1_deadline.dart';
-import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_2_checklist.dart';
+import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_2_timeline.dart';
 import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_3_personalise.dart';
 
 
@@ -73,9 +73,8 @@ class _CustomiseTemplateWizardScreenState extends ConsumerState<CustomiseTemplat
             controller: _pageController,
             onPageChanged: (page) => setState(() => _currentPage = page),
             children: [
-              // Use the refactored step widgets
               WizardStep1Deadline(templateId: widget.templateId),
-              WizardStep2Checklist(templateId: widget.templateId),
+              WizardStep2Timeline(templateId: widget.templateId), // <-- USE THE NEW WIDGET
               WizardStep3Personalise(templateId: widget.templateId),
             ],
           );

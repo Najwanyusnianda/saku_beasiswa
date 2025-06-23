@@ -3,51 +3,44 @@ import 'package:drift/drift.dart';
 
 @DataClassName('ScholarshipTemplate')
 class ScholarshipTemplates extends Table {
-  // --- CORE METADATA ---
+  // --- CORE METADATA (These stay the same) ---
   TextColumn get id => text()();
   TextColumn get name => text()();
   TextColumn get providerName => text().named('provider_name')();
   TextColumn get shortDescription => text().nullable()();
   TextColumn get longDescription => text().nullable()();
 
-  // --- LOCATION & STUDY INFO ---
+  // --- LOCATION & STUDY INFO (These stay the same) ---
   TextColumn get country => text().nullable()();
   TextColumn get studyLevel => text()(); // "S1", "S2", "S3"
   TextColumn get fieldOfStudy => text().nullable()();
 
-  // --- FINANCIAL INFO ---
-  TextColumn get fundingType => text().nullable()(); // "full", "partial", "tuition_only"
-  TextColumn get fundingAmount => text().nullable()(); // Flexible text field
-
-  // --- DATES ---
-  DateTimeColumn get applicationDeadline => dateTime().nullable()();
-  DateTimeColumn get programStartDate => dateTime().nullable()();
-  IntColumn get applicationDurationMonths => integer().nullable()();
-
-  // --- REQUIREMENTS ---
-  IntColumn get minWorkExperienceYears => integer().nullable()();
-TextColumn get eligibility => text().nullable()();
-TextColumn get requiredGPA => text().nullable()();
-TextColumn get languageRequirements => text().nullable()();
-
-  // --- UI CUSTOMIZATION ---
+  // --- FINANCIAL INFO (These stay the same) ---
+  TextColumn get fundingType => text().nullable()();
+  TextColumn get fundingAmount => text().nullable()();
+  
+  // --- UI & METADATA (These stay the same) ---
   TextColumn get color => text().named('default_color').nullable()();
   TextColumn get icon => text().nullable()();
   TextColumn get website => text().named('official_url').nullable()();
-
-  // --- METADATA ---
   IntColumn get version => integer().withDefault(const Constant(1))();
   DateTimeColumn get lastUpdated => dateTime().nullable()();
   TextColumn get author => text().nullable()();
-
-  // --- USAGE STATS (DIBUAT NULLABLE) ---
   IntColumn get usageCount => integer().nullable()();
   IntColumn get successRate => integer().nullable()();
   RealColumn get averageMatchScore => real().nullable()();
-
-  // --- TEMPLATE STATUS ---
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();
   BoolColumn get isFeatured => boolean().withDefault(const Constant(false))();
+
+  // --- REMOVED & REPLACED COLUMNS ---
+  // The following columns are being removed from this table.
+  // Their data will be stored in new, structured relational tables later.
+  //
+  // REMOVED: DateTimeColumn get applicationDeadline => dateTime().nullable()();
+  // REMOVED: IntColumn get applicationDurationMonths => integer().nullable()();
+  // REMOVED: TextColumn get eligibility => text().nullable()();
+  // REMOVED: TextColumn get requiredGPA => text().nullable()();
+  // REMOVED: TextColumn get languageRequirements => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

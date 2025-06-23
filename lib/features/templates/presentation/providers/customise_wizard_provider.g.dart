@@ -6,7 +6,7 @@ part of 'customise_wizard_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$customiseWizardHash() => r'28916c342de61bcf9ca5199dc38777be7c419b78';
+String _$customiseWizardHash() => r'35ac53bd4ecaf88d9d728d928befa09d1a042629';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -436,73 +436,6 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _applicationDeadlineMeta =
-      const VerificationMeta('applicationDeadline');
-  @override
-  late final GeneratedColumn<DateTime> applicationDeadline =
-      GeneratedColumn<DateTime>(
-        'application_deadline',
-        aliasedName,
-        true,
-        type: DriftSqlType.dateTime,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _programStartDateMeta = const VerificationMeta(
-    'programStartDate',
-  );
-  @override
-  late final GeneratedColumn<DateTime> programStartDate =
-      GeneratedColumn<DateTime>(
-        'program_start_date',
-        aliasedName,
-        true,
-        type: DriftSqlType.dateTime,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _applicationDurationMonthsMeta =
-      const VerificationMeta('applicationDurationMonths');
-  @override
-  late final GeneratedColumn<int> applicationDurationMonths =
-      GeneratedColumn<int>(
-        'application_duration_months',
-        aliasedName,
-        true,
-        type: DriftSqlType.int,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _eligibilityMeta = const VerificationMeta(
-    'eligibility',
-  );
-  @override
-  late final GeneratedColumn<String> eligibility = GeneratedColumn<String>(
-    'eligibility',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _requiredGPAMeta = const VerificationMeta(
-    'requiredGPA',
-  );
-  @override
-  late final GeneratedColumn<String> requiredGPA = GeneratedColumn<String>(
-    'required_g_p_a',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _languageRequirementsMeta =
-      const VerificationMeta('languageRequirements');
-  @override
-  late final GeneratedColumn<String> languageRequirements =
-      GeneratedColumn<String>(
-        'language_requirements',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-      );
   static const VerificationMeta _colorMeta = const VerificationMeta('color');
   @override
   late final GeneratedColumn<String> color = GeneratedColumn<String>(
@@ -640,12 +573,6 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
     fieldOfStudy,
     fundingType,
     fundingAmount,
-    applicationDeadline,
-    programStartDate,
-    applicationDurationMonths,
-    eligibility,
-    requiredGPA,
-    languageRequirements,
     color,
     icon,
     website,
@@ -750,60 +677,6 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         fundingAmount.isAcceptableOrUnknown(
           data['funding_amount']!,
           _fundingAmountMeta,
-        ),
-      );
-    }
-    if (data.containsKey('application_deadline')) {
-      context.handle(
-        _applicationDeadlineMeta,
-        applicationDeadline.isAcceptableOrUnknown(
-          data['application_deadline']!,
-          _applicationDeadlineMeta,
-        ),
-      );
-    }
-    if (data.containsKey('program_start_date')) {
-      context.handle(
-        _programStartDateMeta,
-        programStartDate.isAcceptableOrUnknown(
-          data['program_start_date']!,
-          _programStartDateMeta,
-        ),
-      );
-    }
-    if (data.containsKey('application_duration_months')) {
-      context.handle(
-        _applicationDurationMonthsMeta,
-        applicationDurationMonths.isAcceptableOrUnknown(
-          data['application_duration_months']!,
-          _applicationDurationMonthsMeta,
-        ),
-      );
-    }
-    if (data.containsKey('eligibility')) {
-      context.handle(
-        _eligibilityMeta,
-        eligibility.isAcceptableOrUnknown(
-          data['eligibility']!,
-          _eligibilityMeta,
-        ),
-      );
-    }
-    if (data.containsKey('required_g_p_a')) {
-      context.handle(
-        _requiredGPAMeta,
-        requiredGPA.isAcceptableOrUnknown(
-          data['required_g_p_a']!,
-          _requiredGPAMeta,
-        ),
-      );
-    }
-    if (data.containsKey('language_requirements')) {
-      context.handle(
-        _languageRequirementsMeta,
-        languageRequirements.isAcceptableOrUnknown(
-          data['language_requirements']!,
-          _languageRequirementsMeta,
         ),
       );
     }
@@ -931,30 +804,6 @@ class $ScholarshipTemplatesTable extends ScholarshipTemplates
         DriftSqlType.string,
         data['${effectivePrefix}funding_amount'],
       ),
-      applicationDeadline: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}application_deadline'],
-      ),
-      programStartDate: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}program_start_date'],
-      ),
-      applicationDurationMonths: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}application_duration_months'],
-      ),
-      eligibility: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}eligibility'],
-      ),
-      requiredGPA: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}required_g_p_a'],
-      ),
-      languageRequirements: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}language_requirements'],
-      ),
       color: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}default_color'],
@@ -1020,12 +869,6 @@ class ScholarshipTemplate extends DataClass
   final String? fieldOfStudy;
   final String? fundingType;
   final String? fundingAmount;
-  final DateTime? applicationDeadline;
-  final DateTime? programStartDate;
-  final int? applicationDurationMonths;
-  final String? eligibility;
-  final String? requiredGPA;
-  final String? languageRequirements;
   final String? color;
   final String? icon;
   final String? website;
@@ -1048,12 +891,6 @@ class ScholarshipTemplate extends DataClass
     this.fieldOfStudy,
     this.fundingType,
     this.fundingAmount,
-    this.applicationDeadline,
-    this.programStartDate,
-    this.applicationDurationMonths,
-    this.eligibility,
-    this.requiredGPA,
-    this.languageRequirements,
     this.color,
     this.icon,
     this.website,
@@ -1090,26 +927,6 @@ class ScholarshipTemplate extends DataClass
     }
     if (!nullToAbsent || fundingAmount != null) {
       map['funding_amount'] = Variable<String>(fundingAmount);
-    }
-    if (!nullToAbsent || applicationDeadline != null) {
-      map['application_deadline'] = Variable<DateTime>(applicationDeadline);
-    }
-    if (!nullToAbsent || programStartDate != null) {
-      map['program_start_date'] = Variable<DateTime>(programStartDate);
-    }
-    if (!nullToAbsent || applicationDurationMonths != null) {
-      map['application_duration_months'] = Variable<int>(
-        applicationDurationMonths,
-      );
-    }
-    if (!nullToAbsent || eligibility != null) {
-      map['eligibility'] = Variable<String>(eligibility);
-    }
-    if (!nullToAbsent || requiredGPA != null) {
-      map['required_g_p_a'] = Variable<String>(requiredGPA);
-    }
-    if (!nullToAbsent || languageRequirements != null) {
-      map['language_requirements'] = Variable<String>(languageRequirements);
     }
     if (!nullToAbsent || color != null) {
       map['default_color'] = Variable<String>(color);
@@ -1165,25 +982,6 @@ class ScholarshipTemplate extends DataClass
       fundingAmount: fundingAmount == null && nullToAbsent
           ? const Value.absent()
           : Value(fundingAmount),
-      applicationDeadline: applicationDeadline == null && nullToAbsent
-          ? const Value.absent()
-          : Value(applicationDeadline),
-      programStartDate: programStartDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(programStartDate),
-      applicationDurationMonths:
-          applicationDurationMonths == null && nullToAbsent
-          ? const Value.absent()
-          : Value(applicationDurationMonths),
-      eligibility: eligibility == null && nullToAbsent
-          ? const Value.absent()
-          : Value(eligibility),
-      requiredGPA: requiredGPA == null && nullToAbsent
-          ? const Value.absent()
-          : Value(requiredGPA),
-      languageRequirements: languageRequirements == null && nullToAbsent
-          ? const Value.absent()
-          : Value(languageRequirements),
       color: color == null && nullToAbsent
           ? const Value.absent()
           : Value(color),
@@ -1228,20 +1026,6 @@ class ScholarshipTemplate extends DataClass
       fieldOfStudy: serializer.fromJson<String?>(json['fieldOfStudy']),
       fundingType: serializer.fromJson<String?>(json['fundingType']),
       fundingAmount: serializer.fromJson<String?>(json['fundingAmount']),
-      applicationDeadline: serializer.fromJson<DateTime?>(
-        json['applicationDeadline'],
-      ),
-      programStartDate: serializer.fromJson<DateTime?>(
-        json['programStartDate'],
-      ),
-      applicationDurationMonths: serializer.fromJson<int?>(
-        json['applicationDurationMonths'],
-      ),
-      eligibility: serializer.fromJson<String?>(json['eligibility']),
-      requiredGPA: serializer.fromJson<String?>(json['requiredGPA']),
-      languageRequirements: serializer.fromJson<String?>(
-        json['languageRequirements'],
-      ),
       color: serializer.fromJson<String?>(json['color']),
       icon: serializer.fromJson<String?>(json['icon']),
       website: serializer.fromJson<String?>(json['website']),
@@ -1271,14 +1055,6 @@ class ScholarshipTemplate extends DataClass
       'fieldOfStudy': serializer.toJson<String?>(fieldOfStudy),
       'fundingType': serializer.toJson<String?>(fundingType),
       'fundingAmount': serializer.toJson<String?>(fundingAmount),
-      'applicationDeadline': serializer.toJson<DateTime?>(applicationDeadline),
-      'programStartDate': serializer.toJson<DateTime?>(programStartDate),
-      'applicationDurationMonths': serializer.toJson<int?>(
-        applicationDurationMonths,
-      ),
-      'eligibility': serializer.toJson<String?>(eligibility),
-      'requiredGPA': serializer.toJson<String?>(requiredGPA),
-      'languageRequirements': serializer.toJson<String?>(languageRequirements),
       'color': serializer.toJson<String?>(color),
       'icon': serializer.toJson<String?>(icon),
       'website': serializer.toJson<String?>(website),
@@ -1304,12 +1080,6 @@ class ScholarshipTemplate extends DataClass
     Value<String?> fieldOfStudy = const Value.absent(),
     Value<String?> fundingType = const Value.absent(),
     Value<String?> fundingAmount = const Value.absent(),
-    Value<DateTime?> applicationDeadline = const Value.absent(),
-    Value<DateTime?> programStartDate = const Value.absent(),
-    Value<int?> applicationDurationMonths = const Value.absent(),
-    Value<String?> eligibility = const Value.absent(),
-    Value<String?> requiredGPA = const Value.absent(),
-    Value<String?> languageRequirements = const Value.absent(),
     Value<String?> color = const Value.absent(),
     Value<String?> icon = const Value.absent(),
     Value<String?> website = const Value.absent(),
@@ -1338,20 +1108,6 @@ class ScholarshipTemplate extends DataClass
     fundingAmount: fundingAmount.present
         ? fundingAmount.value
         : this.fundingAmount,
-    applicationDeadline: applicationDeadline.present
-        ? applicationDeadline.value
-        : this.applicationDeadline,
-    programStartDate: programStartDate.present
-        ? programStartDate.value
-        : this.programStartDate,
-    applicationDurationMonths: applicationDurationMonths.present
-        ? applicationDurationMonths.value
-        : this.applicationDurationMonths,
-    eligibility: eligibility.present ? eligibility.value : this.eligibility,
-    requiredGPA: requiredGPA.present ? requiredGPA.value : this.requiredGPA,
-    languageRequirements: languageRequirements.present
-        ? languageRequirements.value
-        : this.languageRequirements,
     color: color.present ? color.value : this.color,
     icon: icon.present ? icon.value : this.icon,
     website: website.present ? website.value : this.website,
@@ -1392,24 +1148,6 @@ class ScholarshipTemplate extends DataClass
       fundingAmount: data.fundingAmount.present
           ? data.fundingAmount.value
           : this.fundingAmount,
-      applicationDeadline: data.applicationDeadline.present
-          ? data.applicationDeadline.value
-          : this.applicationDeadline,
-      programStartDate: data.programStartDate.present
-          ? data.programStartDate.value
-          : this.programStartDate,
-      applicationDurationMonths: data.applicationDurationMonths.present
-          ? data.applicationDurationMonths.value
-          : this.applicationDurationMonths,
-      eligibility: data.eligibility.present
-          ? data.eligibility.value
-          : this.eligibility,
-      requiredGPA: data.requiredGPA.present
-          ? data.requiredGPA.value
-          : this.requiredGPA,
-      languageRequirements: data.languageRequirements.present
-          ? data.languageRequirements.value
-          : this.languageRequirements,
       color: data.color.present ? data.color.value : this.color,
       icon: data.icon.present ? data.icon.value : this.icon,
       website: data.website.present ? data.website.value : this.website,
@@ -1447,12 +1185,6 @@ class ScholarshipTemplate extends DataClass
           ..write('fieldOfStudy: $fieldOfStudy, ')
           ..write('fundingType: $fundingType, ')
           ..write('fundingAmount: $fundingAmount, ')
-          ..write('applicationDeadline: $applicationDeadline, ')
-          ..write('programStartDate: $programStartDate, ')
-          ..write('applicationDurationMonths: $applicationDurationMonths, ')
-          ..write('eligibility: $eligibility, ')
-          ..write('requiredGPA: $requiredGPA, ')
-          ..write('languageRequirements: $languageRequirements, ')
           ..write('color: $color, ')
           ..write('icon: $icon, ')
           ..write('website: $website, ')
@@ -1480,12 +1212,6 @@ class ScholarshipTemplate extends DataClass
     fieldOfStudy,
     fundingType,
     fundingAmount,
-    applicationDeadline,
-    programStartDate,
-    applicationDurationMonths,
-    eligibility,
-    requiredGPA,
-    languageRequirements,
     color,
     icon,
     website,
@@ -1512,12 +1238,6 @@ class ScholarshipTemplate extends DataClass
           other.fieldOfStudy == this.fieldOfStudy &&
           other.fundingType == this.fundingType &&
           other.fundingAmount == this.fundingAmount &&
-          other.applicationDeadline == this.applicationDeadline &&
-          other.programStartDate == this.programStartDate &&
-          other.applicationDurationMonths == this.applicationDurationMonths &&
-          other.eligibility == this.eligibility &&
-          other.requiredGPA == this.requiredGPA &&
-          other.languageRequirements == this.languageRequirements &&
           other.color == this.color &&
           other.icon == this.icon &&
           other.website == this.website &&
@@ -1543,12 +1263,6 @@ class ScholarshipTemplatesCompanion
   final Value<String?> fieldOfStudy;
   final Value<String?> fundingType;
   final Value<String?> fundingAmount;
-  final Value<DateTime?> applicationDeadline;
-  final Value<DateTime?> programStartDate;
-  final Value<int?> applicationDurationMonths;
-  final Value<String?> eligibility;
-  final Value<String?> requiredGPA;
-  final Value<String?> languageRequirements;
   final Value<String?> color;
   final Value<String?> icon;
   final Value<String?> website;
@@ -1572,12 +1286,6 @@ class ScholarshipTemplatesCompanion
     this.fieldOfStudy = const Value.absent(),
     this.fundingType = const Value.absent(),
     this.fundingAmount = const Value.absent(),
-    this.applicationDeadline = const Value.absent(),
-    this.programStartDate = const Value.absent(),
-    this.applicationDurationMonths = const Value.absent(),
-    this.eligibility = const Value.absent(),
-    this.requiredGPA = const Value.absent(),
-    this.languageRequirements = const Value.absent(),
     this.color = const Value.absent(),
     this.icon = const Value.absent(),
     this.website = const Value.absent(),
@@ -1602,12 +1310,6 @@ class ScholarshipTemplatesCompanion
     this.fieldOfStudy = const Value.absent(),
     this.fundingType = const Value.absent(),
     this.fundingAmount = const Value.absent(),
-    this.applicationDeadline = const Value.absent(),
-    this.programStartDate = const Value.absent(),
-    this.applicationDurationMonths = const Value.absent(),
-    this.eligibility = const Value.absent(),
-    this.requiredGPA = const Value.absent(),
-    this.languageRequirements = const Value.absent(),
     this.color = const Value.absent(),
     this.icon = const Value.absent(),
     this.website = const Value.absent(),
@@ -1635,12 +1337,6 @@ class ScholarshipTemplatesCompanion
     Expression<String>? fieldOfStudy,
     Expression<String>? fundingType,
     Expression<String>? fundingAmount,
-    Expression<DateTime>? applicationDeadline,
-    Expression<DateTime>? programStartDate,
-    Expression<int>? applicationDurationMonths,
-    Expression<String>? eligibility,
-    Expression<String>? requiredGPA,
-    Expression<String>? languageRequirements,
     Expression<String>? color,
     Expression<String>? icon,
     Expression<String>? website,
@@ -1665,15 +1361,6 @@ class ScholarshipTemplatesCompanion
       if (fieldOfStudy != null) 'field_of_study': fieldOfStudy,
       if (fundingType != null) 'funding_type': fundingType,
       if (fundingAmount != null) 'funding_amount': fundingAmount,
-      if (applicationDeadline != null)
-        'application_deadline': applicationDeadline,
-      if (programStartDate != null) 'program_start_date': programStartDate,
-      if (applicationDurationMonths != null)
-        'application_duration_months': applicationDurationMonths,
-      if (eligibility != null) 'eligibility': eligibility,
-      if (requiredGPA != null) 'required_g_p_a': requiredGPA,
-      if (languageRequirements != null)
-        'language_requirements': languageRequirements,
       if (color != null) 'default_color': color,
       if (icon != null) 'icon': icon,
       if (website != null) 'official_url': website,
@@ -1700,12 +1387,6 @@ class ScholarshipTemplatesCompanion
     Value<String?>? fieldOfStudy,
     Value<String?>? fundingType,
     Value<String?>? fundingAmount,
-    Value<DateTime?>? applicationDeadline,
-    Value<DateTime?>? programStartDate,
-    Value<int?>? applicationDurationMonths,
-    Value<String?>? eligibility,
-    Value<String?>? requiredGPA,
-    Value<String?>? languageRequirements,
     Value<String?>? color,
     Value<String?>? icon,
     Value<String?>? website,
@@ -1730,13 +1411,6 @@ class ScholarshipTemplatesCompanion
       fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
       fundingType: fundingType ?? this.fundingType,
       fundingAmount: fundingAmount ?? this.fundingAmount,
-      applicationDeadline: applicationDeadline ?? this.applicationDeadline,
-      programStartDate: programStartDate ?? this.programStartDate,
-      applicationDurationMonths:
-          applicationDurationMonths ?? this.applicationDurationMonths,
-      eligibility: eligibility ?? this.eligibility,
-      requiredGPA: requiredGPA ?? this.requiredGPA,
-      languageRequirements: languageRequirements ?? this.languageRequirements,
       color: color ?? this.color,
       icon: icon ?? this.icon,
       website: website ?? this.website,
@@ -1784,30 +1458,6 @@ class ScholarshipTemplatesCompanion
     }
     if (fundingAmount.present) {
       map['funding_amount'] = Variable<String>(fundingAmount.value);
-    }
-    if (applicationDeadline.present) {
-      map['application_deadline'] = Variable<DateTime>(
-        applicationDeadline.value,
-      );
-    }
-    if (programStartDate.present) {
-      map['program_start_date'] = Variable<DateTime>(programStartDate.value);
-    }
-    if (applicationDurationMonths.present) {
-      map['application_duration_months'] = Variable<int>(
-        applicationDurationMonths.value,
-      );
-    }
-    if (eligibility.present) {
-      map['eligibility'] = Variable<String>(eligibility.value);
-    }
-    if (requiredGPA.present) {
-      map['required_g_p_a'] = Variable<String>(requiredGPA.value);
-    }
-    if (languageRequirements.present) {
-      map['language_requirements'] = Variable<String>(
-        languageRequirements.value,
-      );
     }
     if (color.present) {
       map['default_color'] = Variable<String>(color.value);
@@ -1861,12 +1511,6 @@ class ScholarshipTemplatesCompanion
           ..write('fieldOfStudy: $fieldOfStudy, ')
           ..write('fundingType: $fundingType, ')
           ..write('fundingAmount: $fundingAmount, ')
-          ..write('applicationDeadline: $applicationDeadline, ')
-          ..write('programStartDate: $programStartDate, ')
-          ..write('applicationDurationMonths: $applicationDurationMonths, ')
-          ..write('eligibility: $eligibility, ')
-          ..write('requiredGPA: $requiredGPA, ')
-          ..write('languageRequirements: $languageRequirements, ')
           ..write('color: $color, ')
           ..write('icon: $icon, ')
           ..write('website: $website, ')
@@ -2844,12 +2488,12 @@ class TasksCompanion extends UpdateCompanion<Task> {
   }
 }
 
-class $TemplateTasksTable extends TemplateTasks
-    with TableInfo<$TemplateTasksTable, TemplateTask> {
+class $TemplateMilestonesTable extends TemplateMilestones
+    with TableInfo<$TemplateMilestonesTable, TemplateMilestone> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TemplateTasksTable(this.attachedDatabase, [this._alias]);
+  $TemplateMilestonesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -2877,6 +2521,426 @@ class $TemplateTasksTable extends TemplateTasks
       'REFERENCES scholarship_templates (id)',
     ),
   );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
+  @override
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+    'order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateOffsetDaysMeta =
+      const VerificationMeta('startDateOffsetDays');
+  @override
+  late final GeneratedColumn<int> startDateOffsetDays = GeneratedColumn<int>(
+    'start_date_offset_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endDateOffsetDaysMeta = const VerificationMeta(
+    'endDateOffsetDays',
+  );
+  @override
+  late final GeneratedColumn<int> endDateOffsetDays = GeneratedColumn<int>(
+    'end_date_offset_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    name,
+    order,
+    startDateOffsetDays,
+    endDateOffsetDays,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'template_milestones';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TemplateMilestone> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('template_id')) {
+      context.handle(
+        _templateIdMeta,
+        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_templateIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('order')) {
+      context.handle(
+        _orderMeta,
+        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderMeta);
+    }
+    if (data.containsKey('start_date_offset_days')) {
+      context.handle(
+        _startDateOffsetDaysMeta,
+        startDateOffsetDays.isAcceptableOrUnknown(
+          data['start_date_offset_days']!,
+          _startDateOffsetDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateOffsetDaysMeta);
+    }
+    if (data.containsKey('end_date_offset_days')) {
+      context.handle(
+        _endDateOffsetDaysMeta,
+        endDateOffsetDays.isAcceptableOrUnknown(
+          data['end_date_offset_days']!,
+          _endDateOffsetDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_endDateOffsetDaysMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TemplateMilestone map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TemplateMilestone(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      templateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      order: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order'],
+      )!,
+      startDateOffsetDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}start_date_offset_days'],
+      )!,
+      endDateOffsetDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}end_date_offset_days'],
+      )!,
+    );
+  }
+
+  @override
+  $TemplateMilestonesTable createAlias(String alias) {
+    return $TemplateMilestonesTable(attachedDatabase, alias);
+  }
+}
+
+class TemplateMilestone extends DataClass
+    implements Insertable<TemplateMilestone> {
+  final int id;
+  final String templateId;
+  final String name;
+  final int order;
+  final int startDateOffsetDays;
+  final int endDateOffsetDays;
+  const TemplateMilestone({
+    required this.id,
+    required this.templateId,
+    required this.name,
+    required this.order,
+    required this.startDateOffsetDays,
+    required this.endDateOffsetDays,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['template_id'] = Variable<String>(templateId);
+    map['name'] = Variable<String>(name);
+    map['order'] = Variable<int>(order);
+    map['start_date_offset_days'] = Variable<int>(startDateOffsetDays);
+    map['end_date_offset_days'] = Variable<int>(endDateOffsetDays);
+    return map;
+  }
+
+  TemplateMilestonesCompanion toCompanion(bool nullToAbsent) {
+    return TemplateMilestonesCompanion(
+      id: Value(id),
+      templateId: Value(templateId),
+      name: Value(name),
+      order: Value(order),
+      startDateOffsetDays: Value(startDateOffsetDays),
+      endDateOffsetDays: Value(endDateOffsetDays),
+    );
+  }
+
+  factory TemplateMilestone.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TemplateMilestone(
+      id: serializer.fromJson<int>(json['id']),
+      templateId: serializer.fromJson<String>(json['templateId']),
+      name: serializer.fromJson<String>(json['name']),
+      order: serializer.fromJson<int>(json['order']),
+      startDateOffsetDays: serializer.fromJson<int>(
+        json['startDateOffsetDays'],
+      ),
+      endDateOffsetDays: serializer.fromJson<int>(json['endDateOffsetDays']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'templateId': serializer.toJson<String>(templateId),
+      'name': serializer.toJson<String>(name),
+      'order': serializer.toJson<int>(order),
+      'startDateOffsetDays': serializer.toJson<int>(startDateOffsetDays),
+      'endDateOffsetDays': serializer.toJson<int>(endDateOffsetDays),
+    };
+  }
+
+  TemplateMilestone copyWith({
+    int? id,
+    String? templateId,
+    String? name,
+    int? order,
+    int? startDateOffsetDays,
+    int? endDateOffsetDays,
+  }) => TemplateMilestone(
+    id: id ?? this.id,
+    templateId: templateId ?? this.templateId,
+    name: name ?? this.name,
+    order: order ?? this.order,
+    startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
+    endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
+  );
+  TemplateMilestone copyWithCompanion(TemplateMilestonesCompanion data) {
+    return TemplateMilestone(
+      id: data.id.present ? data.id.value : this.id,
+      templateId: data.templateId.present
+          ? data.templateId.value
+          : this.templateId,
+      name: data.name.present ? data.name.value : this.name,
+      order: data.order.present ? data.order.value : this.order,
+      startDateOffsetDays: data.startDateOffsetDays.present
+          ? data.startDateOffsetDays.value
+          : this.startDateOffsetDays,
+      endDateOffsetDays: data.endDateOffsetDays.present
+          ? data.endDateOffsetDays.value
+          : this.endDateOffsetDays,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TemplateMilestone(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('name: $name, ')
+          ..write('order: $order, ')
+          ..write('startDateOffsetDays: $startDateOffsetDays, ')
+          ..write('endDateOffsetDays: $endDateOffsetDays')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    templateId,
+    name,
+    order,
+    startDateOffsetDays,
+    endDateOffsetDays,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TemplateMilestone &&
+          other.id == this.id &&
+          other.templateId == this.templateId &&
+          other.name == this.name &&
+          other.order == this.order &&
+          other.startDateOffsetDays == this.startDateOffsetDays &&
+          other.endDateOffsetDays == this.endDateOffsetDays);
+}
+
+class TemplateMilestonesCompanion extends UpdateCompanion<TemplateMilestone> {
+  final Value<int> id;
+  final Value<String> templateId;
+  final Value<String> name;
+  final Value<int> order;
+  final Value<int> startDateOffsetDays;
+  final Value<int> endDateOffsetDays;
+  const TemplateMilestonesCompanion({
+    this.id = const Value.absent(),
+    this.templateId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.order = const Value.absent(),
+    this.startDateOffsetDays = const Value.absent(),
+    this.endDateOffsetDays = const Value.absent(),
+  });
+  TemplateMilestonesCompanion.insert({
+    this.id = const Value.absent(),
+    required String templateId,
+    required String name,
+    required int order,
+    required int startDateOffsetDays,
+    required int endDateOffsetDays,
+  }) : templateId = Value(templateId),
+       name = Value(name),
+       order = Value(order),
+       startDateOffsetDays = Value(startDateOffsetDays),
+       endDateOffsetDays = Value(endDateOffsetDays);
+  static Insertable<TemplateMilestone> custom({
+    Expression<int>? id,
+    Expression<String>? templateId,
+    Expression<String>? name,
+    Expression<int>? order,
+    Expression<int>? startDateOffsetDays,
+    Expression<int>? endDateOffsetDays,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (templateId != null) 'template_id': templateId,
+      if (name != null) 'name': name,
+      if (order != null) 'order': order,
+      if (startDateOffsetDays != null)
+        'start_date_offset_days': startDateOffsetDays,
+      if (endDateOffsetDays != null) 'end_date_offset_days': endDateOffsetDays,
+    });
+  }
+
+  TemplateMilestonesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? templateId,
+    Value<String>? name,
+    Value<int>? order,
+    Value<int>? startDateOffsetDays,
+    Value<int>? endDateOffsetDays,
+  }) {
+    return TemplateMilestonesCompanion(
+      id: id ?? this.id,
+      templateId: templateId ?? this.templateId,
+      name: name ?? this.name,
+      order: order ?? this.order,
+      startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
+      endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (templateId.present) {
+      map['template_id'] = Variable<String>(templateId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
+    }
+    if (startDateOffsetDays.present) {
+      map['start_date_offset_days'] = Variable<int>(startDateOffsetDays.value);
+    }
+    if (endDateOffsetDays.present) {
+      map['end_date_offset_days'] = Variable<int>(endDateOffsetDays.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TemplateMilestonesCompanion(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('name: $name, ')
+          ..write('order: $order, ')
+          ..write('startDateOffsetDays: $startDateOffsetDays, ')
+          ..write('endDateOffsetDays: $endDateOffsetDays')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TemplateTasksTable extends TemplateTasks
+    with TableInfo<$TemplateTasksTable, TemplateTask> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TemplateTasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _milestoneIdMeta = const VerificationMeta(
+    'milestoneId',
+  );
+  @override
+  late final GeneratedColumn<int> milestoneId = GeneratedColumn<int>(
+    'milestone_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES template_milestones (id)',
+    ),
+  );
   static const VerificationMeta _labelMeta = const VerificationMeta('label');
   @override
   late final GeneratedColumn<String> label = GeneratedColumn<String>(
@@ -2886,26 +2950,18 @@ class $TemplateTasksTable extends TemplateTasks
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _stageMeta = const VerificationMeta('stage');
+  static const VerificationMeta _offsetDaysFromMilestoneEndMeta =
+      const VerificationMeta('offsetDaysFromMilestoneEnd');
   @override
-  late final GeneratedColumn<String> stage = GeneratedColumn<String>(
-    'stage',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _offsetDaysMeta = const VerificationMeta(
-    'offsetDays',
-  );
-  @override
-  late final GeneratedColumn<int> offsetDays = GeneratedColumn<int>(
-    'offset_days',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
+  late final GeneratedColumn<int> offsetDaysFromMilestoneEnd =
+      GeneratedColumn<int>(
+        'offset_days_from_milestone_end',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(0),
+      );
   static const VerificationMeta _isMandatoryMeta = const VerificationMeta(
     'isMandatory',
   );
@@ -2924,10 +2980,9 @@ class $TemplateTasksTable extends TemplateTasks
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    templateId,
+    milestoneId,
     label,
-    stage,
-    offsetDays,
+    offsetDaysFromMilestoneEnd,
     isMandatory,
   ];
   @override
@@ -2945,13 +3000,16 @@ class $TemplateTasksTable extends TemplateTasks
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('template_id')) {
+    if (data.containsKey('milestone_id')) {
       context.handle(
-        _templateIdMeta,
-        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+        _milestoneIdMeta,
+        milestoneId.isAcceptableOrUnknown(
+          data['milestone_id']!,
+          _milestoneIdMeta,
+        ),
       );
     } else if (isInserting) {
-      context.missing(_templateIdMeta);
+      context.missing(_milestoneIdMeta);
     }
     if (data.containsKey('label')) {
       context.handle(
@@ -2961,16 +3019,13 @@ class $TemplateTasksTable extends TemplateTasks
     } else if (isInserting) {
       context.missing(_labelMeta);
     }
-    if (data.containsKey('stage')) {
+    if (data.containsKey('offset_days_from_milestone_end')) {
       context.handle(
-        _stageMeta,
-        stage.isAcceptableOrUnknown(data['stage']!, _stageMeta),
-      );
-    }
-    if (data.containsKey('offset_days')) {
-      context.handle(
-        _offsetDaysMeta,
-        offsetDays.isAcceptableOrUnknown(data['offset_days']!, _offsetDaysMeta),
+        _offsetDaysFromMilestoneEndMeta,
+        offsetDaysFromMilestoneEnd.isAcceptableOrUnknown(
+          data['offset_days_from_milestone_end']!,
+          _offsetDaysFromMilestoneEndMeta,
+        ),
       );
     }
     if (data.containsKey('is_mandatory')) {
@@ -2995,22 +3050,18 @@ class $TemplateTasksTable extends TemplateTasks
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      templateId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}template_id'],
+      milestoneId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}milestone_id'],
       )!,
       label: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}label'],
       )!,
-      stage: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}stage'],
-      ),
-      offsetDays: attachedDatabase.typeMapping.read(
+      offsetDaysFromMilestoneEnd: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
-        data['${effectivePrefix}offset_days'],
-      ),
+        data['${effectivePrefix}offset_days_from_milestone_end'],
+      )!,
       isMandatory: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_mandatory'],
@@ -3026,31 +3077,26 @@ class $TemplateTasksTable extends TemplateTasks
 
 class TemplateTask extends DataClass implements Insertable<TemplateTask> {
   final int id;
-  final String templateId;
+  final int milestoneId;
   final String label;
-  final String? stage;
-  final int? offsetDays;
+  final int offsetDaysFromMilestoneEnd;
   final bool isMandatory;
   const TemplateTask({
     required this.id,
-    required this.templateId,
+    required this.milestoneId,
     required this.label,
-    this.stage,
-    this.offsetDays,
+    required this.offsetDaysFromMilestoneEnd,
     required this.isMandatory,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['template_id'] = Variable<String>(templateId);
+    map['milestone_id'] = Variable<int>(milestoneId);
     map['label'] = Variable<String>(label);
-    if (!nullToAbsent || stage != null) {
-      map['stage'] = Variable<String>(stage);
-    }
-    if (!nullToAbsent || offsetDays != null) {
-      map['offset_days'] = Variable<int>(offsetDays);
-    }
+    map['offset_days_from_milestone_end'] = Variable<int>(
+      offsetDaysFromMilestoneEnd,
+    );
     map['is_mandatory'] = Variable<bool>(isMandatory);
     return map;
   }
@@ -3058,14 +3104,9 @@ class TemplateTask extends DataClass implements Insertable<TemplateTask> {
   TemplateTasksCompanion toCompanion(bool nullToAbsent) {
     return TemplateTasksCompanion(
       id: Value(id),
-      templateId: Value(templateId),
+      milestoneId: Value(milestoneId),
       label: Value(label),
-      stage: stage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(stage),
-      offsetDays: offsetDays == null && nullToAbsent
-          ? const Value.absent()
-          : Value(offsetDays),
+      offsetDaysFromMilestoneEnd: Value(offsetDaysFromMilestoneEnd),
       isMandatory: Value(isMandatory),
     );
   }
@@ -3077,10 +3118,11 @@ class TemplateTask extends DataClass implements Insertable<TemplateTask> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TemplateTask(
       id: serializer.fromJson<int>(json['id']),
-      templateId: serializer.fromJson<String>(json['templateId']),
+      milestoneId: serializer.fromJson<int>(json['milestoneId']),
       label: serializer.fromJson<String>(json['label']),
-      stage: serializer.fromJson<String?>(json['stage']),
-      offsetDays: serializer.fromJson<int?>(json['offsetDays']),
+      offsetDaysFromMilestoneEnd: serializer.fromJson<int>(
+        json['offsetDaysFromMilestoneEnd'],
+      ),
       isMandatory: serializer.fromJson<bool>(json['isMandatory']),
     );
   }
@@ -3089,40 +3131,39 @@ class TemplateTask extends DataClass implements Insertable<TemplateTask> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'templateId': serializer.toJson<String>(templateId),
+      'milestoneId': serializer.toJson<int>(milestoneId),
       'label': serializer.toJson<String>(label),
-      'stage': serializer.toJson<String?>(stage),
-      'offsetDays': serializer.toJson<int?>(offsetDays),
+      'offsetDaysFromMilestoneEnd': serializer.toJson<int>(
+        offsetDaysFromMilestoneEnd,
+      ),
       'isMandatory': serializer.toJson<bool>(isMandatory),
     };
   }
 
   TemplateTask copyWith({
     int? id,
-    String? templateId,
+    int? milestoneId,
     String? label,
-    Value<String?> stage = const Value.absent(),
-    Value<int?> offsetDays = const Value.absent(),
+    int? offsetDaysFromMilestoneEnd,
     bool? isMandatory,
   }) => TemplateTask(
     id: id ?? this.id,
-    templateId: templateId ?? this.templateId,
+    milestoneId: milestoneId ?? this.milestoneId,
     label: label ?? this.label,
-    stage: stage.present ? stage.value : this.stage,
-    offsetDays: offsetDays.present ? offsetDays.value : this.offsetDays,
+    offsetDaysFromMilestoneEnd:
+        offsetDaysFromMilestoneEnd ?? this.offsetDaysFromMilestoneEnd,
     isMandatory: isMandatory ?? this.isMandatory,
   );
   TemplateTask copyWithCompanion(TemplateTasksCompanion data) {
     return TemplateTask(
       id: data.id.present ? data.id.value : this.id,
-      templateId: data.templateId.present
-          ? data.templateId.value
-          : this.templateId,
+      milestoneId: data.milestoneId.present
+          ? data.milestoneId.value
+          : this.milestoneId,
       label: data.label.present ? data.label.value : this.label,
-      stage: data.stage.present ? data.stage.value : this.stage,
-      offsetDays: data.offsetDays.present
-          ? data.offsetDays.value
-          : this.offsetDays,
+      offsetDaysFromMilestoneEnd: data.offsetDaysFromMilestoneEnd.present
+          ? data.offsetDaysFromMilestoneEnd.value
+          : this.offsetDaysFromMilestoneEnd,
       isMandatory: data.isMandatory.present
           ? data.isMandatory.value
           : this.isMandatory,
@@ -3133,86 +3174,84 @@ class TemplateTask extends DataClass implements Insertable<TemplateTask> {
   String toString() {
     return (StringBuffer('TemplateTask(')
           ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
+          ..write('milestoneId: $milestoneId, ')
           ..write('label: $label, ')
-          ..write('stage: $stage, ')
-          ..write('offsetDays: $offsetDays, ')
+          ..write('offsetDaysFromMilestoneEnd: $offsetDaysFromMilestoneEnd, ')
           ..write('isMandatory: $isMandatory')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, templateId, label, stage, offsetDays, isMandatory);
+  int get hashCode => Object.hash(
+    id,
+    milestoneId,
+    label,
+    offsetDaysFromMilestoneEnd,
+    isMandatory,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is TemplateTask &&
           other.id == this.id &&
-          other.templateId == this.templateId &&
+          other.milestoneId == this.milestoneId &&
           other.label == this.label &&
-          other.stage == this.stage &&
-          other.offsetDays == this.offsetDays &&
+          other.offsetDaysFromMilestoneEnd == this.offsetDaysFromMilestoneEnd &&
           other.isMandatory == this.isMandatory);
 }
 
 class TemplateTasksCompanion extends UpdateCompanion<TemplateTask> {
   final Value<int> id;
-  final Value<String> templateId;
+  final Value<int> milestoneId;
   final Value<String> label;
-  final Value<String?> stage;
-  final Value<int?> offsetDays;
+  final Value<int> offsetDaysFromMilestoneEnd;
   final Value<bool> isMandatory;
   const TemplateTasksCompanion({
     this.id = const Value.absent(),
-    this.templateId = const Value.absent(),
+    this.milestoneId = const Value.absent(),
     this.label = const Value.absent(),
-    this.stage = const Value.absent(),
-    this.offsetDays = const Value.absent(),
+    this.offsetDaysFromMilestoneEnd = const Value.absent(),
     this.isMandatory = const Value.absent(),
   });
   TemplateTasksCompanion.insert({
     this.id = const Value.absent(),
-    required String templateId,
+    required int milestoneId,
     required String label,
-    this.stage = const Value.absent(),
-    this.offsetDays = const Value.absent(),
+    this.offsetDaysFromMilestoneEnd = const Value.absent(),
     this.isMandatory = const Value.absent(),
-  }) : templateId = Value(templateId),
+  }) : milestoneId = Value(milestoneId),
        label = Value(label);
   static Insertable<TemplateTask> custom({
     Expression<int>? id,
-    Expression<String>? templateId,
+    Expression<int>? milestoneId,
     Expression<String>? label,
-    Expression<String>? stage,
-    Expression<int>? offsetDays,
+    Expression<int>? offsetDaysFromMilestoneEnd,
     Expression<bool>? isMandatory,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (templateId != null) 'template_id': templateId,
+      if (milestoneId != null) 'milestone_id': milestoneId,
       if (label != null) 'label': label,
-      if (stage != null) 'stage': stage,
-      if (offsetDays != null) 'offset_days': offsetDays,
+      if (offsetDaysFromMilestoneEnd != null)
+        'offset_days_from_milestone_end': offsetDaysFromMilestoneEnd,
       if (isMandatory != null) 'is_mandatory': isMandatory,
     });
   }
 
   TemplateTasksCompanion copyWith({
     Value<int>? id,
-    Value<String>? templateId,
+    Value<int>? milestoneId,
     Value<String>? label,
-    Value<String?>? stage,
-    Value<int?>? offsetDays,
+    Value<int>? offsetDaysFromMilestoneEnd,
     Value<bool>? isMandatory,
   }) {
     return TemplateTasksCompanion(
       id: id ?? this.id,
-      templateId: templateId ?? this.templateId,
+      milestoneId: milestoneId ?? this.milestoneId,
       label: label ?? this.label,
-      stage: stage ?? this.stage,
-      offsetDays: offsetDays ?? this.offsetDays,
+      offsetDaysFromMilestoneEnd:
+          offsetDaysFromMilestoneEnd ?? this.offsetDaysFromMilestoneEnd,
       isMandatory: isMandatory ?? this.isMandatory,
     );
   }
@@ -3223,17 +3262,16 @@ class TemplateTasksCompanion extends UpdateCompanion<TemplateTask> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (templateId.present) {
-      map['template_id'] = Variable<String>(templateId.value);
+    if (milestoneId.present) {
+      map['milestone_id'] = Variable<int>(milestoneId.value);
     }
     if (label.present) {
       map['label'] = Variable<String>(label.value);
     }
-    if (stage.present) {
-      map['stage'] = Variable<String>(stage.value);
-    }
-    if (offsetDays.present) {
-      map['offset_days'] = Variable<int>(offsetDays.value);
+    if (offsetDaysFromMilestoneEnd.present) {
+      map['offset_days_from_milestone_end'] = Variable<int>(
+        offsetDaysFromMilestoneEnd.value,
+      );
     }
     if (isMandatory.present) {
       map['is_mandatory'] = Variable<bool>(isMandatory.value);
@@ -3245,10 +3283,9 @@ class TemplateTasksCompanion extends UpdateCompanion<TemplateTask> {
   String toString() {
     return (StringBuffer('TemplateTasksCompanion(')
           ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
+          ..write('milestoneId: $milestoneId, ')
           ..write('label: $label, ')
-          ..write('stage: $stage, ')
-          ..write('offsetDays: $offsetDays, ')
+          ..write('offsetDaysFromMilestoneEnd: $offsetDaysFromMilestoneEnd, ')
           ..write('isMandatory: $isMandatory')
           ..write(')'))
         .toString();
@@ -3313,7 +3350,26 @@ class $TemplateDocumentsTable extends TemplateDocuments
     defaultValue: const Constant(false),
   );
   @override
-  List<GeneratedColumn> get $columns => [id, templateId, name, isOptional];
+  late final GeneratedColumnWithTypeConverter<DocumentSubmissionType, int>
+  submissionType =
+      GeneratedColumn<int>(
+        'submission_type',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(1),
+      ).withConverter<DocumentSubmissionType>(
+        $TemplateDocumentsTable.$convertersubmissionType,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    name,
+    isOptional,
+    submissionType,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3376,6 +3432,12 @@ class $TemplateDocumentsTable extends TemplateDocuments
         DriftSqlType.bool,
         data['${effectivePrefix}is_optional'],
       )!,
+      submissionType: $TemplateDocumentsTable.$convertersubmissionType.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}submission_type'],
+        )!,
+      ),
     );
   }
 
@@ -3383,6 +3445,11 @@ class $TemplateDocumentsTable extends TemplateDocuments
   $TemplateDocumentsTable createAlias(String alias) {
     return $TemplateDocumentsTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<DocumentSubmissionType, int, int>
+  $convertersubmissionType = const EnumIndexConverter<DocumentSubmissionType>(
+    DocumentSubmissionType.values,
+  );
 }
 
 class TemplateDocument extends DataClass
@@ -3391,11 +3458,13 @@ class TemplateDocument extends DataClass
   final String templateId;
   final String name;
   final bool isOptional;
+  final DocumentSubmissionType submissionType;
   const TemplateDocument({
     required this.id,
     required this.templateId,
     required this.name,
     required this.isOptional,
+    required this.submissionType,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3404,6 +3473,11 @@ class TemplateDocument extends DataClass
     map['template_id'] = Variable<String>(templateId);
     map['name'] = Variable<String>(name);
     map['is_optional'] = Variable<bool>(isOptional);
+    {
+      map['submission_type'] = Variable<int>(
+        $TemplateDocumentsTable.$convertersubmissionType.toSql(submissionType),
+      );
+    }
     return map;
   }
 
@@ -3413,6 +3487,7 @@ class TemplateDocument extends DataClass
       templateId: Value(templateId),
       name: Value(name),
       isOptional: Value(isOptional),
+      submissionType: Value(submissionType),
     );
   }
 
@@ -3426,6 +3501,9 @@ class TemplateDocument extends DataClass
       templateId: serializer.fromJson<String>(json['templateId']),
       name: serializer.fromJson<String>(json['name']),
       isOptional: serializer.fromJson<bool>(json['isOptional']),
+      submissionType: $TemplateDocumentsTable.$convertersubmissionType.fromJson(
+        serializer.fromJson<int>(json['submissionType']),
+      ),
     );
   }
   @override
@@ -3436,6 +3514,9 @@ class TemplateDocument extends DataClass
       'templateId': serializer.toJson<String>(templateId),
       'name': serializer.toJson<String>(name),
       'isOptional': serializer.toJson<bool>(isOptional),
+      'submissionType': serializer.toJson<int>(
+        $TemplateDocumentsTable.$convertersubmissionType.toJson(submissionType),
+      ),
     };
   }
 
@@ -3444,11 +3525,13 @@ class TemplateDocument extends DataClass
     String? templateId,
     String? name,
     bool? isOptional,
+    DocumentSubmissionType? submissionType,
   }) => TemplateDocument(
     id: id ?? this.id,
     templateId: templateId ?? this.templateId,
     name: name ?? this.name,
     isOptional: isOptional ?? this.isOptional,
+    submissionType: submissionType ?? this.submissionType,
   );
   TemplateDocument copyWithCompanion(TemplateDocumentsCompanion data) {
     return TemplateDocument(
@@ -3460,6 +3543,9 @@ class TemplateDocument extends DataClass
       isOptional: data.isOptional.present
           ? data.isOptional.value
           : this.isOptional,
+      submissionType: data.submissionType.present
+          ? data.submissionType.value
+          : this.submissionType,
     );
   }
 
@@ -3469,13 +3555,15 @@ class TemplateDocument extends DataClass
           ..write('id: $id, ')
           ..write('templateId: $templateId, ')
           ..write('name: $name, ')
-          ..write('isOptional: $isOptional')
+          ..write('isOptional: $isOptional, ')
+          ..write('submissionType: $submissionType')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, templateId, name, isOptional);
+  int get hashCode =>
+      Object.hash(id, templateId, name, isOptional, submissionType);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3483,7 +3571,8 @@ class TemplateDocument extends DataClass
           other.id == this.id &&
           other.templateId == this.templateId &&
           other.name == this.name &&
-          other.isOptional == this.isOptional);
+          other.isOptional == this.isOptional &&
+          other.submissionType == this.submissionType);
 }
 
 class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
@@ -3491,17 +3580,20 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
   final Value<String> templateId;
   final Value<String> name;
   final Value<bool> isOptional;
+  final Value<DocumentSubmissionType> submissionType;
   const TemplateDocumentsCompanion({
     this.id = const Value.absent(),
     this.templateId = const Value.absent(),
     this.name = const Value.absent(),
     this.isOptional = const Value.absent(),
+    this.submissionType = const Value.absent(),
   });
   TemplateDocumentsCompanion.insert({
     this.id = const Value.absent(),
     required String templateId,
     required String name,
     this.isOptional = const Value.absent(),
+    this.submissionType = const Value.absent(),
   }) : templateId = Value(templateId),
        name = Value(name);
   static Insertable<TemplateDocument> custom({
@@ -3509,12 +3601,14 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
     Expression<String>? templateId,
     Expression<String>? name,
     Expression<bool>? isOptional,
+    Expression<int>? submissionType,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (templateId != null) 'template_id': templateId,
       if (name != null) 'name': name,
       if (isOptional != null) 'is_optional': isOptional,
+      if (submissionType != null) 'submission_type': submissionType,
     });
   }
 
@@ -3523,12 +3617,14 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
     Value<String>? templateId,
     Value<String>? name,
     Value<bool>? isOptional,
+    Value<DocumentSubmissionType>? submissionType,
   }) {
     return TemplateDocumentsCompanion(
       id: id ?? this.id,
       templateId: templateId ?? this.templateId,
       name: name ?? this.name,
       isOptional: isOptional ?? this.isOptional,
+      submissionType: submissionType ?? this.submissionType,
     );
   }
 
@@ -3547,6 +3643,13 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
     if (isOptional.present) {
       map['is_optional'] = Variable<bool>(isOptional.value);
     }
+    if (submissionType.present) {
+      map['submission_type'] = Variable<int>(
+        $TemplateDocumentsTable.$convertersubmissionType.toSql(
+          submissionType.value,
+        ),
+      );
+    }
     return map;
   }
 
@@ -3556,7 +3659,8 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
           ..write('id: $id, ')
           ..write('templateId: $templateId, ')
           ..write('name: $name, ')
-          ..write('isOptional: $isOptional')
+          ..write('isOptional: $isOptional, ')
+          ..write('submissionType: $submissionType')
           ..write(')'))
         .toString();
   }
@@ -3570,6 +3674,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ScholarshipTemplatesTable(this);
   late final $ApplicationsTable applications = $ApplicationsTable(this);
   late final $TasksTable tasks = $TasksTable(this);
+  late final $TemplateMilestonesTable templateMilestones =
+      $TemplateMilestonesTable(this);
   late final $TemplateTasksTable templateTasks = $TemplateTasksTable(this);
   late final $TemplateDocumentsTable templateDocuments =
       $TemplateDocumentsTable(this);
@@ -3582,6 +3688,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     scholarshipTemplates,
     applications,
     tasks,
+    templateMilestones,
     templateTasks,
     templateDocuments,
   ];
@@ -3780,12 +3887,6 @@ typedef $$ScholarshipTemplatesTableCreateCompanionBuilder =
       Value<String?> fieldOfStudy,
       Value<String?> fundingType,
       Value<String?> fundingAmount,
-      Value<DateTime?> applicationDeadline,
-      Value<DateTime?> programStartDate,
-      Value<int?> applicationDurationMonths,
-      Value<String?> eligibility,
-      Value<String?> requiredGPA,
-      Value<String?> languageRequirements,
       Value<String?> color,
       Value<String?> icon,
       Value<String?> website,
@@ -3811,12 +3912,6 @@ typedef $$ScholarshipTemplatesTableUpdateCompanionBuilder =
       Value<String?> fieldOfStudy,
       Value<String?> fundingType,
       Value<String?> fundingAmount,
-      Value<DateTime?> applicationDeadline,
-      Value<DateTime?> programStartDate,
-      Value<int?> applicationDurationMonths,
-      Value<String?> eligibility,
-      Value<String?> requiredGPA,
-      Value<String?> languageRequirements,
       Value<String?> color,
       Value<String?> icon,
       Value<String?> website,
@@ -3865,22 +3960,25 @@ final class $$ScholarshipTemplatesTableReferences
     );
   }
 
-  static MultiTypedResultKey<$TemplateTasksTable, List<TemplateTask>>
-  _templateTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.templateTasks,
-    aliasName: $_aliasNameGenerator(
-      db.scholarshipTemplates.id,
-      db.templateTasks.templateId,
-    ),
-  );
+  static MultiTypedResultKey<$TemplateMilestonesTable, List<TemplateMilestone>>
+  _templateMilestonesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.templateMilestones,
+        aliasName: $_aliasNameGenerator(
+          db.scholarshipTemplates.id,
+          db.templateMilestones.templateId,
+        ),
+      );
 
-  $$TemplateTasksTableProcessedTableManager get templateTasksRefs {
-    final manager = $$TemplateTasksTableTableManager(
+  $$TemplateMilestonesTableProcessedTableManager get templateMilestonesRefs {
+    final manager = $$TemplateMilestonesTableTableManager(
       $_db,
-      $_db.templateTasks,
+      $_db.templateMilestones,
     ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<String>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(_templateTasksRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _templateMilestonesRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -3970,36 +4068,6 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<DateTime> get applicationDeadline => $composableBuilder(
-    column: $table.applicationDeadline,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get programStartDate => $composableBuilder(
-    column: $table.programStartDate,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get applicationDurationMonths => $composableBuilder(
-    column: $table.applicationDurationMonths,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get eligibility => $composableBuilder(
-    column: $table.eligibility,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get requiredGPA => $composableBuilder(
-    column: $table.requiredGPA,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get languageRequirements => $composableBuilder(
-    column: $table.languageRequirements,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<String> get color => $composableBuilder(
     column: $table.color,
     builder: (column) => ColumnFilters(column),
@@ -4080,22 +4148,22 @@ class $$ScholarshipTemplatesTableFilterComposer
     return f(composer);
   }
 
-  Expression<bool> templateTasksRefs(
-    Expression<bool> Function($$TemplateTasksTableFilterComposer f) f,
+  Expression<bool> templateMilestonesRefs(
+    Expression<bool> Function($$TemplateMilestonesTableFilterComposer f) f,
   ) {
-    final $$TemplateTasksTableFilterComposer composer = $composerBuilder(
+    final $$TemplateMilestonesTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.id,
-      referencedTable: $db.templateTasks,
+      referencedTable: $db.templateMilestones,
       getReferencedColumn: (t) => t.templateId,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateTasksTableFilterComposer(
+          }) => $$TemplateMilestonesTableFilterComposer(
             $db: $db,
-            $table: $db.templateTasks,
+            $table: $db.templateMilestones,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -4187,36 +4255,6 @@ class $$ScholarshipTemplatesTableOrderingComposer
 
   ColumnOrderings<String> get fundingAmount => $composableBuilder(
     column: $table.fundingAmount,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get applicationDeadline => $composableBuilder(
-    column: $table.applicationDeadline,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get programStartDate => $composableBuilder(
-    column: $table.programStartDate,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get applicationDurationMonths => $composableBuilder(
-    column: $table.applicationDurationMonths,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get eligibility => $composableBuilder(
-    column: $table.eligibility,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get requiredGPA => $composableBuilder(
-    column: $table.requiredGPA,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get languageRequirements => $composableBuilder(
-    column: $table.languageRequirements,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -4329,36 +4367,6 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<DateTime> get applicationDeadline => $composableBuilder(
-    column: $table.applicationDeadline,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<DateTime> get programStartDate => $composableBuilder(
-    column: $table.programStartDate,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get applicationDurationMonths => $composableBuilder(
-    column: $table.applicationDurationMonths,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get eligibility => $composableBuilder(
-    column: $table.eligibility,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get requiredGPA => $composableBuilder(
-    column: $table.requiredGPA,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get languageRequirements => $composableBuilder(
-    column: $table.languageRequirements,
-    builder: (column) => column,
-  );
-
   GeneratedColumn<String> get color =>
       $composableBuilder(column: $table.color, builder: (column) => column);
 
@@ -4427,28 +4435,29 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     return f(composer);
   }
 
-  Expression<T> templateTasksRefs<T extends Object>(
-    Expression<T> Function($$TemplateTasksTableAnnotationComposer a) f,
+  Expression<T> templateMilestonesRefs<T extends Object>(
+    Expression<T> Function($$TemplateMilestonesTableAnnotationComposer a) f,
   ) {
-    final $$TemplateTasksTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.templateTasks,
-      getReferencedColumn: (t) => t.templateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateTasksTableAnnotationComposer(
-            $db: $db,
-            $table: $db.templateTasks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
+    final $$TemplateMilestonesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.templateMilestones,
+          getReferencedColumn: (t) => t.templateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer,
-          ),
-    );
+              }) => $$TemplateMilestonesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.templateMilestones,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
@@ -4494,7 +4503,7 @@ class $$ScholarshipTemplatesTableTableManager
           ScholarshipTemplate,
           PrefetchHooks Function({
             bool applicationsRefs,
-            bool templateTasksRefs,
+            bool templateMilestonesRefs,
             bool templateDocumentsRefs,
           })
         > {
@@ -4529,12 +4538,6 @@ class $$ScholarshipTemplatesTableTableManager
                 Value<String?> fieldOfStudy = const Value.absent(),
                 Value<String?> fundingType = const Value.absent(),
                 Value<String?> fundingAmount = const Value.absent(),
-                Value<DateTime?> applicationDeadline = const Value.absent(),
-                Value<DateTime?> programStartDate = const Value.absent(),
-                Value<int?> applicationDurationMonths = const Value.absent(),
-                Value<String?> eligibility = const Value.absent(),
-                Value<String?> requiredGPA = const Value.absent(),
-                Value<String?> languageRequirements = const Value.absent(),
                 Value<String?> color = const Value.absent(),
                 Value<String?> icon = const Value.absent(),
                 Value<String?> website = const Value.absent(),
@@ -4558,12 +4561,6 @@ class $$ScholarshipTemplatesTableTableManager
                 fieldOfStudy: fieldOfStudy,
                 fundingType: fundingType,
                 fundingAmount: fundingAmount,
-                applicationDeadline: applicationDeadline,
-                programStartDate: programStartDate,
-                applicationDurationMonths: applicationDurationMonths,
-                eligibility: eligibility,
-                requiredGPA: requiredGPA,
-                languageRequirements: languageRequirements,
                 color: color,
                 icon: icon,
                 website: website,
@@ -4589,12 +4586,6 @@ class $$ScholarshipTemplatesTableTableManager
                 Value<String?> fieldOfStudy = const Value.absent(),
                 Value<String?> fundingType = const Value.absent(),
                 Value<String?> fundingAmount = const Value.absent(),
-                Value<DateTime?> applicationDeadline = const Value.absent(),
-                Value<DateTime?> programStartDate = const Value.absent(),
-                Value<int?> applicationDurationMonths = const Value.absent(),
-                Value<String?> eligibility = const Value.absent(),
-                Value<String?> requiredGPA = const Value.absent(),
-                Value<String?> languageRequirements = const Value.absent(),
                 Value<String?> color = const Value.absent(),
                 Value<String?> icon = const Value.absent(),
                 Value<String?> website = const Value.absent(),
@@ -4618,12 +4609,6 @@ class $$ScholarshipTemplatesTableTableManager
                 fieldOfStudy: fieldOfStudy,
                 fundingType: fundingType,
                 fundingAmount: fundingAmount,
-                applicationDeadline: applicationDeadline,
-                programStartDate: programStartDate,
-                applicationDurationMonths: applicationDurationMonths,
-                eligibility: eligibility,
-                requiredGPA: requiredGPA,
-                languageRequirements: languageRequirements,
                 color: color,
                 icon: icon,
                 website: website,
@@ -4648,14 +4633,14 @@ class $$ScholarshipTemplatesTableTableManager
           prefetchHooksCallback:
               ({
                 applicationsRefs = false,
-                templateTasksRefs = false,
+                templateMilestonesRefs = false,
                 templateDocumentsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (applicationsRefs) db.applications,
-                    if (templateTasksRefs) db.templateTasks,
+                    if (templateMilestonesRefs) db.templateMilestones,
                     if (templateDocumentsRefs) db.templateDocuments,
                   ],
                   addJoins: null,
@@ -4682,21 +4667,21 @@ class $$ScholarshipTemplatesTableTableManager
                               ),
                           typedResults: items,
                         ),
-                      if (templateTasksRefs)
+                      if (templateMilestonesRefs)
                         await $_getPrefetchedData<
                           ScholarshipTemplate,
                           $ScholarshipTemplatesTable,
-                          TemplateTask
+                          TemplateMilestone
                         >(
                           currentTable: table,
                           referencedTable: $$ScholarshipTemplatesTableReferences
-                              ._templateTasksRefsTable(db),
+                              ._templateMilestonesRefsTable(db),
                           managerFromTypedResult: (p0) =>
                               $$ScholarshipTemplatesTableReferences(
                                 db,
                                 table,
                                 p0,
-                              ).templateTasksRefs,
+                              ).templateMilestonesRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.templateId == item.id,
@@ -4746,7 +4731,7 @@ typedef $$ScholarshipTemplatesTableProcessedTableManager =
       ScholarshipTemplate,
       PrefetchHooks Function({
         bool applicationsRefs,
-        bool templateTasksRefs,
+        bool templateMilestonesRefs,
         bool templateDocumentsRefs,
       })
     >;
@@ -5570,28 +5555,33 @@ typedef $$TasksTableProcessedTableManager =
       Task,
       PrefetchHooks Function({bool applicationId})
     >;
-typedef $$TemplateTasksTableCreateCompanionBuilder =
-    TemplateTasksCompanion Function({
+typedef $$TemplateMilestonesTableCreateCompanionBuilder =
+    TemplateMilestonesCompanion Function({
       Value<int> id,
       required String templateId,
-      required String label,
-      Value<String?> stage,
-      Value<int?> offsetDays,
-      Value<bool> isMandatory,
+      required String name,
+      required int order,
+      required int startDateOffsetDays,
+      required int endDateOffsetDays,
     });
-typedef $$TemplateTasksTableUpdateCompanionBuilder =
-    TemplateTasksCompanion Function({
+typedef $$TemplateMilestonesTableUpdateCompanionBuilder =
+    TemplateMilestonesCompanion Function({
       Value<int> id,
       Value<String> templateId,
-      Value<String> label,
-      Value<String?> stage,
-      Value<int?> offsetDays,
-      Value<bool> isMandatory,
+      Value<String> name,
+      Value<int> order,
+      Value<int> startDateOffsetDays,
+      Value<int> endDateOffsetDays,
     });
 
-final class $$TemplateTasksTableReferences
-    extends BaseReferences<_$AppDatabase, $TemplateTasksTable, TemplateTask> {
-  $$TemplateTasksTableReferences(
+final class $$TemplateMilestonesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TemplateMilestonesTable,
+          TemplateMilestone
+        > {
+  $$TemplateMilestonesTableReferences(
     super.$_db,
     super.$_table,
     super.$_typedResult,
@@ -5600,7 +5590,7 @@ final class $$TemplateTasksTableReferences
   static $ScholarshipTemplatesTable _templateIdTable(_$AppDatabase db) =>
       db.scholarshipTemplates.createAlias(
         $_aliasNameGenerator(
-          db.templateTasks.templateId,
+          db.templateMilestones.templateId,
           db.scholarshipTemplates.id,
         ),
       );
@@ -5613,6 +5603,452 @@ final class $$TemplateTasksTableReferences
       $_db.scholarshipTemplates,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$TemplateTasksTable, List<TemplateTask>>
+  _templateTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.templateTasks,
+    aliasName: $_aliasNameGenerator(
+      db.templateMilestones.id,
+      db.templateTasks.milestoneId,
+    ),
+  );
+
+  $$TemplateTasksTableProcessedTableManager get templateTasksRefs {
+    final manager = $$TemplateTasksTableTableManager(
+      $_db,
+      $_db.templateTasks,
+    ).filter((f) => f.milestoneId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_templateTasksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$TemplateMilestonesTableFilterComposer
+    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
+  $$TemplateMilestonesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ScholarshipTemplatesTableFilterComposer get templateId {
+    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.templateId,
+      referencedTable: $db.scholarshipTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.scholarshipTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> templateTasksRefs(
+    Expression<bool> Function($$TemplateTasksTableFilterComposer f) f,
+  ) {
+    final $$TemplateTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.templateTasks,
+      getReferencedColumn: (t) => t.milestoneId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TemplateTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.templateTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TemplateMilestonesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
+  $$TemplateMilestonesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ScholarshipTemplatesTableOrderingComposer get templateId {
+    final $$ScholarshipTemplatesTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableOrderingComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$TemplateMilestonesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
+  $$TemplateMilestonesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
+
+  GeneratedColumn<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => column,
+  );
+
+  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
+    final $$ScholarshipTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  Expression<T> templateTasksRefs<T extends Object>(
+    Expression<T> Function($$TemplateTasksTableAnnotationComposer a) f,
+  ) {
+    final $$TemplateTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.templateTasks,
+      getReferencedColumn: (t) => t.milestoneId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TemplateTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.templateTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TemplateMilestonesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TemplateMilestonesTable,
+          TemplateMilestone,
+          $$TemplateMilestonesTableFilterComposer,
+          $$TemplateMilestonesTableOrderingComposer,
+          $$TemplateMilestonesTableAnnotationComposer,
+          $$TemplateMilestonesTableCreateCompanionBuilder,
+          $$TemplateMilestonesTableUpdateCompanionBuilder,
+          (TemplateMilestone, $$TemplateMilestonesTableReferences),
+          TemplateMilestone,
+          PrefetchHooks Function({bool templateId, bool templateTasksRefs})
+        > {
+  $$TemplateMilestonesTableTableManager(
+    _$AppDatabase db,
+    $TemplateMilestonesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TemplateMilestonesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TemplateMilestonesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TemplateMilestonesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> templateId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> order = const Value.absent(),
+                Value<int> startDateOffsetDays = const Value.absent(),
+                Value<int> endDateOffsetDays = const Value.absent(),
+              }) => TemplateMilestonesCompanion(
+                id: id,
+                templateId: templateId,
+                name: name,
+                order: order,
+                startDateOffsetDays: startDateOffsetDays,
+                endDateOffsetDays: endDateOffsetDays,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String templateId,
+                required String name,
+                required int order,
+                required int startDateOffsetDays,
+                required int endDateOffsetDays,
+              }) => TemplateMilestonesCompanion.insert(
+                id: id,
+                templateId: templateId,
+                name: name,
+                order: order,
+                startDateOffsetDays: startDateOffsetDays,
+                endDateOffsetDays: endDateOffsetDays,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TemplateMilestonesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({templateId = false, templateTasksRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (templateTasksRefs) db.templateTasks,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (templateId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.templateId,
+                                    referencedTable:
+                                        $$TemplateMilestonesTableReferences
+                                            ._templateIdTable(db),
+                                    referencedColumn:
+                                        $$TemplateMilestonesTableReferences
+                                            ._templateIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (templateTasksRefs)
+                        await $_getPrefetchedData<
+                          TemplateMilestone,
+                          $TemplateMilestonesTable,
+                          TemplateTask
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TemplateMilestonesTableReferences
+                              ._templateTasksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TemplateMilestonesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).templateTasksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.milestoneId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TemplateMilestonesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TemplateMilestonesTable,
+      TemplateMilestone,
+      $$TemplateMilestonesTableFilterComposer,
+      $$TemplateMilestonesTableOrderingComposer,
+      $$TemplateMilestonesTableAnnotationComposer,
+      $$TemplateMilestonesTableCreateCompanionBuilder,
+      $$TemplateMilestonesTableUpdateCompanionBuilder,
+      (TemplateMilestone, $$TemplateMilestonesTableReferences),
+      TemplateMilestone,
+      PrefetchHooks Function({bool templateId, bool templateTasksRefs})
+    >;
+typedef $$TemplateTasksTableCreateCompanionBuilder =
+    TemplateTasksCompanion Function({
+      Value<int> id,
+      required int milestoneId,
+      required String label,
+      Value<int> offsetDaysFromMilestoneEnd,
+      Value<bool> isMandatory,
+    });
+typedef $$TemplateTasksTableUpdateCompanionBuilder =
+    TemplateTasksCompanion Function({
+      Value<int> id,
+      Value<int> milestoneId,
+      Value<String> label,
+      Value<int> offsetDaysFromMilestoneEnd,
+      Value<bool> isMandatory,
+    });
+
+final class $$TemplateTasksTableReferences
+    extends BaseReferences<_$AppDatabase, $TemplateTasksTable, TemplateTask> {
+  $$TemplateTasksTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TemplateMilestonesTable _milestoneIdTable(_$AppDatabase db) =>
+      db.templateMilestones.createAlias(
+        $_aliasNameGenerator(
+          db.templateTasks.milestoneId,
+          db.templateMilestones.id,
+        ),
+      );
+
+  $$TemplateMilestonesTableProcessedTableManager get milestoneId {
+    final $_column = $_itemColumn<int>('milestone_id')!;
+
+    final manager = $$TemplateMilestonesTableTableManager(
+      $_db,
+      $_db.templateMilestones,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_milestoneIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -5639,13 +6075,8 @@ class $$TemplateTasksTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get stage => $composableBuilder(
-    column: $table.stage,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get offsetDays => $composableBuilder(
-    column: $table.offsetDays,
+  ColumnFilters<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
+    column: $table.offsetDaysFromMilestoneEnd,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5654,20 +6085,20 @@ class $$TemplateTasksTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  $$ScholarshipTemplatesTableFilterComposer get templateId {
-    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
+  $$TemplateMilestonesTableFilterComposer get milestoneId {
+    final $$TemplateMilestonesTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.templateId,
-      referencedTable: $db.scholarshipTemplates,
+      getCurrentColumn: (t) => t.milestoneId,
+      referencedTable: $db.templateMilestones,
       getReferencedColumn: (t) => t.id,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$ScholarshipTemplatesTableFilterComposer(
+          }) => $$TemplateMilestonesTableFilterComposer(
             $db: $db,
-            $table: $db.scholarshipTemplates,
+            $table: $db.templateMilestones,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5697,13 +6128,8 @@ class $$TemplateTasksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get stage => $composableBuilder(
-    column: $table.stage,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get offsetDays => $composableBuilder(
-    column: $table.offsetDays,
+  ColumnOrderings<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
+    column: $table.offsetDaysFromMilestoneEnd,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5712,27 +6138,26 @@ class $$TemplateTasksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  $$ScholarshipTemplatesTableOrderingComposer get templateId {
-    final $$ScholarshipTemplatesTableOrderingComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
+  $$TemplateMilestonesTableOrderingComposer get milestoneId {
+    final $$TemplateMilestonesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.milestoneId,
+      referencedTable: $db.templateMilestones,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TemplateMilestonesTableOrderingComposer(
+            $db: $db,
+            $table: $db.templateMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
                 $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableOrderingComposer(
-                $db: $db,
-                $table: $db.scholarshipTemplates,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
+          ),
+    );
     return composer;
   }
 }
@@ -5752,11 +6177,8 @@ class $$TemplateTasksTableAnnotationComposer
   GeneratedColumn<String> get label =>
       $composableBuilder(column: $table.label, builder: (column) => column);
 
-  GeneratedColumn<String> get stage =>
-      $composableBuilder(column: $table.stage, builder: (column) => column);
-
-  GeneratedColumn<int> get offsetDays => $composableBuilder(
-    column: $table.offsetDays,
+  GeneratedColumn<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
+    column: $table.offsetDaysFromMilestoneEnd,
     builder: (column) => column,
   );
 
@@ -5765,21 +6187,21 @@ class $$TemplateTasksTableAnnotationComposer
     builder: (column) => column,
   );
 
-  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
-    final $$ScholarshipTemplatesTableAnnotationComposer composer =
+  $$TemplateMilestonesTableAnnotationComposer get milestoneId {
+    final $$TemplateMilestonesTableAnnotationComposer composer =
         $composerBuilder(
           composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
+          getCurrentColumn: (t) => t.milestoneId,
+          referencedTable: $db.templateMilestones,
           getReferencedColumn: (t) => t.id,
           builder:
               (
                 joinBuilder, {
                 $addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableAnnotationComposer(
+              }) => $$TemplateMilestonesTableAnnotationComposer(
                 $db: $db,
-                $table: $db.scholarshipTemplates,
+                $table: $db.templateMilestones,
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -5803,7 +6225,7 @@ class $$TemplateTasksTableTableManager
           $$TemplateTasksTableUpdateCompanionBuilder,
           (TemplateTask, $$TemplateTasksTableReferences),
           TemplateTask,
-          PrefetchHooks Function({bool templateId})
+          PrefetchHooks Function({bool milestoneId})
         > {
   $$TemplateTasksTableTableManager(_$AppDatabase db, $TemplateTasksTable table)
     : super(
@@ -5819,33 +6241,29 @@ class $$TemplateTasksTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> templateId = const Value.absent(),
+                Value<int> milestoneId = const Value.absent(),
                 Value<String> label = const Value.absent(),
-                Value<String?> stage = const Value.absent(),
-                Value<int?> offsetDays = const Value.absent(),
+                Value<int> offsetDaysFromMilestoneEnd = const Value.absent(),
                 Value<bool> isMandatory = const Value.absent(),
               }) => TemplateTasksCompanion(
                 id: id,
-                templateId: templateId,
+                milestoneId: milestoneId,
                 label: label,
-                stage: stage,
-                offsetDays: offsetDays,
+                offsetDaysFromMilestoneEnd: offsetDaysFromMilestoneEnd,
                 isMandatory: isMandatory,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String templateId,
+                required int milestoneId,
                 required String label,
-                Value<String?> stage = const Value.absent(),
-                Value<int?> offsetDays = const Value.absent(),
+                Value<int> offsetDaysFromMilestoneEnd = const Value.absent(),
                 Value<bool> isMandatory = const Value.absent(),
               }) => TemplateTasksCompanion.insert(
                 id: id,
-                templateId: templateId,
+                milestoneId: milestoneId,
                 label: label,
-                stage: stage,
-                offsetDays: offsetDays,
+                offsetDaysFromMilestoneEnd: offsetDaysFromMilestoneEnd,
                 isMandatory: isMandatory,
               ),
           withReferenceMapper: (p0) => p0
@@ -5856,7 +6274,7 @@ class $$TemplateTasksTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({templateId = false}) {
+          prefetchHooksCallback: ({milestoneId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -5876,15 +6294,15 @@ class $$TemplateTasksTableTableManager
                       dynamic
                     >
                   >(state) {
-                    if (templateId) {
+                    if (milestoneId) {
                       state =
                           state.withJoin(
                                 currentTable: table,
-                                currentColumn: table.templateId,
+                                currentColumn: table.milestoneId,
                                 referencedTable: $$TemplateTasksTableReferences
-                                    ._templateIdTable(db),
+                                    ._milestoneIdTable(db),
                                 referencedColumn: $$TemplateTasksTableReferences
-                                    ._templateIdTable(db)
+                                    ._milestoneIdTable(db)
                                     .id,
                               )
                               as T;
@@ -5913,7 +6331,7 @@ typedef $$TemplateTasksTableProcessedTableManager =
       $$TemplateTasksTableUpdateCompanionBuilder,
       (TemplateTask, $$TemplateTasksTableReferences),
       TemplateTask,
-      PrefetchHooks Function({bool templateId})
+      PrefetchHooks Function({bool milestoneId})
     >;
 typedef $$TemplateDocumentsTableCreateCompanionBuilder =
     TemplateDocumentsCompanion Function({
@@ -5921,6 +6339,7 @@ typedef $$TemplateDocumentsTableCreateCompanionBuilder =
       required String templateId,
       required String name,
       Value<bool> isOptional,
+      Value<DocumentSubmissionType> submissionType,
     });
 typedef $$TemplateDocumentsTableUpdateCompanionBuilder =
     TemplateDocumentsCompanion Function({
@@ -5928,6 +6347,7 @@ typedef $$TemplateDocumentsTableUpdateCompanionBuilder =
       Value<String> templateId,
       Value<String> name,
       Value<bool> isOptional,
+      Value<DocumentSubmissionType> submissionType,
     });
 
 final class $$TemplateDocumentsTableReferences
@@ -5990,6 +6410,16 @@ class $$TemplateDocumentsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnWithTypeConverterFilters<
+    DocumentSubmissionType,
+    DocumentSubmissionType,
+    int
+  >
+  get submissionType => $composableBuilder(
+    column: $table.submissionType,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
   $$ScholarshipTemplatesTableFilterComposer get templateId {
     final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -6038,6 +6468,11 @@ class $$TemplateDocumentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get submissionType => $composableBuilder(
+    column: $table.submissionType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ScholarshipTemplatesTableOrderingComposer get templateId {
     final $$ScholarshipTemplatesTableOrderingComposer composer =
         $composerBuilder(
@@ -6080,6 +6515,12 @@ class $$TemplateDocumentsTableAnnotationComposer
 
   GeneratedColumn<bool> get isOptional => $composableBuilder(
     column: $table.isOptional,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<DocumentSubmissionType, int>
+  get submissionType => $composableBuilder(
+    column: $table.submissionType,
     builder: (column) => column,
   );
 
@@ -6145,11 +6586,14 @@ class $$TemplateDocumentsTableTableManager
                 Value<String> templateId = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<bool> isOptional = const Value.absent(),
+                Value<DocumentSubmissionType> submissionType =
+                    const Value.absent(),
               }) => TemplateDocumentsCompanion(
                 id: id,
                 templateId: templateId,
                 name: name,
                 isOptional: isOptional,
+                submissionType: submissionType,
               ),
           createCompanionCallback:
               ({
@@ -6157,11 +6601,14 @@ class $$TemplateDocumentsTableTableManager
                 required String templateId,
                 required String name,
                 Value<bool> isOptional = const Value.absent(),
+                Value<DocumentSubmissionType> submissionType =
+                    const Value.absent(),
               }) => TemplateDocumentsCompanion.insert(
                 id: id,
                 templateId: templateId,
                 name: name,
                 isOptional: isOptional,
+                submissionType: submissionType,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -6244,6 +6691,8 @@ class $AppDatabaseManager {
       $$ApplicationsTableTableManager(_db, _db.applications);
   $$TasksTableTableManager get tasks =>
       $$TasksTableTableManager(_db, _db.tasks);
+  $$TemplateMilestonesTableTableManager get templateMilestones =>
+      $$TemplateMilestonesTableTableManager(_db, _db.templateMilestones);
   $$TemplateTasksTableTableManager get templateTasks =>
       $$TemplateTasksTableTableManager(_db, _db.templateTasks);
   $$TemplateDocumentsTableTableManager get templateDocuments =>
