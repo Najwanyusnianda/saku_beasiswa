@@ -1,8 +1,11 @@
+//lib/features/templates/presentation/providers/template_filter_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_browser_providers.dart';
+import 'package:saku_beasiswa/features/templates/presentation/providers/template_matching_provider.dart';
+
 
 part 'template_filter_provider.g.dart';
 
@@ -28,10 +31,6 @@ class TemplateRegionFilter extends _$TemplateRegionFilter {
   }
 }
 
-// --- Data Class for UI ---
-
-
-// A helper class to bundle a template with its "added" status
 class TemplateWithStatus {
   final ScholarshipTemplate template;
   final bool isAdded;
@@ -39,11 +38,10 @@ class TemplateWithStatus {
   TemplateWithStatus({required this.template, required this.isAdded});
 }
 
-// --- Main Filtered Data Provider ---
 
 @riverpod
 Stream<List<TemplateWithStatus>> filteredTemplates(Ref ref) {
-  // Watch all the data sources and filters
+
   final allTemplatesAsync = ref.watch(allTemplatesProvider);
   final myApplicationsAsync = ref.watch(myApplicationsProvider);
   final searchQuery = ref.watch(templateSearchQueryProvider);
@@ -58,14 +56,9 @@ Stream<List<TemplateWithStatus>> filteredTemplates(Ref ref) {
     throw Exception('Failed to load data for filtering.');
   }
   
-  // Once we have the data, we can proceed with filtering
   final templates = allTemplatesAsync.value!;
   final applications = myApplicationsAsync.value!;
-  
-  // Create a quick lookup set of template IDs the user has already added
   final addedTemplateIds = applications.map((app) => app.template.id).toSet();
-
-  // Apply all filters
   final filtered = templates.where((template) {
     // Region Filter Logic
     //final regionMatch = regionFilter == 'All' || template.region == regionFilter;
@@ -88,4 +81,26 @@ Stream<List<TemplateWithStatus>> filteredTemplates(Ref ref) {
   
   // Return the result as a stream for the UI
   return Stream.value(result);
+}
+
+// --- Provider for "For You" section ---
+@riverpod
+Future<List<TemplateWithStatus>> recommendedTemplates(Ref ref) async {
+  // Watch the matching templates future
+  final matchingTemplates = await ref.watch(matchingTemplatesProvider.future);
+  
+  // Watch the current applications to determine 'isAdded' status
+  // Using .future to await the initial list
+  final myApplications = await ref.watch(myApplicationsProvider.future);
+    final addedTemplateIds = myApplications.map((app) => app.template.id).toSet();
+
+  // Map to the TemplateWithStatus class
+  final result = matchingTemplates.map((template) {
+    return TemplateWithStatus(
+      template: template,
+      isAdded: addedTemplateIds.contains(template.id),
+    );
+  }).toList();
+
+  return result;
 }

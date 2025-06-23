@@ -1,3 +1,5 @@
+// lib/features/templates/presentation/screens/template_detail_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_browser_providers.dart';
+// Ensure this is the correct provider import
 import 'package:url_launcher/url_launcher.dart';
 
 class TemplateDetailScreen extends ConsumerWidget {
@@ -15,166 +18,108 @@ class TemplateDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // templateAsync is now AsyncValue<FullScholarshipTemplate>
+    // Watch the full template details
     final templateAsync = ref.watch(templateDetailProvider(templateId));
-    final myApplicationsAsync = ref.watch(myApplicationsProvider);
-
+    
     return Scaffold(
-      appBar: AppBar(
-        title: templateAsync.when(
-          data: (fullTemplate) => Text(fullTemplate.template.name), // Use fullTemplate.template.name
-          loading: () => const Text('Loading...'),
-          error: (_, __) => const Text('Error'),
-        ),
-      ),
       body: templateAsync.when(
         data: (fullTemplate) {
-          final template = fullTemplate.template; // The main template object
-          final tasks = fullTemplate.tasks;       // The list of tasks
-          final documents = fullTemplate.documents; // The list of documents
-
-          return ListView(
-            padding: const EdgeInsets.all(24),
-            children: [
-              // --- Header --- (uses the 'template' object)
-              Text(template.providerName, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Text(template.shortDescription ?? 'No description available.', style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 16),
-              if (template.website != null)
-                TextButton.icon(
-                  icon: const Icon(Iconsax.global),
-                  label: const Text('Visit Official Website'),
-                  onPressed: () async {
-                    final uri = Uri.parse(template.website!);
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(uri, mode: LaunchMode.externalApplication);
-                    }
-                  },
+          final template = fullTemplate.template;
+          return CustomScrollView(
+            slivers: [
+              // --- Sliver App Bar for a modern look ---
+              SliverAppBar(
+                pinned: true,
+                stretch: true,
+                expandedHeight: 200.0,
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(
+                    template.name,
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  centerTitle: false,
+                  titlePadding: const EdgeInsets.only(left: 60, bottom: 16),
+                  background: Container(
+                    color: AppColors.primary.withOpacity(0.8),
+                    child: const Icon(Iconsax.award, color: Colors.white24, size: 120),
+                  ),
                 ),
-              const Divider(height: 32),
+              ),
+              // --- Main Content ---
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(template.providerName, style: Theme.of(context).textTheme.titleMedium),
+                        const SizedBox(height: 8),
+                        Text(template.longDescription ?? template.shortDescription ?? 'No description available.', style: Theme.of(context).textTheme.bodyLarge),
+                        const SizedBox(height: 16),
+                        if (template.website != null)
+                          TextButton.icon(
+                            icon: const Icon(Iconsax.global, size: 20),
+                            label: const Text('Visit Official Website'),
+                            onPressed: () async {
+                              final uri = Uri.parse(template.website!);
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri, mode: LaunchMode.externalApplication);
+                              }
+                            },
+                          ),
+                        const Divider(height: 32),
+                        
+                        // --- Key Info Section ---
+                        _SectionHeader(title: 'Key Information'),
+                        _buildInfoRow(context, Iconsax.level, 'Study Level', template.studyLevel),
+                        _buildInfoRow(context, Iconsax.location, 'Country', template.country ?? 'Not specified'),
+                        _buildInfoRow(context, Iconsax.money_send, 'Funding', template.fundingType ?? 'Not specified'),
+                        _buildInfoRow(context, Iconsax.verify, 'Eligibility', template.eligibility ?? 'Not specified'),
+                        const Divider(height: 32),
+                        
+                        // --- Document Checklist Section ---
+                        _SectionHeader(title: 'Document Checklist'),
+                        if (fullTemplate.documents.isEmpty)
+                          const Text('No documents specified.')
+                        else
+                          ...fullTemplate.documents.map((doc) => ListTile(
+                                leading: const Icon(Iconsax.document_text_1, color: AppColors.textSecondary),
+                                title: Text(doc.name),
+                                dense: true,
+                              )),
+                        const Divider(height: 32),
 
-              // --- Key Info --- (uses the 'template' object)
-              Text('Key Information', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              _buildInfoRow(Iconsax.level, 'Study Level', template.studyLevel),
-              _buildInfoRow(Iconsax.location, 'Country', template.country ?? 'Not specified'),
-              _buildInfoRow(Iconsax.verify, 'Eligibility', template.eligibility ?? 'Not specified'),
-              const Divider(height: 32),
-
-              // --- Default Tasks Section --- (uses the 'tasks' list)
-              Text('Default Tasks', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              if (tasks.isEmpty)
-                const Text('No default tasks specified.')
-              else
-                Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  children: tasks.map((task) => Chip(label: Text(task.label))).toList(),
-                ),
-              const SizedBox(height: 24),
-
-              // --- Document Checklist Section --- (uses the 'documents' list)
-              Text('Document Checklist', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              if (documents.isEmpty)
-                const Text('No documents specified.')
-              else
-                ...documents.map((doc) => ListTile(
-                      leading: const Icon(Iconsax.document_text_1, color: AppColors.textSecondary),
-                      title: Text(doc.name),
-                      dense: true,
-                    )),
+                        // --- Default Task Timeline Section ---
+                        _SectionHeader(title: 'Suggested Timeline'),
+                        if (fullTemplate.tasks.isEmpty)
+                          const Text('No default tasks specified.')
+                        else
+                          ...fullTemplate.tasks.map((task) => ListTile(
+                                leading: const Icon(Iconsax.task_square, color: AppColors.textSecondary),
+                                title: Text(task.label),
+                                subtitle: Text(task.stage ?? 'General Task'),
+                                dense: true,
+                              )),
+                      ],
+                    ),
+                  )
+                ]),
+              ),
             ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Could not load details. Error: $err')),
       ),
-      bottomNavigationBar: myApplicationsAsync.when(
-        data: (apps) {
-          final isAdded = apps.any((app) => app.template.id == templateId);
-
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: isAdded
-                  ? TextButton.icon(
-                      onPressed: null,
-                      icon: const Icon(Iconsax.tick_circle, color: AppColors.success),
-                      label: const Text('Already in your applications', style: TextStyle(color: AppColors.success)),
-                    )
-                  : Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () {
-                              // --- Navigate to the new wizard route ---
-                              print("Navigating to customise wizard for template $templateId");
-                              context.go('/templates/$templateId/customise');
-                            },
-                            child: const Text('Customise & Add'),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                final newApp = await ref
-                                    .read(applicationRepositoryProvider)
-                                    .createApplicationFromTemplate(templateId);
-
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text('Application created!'),
-                                      action: SnackBarAction(
-                                        label: 'Undo',
-                                        onPressed: () {
-                                          ref
-                                              .read(applicationRepositoryProvider)
-                                              .deleteApplication(newApp.id);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                  // Navigate back after a short delay
-                                  Future.delayed(const Duration(milliseconds: 500), () {
-                                    if (context.mounted) {
-                                      context.pop();
-                                    }
-                                  });
-                                }
-                              } catch (e) {
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Error creating application: $e')),
-                                  );
-                                }
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
-                            ),
-                            child: const Text('Add Now'),
-                          ),
-                        ),
-                      ],
-                    ),
-            ),
-          );
-        },
-        loading: () => const SizedBox.shrink(),
-        error: (_, __) => const SizedBox.shrink(),
-      ),
+      // --- Refactored Bottom Action Bar ---
+      bottomNavigationBar: _BottomActionBar(templateId: templateId),
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String title, String value) {
+  Widget _buildInfoRow(BuildContext context, IconData icon, String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -188,12 +133,108 @@ class TemplateDetailScreen extends ConsumerWidget {
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 2),
-                Text(value, style: const TextStyle(color: AppColors.textSecondary)),
+                Text(value, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary)),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+// Helper widget for section headers
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  const _SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+// Dedicated widget for the bottom action bar for cleanliness
+class _BottomActionBar extends ConsumerWidget {
+  final String templateId;
+  const _BottomActionBar({required this.templateId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // We need to know if this template has been added.
+    // The most reliable way is to check our applications list.
+    final myApplicationsAsync = ref.watch(myApplicationsProvider);
+
+    return myApplicationsAsync.when(
+      data: (apps) {
+        final isAdded = apps.any((app) => app.template.id == templateId);
+
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: isAdded
+                ? const Chip(
+                    avatar: Icon(Iconsax.tick_circle, color: AppColors.success, size: 20),
+                    label: Text('Already in your applications'),
+                    backgroundColor: AppColors.surface,
+                  )
+                : Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            // Navigate to the customization wizard
+                            context.go('/templates/$templateId/customise');
+                          },
+                          child: const Text('Customize First'),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Iconsax.flash_1),
+                          label: const Text('Quick Add'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () async {
+                            try {
+                              final newApp = await ref.read(applicationRepositoryProvider).createApplicationFromTemplate(templateId);
+                              if (!context.mounted) return;
+                              // Pop back to the browser screen after adding
+                              context.pop(); 
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${newApp.customName} added!'),
+                                  action: SnackBarAction(label: 'UNDO', onPressed: () {
+                                    ref.read(applicationRepositoryProvider).deleteApplication(newApp.id);
+                                  }),
+                                ),
+                              );
+                            } catch (e, st) {
+                              print('Error Quick Adding: $e\n$st');
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        );
+      },
+      // Show nothing while loading or on error
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }

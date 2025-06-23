@@ -25,9 +25,10 @@ class ScholarshipTemplates extends Table {
   IntColumn get applicationDurationMonths => integer().nullable()();
 
   // --- REQUIREMENTS ---
-  TextColumn get eligibility => text().nullable()();
-  TextColumn get requiredGPA => text().nullable()();
-  TextColumn get languageRequirements => text().nullable()();
+  IntColumn get minWorkExperienceYears => integer().nullable()();
+TextColumn get eligibility => text().nullable()();
+TextColumn get requiredGPA => text().nullable()();
+TextColumn get languageRequirements => text().nullable()();
 
   // --- UI CUSTOMIZATION ---
   TextColumn get color => text().named('default_color').nullable()();

@@ -25,6 +25,26 @@ final filteredTemplatesProvider =
 // ignore: unused_element
 typedef FilteredTemplatesRef =
     AutoDisposeStreamProviderRef<List<TemplateWithStatus>>;
+String _$recommendedTemplatesHash() =>
+    r'a1afa94aac256cab8a3a00f23f717aa7e8f0a506';
+
+/// See also [recommendedTemplates].
+@ProviderFor(recommendedTemplates)
+final recommendedTemplatesProvider =
+    AutoDisposeFutureProvider<List<TemplateWithStatus>>.internal(
+      recommendedTemplates,
+      name: r'recommendedTemplatesProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$recommendedTemplatesHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef RecommendedTemplatesRef =
+    AutoDisposeFutureProviderRef<List<TemplateWithStatus>>;
 String _$templateSearchQueryHash() =>
     r'4e73117aa4bf5ec5de2be2a9578f1a08d77ac3ed';
 

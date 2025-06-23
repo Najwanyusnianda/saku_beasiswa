@@ -1,13 +1,16 @@
+// lib/features/templates/presentation/screens/customise_template_wizard_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
-import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard_step_1_deadline.dart';
-import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard_step_2_tasks.dart';
-import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard_step_3_personalise.dart';
-import 'package:go_router/go_router.dart';
+// Import the refactored step widgets
+import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_1_deadline.dart';
+import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_2_checklist.dart';
+import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_3_personalise.dart';
 
-// Convert to a ConsumerStatefulWidget
+
 class CustomiseTemplateWizardScreen extends ConsumerStatefulWidget {
   final String templateId;
   const CustomiseTemplateWizardScreen({super.key, required this.templateId});
@@ -19,96 +22,118 @@ class CustomiseTemplateWizardScreen extends ConsumerStatefulWidget {
 class _CustomiseTemplateWizardScreenState extends ConsumerState<CustomiseTemplateWizardScreen> {
   final _pageController = PageController();
   int _currentPage = 0;
-  final _numPages = 3;
+  static const _numPages = 3;
 
-  @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page?.round() ?? 0;
-      });
-    });
-  }
-  
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
+  
+  // Method to handle finishing the wizard
+  void _finishWizard() async {
+    final wizardState = ref.read(customiseWizardProvider(widget.templateId)).value;
+    if (wizardState == null) return;
+    
+    // Validation
+    if (wizardState.mainDeadline == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please set a main deadline.')));
+      _pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+      return;
+    }
 
+    try {
+      await ref.read(applicationRepositoryProvider).createCustomApplication(wizardState);
+      if (!context.mounted) return;
+      // Go to the applications tab to see the new entry
+      context.go('/applications'); 
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     final wizardStateAsync = ref.watch(customiseWizardProvider(widget.templateId));
     
     return Scaffold(
-      appBar: AppBar(title: const Text('Customise Application')),
+      appBar: AppBar(
+        title: const Text('Customize Application'),
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: wizardStateAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
         data: (wizardState) {
-          // Use a PageView for the steps
           return PageView(
             controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(), // Disable swiping
+            onPageChanged: (page) => setState(() => _currentPage = page),
             children: [
-              WizardStep1Deadline(wizardState: wizardState, templateId: widget.templateId),
-              WizardStep2Tasks(wizardState: wizardState, templateId: widget.templateId),
-              WizardStep3Personalise(wizardState: wizardState, templateId: widget.templateId),
+              // Use the refactored step widgets
+              WizardStep1Deadline(templateId: widget.templateId),
+              WizardStep2Checklist(templateId: widget.templateId),
+              WizardStep3Personalise(templateId: widget.templateId),
             ],
           );
         },
       ),
-      bottomNavigationBar: _buildBottomNavBar(context),
+      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
-  // --- WIDGET FOR THE BOTTOM NAVIGATION ---
- // --- CORRECTED WIDGET FOR THE BOTTOM NAVIGATION ---
-  Widget _buildBottomNavBar(BuildContext context) {
-    // 1. Watch the provider here to get the state
-    final wizardStateAsync = ref.watch(customiseWizardProvider(widget.templateId));
-
-    // 2. Define isLastPage here
+  Widget _buildBottomNavBar() {
     final isLastPage = _currentPage == _numPages - 1;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            if (_currentPage > 0)
-              TextButton(
-                onPressed: () {
-                  _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-                },
-                child: const Text('Back'),
+            // --- Progress Indicator ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_numPages, (index) => 
+                Container(
+                  width: 10, height: 10,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentPage >= index ? AppColors.primary : Colors.grey.shade300,
+                  ),
+                )
               ),
-            const Spacer(),
-
-            // 3. Handle loading/error state for the button
-            ElevatedButton(
-              onPressed: wizardStateAsync.maybeWhen(
-                data: (wizardState) {
-                  // This is the function that runs when the button is enabled
-                  return () {
+            ),
+            const SizedBox(height: 16),
+            // --- Action Buttons ---
+            Row(
+              children: [
+                if (_currentPage > 0)
+                  TextButton(
+                    onPressed: () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
+                    child: const Text('Back'),
+                  ),
+                const Spacer(),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                  onPressed: () {
                     if (isLastPage) {
-                      if (wizardState.mainDeadline == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please set a main deadline first.')));
-                        return;
-                      }
-                      ref.read(applicationRepositoryProvider).createCustomApplication(wizardState);
-                      context.go('/applications');
+                      _finishWizard();
                     } else {
                       _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                     }
-                  };
-                },
-                // If loading or error, disable the button by returning null
-                orElse: () => null,
-              ),
-              child: Text(isLastPage ? 'Finish & Add Application' : 'Next'),
+                  },
+                  child: Text(isLastPage ? 'Finish & Add' : 'Next Step'),
+                ),
+              ],
             ),
           ],
         ),
@@ -116,4 +141,3 @@ class _CustomiseTemplateWizardScreenState extends ConsumerState<CustomiseTemplat
     );
   }
 }
-

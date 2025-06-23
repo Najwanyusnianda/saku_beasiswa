@@ -1,3 +1,4 @@
+//lib/core/database/seed/seed_templates.dart
 import 'package:drift/drift.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 
