@@ -11,17 +11,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tables/user_profiles.dart';
 import 'tables/scholarship_templates.dart';
 import 'tables/user_applications.dart';
-import 'tables/user_milestones.dart';
-import 'tables/user_tasks.dart';
-import 'tables/applications.dart';
-import 'tables/tasks.dart';
+
+
 
 // Import the new table files
 import 'tables/template_tasks.dart';
 import 'tables/template_documents.dart';
 import 'tables/template_milestones.dart';
-import 'tables/template_stages.dart';
-import 'tables/user_applications.dart';
 
 import 'package:saku_beasiswa/core/models/document_submission_type.dart';
 import 'seed/seed_templates.dart';
@@ -37,14 +33,14 @@ part 'app_database.g.dart';
   tables: [
     UserProfiles,
     ScholarshipTemplates,
-    Applications,
-    Tasks,
     // Add the new tables to the database
     TemplateTasks,
     TemplateDocuments,
     TemplateMilestones,
     // Newly added user-specific tables
     UserApplications,
+    UserMilestones,
+    UserTasks,
   ]
 )
 class AppDatabase extends _$AppDatabase {
@@ -53,7 +49,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 10; // bumped for user application tables
+  int get schemaVersion => 11; // bumped for user application tables
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -78,9 +74,9 @@ class AppDatabase extends _$AppDatabase {
           }
          if (from < 7) {
             // Add the new columns to the existing applications table
-            await m.addColumn(applications, applications.customName);
-            await m.addColumn(applications, applications.customColor);
-            await m.addColumn(applications, applications.customIcon);
+            // await m.addColumn(applications, applications.customName);
+            // await m.addColumn(applications, applications.customColor);
+            // await m.addColumn(applications, applications.customIcon);
           }
           if (from < 9) {
             // --- Logika Migrasi untuk Skema Template Baru ---
@@ -90,10 +86,17 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(scholarshipTemplates);
           }
           if (from < 10) {
+            // --- Logika Migrasi untuk Skema Template Baru ---
+            // Hapus tabel lama jika ada (opsional, tapi lebih bersih)
+            await m.deleteTable('template_milestones');
+            // Buat kembali tabel dengan skema baru yang lengkap
+            await m.createTable(templateMilestones);
+          }
+          if (from < 11) {
             // Create user-specific application tables introduced in v10
-            await m.createTable(UserApplication);
-            await m.createTable(UserMilestones);
-            await m.createTable(UserTask);
+            await m.createTable(userApplications);
+            await m.createTable(userMilestones);
+            await m.createTable(userTasks);
           }
         },
   );

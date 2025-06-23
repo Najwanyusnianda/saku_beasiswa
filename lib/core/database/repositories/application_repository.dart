@@ -7,10 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
 import 'package:saku_beasiswa/core/database/repositories/scholarship_template_repository.dart';
-import 'package:saku_beasiswa/core/database/tables/user_applications.dart';
-import 'package:saku_beasiswa/core/database/tables/template_milestones.dart';
-import 'package:saku_beasiswa/core/database/tables/template_tasks.dart';
-import 'package:saku_beasiswa/core/database/app_database.dart';
+import 'package:saku_beasiswa/features/dashboard/presentation/providers/dashboard_providers.dart';
+
 
 part 'application_repository.g.dart';
 
@@ -165,10 +163,11 @@ class ApplicationRepository {
 
   Future<void> deleteApplication(int applicationId) async {
     await _db.transaction(() async {
-      final milestoneIds = await (_db.select(_db.userMilestones)
-        ..where((m) => m.userApplicationId.equals(applicationId))
-        ..get()).then((milestones) => milestones.map((m) => m.id).toList());
-      
+      final milestones = await (_db.select(_db.userMilestones)
+            ..where((m) => m.userApplicationId.equals(applicationId)))
+          .get();
+      final milestoneIds = milestones.map((m) => m.id).toList();
+
       if (milestoneIds.isNotEmpty) {
         await (_db.delete(_db.userTasks)..where((t) => t.userMilestoneId.isIn(milestoneIds))).go();
       }
@@ -177,4 +176,131 @@ class ApplicationRepository {
       await (_db.delete(_db.userApplications)..where((a) => a.id.equals(applicationId))).go();
     });
   }
+
+  Future<FullUserApplication> getFullApplicationById(int userApplicationId) async {
+  // 1. Fetch the main UserApplication and its ScholarshipTemplate
+  final appQuery = _db.select(_db.userApplications).join([
+    innerJoin(_db.scholarshipTemplates, _db.scholarshipTemplates.id.equalsExp(_db.userApplications.templateId)),
+  ])..where(_db.userApplications.id.equals(userApplicationId));
+  
+  final row = await appQuery.getSingle();
+  final application = row.readTable(_db.userApplications);
+  final template = row.readTable(_db.scholarshipTemplates);
+
+  // 2. Fetch all UserMilestones for this application
+  final milestones = await (_db.select(_db.userMilestones)
+    ..where((m) => m.userApplicationId.equals(userApplicationId))
+    ..orderBy([(m) => OrderingTerm(expression: m.endDate)]))
+    .get();
+  
+  // 3. For each UserMilestone, fetch its UserTasks
+    final milestonesWithTasks = <UserMilestone, List<UserTask>>{};
+    for (final milestone in milestones) {
+      final tasks = await (_db.select(_db.userTasks)
+        ..where((t) => t.userMilestoneId.equals(milestone.id)))
+        .get();
+      milestonesWithTasks[milestone] = tasks;
+    }
+    
+    return FullUserApplication(
+      application: application,
+      template: template,
+      milestonesWithTasks: milestonesWithTasks,
+    );
+  }
+
+  // Add this new method as well, for the completion percentage provider
+  Stream<List<UserTask>> watchTasksForApplication(int userApplicationId) {
+    final milestoneIdsQuery = _db.selectOnly(_db.userMilestones)
+      ..addColumns([_db.userMilestones.id])
+      ..where(_db.userMilestones.userApplicationId.equals(userApplicationId));
+
+    return (_db.select(_db.userTasks)
+      ..where((t) => t.userMilestoneId.isInQuery(milestoneIdsQuery)))
+      .watch();
+  }
+
+  Future<UserTask?> getNextUpcomingTaskForApplication(int userApplicationId) async {
+  // First, get all milestone IDs for the given application
+  final milestoneIdsQuery = _db.selectOnly(_db.userMilestones)
+    ..addColumns([_db.userMilestones.id])
+    ..where(_db.userMilestones.userApplicationId.equals(userApplicationId));
+
+  // Then, find the first task within those milestones that meets the criteria
+  final query = _db.select(_db.userTasks)
+    ..where((t) => t.userMilestoneId.isInQuery(milestoneIdsQuery)) // Task belongs to this app
+    ..where((t) => t.isCompleted.equals(false))                     // Is not completed
+    ..orderBy([(t) => OrderingTerm(expression: t.dueDate)])         // Order by the nearest due date
+    ..limit(1);                                                     // Get only the very next one
+
+  return query.getSingleOrNull();
+}
+
+//Dashboard
+
+// Method for activeApplicationsCountProvider
+Stream<int> watchActiveApplicationsCount() {
+  final query = _db.select(_db.userApplications)
+    ..where((a) => a.status.equals('in_progress'));
+  return query.watch().map((apps) => apps.length);
+}
+
+// Method for overdueTasksCountProvider
+Stream<int> watchOverdueTasksCount() {
+  final now = DateTime.now();
+  final query = _db.select(_db.userTasks)
+    ..where((t) => t.isCompleted.equals(false) & t.dueDate.isSmallerThanValue(now));
+  return query.watch().map((tasks) => tasks.length);
+}
+
+// Method for nextMilestoneDeadlineProvider
+Stream<UserMilestone?> watchNextMilestoneDeadline() {
+  final now = DateTime.now();
+  final query = _db.select(_db.userMilestones)
+    ..where((m) => m.endDate.isBiggerOrEqualValue(now)) // Only future milestones
+    ..orderBy([(m) => OrderingTerm(expression: m.endDate)])
+    ..limit(1);
+  return query.watchSingleOrNull();
+}
+
+// Method for todaysFocusProvider
+Future<List<FocusTask>> getTodaysFocusTasks() async {
+  final sevenDaysFromNow = DateTime.now().add(const Duration(days: 7));
+  
+  // 1. Get top 5 urgent tasks
+  final urgentTasksQuery = _db.select(_db.userTasks)
+    ..where((t) => t.isCompleted.equals(false) & t.dueDate.isSmallerOrEqualValue(sevenDaysFromNow))
+    ..orderBy([(t) => OrderingTerm(expression: t.dueDate)])
+    ..limit(5);
+
+  final urgentTasks = await urgentTasksQuery.get();
+  if (urgentTasks.isEmpty) return [];
+
+  // 2. Efficiently fetch their parent milestones, applications, and templates
+  final milestoneIds = urgentTasks.map((t) => t.userMilestoneId).toSet();
+  final milestones = await (_db.select(_db.userMilestones)..where((m) => m.id.isIn(milestoneIds))).get();
+  
+  final applicationIds = milestones.map((m) => m.userApplicationId).toSet();
+  final appQuery = _db.select(_db.userApplications).join([
+    innerJoin(_db.scholarshipTemplates, _db.scholarshipTemplates.id.equalsExp(_db.userApplications.templateId)),
+  ])..where(_db.userApplications.id.isIn(applicationIds));
+  
+  final appRows = await appQuery.get();
+  
+  // 3. Map the data into FocusTask objects
+  final result = <FocusTask>[];
+  for (final task in urgentTasks) {
+    final milestone = milestones.firstWhere((m) => m.id == task.userMilestoneId);
+    final appRow = appRows.firstWhere((row) => row.readTable(_db.userApplications).id == milestone.userApplicationId);
+    
+    result.add(FocusTask(
+      task: task,
+      application: appRow.readTable(_db.userApplications),
+      template: appRow.readTable(_db.scholarshipTemplates),
+    ));
+  }
+  
+  return result;
+}
+
 }

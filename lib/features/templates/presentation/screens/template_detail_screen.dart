@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/core/models/document_submission_type.dart'; // Import for our enum
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_browser_providers.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 
 class TemplateDetailScreen extends ConsumerWidget {
@@ -192,7 +193,9 @@ class _BottomActionBar extends ConsumerWidget {
 
     return myApplicationsAsync.when(
       data: (apps) {
-        final isAdded = apps.any((app) => app.template.id == templateId);
+        // --- THIS IS THE FIX ---
+        // We now check the templateId on the UserApplication object itself.
+        final isAdded = apps.any((app) => app.application.templateId == templateId);
 
         return SafeArea(
           child: Padding(
@@ -225,6 +228,7 @@ class _BottomActionBar extends ConsumerWidget {
                           ),
                           onPressed: () async {
                             try {
+                              // This method is now correct after our repo refactor
                               final newApp = await ref.read(applicationRepositoryProvider).createApplicationFromTemplate(templateId);
                               if (!context.mounted) return;
                               // Pop back to the browser screen after adding

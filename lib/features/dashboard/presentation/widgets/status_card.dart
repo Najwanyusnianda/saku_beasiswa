@@ -7,6 +7,7 @@ class StatusCard extends StatelessWidget {
   final String value;
   final IconData icon;
   final Color color;
+  // NOTE: isFullWidth is no longer needed. The parent controls the width.
 
   const StatusCard({
     super.key,
@@ -20,35 +21,48 @@ class StatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Expanded(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        color: color.withOpacity(0.1),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(icon, color: color, size: 24),
-              const SizedBox(height: 12),
-              Text(
-                value,
-                style: textTheme.headlineSmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.bold,
+    // The Card is now the root widget. No Expanded.
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      elevation: 0, // A flatter, more modern look
+      color: color.withOpacity(0.1),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distributes space nicely
+          children: [
+            // Top part with Icon
+            CircleAvatar(
+              radius: 18,
+              backgroundColor: color.withValues(alpha: 0.8),
+              child: Icon(icon, color: Colors.white, size: 20),
+            ),
+            const SizedBox(height: 16),
+            
+            // Bottom part with Text
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                title,
-                style: textTheme.bodySmall?.copyWith(color: color),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+                const SizedBox(height: 2),
+                Text(
+                  title,
+                  style: textTheme.bodyMedium?.copyWith(color: color),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

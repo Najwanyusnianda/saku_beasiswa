@@ -1,9 +1,7 @@
 // lib/features/templates/presentation/screens/template_browser_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_filter_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/widgets/template_card.dart';
 // NEW IMPORT for the quick preview sheet

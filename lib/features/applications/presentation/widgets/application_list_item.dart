@@ -1,3 +1,4 @@
+//lib/features/applications/presentation/widgets/application_list_item.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -5,11 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
+import 'package:saku_beasiswa/features/applications/domain/application_status.dart';
+
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 
 class ApplicationListItem extends ConsumerWidget {
-  final ApplicationWithTemplate item;
+  final FullUserApplication item;
   final VoidCallback onTap;
+ 
 
   const ApplicationListItem({
     super.key,
@@ -107,7 +111,7 @@ class ApplicationListItem extends ConsumerWidget {
                           children: [
                             Text('NEXT:', style: textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
                             Text(
-                              task.title,
+                              task.label,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -124,19 +128,28 @@ class ApplicationListItem extends ConsumerWidget {
                     ),
                   ),
                   // --- LENCANA STATUS DINAMIS ---
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: status.color.withValues(alpha: 0.1), // Gunakan warna dari enum
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      status.label, // Gunakan label dari enum
-                      style: TextStyle(
-                        color: status.color, 
-                        fontWeight: FontWeight.bold
+                  status.when(
+                    data: (statusData) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: statusData.color.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        statusData.label,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: statusData.color,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                    loading: () => const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    error: (e, s) => const Text('Error'),
                   ),
                 ],
               )

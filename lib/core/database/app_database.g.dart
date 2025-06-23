@@ -1528,966 +1528,6 @@ class ScholarshipTemplatesCompanion
   }
 }
 
-class $ApplicationsTable extends Applications
-    with TableInfo<$ApplicationsTable, Application> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $ApplicationsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _templateIdMeta = const VerificationMeta(
-    'templateId',
-  );
-  @override
-  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
-    'template_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES scholarship_templates (id)',
-    ),
-  );
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
-  @override
-  late final GeneratedColumn<String> status = GeneratedColumn<String>(
-    'status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('in_progress'),
-  );
-  static const VerificationMeta _deadlineMeta = const VerificationMeta(
-    'deadline',
-  );
-  @override
-  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
-    'deadline',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
-  @override
-  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-    'notes',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _customNameMeta = const VerificationMeta(
-    'customName',
-  );
-  @override
-  late final GeneratedColumn<String> customName = GeneratedColumn<String>(
-    'custom_name',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _customColorMeta = const VerificationMeta(
-    'customColor',
-  );
-  @override
-  late final GeneratedColumn<String> customColor = GeneratedColumn<String>(
-    'custom_color',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _customIconMeta = const VerificationMeta(
-    'customIcon',
-  );
-  @override
-  late final GeneratedColumn<String> customIcon = GeneratedColumn<String>(
-    'custom_icon',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    templateId,
-    status,
-    deadline,
-    createdAt,
-    notes,
-    customName,
-    customColor,
-    customIcon,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'applications';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Application> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('template_id')) {
-      context.handle(
-        _templateIdMeta,
-        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_templateIdMeta);
-    }
-    if (data.containsKey('status')) {
-      context.handle(
-        _statusMeta,
-        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
-      );
-    }
-    if (data.containsKey('deadline')) {
-      context.handle(
-        _deadlineMeta,
-        deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_deadlineMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    }
-    if (data.containsKey('notes')) {
-      context.handle(
-        _notesMeta,
-        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
-      );
-    }
-    if (data.containsKey('custom_name')) {
-      context.handle(
-        _customNameMeta,
-        customName.isAcceptableOrUnknown(data['custom_name']!, _customNameMeta),
-      );
-    }
-    if (data.containsKey('custom_color')) {
-      context.handle(
-        _customColorMeta,
-        customColor.isAcceptableOrUnknown(
-          data['custom_color']!,
-          _customColorMeta,
-        ),
-      );
-    }
-    if (data.containsKey('custom_icon')) {
-      context.handle(
-        _customIconMeta,
-        customIcon.isAcceptableOrUnknown(data['custom_icon']!, _customIconMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Application map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Application(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      templateId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}template_id'],
-      )!,
-      status: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}status'],
-      )!,
-      deadline: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}deadline'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-      notes: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}notes'],
-      ),
-      customName: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}custom_name'],
-      ),
-      customColor: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}custom_color'],
-      ),
-      customIcon: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}custom_icon'],
-      ),
-    );
-  }
-
-  @override
-  $ApplicationsTable createAlias(String alias) {
-    return $ApplicationsTable(attachedDatabase, alias);
-  }
-}
-
-class Application extends DataClass implements Insertable<Application> {
-  final int id;
-  final String templateId;
-  final String status;
-  final DateTime deadline;
-  final DateTime createdAt;
-  final String? notes;
-  final String? customName;
-  final String? customColor;
-  final String? customIcon;
-  const Application({
-    required this.id,
-    required this.templateId,
-    required this.status,
-    required this.deadline,
-    required this.createdAt,
-    this.notes,
-    this.customName,
-    this.customColor,
-    this.customIcon,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['template_id'] = Variable<String>(templateId);
-    map['status'] = Variable<String>(status);
-    map['deadline'] = Variable<DateTime>(deadline);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    if (!nullToAbsent || notes != null) {
-      map['notes'] = Variable<String>(notes);
-    }
-    if (!nullToAbsent || customName != null) {
-      map['custom_name'] = Variable<String>(customName);
-    }
-    if (!nullToAbsent || customColor != null) {
-      map['custom_color'] = Variable<String>(customColor);
-    }
-    if (!nullToAbsent || customIcon != null) {
-      map['custom_icon'] = Variable<String>(customIcon);
-    }
-    return map;
-  }
-
-  ApplicationsCompanion toCompanion(bool nullToAbsent) {
-    return ApplicationsCompanion(
-      id: Value(id),
-      templateId: Value(templateId),
-      status: Value(status),
-      deadline: Value(deadline),
-      createdAt: Value(createdAt),
-      notes: notes == null && nullToAbsent
-          ? const Value.absent()
-          : Value(notes),
-      customName: customName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customName),
-      customColor: customColor == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customColor),
-      customIcon: customIcon == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customIcon),
-    );
-  }
-
-  factory Application.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Application(
-      id: serializer.fromJson<int>(json['id']),
-      templateId: serializer.fromJson<String>(json['templateId']),
-      status: serializer.fromJson<String>(json['status']),
-      deadline: serializer.fromJson<DateTime>(json['deadline']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      notes: serializer.fromJson<String?>(json['notes']),
-      customName: serializer.fromJson<String?>(json['customName']),
-      customColor: serializer.fromJson<String?>(json['customColor']),
-      customIcon: serializer.fromJson<String?>(json['customIcon']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'templateId': serializer.toJson<String>(templateId),
-      'status': serializer.toJson<String>(status),
-      'deadline': serializer.toJson<DateTime>(deadline),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'notes': serializer.toJson<String?>(notes),
-      'customName': serializer.toJson<String?>(customName),
-      'customColor': serializer.toJson<String?>(customColor),
-      'customIcon': serializer.toJson<String?>(customIcon),
-    };
-  }
-
-  Application copyWith({
-    int? id,
-    String? templateId,
-    String? status,
-    DateTime? deadline,
-    DateTime? createdAt,
-    Value<String?> notes = const Value.absent(),
-    Value<String?> customName = const Value.absent(),
-    Value<String?> customColor = const Value.absent(),
-    Value<String?> customIcon = const Value.absent(),
-  }) => Application(
-    id: id ?? this.id,
-    templateId: templateId ?? this.templateId,
-    status: status ?? this.status,
-    deadline: deadline ?? this.deadline,
-    createdAt: createdAt ?? this.createdAt,
-    notes: notes.present ? notes.value : this.notes,
-    customName: customName.present ? customName.value : this.customName,
-    customColor: customColor.present ? customColor.value : this.customColor,
-    customIcon: customIcon.present ? customIcon.value : this.customIcon,
-  );
-  Application copyWithCompanion(ApplicationsCompanion data) {
-    return Application(
-      id: data.id.present ? data.id.value : this.id,
-      templateId: data.templateId.present
-          ? data.templateId.value
-          : this.templateId,
-      status: data.status.present ? data.status.value : this.status,
-      deadline: data.deadline.present ? data.deadline.value : this.deadline,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      notes: data.notes.present ? data.notes.value : this.notes,
-      customName: data.customName.present
-          ? data.customName.value
-          : this.customName,
-      customColor: data.customColor.present
-          ? data.customColor.value
-          : this.customColor,
-      customIcon: data.customIcon.present
-          ? data.customIcon.value
-          : this.customIcon,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Application(')
-          ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
-          ..write('status: $status, ')
-          ..write('deadline: $deadline, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('notes: $notes, ')
-          ..write('customName: $customName, ')
-          ..write('customColor: $customColor, ')
-          ..write('customIcon: $customIcon')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    templateId,
-    status,
-    deadline,
-    createdAt,
-    notes,
-    customName,
-    customColor,
-    customIcon,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Application &&
-          other.id == this.id &&
-          other.templateId == this.templateId &&
-          other.status == this.status &&
-          other.deadline == this.deadline &&
-          other.createdAt == this.createdAt &&
-          other.notes == this.notes &&
-          other.customName == this.customName &&
-          other.customColor == this.customColor &&
-          other.customIcon == this.customIcon);
-}
-
-class ApplicationsCompanion extends UpdateCompanion<Application> {
-  final Value<int> id;
-  final Value<String> templateId;
-  final Value<String> status;
-  final Value<DateTime> deadline;
-  final Value<DateTime> createdAt;
-  final Value<String?> notes;
-  final Value<String?> customName;
-  final Value<String?> customColor;
-  final Value<String?> customIcon;
-  const ApplicationsCompanion({
-    this.id = const Value.absent(),
-    this.templateId = const Value.absent(),
-    this.status = const Value.absent(),
-    this.deadline = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.customName = const Value.absent(),
-    this.customColor = const Value.absent(),
-    this.customIcon = const Value.absent(),
-  });
-  ApplicationsCompanion.insert({
-    this.id = const Value.absent(),
-    required String templateId,
-    this.status = const Value.absent(),
-    required DateTime deadline,
-    this.createdAt = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.customName = const Value.absent(),
-    this.customColor = const Value.absent(),
-    this.customIcon = const Value.absent(),
-  }) : templateId = Value(templateId),
-       deadline = Value(deadline);
-  static Insertable<Application> custom({
-    Expression<int>? id,
-    Expression<String>? templateId,
-    Expression<String>? status,
-    Expression<DateTime>? deadline,
-    Expression<DateTime>? createdAt,
-    Expression<String>? notes,
-    Expression<String>? customName,
-    Expression<String>? customColor,
-    Expression<String>? customIcon,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (templateId != null) 'template_id': templateId,
-      if (status != null) 'status': status,
-      if (deadline != null) 'deadline': deadline,
-      if (createdAt != null) 'created_at': createdAt,
-      if (notes != null) 'notes': notes,
-      if (customName != null) 'custom_name': customName,
-      if (customColor != null) 'custom_color': customColor,
-      if (customIcon != null) 'custom_icon': customIcon,
-    });
-  }
-
-  ApplicationsCompanion copyWith({
-    Value<int>? id,
-    Value<String>? templateId,
-    Value<String>? status,
-    Value<DateTime>? deadline,
-    Value<DateTime>? createdAt,
-    Value<String?>? notes,
-    Value<String?>? customName,
-    Value<String?>? customColor,
-    Value<String?>? customIcon,
-  }) {
-    return ApplicationsCompanion(
-      id: id ?? this.id,
-      templateId: templateId ?? this.templateId,
-      status: status ?? this.status,
-      deadline: deadline ?? this.deadline,
-      createdAt: createdAt ?? this.createdAt,
-      notes: notes ?? this.notes,
-      customName: customName ?? this.customName,
-      customColor: customColor ?? this.customColor,
-      customIcon: customIcon ?? this.customIcon,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (templateId.present) {
-      map['template_id'] = Variable<String>(templateId.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String>(status.value);
-    }
-    if (deadline.present) {
-      map['deadline'] = Variable<DateTime>(deadline.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (notes.present) {
-      map['notes'] = Variable<String>(notes.value);
-    }
-    if (customName.present) {
-      map['custom_name'] = Variable<String>(customName.value);
-    }
-    if (customColor.present) {
-      map['custom_color'] = Variable<String>(customColor.value);
-    }
-    if (customIcon.present) {
-      map['custom_icon'] = Variable<String>(customIcon.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ApplicationsCompanion(')
-          ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
-          ..write('status: $status, ')
-          ..write('deadline: $deadline, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('notes: $notes, ')
-          ..write('customName: $customName, ')
-          ..write('customColor: $customColor, ')
-          ..write('customIcon: $customIcon')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TasksTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _applicationIdMeta = const VerificationMeta(
-    'applicationId',
-  );
-  @override
-  late final GeneratedColumn<int> applicationId = GeneratedColumn<int>(
-    'application_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES applications (id)',
-    ),
-  );
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
-  @override
-  late final GeneratedColumn<String> status = GeneratedColumn<String>(
-    'status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('pending'),
-  );
-  static const VerificationMeta _dueDateMeta = const VerificationMeta(
-    'dueDate',
-  );
-  @override
-  late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
-    'due_date',
-    aliasedName,
-    true,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _categoryMeta = const VerificationMeta(
-    'category',
-  );
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-    'category',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('Other'),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    applicationId,
-    title,
-    status,
-    dueDate,
-    category,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'tasks';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<Task> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('application_id')) {
-      context.handle(
-        _applicationIdMeta,
-        applicationId.isAcceptableOrUnknown(
-          data['application_id']!,
-          _applicationIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_applicationIdMeta);
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_titleMeta);
-    }
-    if (data.containsKey('status')) {
-      context.handle(
-        _statusMeta,
-        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
-      );
-    }
-    if (data.containsKey('due_date')) {
-      context.handle(
-        _dueDateMeta,
-        dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
-      );
-    }
-    if (data.containsKey('category')) {
-      context.handle(
-        _categoryMeta,
-        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Task map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Task(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      applicationId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}application_id'],
-      )!,
-      title: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}title'],
-      )!,
-      status: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}status'],
-      )!,
-      dueDate: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}due_date'],
-      ),
-      category: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}category'],
-      )!,
-    );
-  }
-
-  @override
-  $TasksTable createAlias(String alias) {
-    return $TasksTable(attachedDatabase, alias);
-  }
-}
-
-class Task extends DataClass implements Insertable<Task> {
-  final int id;
-  final int applicationId;
-  final String title;
-  final String status;
-  final DateTime? dueDate;
-  final String category;
-  const Task({
-    required this.id,
-    required this.applicationId,
-    required this.title,
-    required this.status,
-    this.dueDate,
-    required this.category,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['application_id'] = Variable<int>(applicationId);
-    map['title'] = Variable<String>(title);
-    map['status'] = Variable<String>(status);
-    if (!nullToAbsent || dueDate != null) {
-      map['due_date'] = Variable<DateTime>(dueDate);
-    }
-    map['category'] = Variable<String>(category);
-    return map;
-  }
-
-  TasksCompanion toCompanion(bool nullToAbsent) {
-    return TasksCompanion(
-      id: Value(id),
-      applicationId: Value(applicationId),
-      title: Value(title),
-      status: Value(status),
-      dueDate: dueDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(dueDate),
-      category: Value(category),
-    );
-  }
-
-  factory Task.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Task(
-      id: serializer.fromJson<int>(json['id']),
-      applicationId: serializer.fromJson<int>(json['applicationId']),
-      title: serializer.fromJson<String>(json['title']),
-      status: serializer.fromJson<String>(json['status']),
-      dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
-      category: serializer.fromJson<String>(json['category']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'applicationId': serializer.toJson<int>(applicationId),
-      'title': serializer.toJson<String>(title),
-      'status': serializer.toJson<String>(status),
-      'dueDate': serializer.toJson<DateTime?>(dueDate),
-      'category': serializer.toJson<String>(category),
-    };
-  }
-
-  Task copyWith({
-    int? id,
-    int? applicationId,
-    String? title,
-    String? status,
-    Value<DateTime?> dueDate = const Value.absent(),
-    String? category,
-  }) => Task(
-    id: id ?? this.id,
-    applicationId: applicationId ?? this.applicationId,
-    title: title ?? this.title,
-    status: status ?? this.status,
-    dueDate: dueDate.present ? dueDate.value : this.dueDate,
-    category: category ?? this.category,
-  );
-  Task copyWithCompanion(TasksCompanion data) {
-    return Task(
-      id: data.id.present ? data.id.value : this.id,
-      applicationId: data.applicationId.present
-          ? data.applicationId.value
-          : this.applicationId,
-      title: data.title.present ? data.title.value : this.title,
-      status: data.status.present ? data.status.value : this.status,
-      dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
-      category: data.category.present ? data.category.value : this.category,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Task(')
-          ..write('id: $id, ')
-          ..write('applicationId: $applicationId, ')
-          ..write('title: $title, ')
-          ..write('status: $status, ')
-          ..write('dueDate: $dueDate, ')
-          ..write('category: $category')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, applicationId, title, status, dueDate, category);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Task &&
-          other.id == this.id &&
-          other.applicationId == this.applicationId &&
-          other.title == this.title &&
-          other.status == this.status &&
-          other.dueDate == this.dueDate &&
-          other.category == this.category);
-}
-
-class TasksCompanion extends UpdateCompanion<Task> {
-  final Value<int> id;
-  final Value<int> applicationId;
-  final Value<String> title;
-  final Value<String> status;
-  final Value<DateTime?> dueDate;
-  final Value<String> category;
-  const TasksCompanion({
-    this.id = const Value.absent(),
-    this.applicationId = const Value.absent(),
-    this.title = const Value.absent(),
-    this.status = const Value.absent(),
-    this.dueDate = const Value.absent(),
-    this.category = const Value.absent(),
-  });
-  TasksCompanion.insert({
-    this.id = const Value.absent(),
-    required int applicationId,
-    required String title,
-    this.status = const Value.absent(),
-    this.dueDate = const Value.absent(),
-    this.category = const Value.absent(),
-  }) : applicationId = Value(applicationId),
-       title = Value(title);
-  static Insertable<Task> custom({
-    Expression<int>? id,
-    Expression<int>? applicationId,
-    Expression<String>? title,
-    Expression<String>? status,
-    Expression<DateTime>? dueDate,
-    Expression<String>? category,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (applicationId != null) 'application_id': applicationId,
-      if (title != null) 'title': title,
-      if (status != null) 'status': status,
-      if (dueDate != null) 'due_date': dueDate,
-      if (category != null) 'category': category,
-    });
-  }
-
-  TasksCompanion copyWith({
-    Value<int>? id,
-    Value<int>? applicationId,
-    Value<String>? title,
-    Value<String>? status,
-    Value<DateTime?>? dueDate,
-    Value<String>? category,
-  }) {
-    return TasksCompanion(
-      id: id ?? this.id,
-      applicationId: applicationId ?? this.applicationId,
-      title: title ?? this.title,
-      status: status ?? this.status,
-      dueDate: dueDate ?? this.dueDate,
-      category: category ?? this.category,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (applicationId.present) {
-      map['application_id'] = Variable<int>(applicationId.value);
-    }
-    if (title.present) {
-      map['title'] = Variable<String>(title.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String>(status.value);
-    }
-    if (dueDate.present) {
-      map['due_date'] = Variable<DateTime>(dueDate.value);
-    }
-    if (category.present) {
-      map['category'] = Variable<String>(category.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TasksCompanion(')
-          ..write('id: $id, ')
-          ..write('applicationId: $applicationId, ')
-          ..write('title: $title, ')
-          ..write('status: $status, ')
-          ..write('dueDate: $dueDate, ')
-          ..write('category: $category')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $TemplateMilestonesTable extends TemplateMilestones
     with TableInfo<$TemplateMilestonesTable, TemplateMilestone> {
   @override
@@ -3666,19 +2706,1259 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
   }
 }
 
+class $UserApplicationsTable extends UserApplications
+    with TableInfo<$UserApplicationsTable, UserApplication> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserApplicationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _templateIdMeta = const VerificationMeta(
+    'templateId',
+  );
+  @override
+  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
+    'template_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES scholarship_templates (id)',
+    ),
+  );
+  static const VerificationMeta _customNameMeta = const VerificationMeta(
+    'customName',
+  );
+  @override
+  late final GeneratedColumn<String> customName = GeneratedColumn<String>(
+    'custom_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _customColorMeta = const VerificationMeta(
+    'customColor',
+  );
+  @override
+  late final GeneratedColumn<String> customColor = GeneratedColumn<String>(
+    'custom_color',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('in_progress'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    templateId,
+    customName,
+    customColor,
+    notes,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_applications';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserApplication> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('template_id')) {
+      context.handle(
+        _templateIdMeta,
+        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_templateIdMeta);
+    }
+    if (data.containsKey('custom_name')) {
+      context.handle(
+        _customNameMeta,
+        customName.isAcceptableOrUnknown(data['custom_name']!, _customNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_customNameMeta);
+    }
+    if (data.containsKey('custom_color')) {
+      context.handle(
+        _customColorMeta,
+        customColor.isAcceptableOrUnknown(
+          data['custom_color']!,
+          _customColorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserApplication map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserApplication(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      templateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}template_id'],
+      )!,
+      customName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_name'],
+      )!,
+      customColor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_color'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $UserApplicationsTable createAlias(String alias) {
+    return $UserApplicationsTable(attachedDatabase, alias);
+  }
+}
+
+class UserApplication extends DataClass implements Insertable<UserApplication> {
+  final int id;
+  final String templateId;
+  final String customName;
+  final String? customColor;
+  final String? notes;
+  final String status;
+  final DateTime createdAt;
+  const UserApplication({
+    required this.id,
+    required this.templateId,
+    required this.customName,
+    this.customColor,
+    this.notes,
+    required this.status,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['template_id'] = Variable<String>(templateId);
+    map['custom_name'] = Variable<String>(customName);
+    if (!nullToAbsent || customColor != null) {
+      map['custom_color'] = Variable<String>(customColor);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['status'] = Variable<String>(status);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  UserApplicationsCompanion toCompanion(bool nullToAbsent) {
+    return UserApplicationsCompanion(
+      id: Value(id),
+      templateId: Value(templateId),
+      customName: Value(customName),
+      customColor: customColor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customColor),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      status: Value(status),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory UserApplication.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserApplication(
+      id: serializer.fromJson<int>(json['id']),
+      templateId: serializer.fromJson<String>(json['templateId']),
+      customName: serializer.fromJson<String>(json['customName']),
+      customColor: serializer.fromJson<String?>(json['customColor']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'templateId': serializer.toJson<String>(templateId),
+      'customName': serializer.toJson<String>(customName),
+      'customColor': serializer.toJson<String?>(customColor),
+      'notes': serializer.toJson<String?>(notes),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  UserApplication copyWith({
+    int? id,
+    String? templateId,
+    String? customName,
+    Value<String?> customColor = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    String? status,
+    DateTime? createdAt,
+  }) => UserApplication(
+    id: id ?? this.id,
+    templateId: templateId ?? this.templateId,
+    customName: customName ?? this.customName,
+    customColor: customColor.present ? customColor.value : this.customColor,
+    notes: notes.present ? notes.value : this.notes,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  UserApplication copyWithCompanion(UserApplicationsCompanion data) {
+    return UserApplication(
+      id: data.id.present ? data.id.value : this.id,
+      templateId: data.templateId.present
+          ? data.templateId.value
+          : this.templateId,
+      customName: data.customName.present
+          ? data.customName.value
+          : this.customName,
+      customColor: data.customColor.present
+          ? data.customColor.value
+          : this.customColor,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserApplication(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('customName: $customName, ')
+          ..write('customColor: $customColor, ')
+          ..write('notes: $notes, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    templateId,
+    customName,
+    customColor,
+    notes,
+    status,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserApplication &&
+          other.id == this.id &&
+          other.templateId == this.templateId &&
+          other.customName == this.customName &&
+          other.customColor == this.customColor &&
+          other.notes == this.notes &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class UserApplicationsCompanion extends UpdateCompanion<UserApplication> {
+  final Value<int> id;
+  final Value<String> templateId;
+  final Value<String> customName;
+  final Value<String?> customColor;
+  final Value<String?> notes;
+  final Value<String> status;
+  final Value<DateTime> createdAt;
+  const UserApplicationsCompanion({
+    this.id = const Value.absent(),
+    this.templateId = const Value.absent(),
+    this.customName = const Value.absent(),
+    this.customColor = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  UserApplicationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String templateId,
+    required String customName,
+    this.customColor = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : templateId = Value(templateId),
+       customName = Value(customName);
+  static Insertable<UserApplication> custom({
+    Expression<int>? id,
+    Expression<String>? templateId,
+    Expression<String>? customName,
+    Expression<String>? customColor,
+    Expression<String>? notes,
+    Expression<String>? status,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (templateId != null) 'template_id': templateId,
+      if (customName != null) 'custom_name': customName,
+      if (customColor != null) 'custom_color': customColor,
+      if (notes != null) 'notes': notes,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  UserApplicationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? templateId,
+    Value<String>? customName,
+    Value<String?>? customColor,
+    Value<String?>? notes,
+    Value<String>? status,
+    Value<DateTime>? createdAt,
+  }) {
+    return UserApplicationsCompanion(
+      id: id ?? this.id,
+      templateId: templateId ?? this.templateId,
+      customName: customName ?? this.customName,
+      customColor: customColor ?? this.customColor,
+      notes: notes ?? this.notes,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (templateId.present) {
+      map['template_id'] = Variable<String>(templateId.value);
+    }
+    if (customName.present) {
+      map['custom_name'] = Variable<String>(customName.value);
+    }
+    if (customColor.present) {
+      map['custom_color'] = Variable<String>(customColor.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserApplicationsCompanion(')
+          ..write('id: $id, ')
+          ..write('templateId: $templateId, ')
+          ..write('customName: $customName, ')
+          ..write('customColor: $customColor, ')
+          ..write('notes: $notes, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserMilestonesTable extends UserMilestones
+    with TableInfo<$UserMilestonesTable, UserMilestone> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserMilestonesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userApplicationIdMeta = const VerificationMeta(
+    'userApplicationId',
+  );
+  @override
+  late final GeneratedColumn<int> userApplicationId = GeneratedColumn<int>(
+    'user_application_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES user_applications (id)',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endDateMeta = const VerificationMeta(
+    'endDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
+    'end_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userApplicationId,
+    name,
+    startDate,
+    endDate,
+    isCompleted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_milestones';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserMilestone> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_application_id')) {
+      context.handle(
+        _userApplicationIdMeta,
+        userApplicationId.isAcceptableOrUnknown(
+          data['user_application_id']!,
+          _userApplicationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_userApplicationIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(
+        _endDateMeta,
+        endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endDateMeta);
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserMilestone map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserMilestone(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userApplicationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_application_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      )!,
+      endDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_date'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+    );
+  }
+
+  @override
+  $UserMilestonesTable createAlias(String alias) {
+    return $UserMilestonesTable(attachedDatabase, alias);
+  }
+}
+
+class UserMilestone extends DataClass implements Insertable<UserMilestone> {
+  final int id;
+  final int userApplicationId;
+  final String name;
+  final DateTime startDate;
+  final DateTime endDate;
+  final bool isCompleted;
+  const UserMilestone({
+    required this.id,
+    required this.userApplicationId,
+    required this.name,
+    required this.startDate,
+    required this.endDate,
+    required this.isCompleted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_application_id'] = Variable<int>(userApplicationId);
+    map['name'] = Variable<String>(name);
+    map['start_date'] = Variable<DateTime>(startDate);
+    map['end_date'] = Variable<DateTime>(endDate);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    return map;
+  }
+
+  UserMilestonesCompanion toCompanion(bool nullToAbsent) {
+    return UserMilestonesCompanion(
+      id: Value(id),
+      userApplicationId: Value(userApplicationId),
+      name: Value(name),
+      startDate: Value(startDate),
+      endDate: Value(endDate),
+      isCompleted: Value(isCompleted),
+    );
+  }
+
+  factory UserMilestone.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserMilestone(
+      id: serializer.fromJson<int>(json['id']),
+      userApplicationId: serializer.fromJson<int>(json['userApplicationId']),
+      name: serializer.fromJson<String>(json['name']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime>(json['endDate']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userApplicationId': serializer.toJson<int>(userApplicationId),
+      'name': serializer.toJson<String>(name),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime>(endDate),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+    };
+  }
+
+  UserMilestone copyWith({
+    int? id,
+    int? userApplicationId,
+    String? name,
+    DateTime? startDate,
+    DateTime? endDate,
+    bool? isCompleted,
+  }) => UserMilestone(
+    id: id ?? this.id,
+    userApplicationId: userApplicationId ?? this.userApplicationId,
+    name: name ?? this.name,
+    startDate: startDate ?? this.startDate,
+    endDate: endDate ?? this.endDate,
+    isCompleted: isCompleted ?? this.isCompleted,
+  );
+  UserMilestone copyWithCompanion(UserMilestonesCompanion data) {
+    return UserMilestone(
+      id: data.id.present ? data.id.value : this.id,
+      userApplicationId: data.userApplicationId.present
+          ? data.userApplicationId.value
+          : this.userApplicationId,
+      name: data.name.present ? data.name.value : this.name,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserMilestone(')
+          ..write('id: $id, ')
+          ..write('userApplicationId: $userApplicationId, ')
+          ..write('name: $name, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('isCompleted: $isCompleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, userApplicationId, name, startDate, endDate, isCompleted);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserMilestone &&
+          other.id == this.id &&
+          other.userApplicationId == this.userApplicationId &&
+          other.name == this.name &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.isCompleted == this.isCompleted);
+}
+
+class UserMilestonesCompanion extends UpdateCompanion<UserMilestone> {
+  final Value<int> id;
+  final Value<int> userApplicationId;
+  final Value<String> name;
+  final Value<DateTime> startDate;
+  final Value<DateTime> endDate;
+  final Value<bool> isCompleted;
+  const UserMilestonesCompanion({
+    this.id = const Value.absent(),
+    this.userApplicationId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+  });
+  UserMilestonesCompanion.insert({
+    this.id = const Value.absent(),
+    required int userApplicationId,
+    required String name,
+    required DateTime startDate,
+    required DateTime endDate,
+    this.isCompleted = const Value.absent(),
+  }) : userApplicationId = Value(userApplicationId),
+       name = Value(name),
+       startDate = Value(startDate),
+       endDate = Value(endDate);
+  static Insertable<UserMilestone> custom({
+    Expression<int>? id,
+    Expression<int>? userApplicationId,
+    Expression<String>? name,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+    Expression<bool>? isCompleted,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userApplicationId != null) 'user_application_id': userApplicationId,
+      if (name != null) 'name': name,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (isCompleted != null) 'is_completed': isCompleted,
+    });
+  }
+
+  UserMilestonesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userApplicationId,
+    Value<String>? name,
+    Value<DateTime>? startDate,
+    Value<DateTime>? endDate,
+    Value<bool>? isCompleted,
+  }) {
+    return UserMilestonesCompanion(
+      id: id ?? this.id,
+      userApplicationId: userApplicationId ?? this.userApplicationId,
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userApplicationId.present) {
+      map['user_application_id'] = Variable<int>(userApplicationId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserMilestonesCompanion(')
+          ..write('id: $id, ')
+          ..write('userApplicationId: $userApplicationId, ')
+          ..write('name: $name, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('isCompleted: $isCompleted')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserTasksTable extends UserTasks
+    with TableInfo<$UserTasksTable, UserTask> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserTasksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userMilestoneIdMeta = const VerificationMeta(
+    'userMilestoneId',
+  );
+  @override
+  late final GeneratedColumn<int> userMilestoneId = GeneratedColumn<int>(
+    'user_milestone_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES user_milestones (id)',
+    ),
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _dueDateMeta = const VerificationMeta(
+    'dueDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
+    'due_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userMilestoneId,
+    label,
+    isCompleted,
+    dueDate,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_tasks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserTask> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_milestone_id')) {
+      context.handle(
+        _userMilestoneIdMeta,
+        userMilestoneId.isAcceptableOrUnknown(
+          data['user_milestone_id']!,
+          _userMilestoneIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_userMilestoneIdMeta);
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('due_date')) {
+      context.handle(
+        _dueDateMeta,
+        dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dueDateMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserTask map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserTask(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userMilestoneId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_milestone_id'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      dueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due_date'],
+      )!,
+    );
+  }
+
+  @override
+  $UserTasksTable createAlias(String alias) {
+    return $UserTasksTable(attachedDatabase, alias);
+  }
+}
+
+class UserTask extends DataClass implements Insertable<UserTask> {
+  final int id;
+  final int userMilestoneId;
+  final String label;
+  final bool isCompleted;
+  final DateTime dueDate;
+  const UserTask({
+    required this.id,
+    required this.userMilestoneId,
+    required this.label,
+    required this.isCompleted,
+    required this.dueDate,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_milestone_id'] = Variable<int>(userMilestoneId);
+    map['label'] = Variable<String>(label);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    map['due_date'] = Variable<DateTime>(dueDate);
+    return map;
+  }
+
+  UserTasksCompanion toCompanion(bool nullToAbsent) {
+    return UserTasksCompanion(
+      id: Value(id),
+      userMilestoneId: Value(userMilestoneId),
+      label: Value(label),
+      isCompleted: Value(isCompleted),
+      dueDate: Value(dueDate),
+    );
+  }
+
+  factory UserTask.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserTask(
+      id: serializer.fromJson<int>(json['id']),
+      userMilestoneId: serializer.fromJson<int>(json['userMilestoneId']),
+      label: serializer.fromJson<String>(json['label']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      dueDate: serializer.fromJson<DateTime>(json['dueDate']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userMilestoneId': serializer.toJson<int>(userMilestoneId),
+      'label': serializer.toJson<String>(label),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'dueDate': serializer.toJson<DateTime>(dueDate),
+    };
+  }
+
+  UserTask copyWith({
+    int? id,
+    int? userMilestoneId,
+    String? label,
+    bool? isCompleted,
+    DateTime? dueDate,
+  }) => UserTask(
+    id: id ?? this.id,
+    userMilestoneId: userMilestoneId ?? this.userMilestoneId,
+    label: label ?? this.label,
+    isCompleted: isCompleted ?? this.isCompleted,
+    dueDate: dueDate ?? this.dueDate,
+  );
+  UserTask copyWithCompanion(UserTasksCompanion data) {
+    return UserTask(
+      id: data.id.present ? data.id.value : this.id,
+      userMilestoneId: data.userMilestoneId.present
+          ? data.userMilestoneId.value
+          : this.userMilestoneId,
+      label: data.label.present ? data.label.value : this.label,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserTask(')
+          ..write('id: $id, ')
+          ..write('userMilestoneId: $userMilestoneId, ')
+          ..write('label: $label, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('dueDate: $dueDate')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, userMilestoneId, label, isCompleted, dueDate);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserTask &&
+          other.id == this.id &&
+          other.userMilestoneId == this.userMilestoneId &&
+          other.label == this.label &&
+          other.isCompleted == this.isCompleted &&
+          other.dueDate == this.dueDate);
+}
+
+class UserTasksCompanion extends UpdateCompanion<UserTask> {
+  final Value<int> id;
+  final Value<int> userMilestoneId;
+  final Value<String> label;
+  final Value<bool> isCompleted;
+  final Value<DateTime> dueDate;
+  const UserTasksCompanion({
+    this.id = const Value.absent(),
+    this.userMilestoneId = const Value.absent(),
+    this.label = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.dueDate = const Value.absent(),
+  });
+  UserTasksCompanion.insert({
+    this.id = const Value.absent(),
+    required int userMilestoneId,
+    required String label,
+    this.isCompleted = const Value.absent(),
+    required DateTime dueDate,
+  }) : userMilestoneId = Value(userMilestoneId),
+       label = Value(label),
+       dueDate = Value(dueDate);
+  static Insertable<UserTask> custom({
+    Expression<int>? id,
+    Expression<int>? userMilestoneId,
+    Expression<String>? label,
+    Expression<bool>? isCompleted,
+    Expression<DateTime>? dueDate,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userMilestoneId != null) 'user_milestone_id': userMilestoneId,
+      if (label != null) 'label': label,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (dueDate != null) 'due_date': dueDate,
+    });
+  }
+
+  UserTasksCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userMilestoneId,
+    Value<String>? label,
+    Value<bool>? isCompleted,
+    Value<DateTime>? dueDate,
+  }) {
+    return UserTasksCompanion(
+      id: id ?? this.id,
+      userMilestoneId: userMilestoneId ?? this.userMilestoneId,
+      label: label ?? this.label,
+      isCompleted: isCompleted ?? this.isCompleted,
+      dueDate: dueDate ?? this.dueDate,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userMilestoneId.present) {
+      map['user_milestone_id'] = Variable<int>(userMilestoneId.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (dueDate.present) {
+      map['due_date'] = Variable<DateTime>(dueDate.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserTasksCompanion(')
+          ..write('id: $id, ')
+          ..write('userMilestoneId: $userMilestoneId, ')
+          ..write('label: $label, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('dueDate: $dueDate')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $UserProfilesTable userProfiles = $UserProfilesTable(this);
   late final $ScholarshipTemplatesTable scholarshipTemplates =
       $ScholarshipTemplatesTable(this);
-  late final $ApplicationsTable applications = $ApplicationsTable(this);
-  late final $TasksTable tasks = $TasksTable(this);
   late final $TemplateMilestonesTable templateMilestones =
       $TemplateMilestonesTable(this);
   late final $TemplateTasksTable templateTasks = $TemplateTasksTable(this);
   late final $TemplateDocumentsTable templateDocuments =
       $TemplateDocumentsTable(this);
+  late final $UserApplicationsTable userApplications = $UserApplicationsTable(
+    this,
+  );
+  late final $UserMilestonesTable userMilestones = $UserMilestonesTable(this);
+  late final $UserTasksTable userTasks = $UserTasksTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3686,11 +3966,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     userProfiles,
     scholarshipTemplates,
-    applications,
-    tasks,
     templateMilestones,
     templateTasks,
     templateDocuments,
+    userApplications,
+    userMilestones,
+    userTasks,
   ];
 }
 
@@ -3939,27 +4220,6 @@ final class $$ScholarshipTemplatesTableReferences
     super.$_typedResult,
   );
 
-  static MultiTypedResultKey<$ApplicationsTable, List<Application>>
-  _applicationsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.applications,
-    aliasName: $_aliasNameGenerator(
-      db.scholarshipTemplates.id,
-      db.applications.templateId,
-    ),
-  );
-
-  $$ApplicationsTableProcessedTableManager get applicationsRefs {
-    final manager = $$ApplicationsTableTableManager(
-      $_db,
-      $_db.applications,
-    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<String>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_applicationsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
   static MultiTypedResultKey<$TemplateMilestonesTable, List<TemplateMilestone>>
   _templateMilestonesRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(
@@ -4002,6 +4262,29 @@ final class $$ScholarshipTemplatesTableReferences
 
     final cache = $_typedResult.readTableOrNull(
       _templateDocumentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$UserApplicationsTable, List<UserApplication>>
+  _userApplicationsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userApplications,
+    aliasName: $_aliasNameGenerator(
+      db.scholarshipTemplates.id,
+      db.userApplications.templateId,
+    ),
+  );
+
+  $$UserApplicationsTableProcessedTableManager get userApplicationsRefs {
+    final manager = $$UserApplicationsTableTableManager(
+      $_db,
+      $_db.userApplications,
+    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _userApplicationsRefsTable($_db),
     );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
@@ -4123,31 +4406,6 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  Expression<bool> applicationsRefs(
-    Expression<bool> Function($$ApplicationsTableFilterComposer f) f,
-  ) {
-    final $$ApplicationsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.applications,
-      getReferencedColumn: (t) => t.templateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ApplicationsTableFilterComposer(
-            $db: $db,
-            $table: $db.applications,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
   Expression<bool> templateMilestonesRefs(
     Expression<bool> Function($$TemplateMilestonesTableFilterComposer f) f,
   ) {
@@ -4189,6 +4447,31 @@ class $$ScholarshipTemplatesTableFilterComposer
           }) => $$TemplateDocumentsTableFilterComposer(
             $db: $db,
             $table: $db.templateDocuments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> userApplicationsRefs(
+    Expression<bool> Function($$UserApplicationsTableFilterComposer f) f,
+  ) {
+    final $$UserApplicationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.templateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableFilterComposer(
+            $db: $db,
+            $table: $db.userApplications,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -4410,31 +4693,6 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  Expression<T> applicationsRefs<T extends Object>(
-    Expression<T> Function($$ApplicationsTableAnnotationComposer a) f,
-  ) {
-    final $$ApplicationsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.applications,
-      getReferencedColumn: (t) => t.templateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ApplicationsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.applications,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
   Expression<T> templateMilestonesRefs<T extends Object>(
     Expression<T> Function($$TemplateMilestonesTableAnnotationComposer a) f,
   ) {
@@ -4486,6 +4744,31 @@ class $$ScholarshipTemplatesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> userApplicationsRefs<T extends Object>(
+    Expression<T> Function($$UserApplicationsTableAnnotationComposer a) f,
+  ) {
+    final $$UserApplicationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.templateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ScholarshipTemplatesTableTableManager
@@ -4502,9 +4785,9 @@ class $$ScholarshipTemplatesTableTableManager
           (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
           ScholarshipTemplate,
           PrefetchHooks Function({
-            bool applicationsRefs,
             bool templateMilestonesRefs,
             bool templateDocumentsRefs,
+            bool userApplicationsRefs,
           })
         > {
   $$ScholarshipTemplatesTableTableManager(
@@ -4632,41 +4915,20 @@ class $$ScholarshipTemplatesTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
-                applicationsRefs = false,
                 templateMilestonesRefs = false,
                 templateDocumentsRefs = false,
+                userApplicationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
-                    if (applicationsRefs) db.applications,
                     if (templateMilestonesRefs) db.templateMilestones,
                     if (templateDocumentsRefs) db.templateDocuments,
+                    if (userApplicationsRefs) db.userApplications,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
-                      if (applicationsRefs)
-                        await $_getPrefetchedData<
-                          ScholarshipTemplate,
-                          $ScholarshipTemplatesTable,
-                          Application
-                        >(
-                          currentTable: table,
-                          referencedTable: $$ScholarshipTemplatesTableReferences
-                              ._applicationsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$ScholarshipTemplatesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).applicationsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.templateId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
                       if (templateMilestonesRefs)
                         await $_getPrefetchedData<
                           ScholarshipTemplate,
@@ -4709,6 +4971,27 @@ class $$ScholarshipTemplatesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (userApplicationsRefs)
+                        await $_getPrefetchedData<
+                          ScholarshipTemplate,
+                          $ScholarshipTemplatesTable,
+                          UserApplication
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ScholarshipTemplatesTableReferences
+                              ._userApplicationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ScholarshipTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userApplicationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.templateId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -4730,830 +5013,10 @@ typedef $$ScholarshipTemplatesTableProcessedTableManager =
       (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
       ScholarshipTemplate,
       PrefetchHooks Function({
-        bool applicationsRefs,
         bool templateMilestonesRefs,
         bool templateDocumentsRefs,
+        bool userApplicationsRefs,
       })
-    >;
-typedef $$ApplicationsTableCreateCompanionBuilder =
-    ApplicationsCompanion Function({
-      Value<int> id,
-      required String templateId,
-      Value<String> status,
-      required DateTime deadline,
-      Value<DateTime> createdAt,
-      Value<String?> notes,
-      Value<String?> customName,
-      Value<String?> customColor,
-      Value<String?> customIcon,
-    });
-typedef $$ApplicationsTableUpdateCompanionBuilder =
-    ApplicationsCompanion Function({
-      Value<int> id,
-      Value<String> templateId,
-      Value<String> status,
-      Value<DateTime> deadline,
-      Value<DateTime> createdAt,
-      Value<String?> notes,
-      Value<String?> customName,
-      Value<String?> customColor,
-      Value<String?> customIcon,
-    });
-
-final class $$ApplicationsTableReferences
-    extends BaseReferences<_$AppDatabase, $ApplicationsTable, Application> {
-  $$ApplicationsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $ScholarshipTemplatesTable _templateIdTable(_$AppDatabase db) =>
-      db.scholarshipTemplates.createAlias(
-        $_aliasNameGenerator(
-          db.applications.templateId,
-          db.scholarshipTemplates.id,
-        ),
-      );
-
-  $$ScholarshipTemplatesTableProcessedTableManager get templateId {
-    final $_column = $_itemColumn<String>('template_id')!;
-
-    final manager = $$ScholarshipTemplatesTableTableManager(
-      $_db,
-      $_db.scholarshipTemplates,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static MultiTypedResultKey<$TasksTable, List<Task>> _tasksRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.tasks,
-    aliasName: $_aliasNameGenerator(db.applications.id, db.tasks.applicationId),
-  );
-
-  $$TasksTableProcessedTableManager get tasksRefs {
-    final manager = $$TasksTableTableManager(
-      $_db,
-      $_db.tasks,
-    ).filter((f) => f.applicationId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_tasksRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$ApplicationsTableFilterComposer
-    extends Composer<_$AppDatabase, $ApplicationsTable> {
-  $$ApplicationsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get status => $composableBuilder(
-    column: $table.status,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get deadline => $composableBuilder(
-    column: $table.deadline,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get notes => $composableBuilder(
-    column: $table.notes,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get customName => $composableBuilder(
-    column: $table.customName,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get customColor => $composableBuilder(
-    column: $table.customColor,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get customIcon => $composableBuilder(
-    column: $table.customIcon,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$ScholarshipTemplatesTableFilterComposer get templateId {
-    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.templateId,
-      referencedTable: $db.scholarshipTemplates,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ScholarshipTemplatesTableFilterComposer(
-            $db: $db,
-            $table: $db.scholarshipTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<bool> tasksRefs(
-    Expression<bool> Function($$TasksTableFilterComposer f) f,
-  ) {
-    final $$TasksTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.tasks,
-      getReferencedColumn: (t) => t.applicationId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TasksTableFilterComposer(
-            $db: $db,
-            $table: $db.tasks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$ApplicationsTableOrderingComposer
-    extends Composer<_$AppDatabase, $ApplicationsTable> {
-  $$ApplicationsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get status => $composableBuilder(
-    column: $table.status,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get deadline => $composableBuilder(
-    column: $table.deadline,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get notes => $composableBuilder(
-    column: $table.notes,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get customName => $composableBuilder(
-    column: $table.customName,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get customColor => $composableBuilder(
-    column: $table.customColor,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get customIcon => $composableBuilder(
-    column: $table.customIcon,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$ScholarshipTemplatesTableOrderingComposer get templateId {
-    final $$ScholarshipTemplatesTableOrderingComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableOrderingComposer(
-                $db: $db,
-                $table: $db.scholarshipTemplates,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return composer;
-  }
-}
-
-class $$ApplicationsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ApplicationsTable> {
-  $$ApplicationsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get status =>
-      $composableBuilder(column: $table.status, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get deadline =>
-      $composableBuilder(column: $table.deadline, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<String> get notes =>
-      $composableBuilder(column: $table.notes, builder: (column) => column);
-
-  GeneratedColumn<String> get customName => $composableBuilder(
-    column: $table.customName,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get customColor => $composableBuilder(
-    column: $table.customColor,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get customIcon => $composableBuilder(
-    column: $table.customIcon,
-    builder: (column) => column,
-  );
-
-  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
-    final $$ScholarshipTemplatesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.scholarshipTemplates,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return composer;
-  }
-
-  Expression<T> tasksRefs<T extends Object>(
-    Expression<T> Function($$TasksTableAnnotationComposer a) f,
-  ) {
-    final $$TasksTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.tasks,
-      getReferencedColumn: (t) => t.applicationId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TasksTableAnnotationComposer(
-            $db: $db,
-            $table: $db.tasks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$ApplicationsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $ApplicationsTable,
-          Application,
-          $$ApplicationsTableFilterComposer,
-          $$ApplicationsTableOrderingComposer,
-          $$ApplicationsTableAnnotationComposer,
-          $$ApplicationsTableCreateCompanionBuilder,
-          $$ApplicationsTableUpdateCompanionBuilder,
-          (Application, $$ApplicationsTableReferences),
-          Application,
-          PrefetchHooks Function({bool templateId, bool tasksRefs})
-        > {
-  $$ApplicationsTableTableManager(_$AppDatabase db, $ApplicationsTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$ApplicationsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$ApplicationsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$ApplicationsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> templateId = const Value.absent(),
-                Value<String> status = const Value.absent(),
-                Value<DateTime> deadline = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<String?> notes = const Value.absent(),
-                Value<String?> customName = const Value.absent(),
-                Value<String?> customColor = const Value.absent(),
-                Value<String?> customIcon = const Value.absent(),
-              }) => ApplicationsCompanion(
-                id: id,
-                templateId: templateId,
-                status: status,
-                deadline: deadline,
-                createdAt: createdAt,
-                notes: notes,
-                customName: customName,
-                customColor: customColor,
-                customIcon: customIcon,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String templateId,
-                Value<String> status = const Value.absent(),
-                required DateTime deadline,
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<String?> notes = const Value.absent(),
-                Value<String?> customName = const Value.absent(),
-                Value<String?> customColor = const Value.absent(),
-                Value<String?> customIcon = const Value.absent(),
-              }) => ApplicationsCompanion.insert(
-                id: id,
-                templateId: templateId,
-                status: status,
-                deadline: deadline,
-                createdAt: createdAt,
-                notes: notes,
-                customName: customName,
-                customColor: customColor,
-                customIcon: customIcon,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$ApplicationsTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({templateId = false, tasksRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (tasksRefs) db.tasks],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (templateId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.templateId,
-                                referencedTable: $$ApplicationsTableReferences
-                                    ._templateIdTable(db),
-                                referencedColumn: $$ApplicationsTableReferences
-                                    ._templateIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (tasksRefs)
-                    await $_getPrefetchedData<
-                      Application,
-                      $ApplicationsTable,
-                      Task
-                    >(
-                      currentTable: table,
-                      referencedTable: $$ApplicationsTableReferences
-                          ._tasksRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$ApplicationsTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).tasksRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.applicationId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$ApplicationsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $ApplicationsTable,
-      Application,
-      $$ApplicationsTableFilterComposer,
-      $$ApplicationsTableOrderingComposer,
-      $$ApplicationsTableAnnotationComposer,
-      $$ApplicationsTableCreateCompanionBuilder,
-      $$ApplicationsTableUpdateCompanionBuilder,
-      (Application, $$ApplicationsTableReferences),
-      Application,
-      PrefetchHooks Function({bool templateId, bool tasksRefs})
-    >;
-typedef $$TasksTableCreateCompanionBuilder =
-    TasksCompanion Function({
-      Value<int> id,
-      required int applicationId,
-      required String title,
-      Value<String> status,
-      Value<DateTime?> dueDate,
-      Value<String> category,
-    });
-typedef $$TasksTableUpdateCompanionBuilder =
-    TasksCompanion Function({
-      Value<int> id,
-      Value<int> applicationId,
-      Value<String> title,
-      Value<String> status,
-      Value<DateTime?> dueDate,
-      Value<String> category,
-    });
-
-final class $$TasksTableReferences
-    extends BaseReferences<_$AppDatabase, $TasksTable, Task> {
-  $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $ApplicationsTable _applicationIdTable(_$AppDatabase db) =>
-      db.applications.createAlias(
-        $_aliasNameGenerator(db.tasks.applicationId, db.applications.id),
-      );
-
-  $$ApplicationsTableProcessedTableManager get applicationId {
-    final $_column = $_itemColumn<int>('application_id')!;
-
-    final manager = $$ApplicationsTableTableManager(
-      $_db,
-      $_db.applications,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_applicationIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get status => $composableBuilder(
-    column: $table.status,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get dueDate => $composableBuilder(
-    column: $table.dueDate,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$ApplicationsTableFilterComposer get applicationId {
-    final $$ApplicationsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.applicationId,
-      referencedTable: $db.applications,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ApplicationsTableFilterComposer(
-            $db: $db,
-            $table: $db.applications,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$TasksTableOrderingComposer
-    extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get status => $composableBuilder(
-    column: $table.status,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get dueDate => $composableBuilder(
-    column: $table.dueDate,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$ApplicationsTableOrderingComposer get applicationId {
-    final $$ApplicationsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.applicationId,
-      referencedTable: $db.applications,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ApplicationsTableOrderingComposer(
-            $db: $db,
-            $table: $db.applications,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$TasksTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => column);
-
-  GeneratedColumn<String> get status =>
-      $composableBuilder(column: $table.status, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get dueDate =>
-      $composableBuilder(column: $table.dueDate, builder: (column) => column);
-
-  GeneratedColumn<String> get category =>
-      $composableBuilder(column: $table.category, builder: (column) => column);
-
-  $$ApplicationsTableAnnotationComposer get applicationId {
-    final $$ApplicationsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.applicationId,
-      referencedTable: $db.applications,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ApplicationsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.applications,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$TasksTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $TasksTable,
-          Task,
-          $$TasksTableFilterComposer,
-          $$TasksTableOrderingComposer,
-          $$TasksTableAnnotationComposer,
-          $$TasksTableCreateCompanionBuilder,
-          $$TasksTableUpdateCompanionBuilder,
-          (Task, $$TasksTableReferences),
-          Task,
-          PrefetchHooks Function({bool applicationId})
-        > {
-  $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$TasksTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TasksTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$TasksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> applicationId = const Value.absent(),
-                Value<String> title = const Value.absent(),
-                Value<String> status = const Value.absent(),
-                Value<DateTime?> dueDate = const Value.absent(),
-                Value<String> category = const Value.absent(),
-              }) => TasksCompanion(
-                id: id,
-                applicationId: applicationId,
-                title: title,
-                status: status,
-                dueDate: dueDate,
-                category: category,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int applicationId,
-                required String title,
-                Value<String> status = const Value.absent(),
-                Value<DateTime?> dueDate = const Value.absent(),
-                Value<String> category = const Value.absent(),
-              }) => TasksCompanion.insert(
-                id: id,
-                applicationId: applicationId,
-                title: title,
-                status: status,
-                dueDate: dueDate,
-                category: category,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$TasksTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback: ({applicationId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (applicationId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.applicationId,
-                                referencedTable: $$TasksTableReferences
-                                    ._applicationIdTable(db),
-                                referencedColumn: $$TasksTableReferences
-                                    ._applicationIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$TasksTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $TasksTable,
-      Task,
-      $$TasksTableFilterComposer,
-      $$TasksTableOrderingComposer,
-      $$TasksTableAnnotationComposer,
-      $$TasksTableCreateCompanionBuilder,
-      $$TasksTableUpdateCompanionBuilder,
-      (Task, $$TasksTableReferences),
-      Task,
-      PrefetchHooks Function({bool applicationId})
     >;
 typedef $$TemplateMilestonesTableCreateCompanionBuilder =
     TemplateMilestonesCompanion Function({
@@ -6679,6 +6142,1228 @@ typedef $$TemplateDocumentsTableProcessedTableManager =
       TemplateDocument,
       PrefetchHooks Function({bool templateId})
     >;
+typedef $$UserApplicationsTableCreateCompanionBuilder =
+    UserApplicationsCompanion Function({
+      Value<int> id,
+      required String templateId,
+      required String customName,
+      Value<String?> customColor,
+      Value<String?> notes,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+typedef $$UserApplicationsTableUpdateCompanionBuilder =
+    UserApplicationsCompanion Function({
+      Value<int> id,
+      Value<String> templateId,
+      Value<String> customName,
+      Value<String?> customColor,
+      Value<String?> notes,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+
+final class $$UserApplicationsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $UserApplicationsTable, UserApplication> {
+  $$UserApplicationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ScholarshipTemplatesTable _templateIdTable(_$AppDatabase db) =>
+      db.scholarshipTemplates.createAlias(
+        $_aliasNameGenerator(
+          db.userApplications.templateId,
+          db.scholarshipTemplates.id,
+        ),
+      );
+
+  $$ScholarshipTemplatesTableProcessedTableManager get templateId {
+    final $_column = $_itemColumn<String>('template_id')!;
+
+    final manager = $$ScholarshipTemplatesTableTableManager(
+      $_db,
+      $_db.scholarshipTemplates,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$UserMilestonesTable, List<UserMilestone>>
+  _userMilestonesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userMilestones,
+    aliasName: $_aliasNameGenerator(
+      db.userApplications.id,
+      db.userMilestones.userApplicationId,
+    ),
+  );
+
+  $$UserMilestonesTableProcessedTableManager get userMilestonesRefs {
+    final manager = $$UserMilestonesTableTableManager(
+      $_db,
+      $_db.userMilestones,
+    ).filter((f) => f.userApplicationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userMilestonesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$UserApplicationsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserApplicationsTable> {
+  $$UserApplicationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customName => $composableBuilder(
+    column: $table.customName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customColor => $composableBuilder(
+    column: $table.customColor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ScholarshipTemplatesTableFilterComposer get templateId {
+    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.templateId,
+      referencedTable: $db.scholarshipTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.scholarshipTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> userMilestonesRefs(
+    Expression<bool> Function($$UserMilestonesTableFilterComposer f) f,
+  ) {
+    final $$UserMilestonesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userMilestones,
+      getReferencedColumn: (t) => t.userApplicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserMilestonesTableFilterComposer(
+            $db: $db,
+            $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$UserApplicationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserApplicationsTable> {
+  $$UserApplicationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customName => $composableBuilder(
+    column: $table.customName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customColor => $composableBuilder(
+    column: $table.customColor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ScholarshipTemplatesTableOrderingComposer get templateId {
+    final $$ScholarshipTemplatesTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableOrderingComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$UserApplicationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserApplicationsTable> {
+  $$UserApplicationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get customName => $composableBuilder(
+    column: $table.customName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customColor => $composableBuilder(
+    column: $table.customColor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
+    final $$ScholarshipTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.templateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  Expression<T> userMilestonesRefs<T extends Object>(
+    Expression<T> Function($$UserMilestonesTableAnnotationComposer a) f,
+  ) {
+    final $$UserMilestonesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userMilestones,
+      getReferencedColumn: (t) => t.userApplicationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserMilestonesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$UserApplicationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserApplicationsTable,
+          UserApplication,
+          $$UserApplicationsTableFilterComposer,
+          $$UserApplicationsTableOrderingComposer,
+          $$UserApplicationsTableAnnotationComposer,
+          $$UserApplicationsTableCreateCompanionBuilder,
+          $$UserApplicationsTableUpdateCompanionBuilder,
+          (UserApplication, $$UserApplicationsTableReferences),
+          UserApplication,
+          PrefetchHooks Function({bool templateId, bool userMilestonesRefs})
+        > {
+  $$UserApplicationsTableTableManager(
+    _$AppDatabase db,
+    $UserApplicationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserApplicationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserApplicationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserApplicationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> templateId = const Value.absent(),
+                Value<String> customName = const Value.absent(),
+                Value<String?> customColor = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => UserApplicationsCompanion(
+                id: id,
+                templateId: templateId,
+                customName: customName,
+                customColor: customColor,
+                notes: notes,
+                status: status,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String templateId,
+                required String customName,
+                Value<String?> customColor = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => UserApplicationsCompanion.insert(
+                id: id,
+                templateId: templateId,
+                customName: customName,
+                customColor: customColor,
+                notes: notes,
+                status: status,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserApplicationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({templateId = false, userMilestonesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (userMilestonesRefs) db.userMilestones,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (templateId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.templateId,
+                                    referencedTable:
+                                        $$UserApplicationsTableReferences
+                                            ._templateIdTable(db),
+                                    referencedColumn:
+                                        $$UserApplicationsTableReferences
+                                            ._templateIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (userMilestonesRefs)
+                        await $_getPrefetchedData<
+                          UserApplication,
+                          $UserApplicationsTable,
+                          UserMilestone
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UserApplicationsTableReferences
+                              ._userMilestonesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UserApplicationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userMilestonesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userApplicationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$UserApplicationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserApplicationsTable,
+      UserApplication,
+      $$UserApplicationsTableFilterComposer,
+      $$UserApplicationsTableOrderingComposer,
+      $$UserApplicationsTableAnnotationComposer,
+      $$UserApplicationsTableCreateCompanionBuilder,
+      $$UserApplicationsTableUpdateCompanionBuilder,
+      (UserApplication, $$UserApplicationsTableReferences),
+      UserApplication,
+      PrefetchHooks Function({bool templateId, bool userMilestonesRefs})
+    >;
+typedef $$UserMilestonesTableCreateCompanionBuilder =
+    UserMilestonesCompanion Function({
+      Value<int> id,
+      required int userApplicationId,
+      required String name,
+      required DateTime startDate,
+      required DateTime endDate,
+      Value<bool> isCompleted,
+    });
+typedef $$UserMilestonesTableUpdateCompanionBuilder =
+    UserMilestonesCompanion Function({
+      Value<int> id,
+      Value<int> userApplicationId,
+      Value<String> name,
+      Value<DateTime> startDate,
+      Value<DateTime> endDate,
+      Value<bool> isCompleted,
+    });
+
+final class $$UserMilestonesTableReferences
+    extends BaseReferences<_$AppDatabase, $UserMilestonesTable, UserMilestone> {
+  $$UserMilestonesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UserApplicationsTable _userApplicationIdTable(_$AppDatabase db) =>
+      db.userApplications.createAlias(
+        $_aliasNameGenerator(
+          db.userMilestones.userApplicationId,
+          db.userApplications.id,
+        ),
+      );
+
+  $$UserApplicationsTableProcessedTableManager get userApplicationId {
+    final $_column = $_itemColumn<int>('user_application_id')!;
+
+    final manager = $$UserApplicationsTableTableManager(
+      $_db,
+      $_db.userApplications,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userApplicationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$UserTasksTable, List<UserTask>>
+  _userTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userTasks,
+    aliasName: $_aliasNameGenerator(
+      db.userMilestones.id,
+      db.userTasks.userMilestoneId,
+    ),
+  );
+
+  $$UserTasksTableProcessedTableManager get userTasksRefs {
+    final manager = $$UserTasksTableTableManager(
+      $_db,
+      $_db.userTasks,
+    ).filter((f) => f.userMilestoneId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userTasksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$UserMilestonesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserMilestonesTable> {
+  $$UserMilestonesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UserApplicationsTableFilterComposer get userApplicationId {
+    final $$UserApplicationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableFilterComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> userTasksRefs(
+    Expression<bool> Function($$UserTasksTableFilterComposer f) f,
+  ) {
+    final $$UserTasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userTasks,
+      getReferencedColumn: (t) => t.userMilestoneId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserTasksTableFilterComposer(
+            $db: $db,
+            $table: $db.userTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$UserMilestonesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserMilestonesTable> {
+  $$UserMilestonesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+    column: $table.endDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UserApplicationsTableOrderingComposer get userApplicationId {
+    final $$UserApplicationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserMilestonesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserMilestonesTable> {
+  $$UserMilestonesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  $$UserApplicationsTableAnnotationComposer get userApplicationId {
+    final $$UserApplicationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userApplicationId,
+      referencedTable: $db.userApplications,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserApplicationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userApplications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> userTasksRefs<T extends Object>(
+    Expression<T> Function($$UserTasksTableAnnotationComposer a) f,
+  ) {
+    final $$UserTasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userTasks,
+      getReferencedColumn: (t) => t.userMilestoneId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserTasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userTasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$UserMilestonesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserMilestonesTable,
+          UserMilestone,
+          $$UserMilestonesTableFilterComposer,
+          $$UserMilestonesTableOrderingComposer,
+          $$UserMilestonesTableAnnotationComposer,
+          $$UserMilestonesTableCreateCompanionBuilder,
+          $$UserMilestonesTableUpdateCompanionBuilder,
+          (UserMilestone, $$UserMilestonesTableReferences),
+          UserMilestone,
+          PrefetchHooks Function({bool userApplicationId, bool userTasksRefs})
+        > {
+  $$UserMilestonesTableTableManager(
+    _$AppDatabase db,
+    $UserMilestonesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserMilestonesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserMilestonesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserMilestonesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userApplicationId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> startDate = const Value.absent(),
+                Value<DateTime> endDate = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+              }) => UserMilestonesCompanion(
+                id: id,
+                userApplicationId: userApplicationId,
+                name: name,
+                startDate: startDate,
+                endDate: endDate,
+                isCompleted: isCompleted,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userApplicationId,
+                required String name,
+                required DateTime startDate,
+                required DateTime endDate,
+                Value<bool> isCompleted = const Value.absent(),
+              }) => UserMilestonesCompanion.insert(
+                id: id,
+                userApplicationId: userApplicationId,
+                name: name,
+                startDate: startDate,
+                endDate: endDate,
+                isCompleted: isCompleted,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserMilestonesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({userApplicationId = false, userTasksRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [if (userTasksRefs) db.userTasks],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (userApplicationId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.userApplicationId,
+                                    referencedTable:
+                                        $$UserMilestonesTableReferences
+                                            ._userApplicationIdTable(db),
+                                    referencedColumn:
+                                        $$UserMilestonesTableReferences
+                                            ._userApplicationIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (userTasksRefs)
+                        await $_getPrefetchedData<
+                          UserMilestone,
+                          $UserMilestonesTable,
+                          UserTask
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UserMilestonesTableReferences
+                              ._userTasksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UserMilestonesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userTasksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userMilestoneId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$UserMilestonesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserMilestonesTable,
+      UserMilestone,
+      $$UserMilestonesTableFilterComposer,
+      $$UserMilestonesTableOrderingComposer,
+      $$UserMilestonesTableAnnotationComposer,
+      $$UserMilestonesTableCreateCompanionBuilder,
+      $$UserMilestonesTableUpdateCompanionBuilder,
+      (UserMilestone, $$UserMilestonesTableReferences),
+      UserMilestone,
+      PrefetchHooks Function({bool userApplicationId, bool userTasksRefs})
+    >;
+typedef $$UserTasksTableCreateCompanionBuilder =
+    UserTasksCompanion Function({
+      Value<int> id,
+      required int userMilestoneId,
+      required String label,
+      Value<bool> isCompleted,
+      required DateTime dueDate,
+    });
+typedef $$UserTasksTableUpdateCompanionBuilder =
+    UserTasksCompanion Function({
+      Value<int> id,
+      Value<int> userMilestoneId,
+      Value<String> label,
+      Value<bool> isCompleted,
+      Value<DateTime> dueDate,
+    });
+
+final class $$UserTasksTableReferences
+    extends BaseReferences<_$AppDatabase, $UserTasksTable, UserTask> {
+  $$UserTasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $UserMilestonesTable _userMilestoneIdTable(_$AppDatabase db) =>
+      db.userMilestones.createAlias(
+        $_aliasNameGenerator(
+          db.userTasks.userMilestoneId,
+          db.userMilestones.id,
+        ),
+      );
+
+  $$UserMilestonesTableProcessedTableManager get userMilestoneId {
+    final $_column = $_itemColumn<int>('user_milestone_id')!;
+
+    final manager = $$UserMilestonesTableTableManager(
+      $_db,
+      $_db.userMilestones,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userMilestoneIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$UserTasksTableFilterComposer
+    extends Composer<_$AppDatabase, $UserTasksTable> {
+  $$UserTasksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UserMilestonesTableFilterComposer get userMilestoneId {
+    final $$UserMilestonesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userMilestoneId,
+      referencedTable: $db.userMilestones,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserMilestonesTableFilterComposer(
+            $db: $db,
+            $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserTasksTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserTasksTable> {
+  $$UserTasksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UserMilestonesTableOrderingComposer get userMilestoneId {
+    final $$UserMilestonesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userMilestoneId,
+      referencedTable: $db.userMilestones,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserMilestonesTableOrderingComposer(
+            $db: $db,
+            $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserTasksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserTasksTable> {
+  $$UserTasksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get dueDate =>
+      $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  $$UserMilestonesTableAnnotationComposer get userMilestoneId {
+    final $$UserMilestonesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userMilestoneId,
+      referencedTable: $db.userMilestones,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserMilestonesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userMilestones,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserTasksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserTasksTable,
+          UserTask,
+          $$UserTasksTableFilterComposer,
+          $$UserTasksTableOrderingComposer,
+          $$UserTasksTableAnnotationComposer,
+          $$UserTasksTableCreateCompanionBuilder,
+          $$UserTasksTableUpdateCompanionBuilder,
+          (UserTask, $$UserTasksTableReferences),
+          UserTask,
+          PrefetchHooks Function({bool userMilestoneId})
+        > {
+  $$UserTasksTableTableManager(_$AppDatabase db, $UserTasksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserTasksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserTasksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserTasksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userMilestoneId = const Value.absent(),
+                Value<String> label = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<DateTime> dueDate = const Value.absent(),
+              }) => UserTasksCompanion(
+                id: id,
+                userMilestoneId: userMilestoneId,
+                label: label,
+                isCompleted: isCompleted,
+                dueDate: dueDate,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userMilestoneId,
+                required String label,
+                Value<bool> isCompleted = const Value.absent(),
+                required DateTime dueDate,
+              }) => UserTasksCompanion.insert(
+                id: id,
+                userMilestoneId: userMilestoneId,
+                label: label,
+                isCompleted: isCompleted,
+                dueDate: dueDate,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserTasksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userMilestoneId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userMilestoneId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userMilestoneId,
+                                referencedTable: $$UserTasksTableReferences
+                                    ._userMilestoneIdTable(db),
+                                referencedColumn: $$UserTasksTableReferences
+                                    ._userMilestoneIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$UserTasksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserTasksTable,
+      UserTask,
+      $$UserTasksTableFilterComposer,
+      $$UserTasksTableOrderingComposer,
+      $$UserTasksTableAnnotationComposer,
+      $$UserTasksTableCreateCompanionBuilder,
+      $$UserTasksTableUpdateCompanionBuilder,
+      (UserTask, $$UserTasksTableReferences),
+      UserTask,
+      PrefetchHooks Function({bool userMilestoneId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6687,16 +7372,18 @@ class $AppDatabaseManager {
       $$UserProfilesTableTableManager(_db, _db.userProfiles);
   $$ScholarshipTemplatesTableTableManager get scholarshipTemplates =>
       $$ScholarshipTemplatesTableTableManager(_db, _db.scholarshipTemplates);
-  $$ApplicationsTableTableManager get applications =>
-      $$ApplicationsTableTableManager(_db, _db.applications);
-  $$TasksTableTableManager get tasks =>
-      $$TasksTableTableManager(_db, _db.tasks);
   $$TemplateMilestonesTableTableManager get templateMilestones =>
       $$TemplateMilestonesTableTableManager(_db, _db.templateMilestones);
   $$TemplateTasksTableTableManager get templateTasks =>
       $$TemplateTasksTableTableManager(_db, _db.templateTasks);
   $$TemplateDocumentsTableTableManager get templateDocuments =>
       $$TemplateDocumentsTableTableManager(_db, _db.templateDocuments);
+  $$UserApplicationsTableTableManager get userApplications =>
+      $$UserApplicationsTableTableManager(_db, _db.userApplications);
+  $$UserMilestonesTableTableManager get userMilestones =>
+      $$UserMilestonesTableTableManager(_db, _db.userMilestones);
+  $$UserTasksTableTableManager get userTasks =>
+      $$UserTasksTableTableManager(_db, _db.userTasks);
 }
 
 // **************************************************************************

@@ -14,7 +14,7 @@ void main() async {
   final container = ProviderContainer();
   
   // Initialize the notification service
-  await container.read(notificationServiceProvider).init();
+  //await container.read(notificationServiceProvider).init();
   
   runApp(
     // We use UncontrolledProviderScope to pass the pre-initialized container
