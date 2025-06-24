@@ -1,8 +1,10 @@
 // lib/core/database/repositories/application_repository.dart
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:saku_beasiswa/core/enums/document_status.dart';
 
 // Important imports for our data structures
 import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
@@ -121,6 +123,20 @@ class ApplicationRepository {
         if (tasksToInsert.isNotEmpty) {
           await _db.batch((batch) => batch.insertAll(_db.userTasks, tasksToInsert));
         }
+
+        
+      }
+
+      if (fullTemplate.documents.isNotEmpty) {
+        final documentsToInsert = fullTemplate.documents
+            // Optional: You could filter here based on wizardState if you add that later
+            .map((templateDoc) => UserDocumentsCompanion.insert(
+                  userApplicationId: newAppId,
+                  name: templateDoc.name,
+                  // We don't copy status, it always starts as NotStarted
+                ))
+            .toList();
+        await _db.batch((batch) => batch.insertAll(_db.userDocuments, documentsToInsert));
       }
       
       return (await (_db.select(_db.userApplications)..where((a) => a.id.equals(newAppId))).getSingle());
@@ -217,6 +233,62 @@ class ApplicationRepository {
   );
 
   }
+
+  Stream<FullUserApplication> watchFullApplicationById(int userApplicationId) {
+  // We need to watch all related tables and combine them into one stream.
+  // This is complex, so we'll use Stream.combineLatest from the 'async' package.
+  // Add `async: ^2.11.0` to your pubspec.yaml if you don't have it.
+  
+  // 1. Watch the main application and its template
+  final appQuery = _db.select(_db.userApplications).join([
+    innerJoin(_db.scholarshipTemplates, _db.scholarshipTemplates.id.equalsExp(_db.userApplications.templateId)),
+  ])..where(_db.userApplications.id.equals(userApplicationId));
+  
+  final appStream = appQuery.watchSingle().map((row) => FullUserApplication(
+    application: row.readTable(_db.userApplications),
+    template: row.readTable(_db.scholarshipTemplates),
+    milestonesWithTasks: {}, // We'll populate this later
+    documents: []
+  ));
+
+  // 2. Watch all milestones for the application
+  final milestonesStream = (_db.select(_db.userMilestones)
+    ..where((m) => m.userApplicationId.equals(userApplicationId))
+    ..orderBy([(m) => OrderingTerm(expression: m.endDate)]))
+    .watch();
+
+  // 3. Watch all documents for the application
+  final documentsStream = (_db.select(_db.userDocuments)
+    ..where((d) => d.userApplicationId.equals(userApplicationId)))
+    .watch();
+
+  // 4. Watch ALL tasks for the application
+  final tasksStream = watchTasksForApplication(userApplicationId);
+  
+  // Combine all streams into one. When ANY of them change, this whole block re-runs.
+  return Rx.combineLatest4(
+    appStream,
+    milestonesStream,
+    documentsStream,
+    tasksStream,
+    (FullUserApplication appData, List<UserMilestone> milestones, List<UserDocument> documents, List<UserTask> tasks) {
+      
+      // Now, we correctly associate tasks with their milestones
+      final milestonesWithTasks = <UserMilestone, List<UserTask>>{};
+      for (final milestone in milestones) {
+        milestonesWithTasks[milestone] = tasks.where((task) => task.userMilestoneId == milestone.id).toList();
+      }
+
+      // Return the final, fully populated object
+      return FullUserApplication(
+        application: appData.application,
+        template: appData.template,
+        documents: documents,
+        milestonesWithTasks: milestonesWithTasks,
+      );
+    },
+  );
+}
 
   // Add this new method as well, for the completion percentage provider
   Stream<List<UserTask>> watchTasksForApplication(int userApplicationId) {
@@ -342,4 +414,27 @@ Future<void> updateUserTask(UserTask task) async {
 Future<void> deleteUserTask(int taskId) async {
   await (_db.delete(_db.userTasks)..where((t) => t.id.equals(taskId))).go();
 }
+
+
+
+// --- Document Management ---
+
+Future<UserDocument> addUserDocument(UserDocumentsCompanion document) async {
+  return await _db.into(_db.userDocuments).insertReturning(document);
+}
+
+Future<void> updateUserDocument(UserDocument document) async {
+  await _db.update(_db.userDocuments).replace(document);
+}
+
+Future<void> deleteUserDocument(int documentId) async {
+  await (_db.delete(_db.userDocuments)..where((d) => d.id.equals(documentId))).go();
+}
+
+// This method is for the SegmentedButton in the UI
+Future<void> updateUserDocumentStatus(int documentId, DocumentStatus status) async {
+  await (_db.update(_db.userDocuments)..where((d) => d.id.equals(documentId)))
+      .write(UserDocumentsCompanion(status: Value(status)));
+}
+
 }

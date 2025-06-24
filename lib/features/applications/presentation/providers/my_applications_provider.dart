@@ -21,6 +21,7 @@ Stream<List<FullUserApplication>> myApplications(Ref ref) {
   return repo.watchAllFullApplications();
 }
 
+
 @riverpod
 Stream<List<UserTask>> watchTasksForApplication(
   Ref ref,
@@ -95,11 +96,27 @@ Stream<double> applicationCompletionPercentage(Ref ref, int userApplicationId) {
 // --- WATCHERS for the APPLICATION DETAIL SCREEN ---
 
 // This provider will fetch the entire application detail: app, template, milestones, and tasks.
+// @riverpod
+// Future<FullUserApplication> applicationDetail(Ref ref, int userApplicationId) {
+//   // This requires a new method in the repository. Let's assume we'll add it.
+//   final repo = ref.watch(applicationRepositoryProvider);
+//   return repo.getFullApplicationById(userApplicationId);
+// }
+// This provider will hold a boolean `true` if any operation is in progress.
 @riverpod
-Future<FullUserApplication> applicationDetail(Ref ref, int userApplicationId) {
-  // This requires a new method in the repository. Let's assume we'll add it.
+class IsSaving extends _$IsSaving {
+  @override
+  bool build() => false; // Initially, we are not saving.
+
+  void start() => state = true;
+  void stop() => state = false;
+}
+
+@riverpod
+Stream<FullUserApplication> applicationDetail(Ref ref, int userApplicationId) {
   final repo = ref.watch(applicationRepositoryProvider);
-  return repo.getFullApplicationById(userApplicationId);
+  // Call the new stream-based method
+  return repo.watchFullApplicationById(userApplicationId);
 }
 
 // This is a new helper provider that just extracts the milestones and tasks from the main detail provider.

@@ -552,7 +552,7 @@ class _ApplicationCompletionPercentageProviderElement
       (origin as ApplicationCompletionPercentageProvider).userApplicationId;
 }
 
-String _$applicationDetailHash() => r'33f9520eecbc3f1f2b134f5816678a62dd8d7757';
+String _$applicationDetailHash() => r'24ef11d20962d0dce2546af8db2c8482b4c44f1d';
 
 /// See also [applicationDetail].
 @ProviderFor(applicationDetail)
@@ -592,7 +592,7 @@ class ApplicationDetailFamily extends Family<AsyncValue<FullUserApplication>> {
 
 /// See also [applicationDetail].
 class ApplicationDetailProvider
-    extends AutoDisposeFutureProvider<FullUserApplication> {
+    extends AutoDisposeStreamProvider<FullUserApplication> {
   /// See also [applicationDetail].
   ApplicationDetailProvider(int userApplicationId)
     : this._internal(
@@ -623,8 +623,7 @@ class ApplicationDetailProvider
 
   @override
   Override overrideWith(
-    FutureOr<FullUserApplication> Function(ApplicationDetailRef provider)
-    create,
+    Stream<FullUserApplication> Function(ApplicationDetailRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -641,7 +640,7 @@ class ApplicationDetailProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<FullUserApplication> createElement() {
+  AutoDisposeStreamProviderElement<FullUserApplication> createElement() {
     return _ApplicationDetailProviderElement(this);
   }
 
@@ -663,13 +662,13 @@ class ApplicationDetailProvider
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 mixin ApplicationDetailRef
-    on AutoDisposeFutureProviderRef<FullUserApplication> {
+    on AutoDisposeStreamProviderRef<FullUserApplication> {
   /// The parameter `userApplicationId` of this provider.
   int get userApplicationId;
 }
 
 class _ApplicationDetailProviderElement
-    extends AutoDisposeFutureProviderElement<FullUserApplication>
+    extends AutoDisposeStreamProviderElement<FullUserApplication>
     with ApplicationDetailRef {
   _ApplicationDetailProviderElement(super.provider);
 
@@ -812,5 +811,20 @@ class _ApplicationMilestonesWithTasksProviderElement
       (origin as ApplicationMilestonesWithTasksProvider).userApplicationId;
 }
 
+String _$isSavingHash() => r'fe15992c6c4490a761e280b5a3f077561651f2a5';
+
+/// See also [IsSaving].
+@ProviderFor(IsSaving)
+final isSavingProvider = AutoDisposeNotifierProvider<IsSaving, bool>.internal(
+  IsSaving.new,
+  name: r'isSavingProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$isSavingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$IsSaving = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

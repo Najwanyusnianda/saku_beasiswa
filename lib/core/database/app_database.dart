@@ -11,15 +11,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tables/user_profiles.dart';
 import 'tables/scholarship_templates.dart';
 import 'tables/user_applications.dart';
-
-
-
-// Import the new table files
 import 'tables/template_tasks.dart';
 import 'tables/template_documents.dart';
 import 'tables/template_milestones.dart';
 
+
 import 'package:saku_beasiswa/core/models/document_submission_type.dart';
+import 'package:saku_beasiswa/core/enums/document_status.dart';
+
 import 'seed/seed_templates.dart';
 
 part 'app_database.g.dart';
@@ -100,7 +99,7 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(userTasks);
           }
           if (from < 12) {
-            await m.createTable(UserDocuments);
+            await m.createTable(userDocuments);
           }
         },
   );
