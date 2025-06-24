@@ -37,15 +37,14 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
-  // TODO: Add logic to check if onboarding is complete
-  const bool isOnboardingComplete = true; // We'll make this dynamic later
+  const bool isOnboardingComplete = true; 
 
   return GoRouter(
     initialLocation: isOnboardingComplete ? '/dashboard' : '/onboarding',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     routes: [
-      // Routes outside the main app shell (like onboarding)
+      // --- NON-SHELL ROUTES ---
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
@@ -59,7 +58,32 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state) => const TemplateSyncScreen(),
       ),
 
-      // Main application routes with a persistent bottom navigation bar
+      // --- NEW: Template routes are now outside the shell ---
+      // This makes them present as normal full-screen pages.
+      GoRoute(
+        path: '/templates',
+        builder: (context, state) => const TemplateBrowserScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return TemplateDetailScreen(templateId: id);
+            },
+            routes: [
+              GoRoute(
+                path: 'customise',
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return CustomiseTemplateWizardScreen(templateId: id);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      // --- SHELL ROUTES (with BottomNavigationBar) ---
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
@@ -68,40 +92,12 @@ GoRouter goRouter(Ref ref) {
         routes: [
           GoRoute(
             path: '/dashboard',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: DashboardScreen(),
-            ),
+            pageBuilder: (context, state) => const NoTransitionPage(child: DashboardScreen()),
           ),
+          // '/templates' route has been REMOVED from here.
           GoRoute(
-            path: '/templates',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TemplateBrowserScreen(),
-            ),
-            routes: [
-              GoRoute(
-                path: ':id',
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  return TemplateDetailScreen(templateId: id);
-                },
-                // Add a sub-route for the wizard
-                routes: [
-                  GoRoute(
-                    path: 'customise',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id']!;
-                      return CustomiseTemplateWizardScreen(templateId: id);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          GoRoute(
-            path: '/applications',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: MyApplicationsScreen(),
-            ),
+            path: '/applications', // Now at index 1
+            pageBuilder: (context, state) => const NoTransitionPage(child: MyApplicationsScreen()),
             routes: [
               GoRoute(
                 path: ':id',
@@ -112,11 +108,16 @@ GoRouter goRouter(Ref ref) {
               ),
             ],
           ),
+          // NEW: Add the /feed route
           GoRoute(
-            path: '/profile',
+            path: '/feed', // Now at index 2
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: PlaceholderScreen(title: 'User Profile'),
+              child: PlaceholderScreen(title: 'Feed'),
             ),
+          ),
+          GoRoute(
+            path: '/profile', // Now at index 3
+            pageBuilder: (context, state) => const NoTransitionPage(child: PlaceholderScreen(title: 'User Profile')),
           ),
         ],
       )
