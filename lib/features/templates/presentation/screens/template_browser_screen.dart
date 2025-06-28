@@ -1,6 +1,7 @@
 // lib/features/templates/presentation/screens/template_browser_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_filter_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/widgets/template_card.dart';
@@ -15,8 +16,12 @@ class TemplateBrowserScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Discover Scholarships',
+          'Discover Templates',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: Icon(Iconsax.arrow_left_2_copy, color: Colors.black),
+          onPressed: () => context.go('/applications'),
         ),
         // Optional: Add a search icon button here if you want a dedicated search page
       ),

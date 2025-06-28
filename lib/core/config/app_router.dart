@@ -34,7 +34,6 @@ class PlaceholderScreen extends StatelessWidget {
 // Private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
-
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
   const bool isOnboardingComplete = true; 

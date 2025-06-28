@@ -11,9 +11,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tables/user_profiles.dart';
 import 'tables/scholarship_templates.dart';
 import 'tables/user_applications.dart';
-import 'tables/template_tasks.dart';
 import 'tables/template_documents.dart';
-import 'tables/template_milestones.dart';
+
+// New modular template tables
+import 'tables/milestone_templates.dart';
+import 'tables/task_templates.dart';
+import 'tables/scholarship_milestone_links.dart';
 
 
 import 'package:saku_beasiswa/core/models/document_submission_type.dart';
@@ -30,17 +33,21 @@ part 'app_database.g.dart';
 // the generator what tables to include.
 @DriftDatabase(
   tables: [
-    UserProfiles,
+    // --- Core Template Tables ---
     ScholarshipTemplates,
-    // Add the new tables to the database
-    TemplateTasks,
-    TemplateDocuments,
-    TemplateMilestones,
-    // Newly added user-specific tables
+    TemplateDocuments, // This one is still fine
+    
+    // --- NEW Modular Template Tables ---
+    MilestoneTemplates,
+    TaskTemplates,
+    ScholarshipMilestoneLinks,
+
+    // --- User-Specific Tables (These remain) ---
     UserApplications,
     UserMilestones,
     UserTasks,
     UserDocuments,
+    UserProfiles,
   ]
 )
 class AppDatabase extends _$AppDatabase {
@@ -49,13 +56,17 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 12; // bumped for user documents table
+  int get schemaVersion => 13; // Bumped for new template structure
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
+    beforeOpen: (details) async {
+      // Create any custom triggers or indexes here if needed
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
     onCreate: (m) async {
       await m.createAll();
-      await seedTemplates(this);
+      await seedDatabase(this);
     },
     onUpgrade: (m, from, to) async {
           // You can add custom migration logic for each version bump
@@ -68,9 +79,9 @@ class AppDatabase extends _$AppDatabase {
             await m.deleteTable('template_documents'); // In case they existed
 
             await m.createTable(scholarshipTemplates);
-            await m.createTable(templateTasks);
+            //await m.createTable(templateTasks);
             await m.createTable(templateDocuments);
-            await seedTemplates(this); // Re-seed with new structure
+            //await seedTemplates(this); // Re-seed with new structure
           }
          if (from < 7) {
             // Add the new columns to the existing applications table
@@ -90,7 +101,7 @@ class AppDatabase extends _$AppDatabase {
             // Hapus tabel lama jika ada (opsional, tapi lebih bersih)
             await m.deleteTable('template_milestones');
             // Buat kembali tabel dengan skema baru yang lengkap
-            await m.createTable(templateMilestones);
+            //await m.createTable(templateMilestones);
           }
           if (from < 11) {
             // Create user-specific application tables introduced in v10
@@ -100,6 +111,19 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 12) {
             await m.createTable(userDocuments);
+          }
+          if (from < 13) {
+            // Drop old template tables if they exist
+            await m.deleteTable('template_milestones');
+            await m.deleteTable('template_tasks');
+            
+            // Create new template tables
+            await m.createTable(milestoneTemplates);
+            await m.createTable(taskTemplates);
+            await m.createTable(scholarshipMilestoneLinks);
+            
+            // Seed the database with new template data
+            await seedDatabase(this);
           }
         },
   );

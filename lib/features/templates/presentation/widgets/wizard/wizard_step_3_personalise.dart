@@ -3,14 +3,50 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_card.dart';
 
-class WizardStep3Personalise extends ConsumerWidget {
+class WizardStep3Personalise extends ConsumerStatefulWidget {
   final String templateId;
   const WizardStep3Personalise({super.key, required this.templateId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final wizardState = ref.watch(customiseWizardProvider(templateId)).value!;
-    final notifier = ref.read(customiseWizardProvider(templateId).notifier);
+  ConsumerState<WizardStep3Personalise> createState() => _WizardStep3PersonaliseState();
+}
+
+class _WizardStep3PersonaliseState extends ConsumerState<WizardStep3Personalise> {
+  late final TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    final wizardState = ref.read(customiseWizardProvider(widget.templateId)).value;
+
+    String suggestedName = '';
+    // Check if wizardState is not null before accessing its properties
+    if (wizardState != null) {
+      // Since mainDeadline is non-nullable, we can safely use it
+      suggestedName =
+          '${wizardState.fullTemplate.template.name} ${wizardState.calculatedFinalDeadline.year}';
+    }
+    
+    _nameController = TextEditingController(text: suggestedName);
+
+    // Update the provider after the first frame to avoid build-time errors
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref.read(customiseWizardProvider(widget.templateId).notifier)
+           .setCustomName(suggestedName);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final notifier = ref.read(customiseWizardProvider(widget.templateId).notifier);
 
     return WizardCard(
       step: 3,
@@ -23,7 +59,7 @@ class WizardStep3Personalise extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           TextFormField(
-            initialValue: wizardState.customName,
+            controller: _nameController,
             decoration: const InputDecoration(
               labelText: 'Application Name',
               border: OutlineInputBorder(),

@@ -15,15 +15,18 @@ class WizardStep2Timeline extends ConsumerWidget {
     final wizardState = ref.watch(customiseWizardProvider(templateId)).value;
     if (wizardState == null) return const Center(child: CircularProgressIndicator());
     
-    // If the main deadline hasn't been set yet, show a message.
-    if (wizardState.mainDeadline == null) {
-      return const WizardCard(
-        step: 2,
-        title: 'Review Your Timeline',
-        child: Text("Please go back and set a final deadline first to see your calculated timeline."),
-      );
-    }
+    // Main deadline is always set (non-nullable) so we don't need to check for null
     
+    // Filter milestones based on planning mode
+    final visibleMilestones = wizardState.fullTemplate.milestonesWithTasks.entries.where((entry) {
+      final milestone = entry.key;
+      // If the user is in specificDate mode, hide any planning-only milestones
+      if (wizardState.deadlineMode == DeadlineMode.specificDate && milestone.isPlanningOnly) {
+        return false;
+      }
+      return true;
+    }).toList();
+
     return WizardCard(
       step: 2,
       title: 'Review Your Timeline',
@@ -34,7 +37,7 @@ class WizardStep2Timeline extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          ...wizardState.fullTemplate.milestonesWithTasks.entries.map((entry) {
+          ...visibleMilestones.map((entry) {
             return _MilestoneEditorTile(
               milestone: entry.key,
               tasks: entry.value,
@@ -68,13 +71,20 @@ class _MilestoneEditorTile extends ConsumerWidget {
     // --- The Magic of Calculation ---
     // Check if there's a user override, otherwise calculate the date.
     final milestoneEndDate = wizardState.milestoneDeadlineOverrides[milestone.id] ??
-        wizardState.mainDeadline!.add(Duration(days: milestone.endDateOffsetDays));
+        wizardState.mainDeadline.add(Duration(days: milestone.endDateOffsetDays));
+
+    // Calculate task progress for this milestone
+    final includedTasksForThisMilestone = tasks
+        .where((task) => wizardState.customizedTasks.any((t) => t.id == task.id))
+        .length;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ExpansionTile(
         title: Text(milestone.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-        subtitle: Text('Due: ${DateFormat.yMMMMd().format(milestoneEndDate)}'),
+        subtitle: Text(
+          '${DateFormat.yMMMMd().format(milestoneEndDate)}  •  $includedTasksForThisMilestone of ${tasks.length} tasks included',
+        ),
         // Add a button to let the user override the date
         trailing: IconButton(
           icon: const Icon(Icons.edit_calendar_outlined),

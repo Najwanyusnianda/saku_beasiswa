@@ -7,15 +7,18 @@ import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milesto
 
 part 'customise_wizard_provider.g.dart';
 
-// The state model now includes lists for tasks and documents that can be modified
+
+// Add this enum at the top of the file
+enum DeadlineMode { specificDate, planningDuration }
+// The state model for the customization wizard
 class CustomiseWizardState {
     // The original, unmodified template data
     final FullScholarshipTemplateWithMilestones fullTemplate;
     
-    // The user's single, most important date
-    final DateTime? mainDeadline;
+    // The user's single, most important date - always has a value
+    final DateTime mainDeadline;
     
-    // NEW: A map to store user overrides for specific milestone deadlines
+    // Map to store user overrides for specific milestone deadlines
     // Key: milestone.id, Value: The new deadline set by the user
     final Map<int, DateTime> milestoneDeadlineOverrides;
 
@@ -27,34 +30,47 @@ class CustomiseWizardState {
     final List<TemplateTask> customizedTasks;
     final List<TemplateDocument> customizedDocuments;
 
+    // Properties for deadline management
+    final DeadlineMode deadlineMode;
+    final int planningDurationInMonths;
+    
     CustomiseWizardState({
       required this.fullTemplate,
-      this.mainDeadline,
-      required this.milestoneDeadlineOverrides,
+      required this.mainDeadline,
+      this.milestoneDeadlineOverrides = const {},
       required this.customName,
       this.customColor,
       required this.customizedTasks,
       required this.customizedDocuments,
+      this.deadlineMode = DeadlineMode.planningDuration, // Default to planning mode
+      this.planningDurationInMonths = 6, // Default to 6 months
     });
 
-    // copyWith method will need to be updated to handle the new map
-    CustomiseWizardState copyWith({
-      DateTime? mainDeadline,
-      Map<int, DateTime>? milestoneDeadlineOverrides,
-      String? customName,
-      String? customColor,
-      List<TemplateTask>? customizedTasks,
-      List<TemplateDocument>? customizedDocuments,
-    }) {
-      return CustomiseWizardState(
-        fullTemplate: fullTemplate,
-        mainDeadline: mainDeadline ?? this.mainDeadline,
-        milestoneDeadlineOverrides: milestoneDeadlineOverrides ?? this.milestoneDeadlineOverrides,
-        customName: customName ?? this.customName,
-        customColor: customColor, // Allow setting color to null
-        customizedTasks: customizedTasks ?? this.customizedTasks,
-        customizedDocuments: customizedDocuments ?? this.customizedDocuments,
-      );
+    // Main deadline getter (no calculation needed as it's always set)
+    DateTime get calculatedFinalDeadline => mainDeadline;
+
+    // Copy with method for immutable updates
+  CustomiseWizardState copyWith({
+    DateTime? mainDeadline,
+    Map<int, DateTime>? milestoneDeadlineOverrides,
+    String? customName,
+    String? customColor,
+    List<TemplateTask>? customizedTasks,
+    List<TemplateDocument>? customizedDocuments,
+    DeadlineMode? deadlineMode,
+    int? planningDurationInMonths,
+  }) {
+    return CustomiseWizardState(
+      fullTemplate: fullTemplate,
+      mainDeadline: mainDeadline ?? this.mainDeadline,
+      milestoneDeadlineOverrides: milestoneDeadlineOverrides ?? this.milestoneDeadlineOverrides,
+      customName: customName ?? this.customName,
+      customColor: customColor ?? this.customColor,
+      customizedTasks: customizedTasks ?? this.customizedTasks,
+      customizedDocuments: customizedDocuments ?? this.customizedDocuments,
+      deadlineMode: deadlineMode ?? this.deadlineMode,
+      planningDurationInMonths: planningDurationInMonths ?? this.planningDurationInMonths,
+    );
   }
 
   // Override == and hashCode for proper state comparison in Riverpod
@@ -89,27 +105,49 @@ class CustomiseWizard extends _$CustomiseWizard {
   
   @override
   Future<CustomiseWizardState> build(String templateId) async {
-    // We now use the new repository method
-    final fullTemplateData = await ref.watch(scholarshipTemplateRepositoryProvider).getFullTemplateWithMilestones(templateId);
+    final fullTemplateData = await ref.watch(scholarshipTemplateRepositoryProvider)
+        .getFullTemplateWithMilestones(templateId);
 
     // Get all tasks from all milestones into one list for initialization
     final allTasks = fullTemplateData.milestonesWithTasks.values.expand((tasks) => tasks).toList();
+    
+    // Default to 6 months from now as the initial deadline
+    final defaultDeadline = DateTime.now().add(const Duration(days: 180));
 
     return CustomiseWizardState(
       fullTemplate: fullTemplateData,
-      mainDeadline: null, // Start with no deadline set
-      milestoneDeadlineOverrides: {}, // Start with an empty map of overrides
+      mainDeadline: defaultDeadline, // Always has a value now
       customizedTasks: allTasks, // Initially include all tasks
       customizedDocuments: List.from(fullTemplateData.documents),
       customName: fullTemplateData.template.name,
       customColor: fullTemplateData.template.color,
+      // Default to planning mode with 6 months
+      deadlineMode: DeadlineMode.planningDuration,
+      planningDurationInMonths: 6,
     );
   }
 
   // --- METHODS FOR STEP 1 ---
+  void setDeadlineMode(DeadlineMode mode) {
+    if (state.value == null) return;
+    state = AsyncData(state.value!.copyWith(deadlineMode: mode));
+  }
+  
+  void setPlanningDuration(int months) {
+    if (state.value == null) return;
+    state = AsyncData(state.value!.copyWith(
+      planningDurationInMonths: months,
+      deadlineMode: DeadlineMode.planningDuration,
+      mainDeadline: DateTime.now().add(Duration(days: months * 30)),
+    ));
+  }
+
   void setMainDeadline(DateTime newDeadline) {
     if (state.value == null) return;
-    state = AsyncData(state.value!.copyWith(mainDeadline: newDeadline));
+    state = AsyncData(state.value!.copyWith(
+      mainDeadline: newDeadline,
+      deadlineMode: DeadlineMode.specificDate,
+    ));
   }
 
   // --- METHODS FOR STEP 2 ---

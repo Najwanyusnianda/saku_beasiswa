@@ -3,327 +3,6 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $UserProfilesTable extends UserProfiles
-    with TableInfo<$UserProfilesTable, UserProfile> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $UserProfilesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(1),
-  );
-  static const VerificationMeta _studyLevelMeta = const VerificationMeta(
-    'studyLevel',
-  );
-  @override
-  late final GeneratedColumn<String> studyLevel = GeneratedColumn<String>(
-    'study_level',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _fieldOfStudyMeta = const VerificationMeta(
-    'fieldOfStudy',
-  );
-  @override
-  late final GeneratedColumn<String> fieldOfStudy = GeneratedColumn<String>(
-    'field_of_study',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _targetCountriesMeta = const VerificationMeta(
-    'targetCountries',
-  );
-  @override
-  late final GeneratedColumn<String> targetCountries = GeneratedColumn<String>(
-    'target_countries',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    studyLevel,
-    fieldOfStudy,
-    targetCountries,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'user_profiles';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<UserProfile> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('study_level')) {
-      context.handle(
-        _studyLevelMeta,
-        studyLevel.isAcceptableOrUnknown(data['study_level']!, _studyLevelMeta),
-      );
-    }
-    if (data.containsKey('field_of_study')) {
-      context.handle(
-        _fieldOfStudyMeta,
-        fieldOfStudy.isAcceptableOrUnknown(
-          data['field_of_study']!,
-          _fieldOfStudyMeta,
-        ),
-      );
-    }
-    if (data.containsKey('target_countries')) {
-      context.handle(
-        _targetCountriesMeta,
-        targetCountries.isAcceptableOrUnknown(
-          data['target_countries']!,
-          _targetCountriesMeta,
-        ),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  UserProfile map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return UserProfile(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      studyLevel: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}study_level'],
-      ),
-      fieldOfStudy: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}field_of_study'],
-      ),
-      targetCountries: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}target_countries'],
-      ),
-    );
-  }
-
-  @override
-  $UserProfilesTable createAlias(String alias) {
-    return $UserProfilesTable(attachedDatabase, alias);
-  }
-}
-
-class UserProfile extends DataClass implements Insertable<UserProfile> {
-  final int id;
-  final String? studyLevel;
-  final String? fieldOfStudy;
-  final String? targetCountries;
-  const UserProfile({
-    required this.id,
-    this.studyLevel,
-    this.fieldOfStudy,
-    this.targetCountries,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    if (!nullToAbsent || studyLevel != null) {
-      map['study_level'] = Variable<String>(studyLevel);
-    }
-    if (!nullToAbsent || fieldOfStudy != null) {
-      map['field_of_study'] = Variable<String>(fieldOfStudy);
-    }
-    if (!nullToAbsent || targetCountries != null) {
-      map['target_countries'] = Variable<String>(targetCountries);
-    }
-    return map;
-  }
-
-  UserProfilesCompanion toCompanion(bool nullToAbsent) {
-    return UserProfilesCompanion(
-      id: Value(id),
-      studyLevel: studyLevel == null && nullToAbsent
-          ? const Value.absent()
-          : Value(studyLevel),
-      fieldOfStudy: fieldOfStudy == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fieldOfStudy),
-      targetCountries: targetCountries == null && nullToAbsent
-          ? const Value.absent()
-          : Value(targetCountries),
-    );
-  }
-
-  factory UserProfile.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return UserProfile(
-      id: serializer.fromJson<int>(json['id']),
-      studyLevel: serializer.fromJson<String?>(json['studyLevel']),
-      fieldOfStudy: serializer.fromJson<String?>(json['fieldOfStudy']),
-      targetCountries: serializer.fromJson<String?>(json['targetCountries']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'studyLevel': serializer.toJson<String?>(studyLevel),
-      'fieldOfStudy': serializer.toJson<String?>(fieldOfStudy),
-      'targetCountries': serializer.toJson<String?>(targetCountries),
-    };
-  }
-
-  UserProfile copyWith({
-    int? id,
-    Value<String?> studyLevel = const Value.absent(),
-    Value<String?> fieldOfStudy = const Value.absent(),
-    Value<String?> targetCountries = const Value.absent(),
-  }) => UserProfile(
-    id: id ?? this.id,
-    studyLevel: studyLevel.present ? studyLevel.value : this.studyLevel,
-    fieldOfStudy: fieldOfStudy.present ? fieldOfStudy.value : this.fieldOfStudy,
-    targetCountries: targetCountries.present
-        ? targetCountries.value
-        : this.targetCountries,
-  );
-  UserProfile copyWithCompanion(UserProfilesCompanion data) {
-    return UserProfile(
-      id: data.id.present ? data.id.value : this.id,
-      studyLevel: data.studyLevel.present
-          ? data.studyLevel.value
-          : this.studyLevel,
-      fieldOfStudy: data.fieldOfStudy.present
-          ? data.fieldOfStudy.value
-          : this.fieldOfStudy,
-      targetCountries: data.targetCountries.present
-          ? data.targetCountries.value
-          : this.targetCountries,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('UserProfile(')
-          ..write('id: $id, ')
-          ..write('studyLevel: $studyLevel, ')
-          ..write('fieldOfStudy: $fieldOfStudy, ')
-          ..write('targetCountries: $targetCountries')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, studyLevel, fieldOfStudy, targetCountries);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is UserProfile &&
-          other.id == this.id &&
-          other.studyLevel == this.studyLevel &&
-          other.fieldOfStudy == this.fieldOfStudy &&
-          other.targetCountries == this.targetCountries);
-}
-
-class UserProfilesCompanion extends UpdateCompanion<UserProfile> {
-  final Value<int> id;
-  final Value<String?> studyLevel;
-  final Value<String?> fieldOfStudy;
-  final Value<String?> targetCountries;
-  const UserProfilesCompanion({
-    this.id = const Value.absent(),
-    this.studyLevel = const Value.absent(),
-    this.fieldOfStudy = const Value.absent(),
-    this.targetCountries = const Value.absent(),
-  });
-  UserProfilesCompanion.insert({
-    this.id = const Value.absent(),
-    this.studyLevel = const Value.absent(),
-    this.fieldOfStudy = const Value.absent(),
-    this.targetCountries = const Value.absent(),
-  });
-  static Insertable<UserProfile> custom({
-    Expression<int>? id,
-    Expression<String>? studyLevel,
-    Expression<String>? fieldOfStudy,
-    Expression<String>? targetCountries,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (studyLevel != null) 'study_level': studyLevel,
-      if (fieldOfStudy != null) 'field_of_study': fieldOfStudy,
-      if (targetCountries != null) 'target_countries': targetCountries,
-    });
-  }
-
-  UserProfilesCompanion copyWith({
-    Value<int>? id,
-    Value<String?>? studyLevel,
-    Value<String?>? fieldOfStudy,
-    Value<String?>? targetCountries,
-  }) {
-    return UserProfilesCompanion(
-      id: id ?? this.id,
-      studyLevel: studyLevel ?? this.studyLevel,
-      fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
-      targetCountries: targetCountries ?? this.targetCountries,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (studyLevel.present) {
-      map['study_level'] = Variable<String>(studyLevel.value);
-    }
-    if (fieldOfStudy.present) {
-      map['field_of_study'] = Variable<String>(fieldOfStudy.value);
-    }
-    if (targetCountries.present) {
-      map['target_countries'] = Variable<String>(targetCountries.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('UserProfilesCompanion(')
-          ..write('id: $id, ')
-          ..write('studyLevel: $studyLevel, ')
-          ..write('fieldOfStudy: $fieldOfStudy, ')
-          ..write('targetCountries: $targetCountries')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $ScholarshipTemplatesTable extends ScholarshipTemplates
     with TableInfo<$ScholarshipTemplatesTable, ScholarshipTemplate> {
   @override
@@ -1528,810 +1207,6 @@ class ScholarshipTemplatesCompanion
   }
 }
 
-class $TemplateMilestonesTable extends TemplateMilestones
-    with TableInfo<$TemplateMilestonesTable, TemplateMilestone> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TemplateMilestonesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _templateIdMeta = const VerificationMeta(
-    'templateId',
-  );
-  @override
-  late final GeneratedColumn<String> templateId = GeneratedColumn<String>(
-    'template_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES scholarship_templates (id)',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _orderMeta = const VerificationMeta('order');
-  @override
-  late final GeneratedColumn<int> order = GeneratedColumn<int>(
-    'order',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _startDateOffsetDaysMeta =
-      const VerificationMeta('startDateOffsetDays');
-  @override
-  late final GeneratedColumn<int> startDateOffsetDays = GeneratedColumn<int>(
-    'start_date_offset_days',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _endDateOffsetDaysMeta = const VerificationMeta(
-    'endDateOffsetDays',
-  );
-  @override
-  late final GeneratedColumn<int> endDateOffsetDays = GeneratedColumn<int>(
-    'end_date_offset_days',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    templateId,
-    name,
-    order,
-    startDateOffsetDays,
-    endDateOffsetDays,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'template_milestones';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<TemplateMilestone> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('template_id')) {
-      context.handle(
-        _templateIdMeta,
-        templateId.isAcceptableOrUnknown(data['template_id']!, _templateIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_templateIdMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('order')) {
-      context.handle(
-        _orderMeta,
-        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_orderMeta);
-    }
-    if (data.containsKey('start_date_offset_days')) {
-      context.handle(
-        _startDateOffsetDaysMeta,
-        startDateOffsetDays.isAcceptableOrUnknown(
-          data['start_date_offset_days']!,
-          _startDateOffsetDaysMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_startDateOffsetDaysMeta);
-    }
-    if (data.containsKey('end_date_offset_days')) {
-      context.handle(
-        _endDateOffsetDaysMeta,
-        endDateOffsetDays.isAcceptableOrUnknown(
-          data['end_date_offset_days']!,
-          _endDateOffsetDaysMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_endDateOffsetDaysMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TemplateMilestone map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TemplateMilestone(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      templateId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}template_id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      order: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}order'],
-      )!,
-      startDateOffsetDays: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}start_date_offset_days'],
-      )!,
-      endDateOffsetDays: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}end_date_offset_days'],
-      )!,
-    );
-  }
-
-  @override
-  $TemplateMilestonesTable createAlias(String alias) {
-    return $TemplateMilestonesTable(attachedDatabase, alias);
-  }
-}
-
-class TemplateMilestone extends DataClass
-    implements Insertable<TemplateMilestone> {
-  final int id;
-  final String templateId;
-  final String name;
-  final int order;
-  final int startDateOffsetDays;
-  final int endDateOffsetDays;
-  const TemplateMilestone({
-    required this.id,
-    required this.templateId,
-    required this.name,
-    required this.order,
-    required this.startDateOffsetDays,
-    required this.endDateOffsetDays,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['template_id'] = Variable<String>(templateId);
-    map['name'] = Variable<String>(name);
-    map['order'] = Variable<int>(order);
-    map['start_date_offset_days'] = Variable<int>(startDateOffsetDays);
-    map['end_date_offset_days'] = Variable<int>(endDateOffsetDays);
-    return map;
-  }
-
-  TemplateMilestonesCompanion toCompanion(bool nullToAbsent) {
-    return TemplateMilestonesCompanion(
-      id: Value(id),
-      templateId: Value(templateId),
-      name: Value(name),
-      order: Value(order),
-      startDateOffsetDays: Value(startDateOffsetDays),
-      endDateOffsetDays: Value(endDateOffsetDays),
-    );
-  }
-
-  factory TemplateMilestone.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TemplateMilestone(
-      id: serializer.fromJson<int>(json['id']),
-      templateId: serializer.fromJson<String>(json['templateId']),
-      name: serializer.fromJson<String>(json['name']),
-      order: serializer.fromJson<int>(json['order']),
-      startDateOffsetDays: serializer.fromJson<int>(
-        json['startDateOffsetDays'],
-      ),
-      endDateOffsetDays: serializer.fromJson<int>(json['endDateOffsetDays']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'templateId': serializer.toJson<String>(templateId),
-      'name': serializer.toJson<String>(name),
-      'order': serializer.toJson<int>(order),
-      'startDateOffsetDays': serializer.toJson<int>(startDateOffsetDays),
-      'endDateOffsetDays': serializer.toJson<int>(endDateOffsetDays),
-    };
-  }
-
-  TemplateMilestone copyWith({
-    int? id,
-    String? templateId,
-    String? name,
-    int? order,
-    int? startDateOffsetDays,
-    int? endDateOffsetDays,
-  }) => TemplateMilestone(
-    id: id ?? this.id,
-    templateId: templateId ?? this.templateId,
-    name: name ?? this.name,
-    order: order ?? this.order,
-    startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
-    endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
-  );
-  TemplateMilestone copyWithCompanion(TemplateMilestonesCompanion data) {
-    return TemplateMilestone(
-      id: data.id.present ? data.id.value : this.id,
-      templateId: data.templateId.present
-          ? data.templateId.value
-          : this.templateId,
-      name: data.name.present ? data.name.value : this.name,
-      order: data.order.present ? data.order.value : this.order,
-      startDateOffsetDays: data.startDateOffsetDays.present
-          ? data.startDateOffsetDays.value
-          : this.startDateOffsetDays,
-      endDateOffsetDays: data.endDateOffsetDays.present
-          ? data.endDateOffsetDays.value
-          : this.endDateOffsetDays,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TemplateMilestone(')
-          ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
-          ..write('name: $name, ')
-          ..write('order: $order, ')
-          ..write('startDateOffsetDays: $startDateOffsetDays, ')
-          ..write('endDateOffsetDays: $endDateOffsetDays')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    templateId,
-    name,
-    order,
-    startDateOffsetDays,
-    endDateOffsetDays,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TemplateMilestone &&
-          other.id == this.id &&
-          other.templateId == this.templateId &&
-          other.name == this.name &&
-          other.order == this.order &&
-          other.startDateOffsetDays == this.startDateOffsetDays &&
-          other.endDateOffsetDays == this.endDateOffsetDays);
-}
-
-class TemplateMilestonesCompanion extends UpdateCompanion<TemplateMilestone> {
-  final Value<int> id;
-  final Value<String> templateId;
-  final Value<String> name;
-  final Value<int> order;
-  final Value<int> startDateOffsetDays;
-  final Value<int> endDateOffsetDays;
-  const TemplateMilestonesCompanion({
-    this.id = const Value.absent(),
-    this.templateId = const Value.absent(),
-    this.name = const Value.absent(),
-    this.order = const Value.absent(),
-    this.startDateOffsetDays = const Value.absent(),
-    this.endDateOffsetDays = const Value.absent(),
-  });
-  TemplateMilestonesCompanion.insert({
-    this.id = const Value.absent(),
-    required String templateId,
-    required String name,
-    required int order,
-    required int startDateOffsetDays,
-    required int endDateOffsetDays,
-  }) : templateId = Value(templateId),
-       name = Value(name),
-       order = Value(order),
-       startDateOffsetDays = Value(startDateOffsetDays),
-       endDateOffsetDays = Value(endDateOffsetDays);
-  static Insertable<TemplateMilestone> custom({
-    Expression<int>? id,
-    Expression<String>? templateId,
-    Expression<String>? name,
-    Expression<int>? order,
-    Expression<int>? startDateOffsetDays,
-    Expression<int>? endDateOffsetDays,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (templateId != null) 'template_id': templateId,
-      if (name != null) 'name': name,
-      if (order != null) 'order': order,
-      if (startDateOffsetDays != null)
-        'start_date_offset_days': startDateOffsetDays,
-      if (endDateOffsetDays != null) 'end_date_offset_days': endDateOffsetDays,
-    });
-  }
-
-  TemplateMilestonesCompanion copyWith({
-    Value<int>? id,
-    Value<String>? templateId,
-    Value<String>? name,
-    Value<int>? order,
-    Value<int>? startDateOffsetDays,
-    Value<int>? endDateOffsetDays,
-  }) {
-    return TemplateMilestonesCompanion(
-      id: id ?? this.id,
-      templateId: templateId ?? this.templateId,
-      name: name ?? this.name,
-      order: order ?? this.order,
-      startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
-      endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (templateId.present) {
-      map['template_id'] = Variable<String>(templateId.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (order.present) {
-      map['order'] = Variable<int>(order.value);
-    }
-    if (startDateOffsetDays.present) {
-      map['start_date_offset_days'] = Variable<int>(startDateOffsetDays.value);
-    }
-    if (endDateOffsetDays.present) {
-      map['end_date_offset_days'] = Variable<int>(endDateOffsetDays.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TemplateMilestonesCompanion(')
-          ..write('id: $id, ')
-          ..write('templateId: $templateId, ')
-          ..write('name: $name, ')
-          ..write('order: $order, ')
-          ..write('startDateOffsetDays: $startDateOffsetDays, ')
-          ..write('endDateOffsetDays: $endDateOffsetDays')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $TemplateTasksTable extends TemplateTasks
-    with TableInfo<$TemplateTasksTable, TemplateTask> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TemplateTasksTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _milestoneIdMeta = const VerificationMeta(
-    'milestoneId',
-  );
-  @override
-  late final GeneratedColumn<int> milestoneId = GeneratedColumn<int>(
-    'milestone_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES template_milestones (id)',
-    ),
-  );
-  static const VerificationMeta _labelMeta = const VerificationMeta('label');
-  @override
-  late final GeneratedColumn<String> label = GeneratedColumn<String>(
-    'label',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _offsetDaysFromMilestoneEndMeta =
-      const VerificationMeta('offsetDaysFromMilestoneEnd');
-  @override
-  late final GeneratedColumn<int> offsetDaysFromMilestoneEnd =
-      GeneratedColumn<int>(
-        'offset_days_from_milestone_end',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: false,
-        defaultValue: const Constant(0),
-      );
-  static const VerificationMeta _isMandatoryMeta = const VerificationMeta(
-    'isMandatory',
-  );
-  @override
-  late final GeneratedColumn<bool> isMandatory = GeneratedColumn<bool>(
-    'is_mandatory',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_mandatory" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    milestoneId,
-    label,
-    offsetDaysFromMilestoneEnd,
-    isMandatory,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'template_tasks';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<TemplateTask> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('milestone_id')) {
-      context.handle(
-        _milestoneIdMeta,
-        milestoneId.isAcceptableOrUnknown(
-          data['milestone_id']!,
-          _milestoneIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_milestoneIdMeta);
-    }
-    if (data.containsKey('label')) {
-      context.handle(
-        _labelMeta,
-        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_labelMeta);
-    }
-    if (data.containsKey('offset_days_from_milestone_end')) {
-      context.handle(
-        _offsetDaysFromMilestoneEndMeta,
-        offsetDaysFromMilestoneEnd.isAcceptableOrUnknown(
-          data['offset_days_from_milestone_end']!,
-          _offsetDaysFromMilestoneEndMeta,
-        ),
-      );
-    }
-    if (data.containsKey('is_mandatory')) {
-      context.handle(
-        _isMandatoryMeta,
-        isMandatory.isAcceptableOrUnknown(
-          data['is_mandatory']!,
-          _isMandatoryMeta,
-        ),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TemplateTask map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TemplateTask(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      milestoneId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}milestone_id'],
-      )!,
-      label: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}label'],
-      )!,
-      offsetDaysFromMilestoneEnd: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}offset_days_from_milestone_end'],
-      )!,
-      isMandatory: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_mandatory'],
-      )!,
-    );
-  }
-
-  @override
-  $TemplateTasksTable createAlias(String alias) {
-    return $TemplateTasksTable(attachedDatabase, alias);
-  }
-}
-
-class TemplateTask extends DataClass implements Insertable<TemplateTask> {
-  final int id;
-  final int milestoneId;
-  final String label;
-  final int offsetDaysFromMilestoneEnd;
-  final bool isMandatory;
-  const TemplateTask({
-    required this.id,
-    required this.milestoneId,
-    required this.label,
-    required this.offsetDaysFromMilestoneEnd,
-    required this.isMandatory,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['milestone_id'] = Variable<int>(milestoneId);
-    map['label'] = Variable<String>(label);
-    map['offset_days_from_milestone_end'] = Variable<int>(
-      offsetDaysFromMilestoneEnd,
-    );
-    map['is_mandatory'] = Variable<bool>(isMandatory);
-    return map;
-  }
-
-  TemplateTasksCompanion toCompanion(bool nullToAbsent) {
-    return TemplateTasksCompanion(
-      id: Value(id),
-      milestoneId: Value(milestoneId),
-      label: Value(label),
-      offsetDaysFromMilestoneEnd: Value(offsetDaysFromMilestoneEnd),
-      isMandatory: Value(isMandatory),
-    );
-  }
-
-  factory TemplateTask.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TemplateTask(
-      id: serializer.fromJson<int>(json['id']),
-      milestoneId: serializer.fromJson<int>(json['milestoneId']),
-      label: serializer.fromJson<String>(json['label']),
-      offsetDaysFromMilestoneEnd: serializer.fromJson<int>(
-        json['offsetDaysFromMilestoneEnd'],
-      ),
-      isMandatory: serializer.fromJson<bool>(json['isMandatory']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'milestoneId': serializer.toJson<int>(milestoneId),
-      'label': serializer.toJson<String>(label),
-      'offsetDaysFromMilestoneEnd': serializer.toJson<int>(
-        offsetDaysFromMilestoneEnd,
-      ),
-      'isMandatory': serializer.toJson<bool>(isMandatory),
-    };
-  }
-
-  TemplateTask copyWith({
-    int? id,
-    int? milestoneId,
-    String? label,
-    int? offsetDaysFromMilestoneEnd,
-    bool? isMandatory,
-  }) => TemplateTask(
-    id: id ?? this.id,
-    milestoneId: milestoneId ?? this.milestoneId,
-    label: label ?? this.label,
-    offsetDaysFromMilestoneEnd:
-        offsetDaysFromMilestoneEnd ?? this.offsetDaysFromMilestoneEnd,
-    isMandatory: isMandatory ?? this.isMandatory,
-  );
-  TemplateTask copyWithCompanion(TemplateTasksCompanion data) {
-    return TemplateTask(
-      id: data.id.present ? data.id.value : this.id,
-      milestoneId: data.milestoneId.present
-          ? data.milestoneId.value
-          : this.milestoneId,
-      label: data.label.present ? data.label.value : this.label,
-      offsetDaysFromMilestoneEnd: data.offsetDaysFromMilestoneEnd.present
-          ? data.offsetDaysFromMilestoneEnd.value
-          : this.offsetDaysFromMilestoneEnd,
-      isMandatory: data.isMandatory.present
-          ? data.isMandatory.value
-          : this.isMandatory,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TemplateTask(')
-          ..write('id: $id, ')
-          ..write('milestoneId: $milestoneId, ')
-          ..write('label: $label, ')
-          ..write('offsetDaysFromMilestoneEnd: $offsetDaysFromMilestoneEnd, ')
-          ..write('isMandatory: $isMandatory')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    milestoneId,
-    label,
-    offsetDaysFromMilestoneEnd,
-    isMandatory,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TemplateTask &&
-          other.id == this.id &&
-          other.milestoneId == this.milestoneId &&
-          other.label == this.label &&
-          other.offsetDaysFromMilestoneEnd == this.offsetDaysFromMilestoneEnd &&
-          other.isMandatory == this.isMandatory);
-}
-
-class TemplateTasksCompanion extends UpdateCompanion<TemplateTask> {
-  final Value<int> id;
-  final Value<int> milestoneId;
-  final Value<String> label;
-  final Value<int> offsetDaysFromMilestoneEnd;
-  final Value<bool> isMandatory;
-  const TemplateTasksCompanion({
-    this.id = const Value.absent(),
-    this.milestoneId = const Value.absent(),
-    this.label = const Value.absent(),
-    this.offsetDaysFromMilestoneEnd = const Value.absent(),
-    this.isMandatory = const Value.absent(),
-  });
-  TemplateTasksCompanion.insert({
-    this.id = const Value.absent(),
-    required int milestoneId,
-    required String label,
-    this.offsetDaysFromMilestoneEnd = const Value.absent(),
-    this.isMandatory = const Value.absent(),
-  }) : milestoneId = Value(milestoneId),
-       label = Value(label);
-  static Insertable<TemplateTask> custom({
-    Expression<int>? id,
-    Expression<int>? milestoneId,
-    Expression<String>? label,
-    Expression<int>? offsetDaysFromMilestoneEnd,
-    Expression<bool>? isMandatory,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (milestoneId != null) 'milestone_id': milestoneId,
-      if (label != null) 'label': label,
-      if (offsetDaysFromMilestoneEnd != null)
-        'offset_days_from_milestone_end': offsetDaysFromMilestoneEnd,
-      if (isMandatory != null) 'is_mandatory': isMandatory,
-    });
-  }
-
-  TemplateTasksCompanion copyWith({
-    Value<int>? id,
-    Value<int>? milestoneId,
-    Value<String>? label,
-    Value<int>? offsetDaysFromMilestoneEnd,
-    Value<bool>? isMandatory,
-  }) {
-    return TemplateTasksCompanion(
-      id: id ?? this.id,
-      milestoneId: milestoneId ?? this.milestoneId,
-      label: label ?? this.label,
-      offsetDaysFromMilestoneEnd:
-          offsetDaysFromMilestoneEnd ?? this.offsetDaysFromMilestoneEnd,
-      isMandatory: isMandatory ?? this.isMandatory,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (milestoneId.present) {
-      map['milestone_id'] = Variable<int>(milestoneId.value);
-    }
-    if (label.present) {
-      map['label'] = Variable<String>(label.value);
-    }
-    if (offsetDaysFromMilestoneEnd.present) {
-      map['offset_days_from_milestone_end'] = Variable<int>(
-        offsetDaysFromMilestoneEnd.value,
-      );
-    }
-    if (isMandatory.present) {
-      map['is_mandatory'] = Variable<bool>(isMandatory.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TemplateTasksCompanion(')
-          ..write('id: $id, ')
-          ..write('milestoneId: $milestoneId, ')
-          ..write('label: $label, ')
-          ..write('offsetDaysFromMilestoneEnd: $offsetDaysFromMilestoneEnd, ')
-          ..write('isMandatory: $isMandatory')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $TemplateDocumentsTable extends TemplateDocuments
     with TableInfo<$TemplateDocumentsTable, TemplateDocument> {
   @override
@@ -2701,6 +1576,1209 @@ class TemplateDocumentsCompanion extends UpdateCompanion<TemplateDocument> {
           ..write('name: $name, ')
           ..write('isOptional: $isOptional, ')
           ..write('submissionType: $submissionType')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MilestoneTemplatesTable extends MilestoneTemplates
+    with TableInfo<$MilestoneTemplatesTable, MilestoneTemplate> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MilestoneTemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _guideIdMeta = const VerificationMeta(
+    'guideId',
+  );
+  @override
+  late final GeneratedColumn<String> guideId = GeneratedColumn<String>(
+    'guide_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isCustomMeta = const VerificationMeta(
+    'isCustom',
+  );
+  @override
+  late final GeneratedColumn<bool> isCustom = GeneratedColumn<bool>(
+    'is_custom',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_custom" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    description,
+    guideId,
+    isCustom,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'milestone_templates';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MilestoneTemplate> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('guide_id')) {
+      context.handle(
+        _guideIdMeta,
+        guideId.isAcceptableOrUnknown(data['guide_id']!, _guideIdMeta),
+      );
+    }
+    if (data.containsKey('is_custom')) {
+      context.handle(
+        _isCustomMeta,
+        isCustom.isAcceptableOrUnknown(data['is_custom']!, _isCustomMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MilestoneTemplate map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MilestoneTemplate(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      guideId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}guide_id'],
+      ),
+      isCustom: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_custom'],
+      )!,
+    );
+  }
+
+  @override
+  $MilestoneTemplatesTable createAlias(String alias) {
+    return $MilestoneTemplatesTable(attachedDatabase, alias);
+  }
+}
+
+class MilestoneTemplate extends DataClass
+    implements Insertable<MilestoneTemplate> {
+  final int id;
+  final String name;
+  final String? description;
+  final String? guideId;
+  final bool isCustom;
+  const MilestoneTemplate({
+    required this.id,
+    required this.name,
+    this.description,
+    this.guideId,
+    required this.isCustom,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || guideId != null) {
+      map['guide_id'] = Variable<String>(guideId);
+    }
+    map['is_custom'] = Variable<bool>(isCustom);
+    return map;
+  }
+
+  MilestoneTemplatesCompanion toCompanion(bool nullToAbsent) {
+    return MilestoneTemplatesCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      guideId: guideId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(guideId),
+      isCustom: Value(isCustom),
+    );
+  }
+
+  factory MilestoneTemplate.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MilestoneTemplate(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      guideId: serializer.fromJson<String?>(json['guideId']),
+      isCustom: serializer.fromJson<bool>(json['isCustom']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'guideId': serializer.toJson<String?>(guideId),
+      'isCustom': serializer.toJson<bool>(isCustom),
+    };
+  }
+
+  MilestoneTemplate copyWith({
+    int? id,
+    String? name,
+    Value<String?> description = const Value.absent(),
+    Value<String?> guideId = const Value.absent(),
+    bool? isCustom,
+  }) => MilestoneTemplate(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description.present ? description.value : this.description,
+    guideId: guideId.present ? guideId.value : this.guideId,
+    isCustom: isCustom ?? this.isCustom,
+  );
+  MilestoneTemplate copyWithCompanion(MilestoneTemplatesCompanion data) {
+    return MilestoneTemplate(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      guideId: data.guideId.present ? data.guideId.value : this.guideId,
+      isCustom: data.isCustom.present ? data.isCustom.value : this.isCustom,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MilestoneTemplate(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('guideId: $guideId, ')
+          ..write('isCustom: $isCustom')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, description, guideId, isCustom);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MilestoneTemplate &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.guideId == this.guideId &&
+          other.isCustom == this.isCustom);
+}
+
+class MilestoneTemplatesCompanion extends UpdateCompanion<MilestoneTemplate> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<String?> guideId;
+  final Value<bool> isCustom;
+  const MilestoneTemplatesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.guideId = const Value.absent(),
+    this.isCustom = const Value.absent(),
+  });
+  MilestoneTemplatesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.description = const Value.absent(),
+    this.guideId = const Value.absent(),
+    this.isCustom = const Value.absent(),
+  }) : name = Value(name);
+  static Insertable<MilestoneTemplate> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? guideId,
+    Expression<bool>? isCustom,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (guideId != null) 'guide_id': guideId,
+      if (isCustom != null) 'is_custom': isCustom,
+    });
+  }
+
+  MilestoneTemplatesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String?>? description,
+    Value<String?>? guideId,
+    Value<bool>? isCustom,
+  }) {
+    return MilestoneTemplatesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      guideId: guideId ?? this.guideId,
+      isCustom: isCustom ?? this.isCustom,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (guideId.present) {
+      map['guide_id'] = Variable<String>(guideId.value);
+    }
+    if (isCustom.present) {
+      map['is_custom'] = Variable<bool>(isCustom.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MilestoneTemplatesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('guideId: $guideId, ')
+          ..write('isCustom: $isCustom')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskTemplatesTable extends TaskTemplates
+    with TableInfo<$TaskTemplatesTable, TaskTemplate> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskTemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _milestoneTemplateIdMeta =
+      const VerificationMeta('milestoneTemplateId');
+  @override
+  late final GeneratedColumn<int> milestoneTemplateId = GeneratedColumn<int>(
+    'milestone_template_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES milestone_templates (id)',
+    ),
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _defaultOffsetDaysMeta = const VerificationMeta(
+    'defaultOffsetDays',
+  );
+  @override
+  late final GeneratedColumn<int> defaultOffsetDays = GeneratedColumn<int>(
+    'default_offset_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _displayOrderMeta = const VerificationMeta(
+    'displayOrder',
+  );
+  @override
+  late final GeneratedColumn<int> displayOrder = GeneratedColumn<int>(
+    'display_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _isRequiredMeta = const VerificationMeta(
+    'isRequired',
+  );
+  @override
+  late final GeneratedColumn<bool> isRequired = GeneratedColumn<bool>(
+    'is_required',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_required" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    milestoneTemplateId,
+    label,
+    defaultOffsetDays,
+    displayOrder,
+    isRequired,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_templates';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskTemplate> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('milestone_template_id')) {
+      context.handle(
+        _milestoneTemplateIdMeta,
+        milestoneTemplateId.isAcceptableOrUnknown(
+          data['milestone_template_id']!,
+          _milestoneTemplateIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_milestoneTemplateIdMeta);
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('default_offset_days')) {
+      context.handle(
+        _defaultOffsetDaysMeta,
+        defaultOffsetDays.isAcceptableOrUnknown(
+          data['default_offset_days']!,
+          _defaultOffsetDaysMeta,
+        ),
+      );
+    }
+    if (data.containsKey('display_order')) {
+      context.handle(
+        _displayOrderMeta,
+        displayOrder.isAcceptableOrUnknown(
+          data['display_order']!,
+          _displayOrderMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_required')) {
+      context.handle(
+        _isRequiredMeta,
+        isRequired.isAcceptableOrUnknown(data['is_required']!, _isRequiredMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskTemplate map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskTemplate(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      milestoneTemplateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}milestone_template_id'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      defaultOffsetDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}default_offset_days'],
+      )!,
+      displayOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}display_order'],
+      )!,
+      isRequired: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_required'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskTemplatesTable createAlias(String alias) {
+    return $TaskTemplatesTable(attachedDatabase, alias);
+  }
+}
+
+class TaskTemplate extends DataClass implements Insertable<TaskTemplate> {
+  final int id;
+  final int milestoneTemplateId;
+  final String label;
+  final int defaultOffsetDays;
+  final int displayOrder;
+  final bool isRequired;
+  const TaskTemplate({
+    required this.id,
+    required this.milestoneTemplateId,
+    required this.label,
+    required this.defaultOffsetDays,
+    required this.displayOrder,
+    required this.isRequired,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['milestone_template_id'] = Variable<int>(milestoneTemplateId);
+    map['label'] = Variable<String>(label);
+    map['default_offset_days'] = Variable<int>(defaultOffsetDays);
+    map['display_order'] = Variable<int>(displayOrder);
+    map['is_required'] = Variable<bool>(isRequired);
+    return map;
+  }
+
+  TaskTemplatesCompanion toCompanion(bool nullToAbsent) {
+    return TaskTemplatesCompanion(
+      id: Value(id),
+      milestoneTemplateId: Value(milestoneTemplateId),
+      label: Value(label),
+      defaultOffsetDays: Value(defaultOffsetDays),
+      displayOrder: Value(displayOrder),
+      isRequired: Value(isRequired),
+    );
+  }
+
+  factory TaskTemplate.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskTemplate(
+      id: serializer.fromJson<int>(json['id']),
+      milestoneTemplateId: serializer.fromJson<int>(
+        json['milestoneTemplateId'],
+      ),
+      label: serializer.fromJson<String>(json['label']),
+      defaultOffsetDays: serializer.fromJson<int>(json['defaultOffsetDays']),
+      displayOrder: serializer.fromJson<int>(json['displayOrder']),
+      isRequired: serializer.fromJson<bool>(json['isRequired']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'milestoneTemplateId': serializer.toJson<int>(milestoneTemplateId),
+      'label': serializer.toJson<String>(label),
+      'defaultOffsetDays': serializer.toJson<int>(defaultOffsetDays),
+      'displayOrder': serializer.toJson<int>(displayOrder),
+      'isRequired': serializer.toJson<bool>(isRequired),
+    };
+  }
+
+  TaskTemplate copyWith({
+    int? id,
+    int? milestoneTemplateId,
+    String? label,
+    int? defaultOffsetDays,
+    int? displayOrder,
+    bool? isRequired,
+  }) => TaskTemplate(
+    id: id ?? this.id,
+    milestoneTemplateId: milestoneTemplateId ?? this.milestoneTemplateId,
+    label: label ?? this.label,
+    defaultOffsetDays: defaultOffsetDays ?? this.defaultOffsetDays,
+    displayOrder: displayOrder ?? this.displayOrder,
+    isRequired: isRequired ?? this.isRequired,
+  );
+  TaskTemplate copyWithCompanion(TaskTemplatesCompanion data) {
+    return TaskTemplate(
+      id: data.id.present ? data.id.value : this.id,
+      milestoneTemplateId: data.milestoneTemplateId.present
+          ? data.milestoneTemplateId.value
+          : this.milestoneTemplateId,
+      label: data.label.present ? data.label.value : this.label,
+      defaultOffsetDays: data.defaultOffsetDays.present
+          ? data.defaultOffsetDays.value
+          : this.defaultOffsetDays,
+      displayOrder: data.displayOrder.present
+          ? data.displayOrder.value
+          : this.displayOrder,
+      isRequired: data.isRequired.present
+          ? data.isRequired.value
+          : this.isRequired,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskTemplate(')
+          ..write('id: $id, ')
+          ..write('milestoneTemplateId: $milestoneTemplateId, ')
+          ..write('label: $label, ')
+          ..write('defaultOffsetDays: $defaultOffsetDays, ')
+          ..write('displayOrder: $displayOrder, ')
+          ..write('isRequired: $isRequired')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    milestoneTemplateId,
+    label,
+    defaultOffsetDays,
+    displayOrder,
+    isRequired,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskTemplate &&
+          other.id == this.id &&
+          other.milestoneTemplateId == this.milestoneTemplateId &&
+          other.label == this.label &&
+          other.defaultOffsetDays == this.defaultOffsetDays &&
+          other.displayOrder == this.displayOrder &&
+          other.isRequired == this.isRequired);
+}
+
+class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplate> {
+  final Value<int> id;
+  final Value<int> milestoneTemplateId;
+  final Value<String> label;
+  final Value<int> defaultOffsetDays;
+  final Value<int> displayOrder;
+  final Value<bool> isRequired;
+  const TaskTemplatesCompanion({
+    this.id = const Value.absent(),
+    this.milestoneTemplateId = const Value.absent(),
+    this.label = const Value.absent(),
+    this.defaultOffsetDays = const Value.absent(),
+    this.displayOrder = const Value.absent(),
+    this.isRequired = const Value.absent(),
+  });
+  TaskTemplatesCompanion.insert({
+    this.id = const Value.absent(),
+    required int milestoneTemplateId,
+    required String label,
+    this.defaultOffsetDays = const Value.absent(),
+    this.displayOrder = const Value.absent(),
+    this.isRequired = const Value.absent(),
+  }) : milestoneTemplateId = Value(milestoneTemplateId),
+       label = Value(label);
+  static Insertable<TaskTemplate> custom({
+    Expression<int>? id,
+    Expression<int>? milestoneTemplateId,
+    Expression<String>? label,
+    Expression<int>? defaultOffsetDays,
+    Expression<int>? displayOrder,
+    Expression<bool>? isRequired,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (milestoneTemplateId != null)
+        'milestone_template_id': milestoneTemplateId,
+      if (label != null) 'label': label,
+      if (defaultOffsetDays != null) 'default_offset_days': defaultOffsetDays,
+      if (displayOrder != null) 'display_order': displayOrder,
+      if (isRequired != null) 'is_required': isRequired,
+    });
+  }
+
+  TaskTemplatesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? milestoneTemplateId,
+    Value<String>? label,
+    Value<int>? defaultOffsetDays,
+    Value<int>? displayOrder,
+    Value<bool>? isRequired,
+  }) {
+    return TaskTemplatesCompanion(
+      id: id ?? this.id,
+      milestoneTemplateId: milestoneTemplateId ?? this.milestoneTemplateId,
+      label: label ?? this.label,
+      defaultOffsetDays: defaultOffsetDays ?? this.defaultOffsetDays,
+      displayOrder: displayOrder ?? this.displayOrder,
+      isRequired: isRequired ?? this.isRequired,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (milestoneTemplateId.present) {
+      map['milestone_template_id'] = Variable<int>(milestoneTemplateId.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (defaultOffsetDays.present) {
+      map['default_offset_days'] = Variable<int>(defaultOffsetDays.value);
+    }
+    if (displayOrder.present) {
+      map['display_order'] = Variable<int>(displayOrder.value);
+    }
+    if (isRequired.present) {
+      map['is_required'] = Variable<bool>(isRequired.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskTemplatesCompanion(')
+          ..write('id: $id, ')
+          ..write('milestoneTemplateId: $milestoneTemplateId, ')
+          ..write('label: $label, ')
+          ..write('defaultOffsetDays: $defaultOffsetDays, ')
+          ..write('displayOrder: $displayOrder, ')
+          ..write('isRequired: $isRequired')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ScholarshipMilestoneLinksTable extends ScholarshipMilestoneLinks
+    with TableInfo<$ScholarshipMilestoneLinksTable, ScholarshipMilestoneLink> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ScholarshipMilestoneLinksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _scholarshipTemplateIdMeta =
+      const VerificationMeta('scholarshipTemplateId');
+  @override
+  late final GeneratedColumn<String> scholarshipTemplateId =
+      GeneratedColumn<String>(
+        'scholarship_template_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES scholarship_templates (id)',
+        ),
+      );
+  static const VerificationMeta _milestoneTemplateIdMeta =
+      const VerificationMeta('milestoneTemplateId');
+  @override
+  late final GeneratedColumn<int> milestoneTemplateId = GeneratedColumn<int>(
+    'milestone_template_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES milestone_templates (id)',
+    ),
+  );
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
+  @override
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+    'order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateOffsetDaysMeta =
+      const VerificationMeta('startDateOffsetDays');
+  @override
+  late final GeneratedColumn<int> startDateOffsetDays = GeneratedColumn<int>(
+    'start_date_offset_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endDateOffsetDaysMeta = const VerificationMeta(
+    'endDateOffsetDays',
+  );
+  @override
+  late final GeneratedColumn<int> endDateOffsetDays = GeneratedColumn<int>(
+    'end_date_offset_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    scholarshipTemplateId,
+    milestoneTemplateId,
+    order,
+    startDateOffsetDays,
+    endDateOffsetDays,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'scholarship_milestone_links';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ScholarshipMilestoneLink> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('scholarship_template_id')) {
+      context.handle(
+        _scholarshipTemplateIdMeta,
+        scholarshipTemplateId.isAcceptableOrUnknown(
+          data['scholarship_template_id']!,
+          _scholarshipTemplateIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scholarshipTemplateIdMeta);
+    }
+    if (data.containsKey('milestone_template_id')) {
+      context.handle(
+        _milestoneTemplateIdMeta,
+        milestoneTemplateId.isAcceptableOrUnknown(
+          data['milestone_template_id']!,
+          _milestoneTemplateIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_milestoneTemplateIdMeta);
+    }
+    if (data.containsKey('order')) {
+      context.handle(
+        _orderMeta,
+        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderMeta);
+    }
+    if (data.containsKey('start_date_offset_days')) {
+      context.handle(
+        _startDateOffsetDaysMeta,
+        startDateOffsetDays.isAcceptableOrUnknown(
+          data['start_date_offset_days']!,
+          _startDateOffsetDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateOffsetDaysMeta);
+    }
+    if (data.containsKey('end_date_offset_days')) {
+      context.handle(
+        _endDateOffsetDaysMeta,
+        endDateOffsetDays.isAcceptableOrUnknown(
+          data['end_date_offset_days']!,
+          _endDateOffsetDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_endDateOffsetDaysMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {
+    scholarshipTemplateId,
+    milestoneTemplateId,
+  };
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {scholarshipTemplateId, order},
+  ];
+  @override
+  ScholarshipMilestoneLink map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ScholarshipMilestoneLink(
+      scholarshipTemplateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scholarship_template_id'],
+      )!,
+      milestoneTemplateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}milestone_template_id'],
+      )!,
+      order: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order'],
+      )!,
+      startDateOffsetDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}start_date_offset_days'],
+      )!,
+      endDateOffsetDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}end_date_offset_days'],
+      )!,
+    );
+  }
+
+  @override
+  $ScholarshipMilestoneLinksTable createAlias(String alias) {
+    return $ScholarshipMilestoneLinksTable(attachedDatabase, alias);
+  }
+}
+
+class ScholarshipMilestoneLink extends DataClass
+    implements Insertable<ScholarshipMilestoneLink> {
+  final String scholarshipTemplateId;
+  final int milestoneTemplateId;
+  final int order;
+  final int startDateOffsetDays;
+  final int endDateOffsetDays;
+  const ScholarshipMilestoneLink({
+    required this.scholarshipTemplateId,
+    required this.milestoneTemplateId,
+    required this.order,
+    required this.startDateOffsetDays,
+    required this.endDateOffsetDays,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['scholarship_template_id'] = Variable<String>(scholarshipTemplateId);
+    map['milestone_template_id'] = Variable<int>(milestoneTemplateId);
+    map['order'] = Variable<int>(order);
+    map['start_date_offset_days'] = Variable<int>(startDateOffsetDays);
+    map['end_date_offset_days'] = Variable<int>(endDateOffsetDays);
+    return map;
+  }
+
+  ScholarshipMilestoneLinksCompanion toCompanion(bool nullToAbsent) {
+    return ScholarshipMilestoneLinksCompanion(
+      scholarshipTemplateId: Value(scholarshipTemplateId),
+      milestoneTemplateId: Value(milestoneTemplateId),
+      order: Value(order),
+      startDateOffsetDays: Value(startDateOffsetDays),
+      endDateOffsetDays: Value(endDateOffsetDays),
+    );
+  }
+
+  factory ScholarshipMilestoneLink.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ScholarshipMilestoneLink(
+      scholarshipTemplateId: serializer.fromJson<String>(
+        json['scholarshipTemplateId'],
+      ),
+      milestoneTemplateId: serializer.fromJson<int>(
+        json['milestoneTemplateId'],
+      ),
+      order: serializer.fromJson<int>(json['order']),
+      startDateOffsetDays: serializer.fromJson<int>(
+        json['startDateOffsetDays'],
+      ),
+      endDateOffsetDays: serializer.fromJson<int>(json['endDateOffsetDays']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'scholarshipTemplateId': serializer.toJson<String>(scholarshipTemplateId),
+      'milestoneTemplateId': serializer.toJson<int>(milestoneTemplateId),
+      'order': serializer.toJson<int>(order),
+      'startDateOffsetDays': serializer.toJson<int>(startDateOffsetDays),
+      'endDateOffsetDays': serializer.toJson<int>(endDateOffsetDays),
+    };
+  }
+
+  ScholarshipMilestoneLink copyWith({
+    String? scholarshipTemplateId,
+    int? milestoneTemplateId,
+    int? order,
+    int? startDateOffsetDays,
+    int? endDateOffsetDays,
+  }) => ScholarshipMilestoneLink(
+    scholarshipTemplateId: scholarshipTemplateId ?? this.scholarshipTemplateId,
+    milestoneTemplateId: milestoneTemplateId ?? this.milestoneTemplateId,
+    order: order ?? this.order,
+    startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
+    endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
+  );
+  ScholarshipMilestoneLink copyWithCompanion(
+    ScholarshipMilestoneLinksCompanion data,
+  ) {
+    return ScholarshipMilestoneLink(
+      scholarshipTemplateId: data.scholarshipTemplateId.present
+          ? data.scholarshipTemplateId.value
+          : this.scholarshipTemplateId,
+      milestoneTemplateId: data.milestoneTemplateId.present
+          ? data.milestoneTemplateId.value
+          : this.milestoneTemplateId,
+      order: data.order.present ? data.order.value : this.order,
+      startDateOffsetDays: data.startDateOffsetDays.present
+          ? data.startDateOffsetDays.value
+          : this.startDateOffsetDays,
+      endDateOffsetDays: data.endDateOffsetDays.present
+          ? data.endDateOffsetDays.value
+          : this.endDateOffsetDays,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ScholarshipMilestoneLink(')
+          ..write('scholarshipTemplateId: $scholarshipTemplateId, ')
+          ..write('milestoneTemplateId: $milestoneTemplateId, ')
+          ..write('order: $order, ')
+          ..write('startDateOffsetDays: $startDateOffsetDays, ')
+          ..write('endDateOffsetDays: $endDateOffsetDays')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    scholarshipTemplateId,
+    milestoneTemplateId,
+    order,
+    startDateOffsetDays,
+    endDateOffsetDays,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ScholarshipMilestoneLink &&
+          other.scholarshipTemplateId == this.scholarshipTemplateId &&
+          other.milestoneTemplateId == this.milestoneTemplateId &&
+          other.order == this.order &&
+          other.startDateOffsetDays == this.startDateOffsetDays &&
+          other.endDateOffsetDays == this.endDateOffsetDays);
+}
+
+class ScholarshipMilestoneLinksCompanion
+    extends UpdateCompanion<ScholarshipMilestoneLink> {
+  final Value<String> scholarshipTemplateId;
+  final Value<int> milestoneTemplateId;
+  final Value<int> order;
+  final Value<int> startDateOffsetDays;
+  final Value<int> endDateOffsetDays;
+  final Value<int> rowid;
+  const ScholarshipMilestoneLinksCompanion({
+    this.scholarshipTemplateId = const Value.absent(),
+    this.milestoneTemplateId = const Value.absent(),
+    this.order = const Value.absent(),
+    this.startDateOffsetDays = const Value.absent(),
+    this.endDateOffsetDays = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ScholarshipMilestoneLinksCompanion.insert({
+    required String scholarshipTemplateId,
+    required int milestoneTemplateId,
+    required int order,
+    required int startDateOffsetDays,
+    required int endDateOffsetDays,
+    this.rowid = const Value.absent(),
+  }) : scholarshipTemplateId = Value(scholarshipTemplateId),
+       milestoneTemplateId = Value(milestoneTemplateId),
+       order = Value(order),
+       startDateOffsetDays = Value(startDateOffsetDays),
+       endDateOffsetDays = Value(endDateOffsetDays);
+  static Insertable<ScholarshipMilestoneLink> custom({
+    Expression<String>? scholarshipTemplateId,
+    Expression<int>? milestoneTemplateId,
+    Expression<int>? order,
+    Expression<int>? startDateOffsetDays,
+    Expression<int>? endDateOffsetDays,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (scholarshipTemplateId != null)
+        'scholarship_template_id': scholarshipTemplateId,
+      if (milestoneTemplateId != null)
+        'milestone_template_id': milestoneTemplateId,
+      if (order != null) 'order': order,
+      if (startDateOffsetDays != null)
+        'start_date_offset_days': startDateOffsetDays,
+      if (endDateOffsetDays != null) 'end_date_offset_days': endDateOffsetDays,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ScholarshipMilestoneLinksCompanion copyWith({
+    Value<String>? scholarshipTemplateId,
+    Value<int>? milestoneTemplateId,
+    Value<int>? order,
+    Value<int>? startDateOffsetDays,
+    Value<int>? endDateOffsetDays,
+    Value<int>? rowid,
+  }) {
+    return ScholarshipMilestoneLinksCompanion(
+      scholarshipTemplateId:
+          scholarshipTemplateId ?? this.scholarshipTemplateId,
+      milestoneTemplateId: milestoneTemplateId ?? this.milestoneTemplateId,
+      order: order ?? this.order,
+      startDateOffsetDays: startDateOffsetDays ?? this.startDateOffsetDays,
+      endDateOffsetDays: endDateOffsetDays ?? this.endDateOffsetDays,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (scholarshipTemplateId.present) {
+      map['scholarship_template_id'] = Variable<String>(
+        scholarshipTemplateId.value,
+      );
+    }
+    if (milestoneTemplateId.present) {
+      map['milestone_template_id'] = Variable<int>(milestoneTemplateId.value);
+    }
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
+    }
+    if (startDateOffsetDays.present) {
+      map['start_date_offset_days'] = Variable<int>(startDateOffsetDays.value);
+    }
+    if (endDateOffsetDays.present) {
+      map['end_date_offset_days'] = Variable<int>(endDateOffsetDays.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ScholarshipMilestoneLinksCompanion(')
+          ..write('scholarshipTemplateId: $scholarshipTemplateId, ')
+          ..write('milestoneTemplateId: $milestoneTemplateId, ')
+          ..write('order: $order, ')
+          ..write('startDateOffsetDays: $startDateOffsetDays, ')
+          ..write('endDateOffsetDays: $endDateOffsetDays, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -4305,221 +4383,364 @@ class UserDocumentsCompanion extends UpdateCompanion<UserDocument> {
   }
 }
 
+class $UserProfilesTable extends UserProfiles
+    with TableInfo<$UserProfilesTable, UserProfile> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserProfilesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _studyLevelMeta = const VerificationMeta(
+    'studyLevel',
+  );
+  @override
+  late final GeneratedColumn<String> studyLevel = GeneratedColumn<String>(
+    'study_level',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fieldOfStudyMeta = const VerificationMeta(
+    'fieldOfStudy',
+  );
+  @override
+  late final GeneratedColumn<String> fieldOfStudy = GeneratedColumn<String>(
+    'field_of_study',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetCountriesMeta = const VerificationMeta(
+    'targetCountries',
+  );
+  @override
+  late final GeneratedColumn<String> targetCountries = GeneratedColumn<String>(
+    'target_countries',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    studyLevel,
+    fieldOfStudy,
+    targetCountries,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_profiles';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserProfile> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('study_level')) {
+      context.handle(
+        _studyLevelMeta,
+        studyLevel.isAcceptableOrUnknown(data['study_level']!, _studyLevelMeta),
+      );
+    }
+    if (data.containsKey('field_of_study')) {
+      context.handle(
+        _fieldOfStudyMeta,
+        fieldOfStudy.isAcceptableOrUnknown(
+          data['field_of_study']!,
+          _fieldOfStudyMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_countries')) {
+      context.handle(
+        _targetCountriesMeta,
+        targetCountries.isAcceptableOrUnknown(
+          data['target_countries']!,
+          _targetCountriesMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserProfile map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserProfile(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      studyLevel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}study_level'],
+      ),
+      fieldOfStudy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}field_of_study'],
+      ),
+      targetCountries: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_countries'],
+      ),
+    );
+  }
+
+  @override
+  $UserProfilesTable createAlias(String alias) {
+    return $UserProfilesTable(attachedDatabase, alias);
+  }
+}
+
+class UserProfile extends DataClass implements Insertable<UserProfile> {
+  final int id;
+  final String? studyLevel;
+  final String? fieldOfStudy;
+  final String? targetCountries;
+  const UserProfile({
+    required this.id,
+    this.studyLevel,
+    this.fieldOfStudy,
+    this.targetCountries,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || studyLevel != null) {
+      map['study_level'] = Variable<String>(studyLevel);
+    }
+    if (!nullToAbsent || fieldOfStudy != null) {
+      map['field_of_study'] = Variable<String>(fieldOfStudy);
+    }
+    if (!nullToAbsent || targetCountries != null) {
+      map['target_countries'] = Variable<String>(targetCountries);
+    }
+    return map;
+  }
+
+  UserProfilesCompanion toCompanion(bool nullToAbsent) {
+    return UserProfilesCompanion(
+      id: Value(id),
+      studyLevel: studyLevel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(studyLevel),
+      fieldOfStudy: fieldOfStudy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fieldOfStudy),
+      targetCountries: targetCountries == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetCountries),
+    );
+  }
+
+  factory UserProfile.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserProfile(
+      id: serializer.fromJson<int>(json['id']),
+      studyLevel: serializer.fromJson<String?>(json['studyLevel']),
+      fieldOfStudy: serializer.fromJson<String?>(json['fieldOfStudy']),
+      targetCountries: serializer.fromJson<String?>(json['targetCountries']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'studyLevel': serializer.toJson<String?>(studyLevel),
+      'fieldOfStudy': serializer.toJson<String?>(fieldOfStudy),
+      'targetCountries': serializer.toJson<String?>(targetCountries),
+    };
+  }
+
+  UserProfile copyWith({
+    int? id,
+    Value<String?> studyLevel = const Value.absent(),
+    Value<String?> fieldOfStudy = const Value.absent(),
+    Value<String?> targetCountries = const Value.absent(),
+  }) => UserProfile(
+    id: id ?? this.id,
+    studyLevel: studyLevel.present ? studyLevel.value : this.studyLevel,
+    fieldOfStudy: fieldOfStudy.present ? fieldOfStudy.value : this.fieldOfStudy,
+    targetCountries: targetCountries.present
+        ? targetCountries.value
+        : this.targetCountries,
+  );
+  UserProfile copyWithCompanion(UserProfilesCompanion data) {
+    return UserProfile(
+      id: data.id.present ? data.id.value : this.id,
+      studyLevel: data.studyLevel.present
+          ? data.studyLevel.value
+          : this.studyLevel,
+      fieldOfStudy: data.fieldOfStudy.present
+          ? data.fieldOfStudy.value
+          : this.fieldOfStudy,
+      targetCountries: data.targetCountries.present
+          ? data.targetCountries.value
+          : this.targetCountries,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserProfile(')
+          ..write('id: $id, ')
+          ..write('studyLevel: $studyLevel, ')
+          ..write('fieldOfStudy: $fieldOfStudy, ')
+          ..write('targetCountries: $targetCountries')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, studyLevel, fieldOfStudy, targetCountries);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserProfile &&
+          other.id == this.id &&
+          other.studyLevel == this.studyLevel &&
+          other.fieldOfStudy == this.fieldOfStudy &&
+          other.targetCountries == this.targetCountries);
+}
+
+class UserProfilesCompanion extends UpdateCompanion<UserProfile> {
+  final Value<int> id;
+  final Value<String?> studyLevel;
+  final Value<String?> fieldOfStudy;
+  final Value<String?> targetCountries;
+  const UserProfilesCompanion({
+    this.id = const Value.absent(),
+    this.studyLevel = const Value.absent(),
+    this.fieldOfStudy = const Value.absent(),
+    this.targetCountries = const Value.absent(),
+  });
+  UserProfilesCompanion.insert({
+    this.id = const Value.absent(),
+    this.studyLevel = const Value.absent(),
+    this.fieldOfStudy = const Value.absent(),
+    this.targetCountries = const Value.absent(),
+  });
+  static Insertable<UserProfile> custom({
+    Expression<int>? id,
+    Expression<String>? studyLevel,
+    Expression<String>? fieldOfStudy,
+    Expression<String>? targetCountries,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (studyLevel != null) 'study_level': studyLevel,
+      if (fieldOfStudy != null) 'field_of_study': fieldOfStudy,
+      if (targetCountries != null) 'target_countries': targetCountries,
+    });
+  }
+
+  UserProfilesCompanion copyWith({
+    Value<int>? id,
+    Value<String?>? studyLevel,
+    Value<String?>? fieldOfStudy,
+    Value<String?>? targetCountries,
+  }) {
+    return UserProfilesCompanion(
+      id: id ?? this.id,
+      studyLevel: studyLevel ?? this.studyLevel,
+      fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
+      targetCountries: targetCountries ?? this.targetCountries,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (studyLevel.present) {
+      map['study_level'] = Variable<String>(studyLevel.value);
+    }
+    if (fieldOfStudy.present) {
+      map['field_of_study'] = Variable<String>(fieldOfStudy.value);
+    }
+    if (targetCountries.present) {
+      map['target_countries'] = Variable<String>(targetCountries.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserProfilesCompanion(')
+          ..write('id: $id, ')
+          ..write('studyLevel: $studyLevel, ')
+          ..write('fieldOfStudy: $fieldOfStudy, ')
+          ..write('targetCountries: $targetCountries')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $UserProfilesTable userProfiles = $UserProfilesTable(this);
   late final $ScholarshipTemplatesTable scholarshipTemplates =
       $ScholarshipTemplatesTable(this);
-  late final $TemplateMilestonesTable templateMilestones =
-      $TemplateMilestonesTable(this);
-  late final $TemplateTasksTable templateTasks = $TemplateTasksTable(this);
   late final $TemplateDocumentsTable templateDocuments =
       $TemplateDocumentsTable(this);
+  late final $MilestoneTemplatesTable milestoneTemplates =
+      $MilestoneTemplatesTable(this);
+  late final $TaskTemplatesTable taskTemplates = $TaskTemplatesTable(this);
+  late final $ScholarshipMilestoneLinksTable scholarshipMilestoneLinks =
+      $ScholarshipMilestoneLinksTable(this);
   late final $UserApplicationsTable userApplications = $UserApplicationsTable(
     this,
   );
   late final $UserMilestonesTable userMilestones = $UserMilestonesTable(this);
   late final $UserTasksTable userTasks = $UserTasksTable(this);
   late final $UserDocumentsTable userDocuments = $UserDocumentsTable(this);
+  late final $UserProfilesTable userProfiles = $UserProfilesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    userProfiles,
     scholarshipTemplates,
-    templateMilestones,
-    templateTasks,
     templateDocuments,
+    milestoneTemplates,
+    taskTemplates,
+    scholarshipMilestoneLinks,
     userApplications,
     userMilestones,
     userTasks,
     userDocuments,
+    userProfiles,
   ];
 }
 
-typedef $$UserProfilesTableCreateCompanionBuilder =
-    UserProfilesCompanion Function({
-      Value<int> id,
-      Value<String?> studyLevel,
-      Value<String?> fieldOfStudy,
-      Value<String?> targetCountries,
-    });
-typedef $$UserProfilesTableUpdateCompanionBuilder =
-    UserProfilesCompanion Function({
-      Value<int> id,
-      Value<String?> studyLevel,
-      Value<String?> fieldOfStudy,
-      Value<String?> targetCountries,
-    });
-
-class $$UserProfilesTableFilterComposer
-    extends Composer<_$AppDatabase, $UserProfilesTable> {
-  $$UserProfilesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get studyLevel => $composableBuilder(
-    column: $table.studyLevel,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get fieldOfStudy => $composableBuilder(
-    column: $table.fieldOfStudy,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get targetCountries => $composableBuilder(
-    column: $table.targetCountries,
-    builder: (column) => ColumnFilters(column),
-  );
-}
-
-class $$UserProfilesTableOrderingComposer
-    extends Composer<_$AppDatabase, $UserProfilesTable> {
-  $$UserProfilesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get studyLevel => $composableBuilder(
-    column: $table.studyLevel,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get fieldOfStudy => $composableBuilder(
-    column: $table.fieldOfStudy,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get targetCountries => $composableBuilder(
-    column: $table.targetCountries,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$UserProfilesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $UserProfilesTable> {
-  $$UserProfilesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get studyLevel => $composableBuilder(
-    column: $table.studyLevel,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get fieldOfStudy => $composableBuilder(
-    column: $table.fieldOfStudy,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get targetCountries => $composableBuilder(
-    column: $table.targetCountries,
-    builder: (column) => column,
-  );
-}
-
-class $$UserProfilesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $UserProfilesTable,
-          UserProfile,
-          $$UserProfilesTableFilterComposer,
-          $$UserProfilesTableOrderingComposer,
-          $$UserProfilesTableAnnotationComposer,
-          $$UserProfilesTableCreateCompanionBuilder,
-          $$UserProfilesTableUpdateCompanionBuilder,
-          (
-            UserProfile,
-            BaseReferences<_$AppDatabase, $UserProfilesTable, UserProfile>,
-          ),
-          UserProfile,
-          PrefetchHooks Function()
-        > {
-  $$UserProfilesTableTableManager(_$AppDatabase db, $UserProfilesTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$UserProfilesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$UserProfilesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$UserProfilesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String?> studyLevel = const Value.absent(),
-                Value<String?> fieldOfStudy = const Value.absent(),
-                Value<String?> targetCountries = const Value.absent(),
-              }) => UserProfilesCompanion(
-                id: id,
-                studyLevel: studyLevel,
-                fieldOfStudy: fieldOfStudy,
-                targetCountries: targetCountries,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String?> studyLevel = const Value.absent(),
-                Value<String?> fieldOfStudy = const Value.absent(),
-                Value<String?> targetCountries = const Value.absent(),
-              }) => UserProfilesCompanion.insert(
-                id: id,
-                studyLevel: studyLevel,
-                fieldOfStudy: fieldOfStudy,
-                targetCountries: targetCountries,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$UserProfilesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $UserProfilesTable,
-      UserProfile,
-      $$UserProfilesTableFilterComposer,
-      $$UserProfilesTableOrderingComposer,
-      $$UserProfilesTableAnnotationComposer,
-      $$UserProfilesTableCreateCompanionBuilder,
-      $$UserProfilesTableUpdateCompanionBuilder,
-      (
-        UserProfile,
-        BaseReferences<_$AppDatabase, $UserProfilesTable, UserProfile>,
-      ),
-      UserProfile,
-      PrefetchHooks Function()
-    >;
 typedef $$ScholarshipTemplatesTableCreateCompanionBuilder =
     ScholarshipTemplatesCompanion Function({
       required String id,
@@ -4584,30 +4805,6 @@ final class $$ScholarshipTemplatesTableReferences
     super.$_typedResult,
   );
 
-  static MultiTypedResultKey<$TemplateMilestonesTable, List<TemplateMilestone>>
-  _templateMilestonesRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.templateMilestones,
-        aliasName: $_aliasNameGenerator(
-          db.scholarshipTemplates.id,
-          db.templateMilestones.templateId,
-        ),
-      );
-
-  $$TemplateMilestonesTableProcessedTableManager get templateMilestonesRefs {
-    final manager = $$TemplateMilestonesTableTableManager(
-      $_db,
-      $_db.templateMilestones,
-    ).filter((f) => f.templateId.id.sqlEquals($_itemColumn<String>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _templateMilestonesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
   static MultiTypedResultKey<$TemplateDocumentsTable, List<TemplateDocument>>
   _templateDocumentsRefsTable(_$AppDatabase db) =>
       MultiTypedResultKey.fromTable(
@@ -4626,6 +4823,38 @@ final class $$ScholarshipTemplatesTableReferences
 
     final cache = $_typedResult.readTableOrNull(
       _templateDocumentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $ScholarshipMilestoneLinksTable,
+    List<ScholarshipMilestoneLink>
+  >
+  _scholarshipMilestoneLinksRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.scholarshipMilestoneLinks,
+        aliasName: $_aliasNameGenerator(
+          db.scholarshipTemplates.id,
+          db.scholarshipMilestoneLinks.scholarshipTemplateId,
+        ),
+      );
+
+  $$ScholarshipMilestoneLinksTableProcessedTableManager
+  get scholarshipMilestoneLinksRefs {
+    final manager =
+        $$ScholarshipMilestoneLinksTableTableManager(
+          $_db,
+          $_db.scholarshipMilestoneLinks,
+        ).filter(
+          (f) =>
+              f.scholarshipTemplateId.id.sqlEquals($_itemColumn<String>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(
+      _scholarshipMilestoneLinksRefsTable($_db),
     );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
@@ -4770,31 +4999,6 @@ class $$ScholarshipTemplatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  Expression<bool> templateMilestonesRefs(
-    Expression<bool> Function($$TemplateMilestonesTableFilterComposer f) f,
-  ) {
-    final $$TemplateMilestonesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.templateMilestones,
-      getReferencedColumn: (t) => t.templateId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateMilestonesTableFilterComposer(
-            $db: $db,
-            $table: $db.templateMilestones,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
   Expression<bool> templateDocumentsRefs(
     Expression<bool> Function($$TemplateDocumentsTableFilterComposer f) f,
   ) {
@@ -4817,6 +5021,33 @@ class $$ScholarshipTemplatesTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> scholarshipMilestoneLinksRefs(
+    Expression<bool> Function($$ScholarshipMilestoneLinksTableFilterComposer f)
+    f,
+  ) {
+    final $$ScholarshipMilestoneLinksTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.scholarshipMilestoneLinks,
+          getReferencedColumn: (t) => t.scholarshipTemplateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipMilestoneLinksTableFilterComposer(
+                $db: $db,
+                $table: $db.scholarshipMilestoneLinks,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
@@ -5057,32 +5288,6 @@ class $$ScholarshipTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  Expression<T> templateMilestonesRefs<T extends Object>(
-    Expression<T> Function($$TemplateMilestonesTableAnnotationComposer a) f,
-  ) {
-    final $$TemplateMilestonesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.templateMilestones,
-          getReferencedColumn: (t) => t.templateId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$TemplateMilestonesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.templateMilestones,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
-
   Expression<T> templateDocumentsRefs<T extends Object>(
     Expression<T> Function($$TemplateDocumentsTableAnnotationComposer a) f,
   ) {
@@ -5100,6 +5305,33 @@ class $$ScholarshipTemplatesTableAnnotationComposer
               }) => $$TemplateDocumentsTableAnnotationComposer(
                 $db: $db,
                 $table: $db.templateDocuments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> scholarshipMilestoneLinksRefs<T extends Object>(
+    Expression<T> Function($$ScholarshipMilestoneLinksTableAnnotationComposer a)
+    f,
+  ) {
+    final $$ScholarshipMilestoneLinksTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.scholarshipMilestoneLinks,
+          getReferencedColumn: (t) => t.scholarshipTemplateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipMilestoneLinksTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipMilestoneLinks,
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -5149,8 +5381,8 @@ class $$ScholarshipTemplatesTableTableManager
           (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
           ScholarshipTemplate,
           PrefetchHooks Function({
-            bool templateMilestonesRefs,
             bool templateDocumentsRefs,
+            bool scholarshipMilestoneLinksRefs,
             bool userApplicationsRefs,
           })
         > {
@@ -5279,41 +5511,21 @@ class $$ScholarshipTemplatesTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
-                templateMilestonesRefs = false,
                 templateDocumentsRefs = false,
+                scholarshipMilestoneLinksRefs = false,
                 userApplicationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
-                    if (templateMilestonesRefs) db.templateMilestones,
                     if (templateDocumentsRefs) db.templateDocuments,
+                    if (scholarshipMilestoneLinksRefs)
+                      db.scholarshipMilestoneLinks,
                     if (userApplicationsRefs) db.userApplications,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
-                      if (templateMilestonesRefs)
-                        await $_getPrefetchedData<
-                          ScholarshipTemplate,
-                          $ScholarshipTemplatesTable,
-                          TemplateMilestone
-                        >(
-                          currentTable: table,
-                          referencedTable: $$ScholarshipTemplatesTableReferences
-                              ._templateMilestonesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$ScholarshipTemplatesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).templateMilestonesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.templateId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
                       if (templateDocumentsRefs)
                         await $_getPrefetchedData<
                           ScholarshipTemplate,
@@ -5332,6 +5544,27 @@ class $$ScholarshipTemplatesTableTableManager
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.templateId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (scholarshipMilestoneLinksRefs)
+                        await $_getPrefetchedData<
+                          ScholarshipTemplate,
+                          $ScholarshipTemplatesTable,
+                          ScholarshipMilestoneLink
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ScholarshipTemplatesTableReferences
+                              ._scholarshipMilestoneLinksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ScholarshipTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).scholarshipMilestoneLinksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.scholarshipTemplateId == item.id,
                               ),
                           typedResults: items,
                         ),
@@ -5377,788 +5610,10 @@ typedef $$ScholarshipTemplatesTableProcessedTableManager =
       (ScholarshipTemplate, $$ScholarshipTemplatesTableReferences),
       ScholarshipTemplate,
       PrefetchHooks Function({
-        bool templateMilestonesRefs,
         bool templateDocumentsRefs,
+        bool scholarshipMilestoneLinksRefs,
         bool userApplicationsRefs,
       })
-    >;
-typedef $$TemplateMilestonesTableCreateCompanionBuilder =
-    TemplateMilestonesCompanion Function({
-      Value<int> id,
-      required String templateId,
-      required String name,
-      required int order,
-      required int startDateOffsetDays,
-      required int endDateOffsetDays,
-    });
-typedef $$TemplateMilestonesTableUpdateCompanionBuilder =
-    TemplateMilestonesCompanion Function({
-      Value<int> id,
-      Value<String> templateId,
-      Value<String> name,
-      Value<int> order,
-      Value<int> startDateOffsetDays,
-      Value<int> endDateOffsetDays,
-    });
-
-final class $$TemplateMilestonesTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $TemplateMilestonesTable,
-          TemplateMilestone
-        > {
-  $$TemplateMilestonesTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static $ScholarshipTemplatesTable _templateIdTable(_$AppDatabase db) =>
-      db.scholarshipTemplates.createAlias(
-        $_aliasNameGenerator(
-          db.templateMilestones.templateId,
-          db.scholarshipTemplates.id,
-        ),
-      );
-
-  $$ScholarshipTemplatesTableProcessedTableManager get templateId {
-    final $_column = $_itemColumn<String>('template_id')!;
-
-    final manager = $$ScholarshipTemplatesTableTableManager(
-      $_db,
-      $_db.scholarshipTemplates,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_templateIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static MultiTypedResultKey<$TemplateTasksTable, List<TemplateTask>>
-  _templateTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.templateTasks,
-    aliasName: $_aliasNameGenerator(
-      db.templateMilestones.id,
-      db.templateTasks.milestoneId,
-    ),
-  );
-
-  $$TemplateTasksTableProcessedTableManager get templateTasksRefs {
-    final manager = $$TemplateTasksTableTableManager(
-      $_db,
-      $_db.templateTasks,
-    ).filter((f) => f.milestoneId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_templateTasksRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$TemplateMilestonesTableFilterComposer
-    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
-  $$TemplateMilestonesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get order => $composableBuilder(
-    column: $table.order,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get startDateOffsetDays => $composableBuilder(
-    column: $table.startDateOffsetDays,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get endDateOffsetDays => $composableBuilder(
-    column: $table.endDateOffsetDays,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$ScholarshipTemplatesTableFilterComposer get templateId {
-    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.templateId,
-      referencedTable: $db.scholarshipTemplates,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ScholarshipTemplatesTableFilterComposer(
-            $db: $db,
-            $table: $db.scholarshipTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<bool> templateTasksRefs(
-    Expression<bool> Function($$TemplateTasksTableFilterComposer f) f,
-  ) {
-    final $$TemplateTasksTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.templateTasks,
-      getReferencedColumn: (t) => t.milestoneId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateTasksTableFilterComposer(
-            $db: $db,
-            $table: $db.templateTasks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$TemplateMilestonesTableOrderingComposer
-    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
-  $$TemplateMilestonesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get order => $composableBuilder(
-    column: $table.order,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get startDateOffsetDays => $composableBuilder(
-    column: $table.startDateOffsetDays,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get endDateOffsetDays => $composableBuilder(
-    column: $table.endDateOffsetDays,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$ScholarshipTemplatesTableOrderingComposer get templateId {
-    final $$ScholarshipTemplatesTableOrderingComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableOrderingComposer(
-                $db: $db,
-                $table: $db.scholarshipTemplates,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return composer;
-  }
-}
-
-class $$TemplateMilestonesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TemplateMilestonesTable> {
-  $$TemplateMilestonesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<int> get order =>
-      $composableBuilder(column: $table.order, builder: (column) => column);
-
-  GeneratedColumn<int> get startDateOffsetDays => $composableBuilder(
-    column: $table.startDateOffsetDays,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get endDateOffsetDays => $composableBuilder(
-    column: $table.endDateOffsetDays,
-    builder: (column) => column,
-  );
-
-  $$ScholarshipTemplatesTableAnnotationComposer get templateId {
-    final $$ScholarshipTemplatesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.templateId,
-          referencedTable: $db.scholarshipTemplates,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$ScholarshipTemplatesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.scholarshipTemplates,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return composer;
-  }
-
-  Expression<T> templateTasksRefs<T extends Object>(
-    Expression<T> Function($$TemplateTasksTableAnnotationComposer a) f,
-  ) {
-    final $$TemplateTasksTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.templateTasks,
-      getReferencedColumn: (t) => t.milestoneId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateTasksTableAnnotationComposer(
-            $db: $db,
-            $table: $db.templateTasks,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$TemplateMilestonesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $TemplateMilestonesTable,
-          TemplateMilestone,
-          $$TemplateMilestonesTableFilterComposer,
-          $$TemplateMilestonesTableOrderingComposer,
-          $$TemplateMilestonesTableAnnotationComposer,
-          $$TemplateMilestonesTableCreateCompanionBuilder,
-          $$TemplateMilestonesTableUpdateCompanionBuilder,
-          (TemplateMilestone, $$TemplateMilestonesTableReferences),
-          TemplateMilestone,
-          PrefetchHooks Function({bool templateId, bool templateTasksRefs})
-        > {
-  $$TemplateMilestonesTableTableManager(
-    _$AppDatabase db,
-    $TemplateMilestonesTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$TemplateMilestonesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TemplateMilestonesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$TemplateMilestonesTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> templateId = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<int> order = const Value.absent(),
-                Value<int> startDateOffsetDays = const Value.absent(),
-                Value<int> endDateOffsetDays = const Value.absent(),
-              }) => TemplateMilestonesCompanion(
-                id: id,
-                templateId: templateId,
-                name: name,
-                order: order,
-                startDateOffsetDays: startDateOffsetDays,
-                endDateOffsetDays: endDateOffsetDays,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String templateId,
-                required String name,
-                required int order,
-                required int startDateOffsetDays,
-                required int endDateOffsetDays,
-              }) => TemplateMilestonesCompanion.insert(
-                id: id,
-                templateId: templateId,
-                name: name,
-                order: order,
-                startDateOffsetDays: startDateOffsetDays,
-                endDateOffsetDays: endDateOffsetDays,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$TemplateMilestonesTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({templateId = false, templateTasksRefs = false}) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (templateTasksRefs) db.templateTasks,
-                  ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (templateId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.templateId,
-                                    referencedTable:
-                                        $$TemplateMilestonesTableReferences
-                                            ._templateIdTable(db),
-                                    referencedColumn:
-                                        $$TemplateMilestonesTableReferences
-                                            ._templateIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
-
-                        return state;
-                      },
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (templateTasksRefs)
-                        await $_getPrefetchedData<
-                          TemplateMilestone,
-                          $TemplateMilestonesTable,
-                          TemplateTask
-                        >(
-                          currentTable: table,
-                          referencedTable: $$TemplateMilestonesTableReferences
-                              ._templateTasksRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$TemplateMilestonesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).templateTasksRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.milestoneId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$TemplateMilestonesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $TemplateMilestonesTable,
-      TemplateMilestone,
-      $$TemplateMilestonesTableFilterComposer,
-      $$TemplateMilestonesTableOrderingComposer,
-      $$TemplateMilestonesTableAnnotationComposer,
-      $$TemplateMilestonesTableCreateCompanionBuilder,
-      $$TemplateMilestonesTableUpdateCompanionBuilder,
-      (TemplateMilestone, $$TemplateMilestonesTableReferences),
-      TemplateMilestone,
-      PrefetchHooks Function({bool templateId, bool templateTasksRefs})
-    >;
-typedef $$TemplateTasksTableCreateCompanionBuilder =
-    TemplateTasksCompanion Function({
-      Value<int> id,
-      required int milestoneId,
-      required String label,
-      Value<int> offsetDaysFromMilestoneEnd,
-      Value<bool> isMandatory,
-    });
-typedef $$TemplateTasksTableUpdateCompanionBuilder =
-    TemplateTasksCompanion Function({
-      Value<int> id,
-      Value<int> milestoneId,
-      Value<String> label,
-      Value<int> offsetDaysFromMilestoneEnd,
-      Value<bool> isMandatory,
-    });
-
-final class $$TemplateTasksTableReferences
-    extends BaseReferences<_$AppDatabase, $TemplateTasksTable, TemplateTask> {
-  $$TemplateTasksTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static $TemplateMilestonesTable _milestoneIdTable(_$AppDatabase db) =>
-      db.templateMilestones.createAlias(
-        $_aliasNameGenerator(
-          db.templateTasks.milestoneId,
-          db.templateMilestones.id,
-        ),
-      );
-
-  $$TemplateMilestonesTableProcessedTableManager get milestoneId {
-    final $_column = $_itemColumn<int>('milestone_id')!;
-
-    final manager = $$TemplateMilestonesTableTableManager(
-      $_db,
-      $_db.templateMilestones,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_milestoneIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$TemplateTasksTableFilterComposer
-    extends Composer<_$AppDatabase, $TemplateTasksTable> {
-  $$TemplateTasksTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get label => $composableBuilder(
-    column: $table.label,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
-    column: $table.offsetDaysFromMilestoneEnd,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isMandatory => $composableBuilder(
-    column: $table.isMandatory,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$TemplateMilestonesTableFilterComposer get milestoneId {
-    final $$TemplateMilestonesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.milestoneId,
-      referencedTable: $db.templateMilestones,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateMilestonesTableFilterComposer(
-            $db: $db,
-            $table: $db.templateMilestones,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$TemplateTasksTableOrderingComposer
-    extends Composer<_$AppDatabase, $TemplateTasksTable> {
-  $$TemplateTasksTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get label => $composableBuilder(
-    column: $table.label,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
-    column: $table.offsetDaysFromMilestoneEnd,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isMandatory => $composableBuilder(
-    column: $table.isMandatory,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$TemplateMilestonesTableOrderingComposer get milestoneId {
-    final $$TemplateMilestonesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.milestoneId,
-      referencedTable: $db.templateMilestones,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TemplateMilestonesTableOrderingComposer(
-            $db: $db,
-            $table: $db.templateMilestones,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$TemplateTasksTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TemplateTasksTable> {
-  $$TemplateTasksTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get label =>
-      $composableBuilder(column: $table.label, builder: (column) => column);
-
-  GeneratedColumn<int> get offsetDaysFromMilestoneEnd => $composableBuilder(
-    column: $table.offsetDaysFromMilestoneEnd,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<bool> get isMandatory => $composableBuilder(
-    column: $table.isMandatory,
-    builder: (column) => column,
-  );
-
-  $$TemplateMilestonesTableAnnotationComposer get milestoneId {
-    final $$TemplateMilestonesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.milestoneId,
-          referencedTable: $db.templateMilestones,
-          getReferencedColumn: (t) => t.id,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$TemplateMilestonesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.templateMilestones,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return composer;
-  }
-}
-
-class $$TemplateTasksTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $TemplateTasksTable,
-          TemplateTask,
-          $$TemplateTasksTableFilterComposer,
-          $$TemplateTasksTableOrderingComposer,
-          $$TemplateTasksTableAnnotationComposer,
-          $$TemplateTasksTableCreateCompanionBuilder,
-          $$TemplateTasksTableUpdateCompanionBuilder,
-          (TemplateTask, $$TemplateTasksTableReferences),
-          TemplateTask,
-          PrefetchHooks Function({bool milestoneId})
-        > {
-  $$TemplateTasksTableTableManager(_$AppDatabase db, $TemplateTasksTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$TemplateTasksTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$TemplateTasksTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$TemplateTasksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> milestoneId = const Value.absent(),
-                Value<String> label = const Value.absent(),
-                Value<int> offsetDaysFromMilestoneEnd = const Value.absent(),
-                Value<bool> isMandatory = const Value.absent(),
-              }) => TemplateTasksCompanion(
-                id: id,
-                milestoneId: milestoneId,
-                label: label,
-                offsetDaysFromMilestoneEnd: offsetDaysFromMilestoneEnd,
-                isMandatory: isMandatory,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int milestoneId,
-                required String label,
-                Value<int> offsetDaysFromMilestoneEnd = const Value.absent(),
-                Value<bool> isMandatory = const Value.absent(),
-              }) => TemplateTasksCompanion.insert(
-                id: id,
-                milestoneId: milestoneId,
-                label: label,
-                offsetDaysFromMilestoneEnd: offsetDaysFromMilestoneEnd,
-                isMandatory: isMandatory,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$TemplateTasksTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({milestoneId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (milestoneId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.milestoneId,
-                                referencedTable: $$TemplateTasksTableReferences
-                                    ._milestoneIdTable(db),
-                                referencedColumn: $$TemplateTasksTableReferences
-                                    ._milestoneIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$TemplateTasksTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $TemplateTasksTable,
-      TemplateTask,
-      $$TemplateTasksTableFilterComposer,
-      $$TemplateTasksTableOrderingComposer,
-      $$TemplateTasksTableAnnotationComposer,
-      $$TemplateTasksTableCreateCompanionBuilder,
-      $$TemplateTasksTableUpdateCompanionBuilder,
-      (TemplateTask, $$TemplateTasksTableReferences),
-      TemplateTask,
-      PrefetchHooks Function({bool milestoneId})
     >;
 typedef $$TemplateDocumentsTableCreateCompanionBuilder =
     TemplateDocumentsCompanion Function({
@@ -6505,6 +5960,1245 @@ typedef $$TemplateDocumentsTableProcessedTableManager =
       (TemplateDocument, $$TemplateDocumentsTableReferences),
       TemplateDocument,
       PrefetchHooks Function({bool templateId})
+    >;
+typedef $$MilestoneTemplatesTableCreateCompanionBuilder =
+    MilestoneTemplatesCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String?> description,
+      Value<String?> guideId,
+      Value<bool> isCustom,
+    });
+typedef $$MilestoneTemplatesTableUpdateCompanionBuilder =
+    MilestoneTemplatesCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String?> description,
+      Value<String?> guideId,
+      Value<bool> isCustom,
+    });
+
+final class $$MilestoneTemplatesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $MilestoneTemplatesTable,
+          MilestoneTemplate
+        > {
+  $$MilestoneTemplatesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplate>>
+  _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskTemplates,
+    aliasName: $_aliasNameGenerator(
+      db.milestoneTemplates.id,
+      db.taskTemplates.milestoneTemplateId,
+    ),
+  );
+
+  $$TaskTemplatesTableProcessedTableManager get taskTemplatesRefs {
+    final manager = $$TaskTemplatesTableTableManager($_db, $_db.taskTemplates)
+        .filter(
+          (f) => f.milestoneTemplateId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $ScholarshipMilestoneLinksTable,
+    List<ScholarshipMilestoneLink>
+  >
+  _scholarshipMilestoneLinksRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.scholarshipMilestoneLinks,
+        aliasName: $_aliasNameGenerator(
+          db.milestoneTemplates.id,
+          db.scholarshipMilestoneLinks.milestoneTemplateId,
+        ),
+      );
+
+  $$ScholarshipMilestoneLinksTableProcessedTableManager
+  get scholarshipMilestoneLinksRefs {
+    final manager =
+        $$ScholarshipMilestoneLinksTableTableManager(
+          $_db,
+          $_db.scholarshipMilestoneLinks,
+        ).filter(
+          (f) => f.milestoneTemplateId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(
+      _scholarshipMilestoneLinksRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$MilestoneTemplatesTableFilterComposer
+    extends Composer<_$AppDatabase, $MilestoneTemplatesTable> {
+  $$MilestoneTemplatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get guideId => $composableBuilder(
+    column: $table.guideId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCustom => $composableBuilder(
+    column: $table.isCustom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> taskTemplatesRefs(
+    Expression<bool> Function($$TaskTemplatesTableFilterComposer f) f,
+  ) {
+    final $$TaskTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.milestoneTemplateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> scholarshipMilestoneLinksRefs(
+    Expression<bool> Function($$ScholarshipMilestoneLinksTableFilterComposer f)
+    f,
+  ) {
+    final $$ScholarshipMilestoneLinksTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.scholarshipMilestoneLinks,
+          getReferencedColumn: (t) => t.milestoneTemplateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipMilestoneLinksTableFilterComposer(
+                $db: $db,
+                $table: $db.scholarshipMilestoneLinks,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$MilestoneTemplatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $MilestoneTemplatesTable> {
+  $$MilestoneTemplatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get guideId => $composableBuilder(
+    column: $table.guideId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCustom => $composableBuilder(
+    column: $table.isCustom,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MilestoneTemplatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MilestoneTemplatesTable> {
+  $$MilestoneTemplatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get guideId =>
+      $composableBuilder(column: $table.guideId, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCustom =>
+      $composableBuilder(column: $table.isCustom, builder: (column) => column);
+
+  Expression<T> taskTemplatesRefs<T extends Object>(
+    Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.milestoneTemplateId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> scholarshipMilestoneLinksRefs<T extends Object>(
+    Expression<T> Function($$ScholarshipMilestoneLinksTableAnnotationComposer a)
+    f,
+  ) {
+    final $$ScholarshipMilestoneLinksTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.scholarshipMilestoneLinks,
+          getReferencedColumn: (t) => t.milestoneTemplateId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipMilestoneLinksTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipMilestoneLinks,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$MilestoneTemplatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MilestoneTemplatesTable,
+          MilestoneTemplate,
+          $$MilestoneTemplatesTableFilterComposer,
+          $$MilestoneTemplatesTableOrderingComposer,
+          $$MilestoneTemplatesTableAnnotationComposer,
+          $$MilestoneTemplatesTableCreateCompanionBuilder,
+          $$MilestoneTemplatesTableUpdateCompanionBuilder,
+          (MilestoneTemplate, $$MilestoneTemplatesTableReferences),
+          MilestoneTemplate,
+          PrefetchHooks Function({
+            bool taskTemplatesRefs,
+            bool scholarshipMilestoneLinksRefs,
+          })
+        > {
+  $$MilestoneTemplatesTableTableManager(
+    _$AppDatabase db,
+    $MilestoneTemplatesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MilestoneTemplatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MilestoneTemplatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MilestoneTemplatesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<String?> guideId = const Value.absent(),
+                Value<bool> isCustom = const Value.absent(),
+              }) => MilestoneTemplatesCompanion(
+                id: id,
+                name: name,
+                description: description,
+                guideId: guideId,
+                isCustom: isCustom,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String?> description = const Value.absent(),
+                Value<String?> guideId = const Value.absent(),
+                Value<bool> isCustom = const Value.absent(),
+              }) => MilestoneTemplatesCompanion.insert(
+                id: id,
+                name: name,
+                description: description,
+                guideId: guideId,
+                isCustom: isCustom,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$MilestoneTemplatesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                taskTemplatesRefs = false,
+                scholarshipMilestoneLinksRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskTemplatesRefs) db.taskTemplates,
+                    if (scholarshipMilestoneLinksRefs)
+                      db.scholarshipMilestoneLinks,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskTemplatesRefs)
+                        await $_getPrefetchedData<
+                          MilestoneTemplate,
+                          $MilestoneTemplatesTable,
+                          TaskTemplate
+                        >(
+                          currentTable: table,
+                          referencedTable: $$MilestoneTemplatesTableReferences
+                              ._taskTemplatesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$MilestoneTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskTemplatesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.milestoneTemplateId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (scholarshipMilestoneLinksRefs)
+                        await $_getPrefetchedData<
+                          MilestoneTemplate,
+                          $MilestoneTemplatesTable,
+                          ScholarshipMilestoneLink
+                        >(
+                          currentTable: table,
+                          referencedTable: $$MilestoneTemplatesTableReferences
+                              ._scholarshipMilestoneLinksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$MilestoneTemplatesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).scholarshipMilestoneLinksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.milestoneTemplateId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$MilestoneTemplatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MilestoneTemplatesTable,
+      MilestoneTemplate,
+      $$MilestoneTemplatesTableFilterComposer,
+      $$MilestoneTemplatesTableOrderingComposer,
+      $$MilestoneTemplatesTableAnnotationComposer,
+      $$MilestoneTemplatesTableCreateCompanionBuilder,
+      $$MilestoneTemplatesTableUpdateCompanionBuilder,
+      (MilestoneTemplate, $$MilestoneTemplatesTableReferences),
+      MilestoneTemplate,
+      PrefetchHooks Function({
+        bool taskTemplatesRefs,
+        bool scholarshipMilestoneLinksRefs,
+      })
+    >;
+typedef $$TaskTemplatesTableCreateCompanionBuilder =
+    TaskTemplatesCompanion Function({
+      Value<int> id,
+      required int milestoneTemplateId,
+      required String label,
+      Value<int> defaultOffsetDays,
+      Value<int> displayOrder,
+      Value<bool> isRequired,
+    });
+typedef $$TaskTemplatesTableUpdateCompanionBuilder =
+    TaskTemplatesCompanion Function({
+      Value<int> id,
+      Value<int> milestoneTemplateId,
+      Value<String> label,
+      Value<int> defaultOffsetDays,
+      Value<int> displayOrder,
+      Value<bool> isRequired,
+    });
+
+final class $$TaskTemplatesTableReferences
+    extends BaseReferences<_$AppDatabase, $TaskTemplatesTable, TaskTemplate> {
+  $$TaskTemplatesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $MilestoneTemplatesTable _milestoneTemplateIdTable(_$AppDatabase db) =>
+      db.milestoneTemplates.createAlias(
+        $_aliasNameGenerator(
+          db.taskTemplates.milestoneTemplateId,
+          db.milestoneTemplates.id,
+        ),
+      );
+
+  $$MilestoneTemplatesTableProcessedTableManager get milestoneTemplateId {
+    final $_column = $_itemColumn<int>('milestone_template_id')!;
+
+    final manager = $$MilestoneTemplatesTableTableManager(
+      $_db,
+      $_db.milestoneTemplates,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_milestoneTemplateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskTemplatesTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskTemplatesTable> {
+  $$TaskTemplatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get defaultOffsetDays => $composableBuilder(
+    column: $table.defaultOffsetDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get displayOrder => $composableBuilder(
+    column: $table.displayOrder,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isRequired => $composableBuilder(
+    column: $table.isRequired,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$MilestoneTemplatesTableFilterComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.milestoneTemplateId,
+      referencedTable: $db.milestoneTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MilestoneTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.milestoneTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTemplatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskTemplatesTable> {
+  $$TaskTemplatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get defaultOffsetDays => $composableBuilder(
+    column: $table.defaultOffsetDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get displayOrder => $composableBuilder(
+    column: $table.displayOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isRequired => $composableBuilder(
+    column: $table.isRequired,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$MilestoneTemplatesTableOrderingComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.milestoneTemplateId,
+      referencedTable: $db.milestoneTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MilestoneTemplatesTableOrderingComposer(
+            $db: $db,
+            $table: $db.milestoneTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTemplatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskTemplatesTable> {
+  $$TaskTemplatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumn<int> get defaultOffsetDays => $composableBuilder(
+    column: $table.defaultOffsetDays,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get displayOrder => $composableBuilder(
+    column: $table.displayOrder,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isRequired => $composableBuilder(
+    column: $table.isRequired,
+    builder: (column) => column,
+  );
+
+  $$MilestoneTemplatesTableAnnotationComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.milestoneTemplateId,
+          referencedTable: $db.milestoneTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$MilestoneTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.milestoneTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$TaskTemplatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskTemplatesTable,
+          TaskTemplate,
+          $$TaskTemplatesTableFilterComposer,
+          $$TaskTemplatesTableOrderingComposer,
+          $$TaskTemplatesTableAnnotationComposer,
+          $$TaskTemplatesTableCreateCompanionBuilder,
+          $$TaskTemplatesTableUpdateCompanionBuilder,
+          (TaskTemplate, $$TaskTemplatesTableReferences),
+          TaskTemplate,
+          PrefetchHooks Function({bool milestoneTemplateId})
+        > {
+  $$TaskTemplatesTableTableManager(_$AppDatabase db, $TaskTemplatesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskTemplatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskTemplatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskTemplatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> milestoneTemplateId = const Value.absent(),
+                Value<String> label = const Value.absent(),
+                Value<int> defaultOffsetDays = const Value.absent(),
+                Value<int> displayOrder = const Value.absent(),
+                Value<bool> isRequired = const Value.absent(),
+              }) => TaskTemplatesCompanion(
+                id: id,
+                milestoneTemplateId: milestoneTemplateId,
+                label: label,
+                defaultOffsetDays: defaultOffsetDays,
+                displayOrder: displayOrder,
+                isRequired: isRequired,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int milestoneTemplateId,
+                required String label,
+                Value<int> defaultOffsetDays = const Value.absent(),
+                Value<int> displayOrder = const Value.absent(),
+                Value<bool> isRequired = const Value.absent(),
+              }) => TaskTemplatesCompanion.insert(
+                id: id,
+                milestoneTemplateId: milestoneTemplateId,
+                label: label,
+                defaultOffsetDays: defaultOffsetDays,
+                displayOrder: displayOrder,
+                isRequired: isRequired,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskTemplatesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({milestoneTemplateId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (milestoneTemplateId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.milestoneTemplateId,
+                                referencedTable: $$TaskTemplatesTableReferences
+                                    ._milestoneTemplateIdTable(db),
+                                referencedColumn: $$TaskTemplatesTableReferences
+                                    ._milestoneTemplateIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskTemplatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskTemplatesTable,
+      TaskTemplate,
+      $$TaskTemplatesTableFilterComposer,
+      $$TaskTemplatesTableOrderingComposer,
+      $$TaskTemplatesTableAnnotationComposer,
+      $$TaskTemplatesTableCreateCompanionBuilder,
+      $$TaskTemplatesTableUpdateCompanionBuilder,
+      (TaskTemplate, $$TaskTemplatesTableReferences),
+      TaskTemplate,
+      PrefetchHooks Function({bool milestoneTemplateId})
+    >;
+typedef $$ScholarshipMilestoneLinksTableCreateCompanionBuilder =
+    ScholarshipMilestoneLinksCompanion Function({
+      required String scholarshipTemplateId,
+      required int milestoneTemplateId,
+      required int order,
+      required int startDateOffsetDays,
+      required int endDateOffsetDays,
+      Value<int> rowid,
+    });
+typedef $$ScholarshipMilestoneLinksTableUpdateCompanionBuilder =
+    ScholarshipMilestoneLinksCompanion Function({
+      Value<String> scholarshipTemplateId,
+      Value<int> milestoneTemplateId,
+      Value<int> order,
+      Value<int> startDateOffsetDays,
+      Value<int> endDateOffsetDays,
+      Value<int> rowid,
+    });
+
+final class $$ScholarshipMilestoneLinksTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ScholarshipMilestoneLinksTable,
+          ScholarshipMilestoneLink
+        > {
+  $$ScholarshipMilestoneLinksTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ScholarshipTemplatesTable _scholarshipTemplateIdTable(
+    _$AppDatabase db,
+  ) => db.scholarshipTemplates.createAlias(
+    $_aliasNameGenerator(
+      db.scholarshipMilestoneLinks.scholarshipTemplateId,
+      db.scholarshipTemplates.id,
+    ),
+  );
+
+  $$ScholarshipTemplatesTableProcessedTableManager get scholarshipTemplateId {
+    final $_column = $_itemColumn<String>('scholarship_template_id')!;
+
+    final manager = $$ScholarshipTemplatesTableTableManager(
+      $_db,
+      $_db.scholarshipTemplates,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(
+      _scholarshipTemplateIdTable($_db),
+    );
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $MilestoneTemplatesTable _milestoneTemplateIdTable(_$AppDatabase db) =>
+      db.milestoneTemplates.createAlias(
+        $_aliasNameGenerator(
+          db.scholarshipMilestoneLinks.milestoneTemplateId,
+          db.milestoneTemplates.id,
+        ),
+      );
+
+  $$MilestoneTemplatesTableProcessedTableManager get milestoneTemplateId {
+    final $_column = $_itemColumn<int>('milestone_template_id')!;
+
+    final manager = $$MilestoneTemplatesTableTableManager(
+      $_db,
+      $_db.milestoneTemplates,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_milestoneTemplateIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ScholarshipMilestoneLinksTableFilterComposer
+    extends Composer<_$AppDatabase, $ScholarshipMilestoneLinksTable> {
+  $$ScholarshipMilestoneLinksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ScholarshipTemplatesTableFilterComposer get scholarshipTemplateId {
+    final $$ScholarshipTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.scholarshipTemplateId,
+      referencedTable: $db.scholarshipTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.scholarshipTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$MilestoneTemplatesTableFilterComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.milestoneTemplateId,
+      referencedTable: $db.milestoneTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MilestoneTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.milestoneTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ScholarshipMilestoneLinksTableOrderingComposer
+    extends Composer<_$AppDatabase, $ScholarshipMilestoneLinksTable> {
+  $$ScholarshipMilestoneLinksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ScholarshipTemplatesTableOrderingComposer get scholarshipTemplateId {
+    final $$ScholarshipTemplatesTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.scholarshipTemplateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableOrderingComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$MilestoneTemplatesTableOrderingComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.milestoneTemplateId,
+      referencedTable: $db.milestoneTemplates,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MilestoneTemplatesTableOrderingComposer(
+            $db: $db,
+            $table: $db.milestoneTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ScholarshipMilestoneLinksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ScholarshipMilestoneLinksTable> {
+  $$ScholarshipMilestoneLinksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
+
+  GeneratedColumn<int> get startDateOffsetDays => $composableBuilder(
+    column: $table.startDateOffsetDays,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get endDateOffsetDays => $composableBuilder(
+    column: $table.endDateOffsetDays,
+    builder: (column) => column,
+  );
+
+  $$ScholarshipTemplatesTableAnnotationComposer get scholarshipTemplateId {
+    final $$ScholarshipTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.scholarshipTemplateId,
+          referencedTable: $db.scholarshipTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ScholarshipTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.scholarshipTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$MilestoneTemplatesTableAnnotationComposer get milestoneTemplateId {
+    final $$MilestoneTemplatesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.milestoneTemplateId,
+          referencedTable: $db.milestoneTemplates,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$MilestoneTemplatesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.milestoneTemplates,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ScholarshipMilestoneLinksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ScholarshipMilestoneLinksTable,
+          ScholarshipMilestoneLink,
+          $$ScholarshipMilestoneLinksTableFilterComposer,
+          $$ScholarshipMilestoneLinksTableOrderingComposer,
+          $$ScholarshipMilestoneLinksTableAnnotationComposer,
+          $$ScholarshipMilestoneLinksTableCreateCompanionBuilder,
+          $$ScholarshipMilestoneLinksTableUpdateCompanionBuilder,
+          (
+            ScholarshipMilestoneLink,
+            $$ScholarshipMilestoneLinksTableReferences,
+          ),
+          ScholarshipMilestoneLink,
+          PrefetchHooks Function({
+            bool scholarshipTemplateId,
+            bool milestoneTemplateId,
+          })
+        > {
+  $$ScholarshipMilestoneLinksTableTableManager(
+    _$AppDatabase db,
+    $ScholarshipMilestoneLinksTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ScholarshipMilestoneLinksTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$ScholarshipMilestoneLinksTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ScholarshipMilestoneLinksTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> scholarshipTemplateId = const Value.absent(),
+                Value<int> milestoneTemplateId = const Value.absent(),
+                Value<int> order = const Value.absent(),
+                Value<int> startDateOffsetDays = const Value.absent(),
+                Value<int> endDateOffsetDays = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ScholarshipMilestoneLinksCompanion(
+                scholarshipTemplateId: scholarshipTemplateId,
+                milestoneTemplateId: milestoneTemplateId,
+                order: order,
+                startDateOffsetDays: startDateOffsetDays,
+                endDateOffsetDays: endDateOffsetDays,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String scholarshipTemplateId,
+                required int milestoneTemplateId,
+                required int order,
+                required int startDateOffsetDays,
+                required int endDateOffsetDays,
+                Value<int> rowid = const Value.absent(),
+              }) => ScholarshipMilestoneLinksCompanion.insert(
+                scholarshipTemplateId: scholarshipTemplateId,
+                milestoneTemplateId: milestoneTemplateId,
+                order: order,
+                startDateOffsetDays: startDateOffsetDays,
+                endDateOffsetDays: endDateOffsetDays,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ScholarshipMilestoneLinksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({scholarshipTemplateId = false, milestoneTemplateId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (scholarshipTemplateId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.scholarshipTemplateId,
+                                    referencedTable:
+                                        $$ScholarshipMilestoneLinksTableReferences
+                                            ._scholarshipTemplateIdTable(db),
+                                    referencedColumn:
+                                        $$ScholarshipMilestoneLinksTableReferences
+                                            ._scholarshipTemplateIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (milestoneTemplateId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.milestoneTemplateId,
+                                    referencedTable:
+                                        $$ScholarshipMilestoneLinksTableReferences
+                                            ._milestoneTemplateIdTable(db),
+                                    referencedColumn:
+                                        $$ScholarshipMilestoneLinksTableReferences
+                                            ._milestoneTemplateIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$ScholarshipMilestoneLinksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ScholarshipMilestoneLinksTable,
+      ScholarshipMilestoneLink,
+      $$ScholarshipMilestoneLinksTableFilterComposer,
+      $$ScholarshipMilestoneLinksTableOrderingComposer,
+      $$ScholarshipMilestoneLinksTableAnnotationComposer,
+      $$ScholarshipMilestoneLinksTableCreateCompanionBuilder,
+      $$ScholarshipMilestoneLinksTableUpdateCompanionBuilder,
+      (ScholarshipMilestoneLink, $$ScholarshipMilestoneLinksTableReferences),
+      ScholarshipMilestoneLink,
+      PrefetchHooks Function({
+        bool scholarshipTemplateId,
+        bool milestoneTemplateId,
+      })
     >;
 typedef $$UserApplicationsTableCreateCompanionBuilder =
     UserApplicationsCompanion Function({
@@ -8154,20 +8848,204 @@ typedef $$UserDocumentsTableProcessedTableManager =
       UserDocument,
       PrefetchHooks Function({bool userApplicationId})
     >;
+typedef $$UserProfilesTableCreateCompanionBuilder =
+    UserProfilesCompanion Function({
+      Value<int> id,
+      Value<String?> studyLevel,
+      Value<String?> fieldOfStudy,
+      Value<String?> targetCountries,
+    });
+typedef $$UserProfilesTableUpdateCompanionBuilder =
+    UserProfilesCompanion Function({
+      Value<int> id,
+      Value<String?> studyLevel,
+      Value<String?> fieldOfStudy,
+      Value<String?> targetCountries,
+    });
+
+class $$UserProfilesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
+  $$UserProfilesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get studyLevel => $composableBuilder(
+    column: $table.studyLevel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetCountries => $composableBuilder(
+    column: $table.targetCountries,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UserProfilesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
+  $$UserProfilesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get studyLevel => $composableBuilder(
+    column: $table.studyLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetCountries => $composableBuilder(
+    column: $table.targetCountries,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UserProfilesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
+  $$UserProfilesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get studyLevel => $composableBuilder(
+    column: $table.studyLevel,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fieldOfStudy => $composableBuilder(
+    column: $table.fieldOfStudy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetCountries => $composableBuilder(
+    column: $table.targetCountries,
+    builder: (column) => column,
+  );
+}
+
+class $$UserProfilesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserProfilesTable,
+          UserProfile,
+          $$UserProfilesTableFilterComposer,
+          $$UserProfilesTableOrderingComposer,
+          $$UserProfilesTableAnnotationComposer,
+          $$UserProfilesTableCreateCompanionBuilder,
+          $$UserProfilesTableUpdateCompanionBuilder,
+          (
+            UserProfile,
+            BaseReferences<_$AppDatabase, $UserProfilesTable, UserProfile>,
+          ),
+          UserProfile,
+          PrefetchHooks Function()
+        > {
+  $$UserProfilesTableTableManager(_$AppDatabase db, $UserProfilesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserProfilesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserProfilesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserProfilesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> studyLevel = const Value.absent(),
+                Value<String?> fieldOfStudy = const Value.absent(),
+                Value<String?> targetCountries = const Value.absent(),
+              }) => UserProfilesCompanion(
+                id: id,
+                studyLevel: studyLevel,
+                fieldOfStudy: fieldOfStudy,
+                targetCountries: targetCountries,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> studyLevel = const Value.absent(),
+                Value<String?> fieldOfStudy = const Value.absent(),
+                Value<String?> targetCountries = const Value.absent(),
+              }) => UserProfilesCompanion.insert(
+                id: id,
+                studyLevel: studyLevel,
+                fieldOfStudy: fieldOfStudy,
+                targetCountries: targetCountries,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UserProfilesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserProfilesTable,
+      UserProfile,
+      $$UserProfilesTableFilterComposer,
+      $$UserProfilesTableOrderingComposer,
+      $$UserProfilesTableAnnotationComposer,
+      $$UserProfilesTableCreateCompanionBuilder,
+      $$UserProfilesTableUpdateCompanionBuilder,
+      (
+        UserProfile,
+        BaseReferences<_$AppDatabase, $UserProfilesTable, UserProfile>,
+      ),
+      UserProfile,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$UserProfilesTableTableManager get userProfiles =>
-      $$UserProfilesTableTableManager(_db, _db.userProfiles);
   $$ScholarshipTemplatesTableTableManager get scholarshipTemplates =>
       $$ScholarshipTemplatesTableTableManager(_db, _db.scholarshipTemplates);
-  $$TemplateMilestonesTableTableManager get templateMilestones =>
-      $$TemplateMilestonesTableTableManager(_db, _db.templateMilestones);
-  $$TemplateTasksTableTableManager get templateTasks =>
-      $$TemplateTasksTableTableManager(_db, _db.templateTasks);
   $$TemplateDocumentsTableTableManager get templateDocuments =>
       $$TemplateDocumentsTableTableManager(_db, _db.templateDocuments);
+  $$MilestoneTemplatesTableTableManager get milestoneTemplates =>
+      $$MilestoneTemplatesTableTableManager(_db, _db.milestoneTemplates);
+  $$TaskTemplatesTableTableManager get taskTemplates =>
+      $$TaskTemplatesTableTableManager(_db, _db.taskTemplates);
+  $$ScholarshipMilestoneLinksTableTableManager get scholarshipMilestoneLinks =>
+      $$ScholarshipMilestoneLinksTableTableManager(
+        _db,
+        _db.scholarshipMilestoneLinks,
+      );
   $$UserApplicationsTableTableManager get userApplications =>
       $$UserApplicationsTableTableManager(_db, _db.userApplications);
   $$UserMilestonesTableTableManager get userMilestones =>
@@ -8176,6 +9054,8 @@ class $AppDatabaseManager {
       $$UserTasksTableTableManager(_db, _db.userTasks);
   $$UserDocumentsTableTableManager get userDocuments =>
       $$UserDocumentsTableTableManager(_db, _db.userDocuments);
+  $$UserProfilesTableTableManager get userProfiles =>
+      $$UserProfilesTableTableManager(_db, _db.userProfiles);
 }
 
 // **************************************************************************

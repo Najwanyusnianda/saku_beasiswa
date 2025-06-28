@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
+import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
 // Import the refactored step widgets
 import 'package:saku_beasiswa/features/templates/presentation/widgets/wizard/wizard_step_1_deadline.dart';
@@ -35,21 +36,30 @@ class _CustomiseTemplateWizardScreenState extends ConsumerState<CustomiseTemplat
     final wizardState = ref.read(customiseWizardProvider(widget.templateId)).value;
     if (wizardState == null) return;
     
-    // Validation
-    if (wizardState.mainDeadline == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please set a main deadline.')));
-      _pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-      return;
-    }
+    // No need to check for null mainDeadline as it's non-nullable
+
+     // Set saving state
+    ref.read(isSavingProvider.notifier).start();
 
     try {
-      await ref.read(applicationRepositoryProvider).createCustomApplication(wizardState);
-      if (!context.mounted) return;
-      // Go to the applications tab to see the new entry
-      context.go('/applications'); 
+    // This now returns the newly created UserApplication
+      final newApp = await ref.read(applicationRepositoryProvider).createCustomApplication(wizardState);
+
+      if (!mounted) return;
+    // Go to the applications tab to see the new entry
+      context.go('/applications/${newApp.id}');
+      ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('✅ Application plan created successfully!'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
     } catch (e) {
-      if (!context.mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+    finally {
+      ref.read(isSavingProvider.notifier).stop();
     }
   }
   

@@ -61,7 +61,7 @@ class ApplicationRepository {
     // This method now just calls the private helper with all the rich data from the wizard.
     return _createApplicationFromData(
       wizardState.fullTemplate,
-      wizardState.mainDeadline!,
+      wizardState.mainDeadline,
       wizardState.milestoneDeadlineOverrides,
       customName: wizardState.customName,
       customColor: wizardState.customColor,
