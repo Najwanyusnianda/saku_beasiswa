@@ -7,7 +7,7 @@ part of 'scholarship_template_repository.dart';
 // **************************************************************************
 
 String _$scholarshipTemplateRepositoryHash() =>
-    r'e3c69ca6af8d85ead21a7aa2c2c865ef3b632e78';
+    r'457293fbe697eb1a0abc0a5627639e201b27528f';
 
 /// See also [scholarshipTemplateRepository].
 @ProviderFor(scholarshipTemplateRepository)

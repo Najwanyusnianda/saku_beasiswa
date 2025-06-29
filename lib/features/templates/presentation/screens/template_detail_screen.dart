@@ -3,14 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:saku_beasiswa/core/constants/app_colors.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
-import 'package:saku_beasiswa/core/models/document_submission_type.dart'; // Import for our enum
+import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
+import 'package:saku_beasiswa/core/models/document_submission_type.dart';
+
+// --- FIX #1: IMPORT THE FILE THAT DEFINES AssembledMilestone ---
+import 'package:saku_beasiswa/core/models/full_template_plan.dart'; 
+
 import 'package:saku_beasiswa/features/applications/presentation/providers/my_applications_provider.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/template_browser_providers.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 
 class TemplateDetailScreen extends ConsumerWidget {
@@ -19,14 +23,12 @@ class TemplateDetailScreen extends ConsumerWidget {
   const TemplateDetailScreen({super.key, required this.templateId});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // This now watches our new provider, returning the richer data model
     final templateAsync = ref.watch(templateDetailProvider(templateId));
 
     return Scaffold(
-      // The body now uses when to handle the async state
       body: templateAsync.when(
-        data: (fullTemplateData) {
-          final template = fullTemplateData.template;
+        data: (fullTemplatePlan) {
+          final template = fullTemplatePlan.scholarshipTemplate;
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -46,7 +48,6 @@ class TemplateDetailScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // --- Description Section ---
                         Text(template.providerName, style: Theme.of(context).textTheme.titleMedium),
                         const SizedBox(height: 8),
                         Text(template.longDescription ?? template.shortDescription ?? 'No description available.'),
@@ -54,30 +55,33 @@ class TemplateDetailScreen extends ConsumerWidget {
                           TextButton.icon(
                             icon: const Icon(Iconsax.global, size: 20),
                             label: const Text('Visit Official Website'),
-                            onPressed: () async { /* ... url launcher logic ... */ },
+                            onPressed: () async {
+                              final uri = Uri.parse(template.website!);
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri);
+                              }
+                            },
                           ),
                         const Divider(height: 32),
 
-                        // --- NEW: Timeline Section ---
                         _SectionHeader(title: 'Suggested Timeline'),
                         const SizedBox(height: 8),
-                        if (fullTemplateData.milestonesWithTasks.isEmpty)
+                        if (fullTemplatePlan.assembledMilestones.isEmpty)
                           const Text('No timeline defined for this template.')
                         else
-                          // Build the list of expandable milestones
-                          ...fullTemplateData.milestonesWithTasks.entries.map((entry) {
-                            final milestone = entry.key;
-                            final tasks = entry.value;
-                            return _MilestoneTile(milestone: milestone, tasks: tasks);
+                          // --- FIX #2: USE THE CORRECT DATA STRUCTURE ---
+                          // We map over the `assembledMilestones` list directly.
+                          ...fullTemplatePlan.assembledMilestones.map((assembledMilestone) {
+                            // And pass the entire `assembledMilestone` object.
+                            return _MilestoneTile(assembledMilestone: assembledMilestone);
                           }),
                         const Divider(height: 32),
                         
-                        // --- Refactored: Document Checklist ---
                         _SectionHeader(title: 'Document Checklist'),
-                        if (fullTemplateData.documents.isEmpty)
+                        if (fullTemplatePlan.documents.isEmpty)
                           const Text('No documents specified.')
                         else
-                          ...fullTemplateData.documents.map((doc) => _DocumentTile(document: doc)),
+                          ...fullTemplatePlan.documents.map((doc) => _DocumentTile(document: doc)),
                       ],
                     ),
                   )
@@ -87,24 +91,29 @@ class TemplateDetailScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Could not load details. Error: $err')),
+        error: (err, stack) => Center(child: Text('Could not load details. Error: $err\n$stack')),
       ),
-      // The bottom bar can remain the same for now, as its logic is independent
       bottomNavigationBar: _BottomActionBar(templateId: templateId),
     );
   }
 }
 
 // --- NEW WIDGET for displaying a milestone ---
+// --- CORRECTED WIDGET for displaying a milestone ---
 class _MilestoneTile extends StatelessWidget {
-  final TemplateMilestone milestone;
-  final List<TemplateTask> tasks;
+  // It now takes a single, well-defined object
+  final AssembledMilestone assembledMilestone;
 
-  const _MilestoneTile({required this.milestone, required this.tasks});
+  const _MilestoneTile({required this.assembledMilestone});
 
   @override
   Widget build(BuildContext context) {
-    final duration = milestone.endDateOffsetDays - milestone.startDateOffsetDays;
+    // Unpack the data from the assembledMilestone object
+    final milestoneTemplate = assembledMilestone.milestoneTemplate;
+    final taskTemplates = assembledMilestone.taskTemplates;
+    final link = assembledMilestone.link;
+
+    final duration = link.endDateOffsetDays - link.startDateOffsetDays;
     
     return Card(
       elevation: 0,
@@ -115,18 +124,18 @@ class _MilestoneTile extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
-        title: Text(milestone.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(milestoneTemplate.name, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text('Duration: ~${duration + 1} days'),
         leading: CircleAvatar(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          child: Text(milestone.order.toString()),
+          child: Text(link.order.toString()),
         ),
-        children: tasks.isEmpty
+        children: taskTemplates.isEmpty
             ? [const ListTile(title: Text('No specific tasks for this milestone.'))]
-            : tasks.map((task) => ListTile(
+            : taskTemplates.map((task) => ListTile( // Use taskTemplates here
                   leading: const Icon(Iconsax.task_square, size: 20),
-                  title: Text(task.label),
+                  title: Text(task.label), // Access properties of TaskTemplate
                   dense: true,
                 )).toList(),
       ),

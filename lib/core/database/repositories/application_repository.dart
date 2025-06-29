@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/enums/document_status.dart';
 
 // Important imports for our data structures
-import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
+import 'package:saku_beasiswa/core/models/full_template_plan.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
 import 'package:saku_beasiswa/core/database/repositories/scholarship_template_repository.dart';
 import 'package:saku_beasiswa/features/dashboard/presentation/providers/dashboard_providers.dart';
@@ -45,103 +45,109 @@ class ApplicationRepository {
 
   /// Creates a new application from a template with a default deadline.
   Future<UserApplication> createApplicationFromTemplate(String templateId) async {
-    final fullTemplate = await _templateRepo.getFullTemplateWithMilestones(templateId);
+    final fullPlan = await _templateRepo.getFullTemplatePlanById(templateId);
     
-    // For a "quick add", we must define a default main deadline.
-    // Let's use the end date of the first milestone + 30 days as a rough guess, or today + 90 days.
-    final firstMilestone = fullTemplate.milestonesWithTasks.keys.first;
-    final defaultDeadline = DateTime.now().add(Duration(days: (firstMilestone.endDateOffsetDays * -1) + 30));
+    // For a "quick add", use today + 90 days as the default deadline
+    if (fullPlan.assembledMilestones.isEmpty) {
+      throw Exception('No milestones found in template');
+    }
+    final defaultDeadline = DateTime.now().add(const Duration(days: 90));
     
     // Now we can call our main creation logic
-    return _createApplicationFromData(fullTemplate, defaultDeadline, {});
+    return _createApplicationFromData(fullPlan, defaultDeadline, {});
   }
   
   /// Creates a new, customized application from the wizard state.
   Future<UserApplication> createCustomApplication(CustomiseWizardState wizardState) async {
-    // This method now just calls the private helper with all the rich data from the wizard.
+    // 1. Create a FullTemplatePlan object from the USER'S customized data within the wizard state.
+    // This is the correct place for this logic.
+    final userPlan = FullTemplatePlan(
+      scholarshipTemplate: wizardState.fullTemplatePlan.scholarshipTemplate,
+      documents: wizardState.userCustomizedDocuments,
+      assembledMilestones: wizardState.userAssembledMilestones,
+    );
+
+    // 2. Call the private helper, passing the user's plan and the other necessary data.
     return _createApplicationFromData(
-      wizardState.fullTemplate,
+      userPlan, // Pass the newly constructed user plan
       wizardState.mainDeadline,
       wizardState.milestoneDeadlineOverrides,
       customName: wizardState.customName,
-      customColor: wizardState.customColor,
-      includedTasks: wizardState.customizedTasks,
+      // We need to pass the correct list of tasks here as well.
+      includedTasks: wizardState.userCustomizedTasks,
     );
   }
 
   /// Private helper to handle the core logic of creating an application.
-  Future<UserApplication> _createApplicationFromData(
-    FullScholarshipTemplateWithMilestones fullTemplate,
-    DateTime mainDeadline,
-    Map<int, DateTime> milestoneOverrides,
-    {String? customName, String? customColor, List<TemplateTask>? includedTasks}
-  ) async {
-    return _db.transaction(() async {
-      // 1. Create the UserApplication
-      final newAppId = await _db.into(_db.userApplications).insert(
-        UserApplicationsCompanion.insert(
-          templateId: fullTemplate.template.id,
-          customName: customName ?? fullTemplate.template.name,
-          customColor: Value(customColor ?? fullTemplate.template.color),
+Future<UserApplication> _createApplicationFromData(
+  FullTemplatePlan fullPlan, // Use the new data class
+  DateTime mainDeadline,
+  Map<int, DateTime> milestoneOverrides,
+  {String? customName, String? customColor, List<TaskTemplate>? includedTasks}
+) async {
+  return _db.transaction(() async {
+    // 1. Create the UserApplication (this part is the same)
+    final newAppId = await _db.into(_db.userApplications).insert(
+      UserApplicationsCompanion.insert(
+        templateId: fullPlan.scholarshipTemplate.id,
+        customName: customName ?? fullPlan.scholarshipTemplate.name,
+        customColor: Value(customColor ?? fullPlan.scholarshipTemplate.color),
+      ),
+    );
+
+    // 2. Iterate through ASSEMBLED milestones to create USER milestones
+    for (final assembledMilestone in fullPlan.assembledMilestones) {
+      final templateMilestone = assembledMilestone.milestoneTemplate;
+      final link = assembledMilestone.link;
+
+      // Calculate the concrete end date
+      final userMilestoneEndDate = milestoneOverrides[templateMilestone.id] ??
+          mainDeadline.add(Duration(days: link.endDateOffsetDays));
+      
+      final userMilestoneStartDate = milestoneOverrides[templateMilestone.id] ?? // Use same override logic for start date
+          mainDeadline.add(Duration(days: link.startDateOffsetDays));
+
+      // Create the UserMilestone
+      final newUserMilestoneId = await _db.into(_db.userMilestones).insert(
+        UserMilestonesCompanion.insert(
+          userApplicationId: newAppId,
+          name: templateMilestone.name, // Use name from the milestone template
+          startDate: userMilestoneStartDate,
+          endDate: userMilestoneEndDate,
         ),
       );
-
-      // 2. Iterate through TEMPLATE milestones to create USER milestones
-      for (final templateMilestone in fullTemplate.milestonesWithTasks.keys) {
-        // Calculate the concrete end date for this user milestone
-        final userMilestoneEndDate = milestoneOverrides[templateMilestone.id] ??
-            mainDeadline.add(Duration(days: templateMilestone.endDateOffsetDays));
-        
-        final userMilestoneStartDate = milestoneOverrides[templateMilestone.id] ??
-            mainDeadline.add(Duration(days: templateMilestone.startDateOffsetDays));
-
-        // Create the UserMilestone
-        final newUserMilestoneId = await _db.into(_db.userMilestones).insert(
-          UserMilestonesCompanion.insert(
-            userApplicationId: newAppId,
-            name: templateMilestone.name,
-            startDate: userMilestoneStartDate,
-            endDate: userMilestoneEndDate,
-          ),
-        );
-        
-        // 3. Create USER tasks for this new user milestone
-        final templateTasksForThisMilestone = fullTemplate.milestonesWithTasks[templateMilestone]!;
-        
-        final tasksToInsert = templateTasksForThisMilestone
-          .where((templateTask) => includedTasks?.any((t) => t.id == templateTask.id) ?? true) // Filter based on wizard choices
-          .map((templateTask) {
-            // Calculate the concrete due date for this user task
-            final userTaskDueDate = userMilestoneEndDate.add(Duration(days: templateTask.offsetDaysFromMilestoneEnd));
-            return UserTasksCompanion.insert(
-              userMilestoneId: newUserMilestoneId,
-              label: templateTask.label,
-              dueDate: userTaskDueDate,
-            );
-        }).toList();
-
-        if (tasksToInsert.isNotEmpty) {
-          await _db.batch((batch) => batch.insertAll(_db.userTasks, tasksToInsert));
-        }
-
-        
-      }
-
-      if (fullTemplate.documents.isNotEmpty) {
-        final documentsToInsert = fullTemplate.documents
-            // Optional: You could filter here based on wizardState if you add that later
-            .map((templateDoc) => UserDocumentsCompanion.insert(
-                  userApplicationId: newAppId,
-                  name: templateDoc.name,
-                  // We don't copy status, it always starts as NotStarted
-                ))
-            .toList();
-        await _db.batch((batch) => batch.insertAll(_db.userDocuments, documentsToInsert));
-      }
       
-      return (await (_db.select(_db.userApplications)..where((a) => a.id.equals(newAppId))).getSingle());
-    });
-  }
+      // 3. Create USER tasks for this new user milestone from TASK TEMPLATES
+      final tasksToInsert = assembledMilestone.taskTemplates
+        .where((taskTemplate) => includedTasks?.any((t) => t.id == taskTemplate.id) ?? true)
+        .map((taskTemplate) {
+          final userTaskDueDate = userMilestoneEndDate.add(Duration(days: taskTemplate.defaultOffsetDays));
+          return UserTasksCompanion.insert(
+            userMilestoneId: newUserMilestoneId,
+            label: taskTemplate.label,
+            dueDate: userTaskDueDate,
+          );
+      }).toList();
+
+      if (tasksToInsert.isNotEmpty) {
+        await _db.batch((batch) => batch.insertAll(_db.userTasks, tasksToInsert));
+      }
+    }
+
+    // 4. Create USER documents from TEMPLATE documents (this logic is still valid)
+    if (fullPlan.documents.isNotEmpty) {
+      final documentsToInsert = fullPlan.documents.map((templateDoc) => 
+        UserDocumentsCompanion.insert(
+          userApplicationId: newAppId,
+          name: templateDoc.name
+        )
+      ).toList();
+      await _db.batch((batch) => batch.insertAll(_db.userDocuments, documentsToInsert));
+    }
+    
+    return (await (_db.select(_db.userApplications)..where((a) => a.id.equals(newAppId))).getSingle());
+  });
+}
   
   // --- REFACTORED: Watch Methods ---
 

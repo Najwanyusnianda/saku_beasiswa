@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/database/repositories/scholarship_template_repository.dart';
-import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
+import 'package:saku_beasiswa/core/models/full_template_plan.dart';
 part 'template_browser_providers.g.dart';
 
 //
@@ -14,18 +14,10 @@ Stream<List<ScholarshipTemplate>> allTemplates(Ref ref) {
 }
 
 
-// @riverpod
-// Future<FullScholarshipTemplate> templateDetail(Ref ref, String templateId) {
-//   final repo = ref.watch(scholarshipTemplateRepositoryProvider);
-//   return repo.getFullTemplateById(templateId);
-// }
-
+// This provider MUST return Future<FullTemplatePlan>
 @riverpod
-Future<FullScholarshipTemplateWithMilestones> templateDetail(
-  Ref ref,
-  String templateId,
-) {
+Future<FullTemplatePlan> templateDetail(Ref ref, String templateId) {
   final repo = ref.watch(scholarshipTemplateRepositoryProvider);
-  // Call the new repository method
-  return repo.getFullTemplateWithMilestones(templateId);
+  // It MUST call the correct repository method
+  return repo.getFullTemplatePlanById(templateId);
 }

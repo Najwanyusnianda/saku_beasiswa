@@ -12,6 +12,21 @@ import 'package:saku_beasiswa/features/applications/presentation/widgets/add_edi
 import 'package:saku_beasiswa/features/applications/presentation/widgets/add_edit_task_dialog.dart';
 import 'package:saku_beasiswa/features/applications/presentation/widgets/add_edit_document_dialog.dart';
 
+// At the top of the file, outside any class
+final hideCompletedMilestonesProvider = StateProvider<bool>((ref) => false);
+
+// Enum to manage milestone states and corresponding UI
+enum MilestoneStatus {
+  completed(label: 'Completed', color: AppColors.success),
+  inProgress(label: 'In Progress', color: AppColors.primary),
+  overdue(label: 'Overdue', color: AppColors.error),
+  notStarted(label: 'Not Started', color: Colors.grey);
+
+  const MilestoneStatus({required this.label, required this.color});
+  final String label;
+  final Color color;
+}
+
 class ApplicationDetailScreen extends ConsumerWidget {
   final int applicationId;
   const ApplicationDetailScreen({super.key, required this.applicationId});
@@ -31,7 +46,7 @@ class ApplicationDetailScreen extends ConsumerWidget {
             data: (fullApp) {
               final app = fullApp.application;
               final template = fullApp.template;
-              final milestones = fullApp.milestonesWithTasks;
+
               final documents = fullApp.documents;
               final completion = ref.watch(applicationCompletionPercentageProvider(applicationId));
 
@@ -82,14 +97,15 @@ class ApplicationDetailScreen extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            if (milestones.isEmpty)
-                              const Text('No milestones yet. Add one to start planning!')
-                            else
-                              ...milestones.entries.map((entry) {
-                                final milestone = entry.key;
-                                final tasks = entry.value;
-                                return _MilestoneCard(milestone: milestone, tasks: tasks);
-                              }),
+                            SwitchListTile.adaptive(
+                              title: const Text('Hide completed milestones'),
+                              value: ref.watch(hideCompletedMilestonesProvider),
+                              onChanged: (value) => ref.read(hideCompletedMilestonesProvider.notifier).state = value,
+                              dense: true,
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            const SizedBox(height: 8),
+                            _MilestoneList(application: fullApp),
                             const SizedBox(height: 32),
                             _SectionHeader(
                               title: 'Document Checklist',
@@ -151,30 +167,86 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
+class _MilestoneList extends ConsumerWidget {
+  final FullUserApplication application;
+  const _MilestoneList({required this.application});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hideCompleted = ref.watch(hideCompletedMilestonesProvider);
+    final allMilestones = application.milestonesWithTasks;
+
+    if (allMilestones.isEmpty) {
+      return const Text('No milestones yet. Add one to start planning!');
+    }
+
+    // Filter the milestones based on the toggle's state
+    final visibleMilestones = allMilestones.entries.where((entry) {
+      if (!hideCompleted) return true; // If not hiding, show everything
+      
+      final tasks = entry.value;
+      final isMilestoneDone = tasks.isNotEmpty && tasks.every((t) => t.isCompleted);
+      return !isMilestoneDone; // Only show if NOT done
+    });
+
+    if (visibleMilestones.isEmpty && hideCompleted) {
+      return const Card(
+        child: ListTile(
+          leading: Icon(Iconsax.like_1, color: AppColors.success),
+          title: Text("All milestones completed!"),
+          subtitle: Text("Toggle 'Hide completed' to see them again."),
+        ),
+      );
+    }
+    
+    return Column(
+      children: visibleMilestones.map((entry) => 
+        _MilestoneCard(milestone: entry.key, tasks: entry.value)
+      ).toList(),
+    );
+  }
+}
+
 class _MilestoneCard extends ConsumerWidget {
   final UserMilestone milestone;
   final List<UserTask> tasks;
   const _MilestoneCard({required this.milestone, required this.tasks});
 
+  // Helper method to determine the milestone's status
+  MilestoneStatus _getMilestoneStatus() {
+    if (tasks.isEmpty) return MilestoneStatus.notStarted;
+    
+    final now = DateTime.now();
+    final allTasksCompleted = tasks.every((t) => t.isCompleted);
+
+    if (allTasksCompleted) return MilestoneStatus.completed;
+    if (milestone.endDate.isBefore(now)) return MilestoneStatus.overdue;
+    if (milestone.startDate.isBefore(now)) return MilestoneStatus.inProgress;
+    
+    return MilestoneStatus.notStarted;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final status = _getMilestoneStatus();
     final completedTasks = tasks.where((t) => t.isCompleted).length;
-    final isMilestoneDone = completedTasks == tasks.length && tasks.isNotEmpty;
+    final totalTasks = tasks.length;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.grey.shade200),
+        side: BorderSide(color: status == MilestoneStatus.completed ? Colors.grey.shade300 : status.color),
       ),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
         title: Text(milestone.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Due: ${DateFormat.yMMMMd().format(milestone.endDate)}'),
+        // NEW: Subtitle shows both progress and status
+        subtitle: Text('$completedTasks of $totalTasks tasks  •  ${status.label}'),
         leading: Icon(
-          isMilestoneDone ? Iconsax.tick_circle : Iconsax.flag,
-          color: isMilestoneDone ? AppColors.success : AppColors.primary,
+          status == MilestoneStatus.completed ? Iconsax.tick_circle : Iconsax.flag,
+          color: status.color,
           size: 28,
         ),
         trailing: PopupMenuButton(
@@ -201,8 +273,20 @@ class _MilestoneCard extends ConsumerWidget {
             ),
           ],
         ),
-        initiallyExpanded: true,
+        // NEW: Auto-collapse if the milestone is completed
+        initiallyExpanded: status != MilestoneStatus.completed,
         children: [
+          // Add a thin progress bar inside the card
+          if (totalTasks > 0)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: LinearProgressIndicator(
+                value: completedTasks / totalTasks,
+                backgroundColor: status.color.withOpacity(0.2),
+                color: status.color,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
           ...tasks.map((task) => CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 value: task.isCompleted,
@@ -222,7 +306,6 @@ class _MilestoneCard extends ConsumerWidget {
                   ),
                 ),
               )),
-          // Add Task Button for this milestone
           TextButton.icon(
             icon: const Icon(Iconsax.add, size: 20),
             label: const Text('Add Task'),

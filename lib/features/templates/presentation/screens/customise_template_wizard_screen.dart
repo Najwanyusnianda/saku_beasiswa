@@ -36,29 +36,30 @@ class _CustomiseTemplateWizardScreenState extends ConsumerState<CustomiseTemplat
     final wizardState = ref.read(customiseWizardProvider(widget.templateId)).value;
     if (wizardState == null) return;
     
-    // No need to check for null mainDeadline as it's non-nullable
-
-     // Set saving state
     ref.read(isSavingProvider.notifier).start();
 
     try {
-    // This now returns the newly created UserApplication
-      final newApp = await ref.read(applicationRepositoryProvider).createCustomApplication(wizardState);
+      // We no longer need to build the userPlan here.
+      // We simply pass the entire wizardState to the repository method.
+      // The repository now knows how to handle it.
+      final newApp = await ref.read(applicationRepositoryProvider).createCustomApplication(
+        wizardState, // Pass the single, expected argument
+      );
 
       if (!mounted) return;
-    // Go to the applications tab to see the new entry
+      
       context.go('/applications/${newApp.id}');
       ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('✅ Application plan created successfully!'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    } catch (e) {
+        const SnackBar(
+          content: Text('✅ Application plan created successfully!'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (e, st) { // It's good practice to catch the stack trace for debugging
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-    }
-    finally {
+      print('Error finishing wizard: $e\n$st');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error creating application: $e')));
+    } finally {
       ref.read(isSavingProvider.notifier).stop();
     }
   }

@@ -1,142 +1,103 @@
 //lib/features/templates/presentation/providers/customise_wizard_provider.dart
-import 'package:collection/collection.dart'; // Import for ListEquality
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/core/database/repositories/scholarship_template_repository.dart';
-import 'package:saku_beasiswa/core/models/full_scholarship_template_with_milestones.dart';
+import 'package:saku_beasiswa/core/models/full_template_plan.dart';
+
+
 
 part 'customise_wizard_provider.g.dart';
 
-
 // Add this enum at the top of the file
 enum DeadlineMode { specificDate, planningDuration }
-// The state model for the customization wizard
+
+// lib/features/templates/presentation/providers/customise_wizard_provider.dart
+ // Import the new DTO
+
+// ... (DeadlineMode enum stays the same)
+
 class CustomiseWizardState {
-    // The original, unmodified template data
-    final FullScholarshipTemplateWithMilestones fullTemplate;
-    
-    // The user's single, most important date - always has a value
-    final DateTime mainDeadline;
-    
-    // Map to store user overrides for specific milestone deadlines
-    // Key: milestone.id, Value: The new deadline set by the user
-    final Map<int, DateTime> milestoneDeadlineOverrides;
+  final FullTemplatePlan fullTemplatePlan;
+  final List<AssembledMilestone> userAssembledMilestones;
+  final List<TaskTemplate> userCustomizedTasks;
+  final List<TemplateDocument> userCustomizedDocuments;
+  
+  // --- THESE ARE THE CRITICAL PROPERTIES ---
+  final DeadlineMode deadlineMode;
+  final DateTime mainDeadline;
+  final int planningDurationInMonths; // This was the missing property
 
-    // The user's chosen name and color
-    final String customName;
-    final String? customColor;
+  final Map<int, DateTime> milestoneDeadlineOverrides;
+  final String customName;
 
-    // The list of tasks the user has chosen to include
-    final List<TemplateTask> customizedTasks;
-    final List<TemplateDocument> customizedDocuments;
+  CustomiseWizardState({
+    required this.fullTemplatePlan,
+    required this.userAssembledMilestones,
+    required this.userCustomizedTasks,
+    required this.userCustomizedDocuments,
+    required this.deadlineMode,
+    required this.mainDeadline,
+    required this.planningDurationInMonths, // Added to constructor
+    required this.milestoneDeadlineOverrides,
+    required this.customName,
+  });
 
-    // Properties for deadline management
-    final DeadlineMode deadlineMode;
-    final int planningDurationInMonths;
-    
-    CustomiseWizardState({
-      required this.fullTemplate,
-      required this.mainDeadline,
-      this.milestoneDeadlineOverrides = const {},
-      required this.customName,
-      this.customColor,
-      required this.customizedTasks,
-      required this.customizedDocuments,
-      this.deadlineMode = DeadlineMode.planningDuration, // Default to planning mode
-      this.planningDurationInMonths = 6, // Default to 6 months
-    });
-
-    // Main deadline getter (no calculation needed as it's always set)
-    DateTime get calculatedFinalDeadline => mainDeadline;
-
-    // Copy with method for immutable updates
   CustomiseWizardState copyWith({
+    FullTemplatePlan? fullTemplatePlan,
+    List<AssembledMilestone>? userAssembledMilestones,
+    List<TaskTemplate>? userCustomizedTasks,
+    List<TemplateDocument>? userCustomizedDocuments,
+    DeadlineMode? deadlineMode,
     DateTime? mainDeadline,
+    int? planningDurationInMonths, // Added to copyWith
     Map<int, DateTime>? milestoneDeadlineOverrides,
     String? customName,
-    String? customColor,
-    List<TemplateTask>? customizedTasks,
-    List<TemplateDocument>? customizedDocuments,
-    DeadlineMode? deadlineMode,
-    int? planningDurationInMonths,
   }) {
     return CustomiseWizardState(
-      fullTemplate: fullTemplate,
+      fullTemplatePlan: fullTemplatePlan ?? this.fullTemplatePlan,
+      userAssembledMilestones: userAssembledMilestones ?? this.userAssembledMilestones,
+      userCustomizedTasks: userCustomizedTasks ?? this.userCustomizedTasks,
+      userCustomizedDocuments: userCustomizedDocuments ?? this.userCustomizedDocuments,
+      deadlineMode: deadlineMode ?? this.deadlineMode,
       mainDeadline: mainDeadline ?? this.mainDeadline,
+      planningDurationInMonths: planningDurationInMonths ?? this.planningDurationInMonths, // Added
       milestoneDeadlineOverrides: milestoneDeadlineOverrides ?? this.milestoneDeadlineOverrides,
       customName: customName ?? this.customName,
-      customColor: customColor ?? this.customColor,
-      customizedTasks: customizedTasks ?? this.customizedTasks,
-      customizedDocuments: customizedDocuments ?? this.customizedDocuments,
-      deadlineMode: deadlineMode ?? this.deadlineMode,
-      planningDurationInMonths: planningDurationInMonths ?? this.planningDurationInMonths,
     );
-  }
-
-  // Override == and hashCode for proper state comparison in Riverpod
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    const listEquals = ListEquality();
-
-    return other is CustomiseWizardState &&
-        other.fullTemplate == fullTemplate &&
-        other.mainDeadline == mainDeadline &&
-        other.customName == customName &&
-        other.customColor == customColor &&
-        listEquals.equals(other.customizedTasks, customizedTasks) &&
-        listEquals.equals(other.customizedDocuments, customizedDocuments);
-  }
-
-  @override
-  int get hashCode {
-    const listEquals = ListEquality();
-    return fullTemplate.hashCode ^
-      mainDeadline.hashCode ^
-      customName.hashCode ^
-      customColor.hashCode ^
-      listEquals.hash(customizedTasks) ^
-      listEquals.hash(customizedDocuments);
   }
 }
 
+
+  // Override == and hashCode for proper state comparison in Riverpod
+
+
+
 @riverpod
 class CustomiseWizard extends _$CustomiseWizard {
-  
   @override
   Future<CustomiseWizardState> build(String templateId) async {
-    final fullTemplateData = await ref.watch(scholarshipTemplateRepositoryProvider)
-        .getFullTemplateWithMilestones(templateId);
-
-    // Get all tasks from all milestones into one list for initialization
-    final allTasks = fullTemplateData.milestonesWithTasks.values.expand((tasks) => tasks).toList();
-    
-    // Default to 6 months from now as the initial deadline
+    final fullPlan = await ref.watch(scholarshipTemplateRepositoryProvider).getFullTemplatePlanById(templateId);
+    final allTasks = fullPlan.assembledMilestones.expand((am) => am.taskTemplates).toList();
     final defaultDeadline = DateTime.now().add(const Duration(days: 180));
 
     return CustomiseWizardState(
-      fullTemplate: fullTemplateData,
-      mainDeadline: defaultDeadline, // Always has a value now
-      customizedTasks: allTasks, // Initially include all tasks
-      customizedDocuments: List.from(fullTemplateData.documents),
-      customName: fullTemplateData.template.name,
-      customColor: fullTemplateData.template.color,
-      // Default to planning mode with 6 months
-      deadlineMode: DeadlineMode.planningDuration,
-      planningDurationInMonths: 6,
+      fullTemplatePlan: fullPlan,
+      userAssembledMilestones: List.from(fullPlan.assembledMilestones), 
+      userCustomizedTasks: allTasks,
+      userCustomizedDocuments: List.from(fullPlan.documents),
+      deadlineMode: DeadlineMode.planningDuration, 
+      mainDeadline: defaultDeadline,
+      planningDurationInMonths: 6, // --- INITIALIZE THE MISSING PROPERTY ---
+      milestoneDeadlineOverrides: {},
+      customName: '${fullPlan.scholarshipTemplate.name} ${defaultDeadline.year}',
     );
   }
 
-  // --- METHODS FOR STEP 1 ---
-  void setDeadlineMode(DeadlineMode mode) {
-    if (state.value == null) return;
-    state = AsyncData(state.value!.copyWith(deadlineMode: mode));
-  }
-  
   void setPlanningDuration(int months) {
     if (state.value == null) return;
     state = AsyncData(state.value!.copyWith(
-      planningDurationInMonths: months,
+      planningDurationInMonths: months, // --- UPDATE THE PROPERTY ---
       deadlineMode: DeadlineMode.planningDuration,
       mainDeadline: DateTime.now().add(Duration(days: months * 30)),
     ));
@@ -149,8 +110,12 @@ class CustomiseWizard extends _$CustomiseWizard {
       deadlineMode: DeadlineMode.specificDate,
     ));
   }
-
-  // --- METHODS FOR STEP 2 ---
+  
+  void setDeadlineMode(DeadlineMode mode) {
+    if (state.value == null) return;
+    state = AsyncData(state.value!.copyWith(deadlineMode: mode));
+  }
+  
   void setMilestoneDeadlineOverride(int milestoneId, DateTime newDeadline) {
     if (state.value == null) return;
     final newOverrides = Map<int, DateTime>.from(state.value!.milestoneDeadlineOverrides);
@@ -158,21 +123,51 @@ class CustomiseWizard extends _$CustomiseWizard {
     state = AsyncData(state.value!.copyWith(milestoneDeadlineOverrides: newOverrides));
   }
   
-  void toggleTask(TemplateTask task, bool isIncluded) {
+  // --- Plan Builder Methods ---
+  void removeMilestone(AssembledMilestone milestoneToRemove) {
     if (state.value == null) return;
     final currentState = state.value!;
-    final currentTasks = List<TemplateTask>.from(currentState.customizedTasks);
+
+    // Remove the milestone itself
+    final updatedMilestones = List<AssembledMilestone>.from(currentState.userAssembledMilestones)
+      ..removeWhere((am) => am.milestoneTemplate.id == milestoneToRemove.milestoneTemplate.id);
+      
+    // Also remove its tasks from the customized list
+    final updatedTasks = List<TaskTemplate>.from(currentState.userCustomizedTasks)
+      ..removeWhere((task) => milestoneToRemove.taskTemplates.any((t) => t.id == task.id));
+
+    state = AsyncData(currentState.copyWith(
+      userAssembledMilestones: updatedMilestones,
+      userCustomizedTasks: updatedTasks,
+    ));
+  }
+  
+  void reorderMilestone(int oldIndex, int newIndex) {
+    if (state.value == null) return;
+    final milestones = List<AssembledMilestone>.from(state.value!.userAssembledMilestones);
+
+    if (newIndex > oldIndex) newIndex -= 1;
+    final item = milestones.removeAt(oldIndex);
+    milestones.insert(newIndex, item);
     
-    if (isIncluded && !currentTasks.any((t) => t.id == task.id)) {
+    state = AsyncData(state.value!.copyWith(userAssembledMilestones: milestones));
+  }
+  
+  // Note: Adding a milestone from the library would be a new method here.
+  // void addMilestoneFromLibrary(MilestoneTemplate template) { ... }
+
+  void toggleTask(TaskTemplate task, bool isIncluded) {
+    if (state.value == null) return;
+    final currentTasks = List<TaskTemplate>.from(state.value!.userCustomizedTasks);
+    if (isIncluded) {
       currentTasks.add(task);
     } else {
       currentTasks.removeWhere((t) => t.id == task.id);
     }
-    
-    state = AsyncData(currentState.copyWith(customizedTasks: currentTasks));
+    state = AsyncData(state.value!.copyWith(userCustomizedTasks: currentTasks));
   }
 
-  // --- METHODS FOR STEP 3 ---
+  // --- Personalization Methods ---
   void setCustomName(String name) {
     if (state.value == null) return;
     state = AsyncData(state.value!.copyWith(customName: name));

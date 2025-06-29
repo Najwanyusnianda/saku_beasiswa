@@ -24,7 +24,7 @@ class _WizardStep3PersonaliseState extends ConsumerState<WizardStep3Personalise>
     if (wizardState != null) {
       // Since mainDeadline is non-nullable, we can safely use it
       suggestedName =
-          '${wizardState.fullTemplate.template.name} ${wizardState.calculatedFinalDeadline.year}';
+          '${wizardState.fullTemplatePlan.scholarshipTemplate.name} ${wizardState.mainDeadline.year}';
     }
     
     _nameController = TextEditingController(text: suggestedName);
