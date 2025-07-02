@@ -62,9 +62,9 @@ class ApplicationRepository {
     // 1. Create a FullTemplatePlan object from the USER'S customized data within the wizard state.
     // This is the correct place for this logic.
     final userPlan = FullTemplatePlan(
-      scholarshipTemplate: wizardState.fullTemplatePlan.scholarshipTemplate,
-      documents: wizardState.userCustomizedDocuments,
-      assembledMilestones: wizardState.userAssembledMilestones,
+      scholarshipTemplate: wizardState.officialPlan.scholarshipTemplate,
+      documents: wizardState.currentUserDocuments,
+      assembledMilestones: wizardState.currentUserMilestones,
     );
 
     // 2. Call the private helper, passing the user's plan and the other necessary data.
@@ -74,7 +74,7 @@ class ApplicationRepository {
       wizardState.milestoneDeadlineOverrides,
       customName: wizardState.customName,
       // We need to pass the correct list of tasks here as well.
-      includedTasks: wizardState.userCustomizedTasks,
+      includedTasks: wizardState.currentUserTasks,
     );
   }
 

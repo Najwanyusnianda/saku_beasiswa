@@ -14,35 +14,41 @@ ScholarshipTemplateRepository scholarshipTemplateRepository(Ref ref) {
 }
 
 class ScholarshipTemplateRepository {
-  final AppDatabase _db;
-  ScholarshipTemplateRepository(this._db);
+  final AppDatabase db;
+  ScholarshipTemplateRepository(this.db);
 
   // This method remains simple, just gets the top-level templates for the browser screen.
   Stream<List<ScholarshipTemplate>> watchAllTemplates() {
-    return _db.select(_db.scholarshipTemplates).watch();
+    return db.select(db.scholarshipTemplates).watch();
+  }
+
+  // Fetches all official, reusable milestone templates to display in the library.
+  Future<List<MilestoneTemplate>> getMilestoneLibrary() async {
+    return (db.select(db.milestoneTemplates)
+          ..where((t) => t.isCustom.equals(false))
+          ..orderBy([(t) => OrderingTerm(expression: t.name)]))
+        .get();
   }
 
   // --- THE NEW, POWERFUL METHOD TO ASSEMBLE A PLAN ---
   Future<FullTemplatePlan> getFullTemplatePlanById(String scholarshipTemplateId) async {
     // 1. Fetch the main scholarship template and its documents
-    final scholarship = await (_db.select(_db.scholarshipTemplates)..where((t) => t.id.equals(scholarshipTemplateId))).getSingle();
-    final documents = await (_db.select(_db.templateDocuments)..where((d) => d.templateId.equals(scholarshipTemplateId))).get();
+    final scholarship = await (db.select(db.scholarshipTemplates)..where((t) => t.id.equals(scholarshipTemplateId))).getSingle();
+    final documents = await (db.select(db.templateDocuments)..where((d) => d.templateId.equals(scholarshipTemplateId))).get();
     
     // 2. Fetch all the links and their associated milestone templates for this scholarship
-    final linkQuery = _db.select(_db.scholarshipMilestoneLinks).join([
-      innerJoin(_db.milestoneTemplates, _db.milestoneTemplates.id.equalsExp(_db.scholarshipMilestoneLinks.milestoneTemplateId))
-    ])..where(_db.scholarshipMilestoneLinks.scholarshipTemplateId.equals(scholarshipTemplateId));
-
-    final milestoneRows = await linkQuery.get();
+    final links = await (db.select(db.scholarshipMilestoneLinks).join([
+      innerJoin(db.milestoneTemplates, db.milestoneTemplates.id.equalsExp(db.scholarshipMilestoneLinks.milestoneTemplateId))
+    ])..where(db.scholarshipMilestoneLinks.scholarshipTemplateId.equals(scholarshipTemplateId))).get();
 
     final assembledMilestones = <AssembledMilestone>[];
 
     // 3. For each linked milestone, fetch its corresponding task templates
-    for (final row in milestoneRows) {
-      final link = row.readTable(_db.scholarshipMilestoneLinks);
-      final milestoneTemplate = row.readTable(_db.milestoneTemplates);
+    for (final row in links) {
+      final link = row.readTable(db.scholarshipMilestoneLinks);
+      final milestoneTemplate = row.readTable(db.milestoneTemplates);
 
-      final taskTemplates = await (_db.select(_db.taskTemplates)
+      final taskTemplates = await (db.select(db.taskTemplates)
             ..where((t) => t.milestoneTemplateId.equals(milestoneTemplate.id)))
           .get();
       
@@ -66,6 +72,6 @@ class ScholarshipTemplateRepository {
 
   // We will refactor this later when we implement the matching feature with structured data.
   Future<List<ScholarshipTemplate>> findMatchingTemplates(ProfileSetupFormModel profile) async {
-    return _db.select(_db.scholarshipTemplates).get();
+    return db.select(db.scholarshipTemplates).get();
   }
 }

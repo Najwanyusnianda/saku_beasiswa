@@ -1,3 +1,5 @@
+// lib/features/templates/presentation/widgets/wizard/wizard_step_3_personalise.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/features/templates/presentation/providers/customise_wizard_provider.dart';
@@ -24,7 +26,7 @@ class _WizardStep3PersonaliseState extends ConsumerState<WizardStep3Personalise>
     if (wizardState != null) {
       // Since mainDeadline is non-nullable, we can safely use it
       suggestedName =
-          '${wizardState.fullTemplatePlan.scholarshipTemplate.name} ${wizardState.mainDeadline.year}';
+          '${wizardState.officialPlan.scholarshipTemplate.name} ${wizardState.mainDeadline.year}';
     }
     
     _nameController = TextEditingController(text: suggestedName);

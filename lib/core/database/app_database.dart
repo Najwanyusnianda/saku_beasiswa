@@ -56,7 +56,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 13; // Bumped for new template structure
+  int get schemaVersion => 14; // Bumped for new template structure
 
   @override
   MigrationStrategy get migration => MigrationStrategy(

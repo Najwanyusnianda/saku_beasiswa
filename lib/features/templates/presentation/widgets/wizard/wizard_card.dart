@@ -1,3 +1,4 @@
+//lib/features/templates/presentation/widgets/wizard/wizard_card.dart
 import 'package:flutter/material.dart';
 
 class WizardCard extends StatelessWidget {
@@ -14,10 +15,9 @@ class WizardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
@@ -35,7 +35,11 @@ class WizardCard extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
-          child,
+          // The child is wrapped in Expanded to allow it to fill the remaining space.
+          // This is necessary for widgets like ListView or Column with Expanded children.
+          Expanded(
+            child: child,
+          ),
         ],
       ),
     );

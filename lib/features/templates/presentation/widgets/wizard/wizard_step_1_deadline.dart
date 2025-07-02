@@ -21,6 +21,15 @@ Widget build(BuildContext context, WidgetRef ref) {
     title: 'Set Your Target Deadline',
     child: Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            'When do you plan to submit your application?\n(You can adjust important step deadlines later.)',
+            textAlign: TextAlign.center,
+            style: textTheme.bodyMedium,
+          ),
+        ),
+        const SizedBox(height: 24),
         RadioListTile<DeadlineMode>(
           title: const Text("I know the final deadline"),
           value: DeadlineMode.specificDate,

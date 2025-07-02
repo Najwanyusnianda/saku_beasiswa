@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/config/app_router.dart';
 import 'package:saku_beasiswa/core/constants/app_theme.dart';
-import 'package:saku_beasiswa/core/services/notification_service.dart';
 
 void main() async {
   // Ensure Flutter bindings are initialized

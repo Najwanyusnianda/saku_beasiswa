@@ -1,10 +1,9 @@
 // lib/features/applications/presentation/providers/my_applications_provider.dart
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:saku_beasiswa/core/database/app_database.dart';
 import 'package:saku_beasiswa/core/database/repositories/application_repository.dart';
-import 'package:collection/collection.dart'; // Import for groupBy
+// Import for groupBy
 import 'package:saku_beasiswa/features/applications/domain/application_status.dart';
 part 'my_applications_provider.g.dart';
 

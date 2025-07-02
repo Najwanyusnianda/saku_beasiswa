@@ -102,10 +102,10 @@ class ApplicationListItem extends ConsumerWidget {
                   Expanded(
                     child: nextTaskAsync.when(
                       data: (task) {
-                        if (task == null || task.dueDate == null) {
+                        if (task == null) {
                           return const Text('All tasks done!', style: TextStyle(color: AppColors.success));
                         }
-                        final daysLeft = task.dueDate!.difference(DateTime.now()).inDays;
+                        final daysLeft = task.dueDate.difference(DateTime.now()).inDays;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
