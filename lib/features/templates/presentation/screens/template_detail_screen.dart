@@ -101,41 +101,46 @@ class TemplateDetailScreen extends ConsumerWidget {
 // --- NEW WIDGET for displaying a milestone ---
 // --- CORRECTED WIDGET for displaying a milestone ---
 class _MilestoneTile extends StatelessWidget {
-  // It now takes a single, well-defined object
   final AssembledMilestone assembledMilestone;
 
   const _MilestoneTile({required this.assembledMilestone});
 
   @override
   Widget build(BuildContext context) {
-    // Unpack the data from the assembledMilestone object
     final milestoneTemplate = assembledMilestone.milestoneTemplate;
     final taskTemplates = assembledMilestone.taskTemplates;
     final link = assembledMilestone.link;
 
     final duration = link.endDateOffsetDays - link.startDateOffsetDays;
     
+    // Using a simple Card with a ListTile for the main content to match the mockup
     return Card(
-      elevation: 0,
+      elevation: 2, // A bit of shadow for depth
+      shadowColor: Colors.black.withValues(alpha: 0.08),
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(16),
       ),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
-        title: Text(milestoneTemplate.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Duration: ~${duration + 1} days'),
         leading: CircleAvatar(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          child: Text(link.order.toString()),
+          child: Text(
+            link.order.toString(), 
+            style: const TextStyle(fontWeight: FontWeight.bold)
+          ),
         ),
+        title: Text(
+          milestoneTemplate.name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text('Duration: ~${duration + 1} days'),
+        // The children are the list of tasks, which are revealed on expansion
         children: taskTemplates.isEmpty
-            ? [const ListTile(title: Text('No specific tasks for this milestone.'))]
-            : taskTemplates.map((task) => ListTile( // Use taskTemplates here
-                  leading: const Icon(Iconsax.task_square, size: 20),
-                  title: Text(task.label), // Access properties of TaskTemplate
+            ? [const ListTile(dense: true, title: Text('No specific tasks defined for this milestone.'))]
+            : taskTemplates.map((task) => ListTile(
+                  title: Text('•  ${task.label}'),
                   dense: true,
                 )).toList(),
       ),

@@ -19,7 +19,10 @@ class ScholarshipTemplateRepository {
 
   // This method remains simple, just gets the top-level templates for the browser screen.
   Stream<List<ScholarshipTemplate>> watchAllTemplates() {
-    return db.select(db.scholarshipTemplates).watch();
+    return (db.select(db.scholarshipTemplates)
+          // Only select templates where the 'isActive' column is true.
+        ..where((tbl) => tbl.isActive.equals(true)))
+        .watch();
   }
 
   // Fetches all official, reusable milestone templates to display in the library.

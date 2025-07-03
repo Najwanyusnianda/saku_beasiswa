@@ -14,7 +14,6 @@ Future<void> seedDatabase(AppDatabase db) async {
 
   // 2. Now, use the blocks to assemble specific scholarship plans.
   await _seedLpdpScholarship(db);
-  await _seedCheveningScholarship(db);
   await _seedGenericPlanningTemplate(db);
 }
 
@@ -28,6 +27,7 @@ Future<void> _clearAllData(AppDatabase db) async {
   await db.delete(db.scholarshipTemplates).go();
 }
 
+/// Creates ALL the reusable milestone and task templates.
 /// Creates ALL the reusable milestone and task templates.
 Future<void> _seedMilestoneAndTaskTemplates(AppDatabase db) async {
   // --- A. Create all Milestone Templates in one batch ---
@@ -48,25 +48,54 @@ Future<void> _seedMilestoneAndTaskTemplates(AppDatabase db) async {
     ]);
   });
 
-  // --- B. Fetch the IDs of the milestones we just created ---
+  // --- B. Fetch the IDs of ALL milestones we just created ---
   final milestones = await db.select(db.milestoneTemplates).get();
   final phase1Id = milestones.firstWhere((m) => m.name == 'Phase 1: Research & Preparation').id;
   final phase2Id = milestones.firstWhere((m) => m.name == 'Phase 2: Skill & Document Development').id;
   final phase3Id = milestones.firstWhere((m) => m.name == 'Phase 3: Application & Submission').id;
   
-  // --- C. Create all Task Templates in one batch, linking them to the IDs ---
+  // Get IDs for the "Official" milestones
+  final planningId = milestones.firstWhere((m) => m.name == 'Planning & Research').id;
+  final docsId = milestones.firstWhere((m) => m.name == 'Document Gathering').id;
+  final essayId = milestones.firstWhere((m) => m.name == 'Essay Writing').id;
+  final adminId = milestones.firstWhere((m) => m.name == 'Seleksi Administrasi').id;
+  final substansiId = milestones.firstWhere((m) => m.name == 'Seleksi Substansi').id;
+
+  // --- C. Create all Task Templates, linking them to the correct milestone ID ---
   await db.batch((batch) {
     batch.insertAll(db.taskTemplates, [
-      // Tasks for Phase 1
+      // Tasks for Generic Planning - Phase 1
       TaskTemplatesCompanion.insert(milestoneTemplateId: phase1Id, label: 'Define your study goals and major'),
       TaskTemplatesCompanion.insert(milestoneTemplateId: phase1Id, label: 'Shortlist 5-10 potential universities'),
-      // Tasks for Phase 2
+      
+      // Tasks for Generic Planning - Phase 2
       TaskTemplatesCompanion.insert(milestoneTemplateId: phase2Id, label: 'Take a practice language test'),
       TaskTemplatesCompanion.insert(milestoneTemplateId: phase2Id, label: 'Request letters of recommendation'),
       TaskTemplatesCompanion.insert(milestoneTemplateId: phase2Id, label: 'Draft your personal statement'),
-      // Tasks for Phase 3
-      TaskTemplatesCompanion.insert(milestoneTemplateId: phase3Id, label: 'Write first essay draft'),
-      TaskTemplatesCompanion.insert(milestoneTemplateId: phase3Id, label: 'Complete and submit online forms'),
+
+      // --- NEW: Tasks for the OFFICIAL Milestones ---
+
+      // Tasks for "Planning & Research" Milestone
+      TaskTemplatesCompanion.insert(milestoneTemplateId: planningId, label: 'Confirm eligibility for the scholarship'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: planningId, label: 'Read the official application handbook'),
+
+      // Tasks for "Document Gathering" Milestone
+      TaskTemplatesCompanion.insert(milestoneTemplateId: docsId, label: 'Get academic transcripts legalized'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: docsId, label: 'Scan passport and other required IDs'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: docsId, label: 'Finalize your CV/Resume'),
+
+      // Tasks for "Essay Writing" Milestone
+      TaskTemplatesCompanion.insert(milestoneTemplateId: essayId, label: 'Write first draft of main essay'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: essayId, label: 'Get feedback on essay from a mentor'),
+
+      // Tasks for "Seleksi Administrasi"
+      TaskTemplatesCompanion.insert(milestoneTemplateId: adminId, label: 'Fill out the online application form'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: adminId, label: 'Upload all required documents'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: adminId, label: 'Submit application before the deadline'),
+      
+      // Tasks for "Seleksi Substansi" (Interviews)
+      TaskTemplatesCompanion.insert(milestoneTemplateId: substansiId, label: 'Prepare for common interview questions'),
+      TaskTemplatesCompanion.insert(milestoneTemplateId: substansiId, label: 'Conduct a mock interview with a friend'),
     ]);
   });
 }
@@ -137,32 +166,3 @@ Future<void> _seedLpdpScholarship(AppDatabase db) async {
   });
 }
 
-/// Assembles the Chevening scholarship plan.
-Future<void> _seedCheveningScholarship(AppDatabase db) async {
-  const templateId = 'chevening_2025';
-  await db.into(db.scholarshipTemplates).insert(
-    ScholarshipTemplatesCompanion.insert(
-      id: templateId,
-      name: 'Chevening Scholarship',
-      providerName: 'UK Government',
-      studyLevel: 'S2',
-      isActive: const Value(true),
-    ),
-    mode: InsertMode.insertOrReplace,
-  );
-
-  final milestones = await db.select(db.milestoneTemplates).get();
-  final planningId = milestones.firstWhere((m) => m.name == 'Planning & Research').id;
-  final docsId = milestones.firstWhere((m) => m.name == 'Document Gathering').id;
-  final essayId = milestones.firstWhere((m) => m.name == 'Essay Writing').id;
-  final substansiId = milestones.firstWhere((m) => m.name == 'Seleksi Substansi').id;
-
-  await db.batch((batch) {
-    batch.insertAll(db.scholarshipMilestoneLinks, [
-      ScholarshipMilestoneLinksCompanion.insert(scholarshipTemplateId: templateId, milestoneTemplateId: planningId, order: 0, startDateOffsetDays: -150, endDateOffsetDays: -90),
-      ScholarshipMilestoneLinksCompanion.insert(scholarshipTemplateId: templateId, milestoneTemplateId: docsId, order: 1, startDateOffsetDays: -90, endDateOffsetDays: -45),
-      ScholarshipMilestoneLinksCompanion.insert(scholarshipTemplateId: templateId, milestoneTemplateId: essayId, order: 2, startDateOffsetDays: -60, endDateOffsetDays: -15),
-      ScholarshipMilestoneLinksCompanion.insert(scholarshipTemplateId: templateId, milestoneTemplateId: substansiId, order: 3, startDateOffsetDays: -14, endDateOffsetDays: 0),
-    ]);
-  });
-}
