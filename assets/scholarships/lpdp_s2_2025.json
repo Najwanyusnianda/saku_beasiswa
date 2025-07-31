@@ -1,0 +1,220 @@
+{
+  "id": "lpdp_s2_2025",
+  "title": "LPDP Scholarship - Master's Program",
+  "provider": "Lembaga Pengelola Dana Pendidikan (LPDP)",
+  "provider_country": "Indonesia",
+  "provider_logo": "https://cdn.sakubeasiswa.com/logos/lpdp.png",
+  "basic_info": {
+    "description": "LPDP provides scholarships for Indonesian citizens to pursue higher education domestically and internationally to develop qualified human resources for Indonesia's development.",
+    "funding_type": "full",
+    "scholarship_type": "government",
+    "target_countries": [
+      "USA", "UK", "Australia", "Canada", "Germany",
+      "France", "Netherlands", "Singapore", "Japan", "Indonesia"
+    ],
+    "target_degree_levels": ["masters"],
+    "target_fields": [
+      "Engineering", "Natural Sciences", "Agriculture",
+      "Medicine", "Economics", "Finance", "Management",
+      "Law", "Social Sciences", "Arts", "Education"
+    ],
+    "duration_months": 24,
+    "annual_awards": 3000,
+    "total_applicants": 15000,
+    "acceptance_rate": 20
+  },
+  "dates": {
+    "application_deadline": "2025-09-30",
+    "program_start_date": "2026-02-01",
+    "announcement_date": "2025-11-30",
+    "application_opens": "2025-07-01",
+    "interview_period": {
+      "start": "2025-10-15",
+      "end": "2025-11-15"
+    }
+  },
+  "financial_details": {
+    "coverage": {
+      "tuition": {
+        "covered": true,
+        "max_amount": null,
+        "notes": "Full tuition coverage up to approved limits"
+      },
+      "living_allowance": {
+        "covered": true,
+        "varies_by_country": true,
+        "ranges": {
+          "indonesia": 2500000,
+          "usa": 1800,
+          "uk": 1200,
+          "australia": 1500
+        },
+        "currency_varies": true
+      },
+      "travel": {
+        "covered": true,
+        "economy_class": true,
+        "annual_trips": 1
+      },
+      "health_insurance": {
+        "covered": true,
+        "family_coverage": false
+      },
+      "thesis_research": {
+        "covered": true,
+        "max_amount": 25000000,
+        "currency": "IDR"
+      }
+    },
+    "total_value": null
+  },
+  "requirements": {
+    "academic": {
+      "min_gpa": 3.0,
+      "gpa_scale": 4.0,
+      "education_level": ["bachelors"],
+      "max_graduation_age": 5,
+      "cumlaude_preferred": true
+    },
+    "language": {
+      "ielts": {
+        "required": true,
+        "min_overall": 6.5,
+        "destination_varies": true
+      },
+      "toefl": {
+        "required": true,
+        "min_overall": 80,
+        "destination_varies": true
+      },
+      "other_languages": {
+        "german": {"min_level": "B2", "for_countries": ["Germany"]},
+        "french": {"min_level": "B2", "for_countries": ["France"]},
+        "japanese": {"min_level": "N2", "for_countries": ["Japan"]}
+      }
+    },
+    "personal": {
+      "min_age": 17,
+      "max_age": 35,
+      "nationality": ["Indonesia"],
+      "commitment_required": true
+    },
+    "commitments": {
+      "return_obligation": true,
+      "service_years": "2x_study_duration",
+      "bond_amount": "full_scholarship_value",
+      "work_sector": "government_or_strategic_industry"
+    }
+  },
+  "documents": [
+    {
+      "document_id": "lpdp_application_form",
+      "name": "LPDP Application Form",
+      "description": "Complete LPDP online application form",
+      "required": true,
+      "format": ["online_form"],
+      "notes": "Must be completed online through LPDP portal"
+    },
+    {
+      "document_id": "essay_contribution",
+      "name": "Essay on Contribution to Indonesia",
+      "description": "Essay describing how you will contribute to Indonesia after graduation",
+      "required": true,
+      "format": ["PDF"],
+      "word_limit": 1500,
+      "language": "Indonesian",
+      "template_available": true
+    },
+    {
+      "document_id": "essay_study_plan",
+      "name": "Study Plan Essay",
+      "description": "Detailed study plan and career objectives",
+      "required": true,
+      "format": ["PDF"],
+      "word_limit": 1000,
+      "language": "Indonesian",
+      "template_available": true
+    },
+    {
+      "document_id": "academic_transcript",
+      "name": "Academic Transcript",
+      "description": "Official transcript from all higher education institutions",
+      "required": true,
+      "format": ["PDF"],
+      "legalization_required": true,
+      "translation_required": false
+    }
+  ],
+  "application_process": {
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Administrative Selection",
+        "description": "Initial screening of application forms and documents.",
+        "estimated_time_hours": 0
+      },
+      {
+        "step_number": 2,
+        "title": "Scholastic Talent Test",
+        "description": "Online test covering verbal, quantitative, and problem-solving skills.",
+        "estimated_time_hours": 3
+      },
+      {
+        "step_number": 3,
+        "title": "Substance Selection",
+        "description": "Competency-based interview assessing academic background, motivation, and commitment.",
+        "estimated_time_hours": 1
+      }
+    ],
+    "interview_required": true,
+    "interview_format": "online_or_in_person",
+    "selection_process": [
+      "Administrative Selection",
+      "Scholastic Talent Test",
+      "Substance Selection"
+    ]
+  },
+  "template_id": "lpdp_masters",
+  "success_tips": [
+    "Clearly articulate contribution to Indonesia's development",
+    "Choose study program aligned with Indonesia's development priorities",
+    "Demonstrate leadership potential and social impact",
+    "Prepare thoroughly for competency-based interview",
+    "Show strong commitment to return and serve Indonesia"
+  ],
+  "common_mistakes": [
+    "Essays are not specific or well-structured.",
+    "Lack of clear vision for post-study contribution.",
+    "Incomplete or incorrect document submission.",
+    "Poor performance in the Scholastic Talent Test."
+  ],
+  "statistics": {
+    "indonesian_recipients_2024": 2800,
+    "top_fields": ["Engineering", "Business", "Public Health", "Education"],
+    "average_gpa": 3.75,
+    "average_ielts": 6.8,
+    "average_age": 25,
+    "gender_distribution": {
+      "male": 50,
+      "female": 50
+    }
+  },
+  "urls": {
+    "official_website": "https://www.lpdp.kemenkeu.go.id",
+    "application_portal": "https://beasiswalpdp.kemenkeu.go.id",
+    "guidelines": "https://www.lpdp.kemenkeu.go.id/beasiswa/reguler",
+    "webinar_schedule": "https://www.lpdp.kemenkeu.go.id/webinar"
+  },
+  "meta": {
+    "created_at": "2024-12-15T10:00:00Z",
+    "updated_at": "2025-01-20T10:00:00Z",
+    "verified_date": "2025-01-20T10:00:00Z",
+    "source": "official_website",
+    "verification_status": "verified",
+    "tags": ["government", "indonesia", "full_funding", "return_obligation"],
+    "difficulty_level": "medium",
+    "preparation_time_weeks": 12,
+    "is_active": true,
+    "popularity_rank": 1
+  }
+}

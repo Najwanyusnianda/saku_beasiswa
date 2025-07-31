@@ -1,0 +1,184 @@
+{
+  "id": "chevening_2025",
+  "title": "Chevening Scholarships",
+  "provider": "UK Government",
+  "provider_country": "UK",
+  "provider_logo": "https://cdn.sakubeasiswa.com/logos/chevening.png",
+  "basic_info": {
+    "description": "Chevening Scholarships are the UK government's global scholarship program, funded by the Foreign and Commonwealth Office and partner organisations.",
+    "funding_type": "full",
+    "scholarship_type": "government",
+    "target_countries": ["UK"],
+    "target_degree_levels": ["masters"],
+    "target_fields": ["any"],
+    "duration_months": 12,
+    "annual_awards": 1500,
+    "total_applicants": 65000,
+    "acceptance_rate": 2.3
+  },
+  "dates": {
+    "application_deadline": "2025-11-02",
+    "program_start_date": "2026-09-01",
+    "announcement_date": "2026-06-01",
+    "application_opens": "2025-08-01"
+  },
+  "financial_details": {
+    "coverage": {
+      "tuition": {
+        "covered": true,
+        "max_amount": 18000,
+        "currency": "GBP",
+        "notes": "Covers full tuition fees for eligible one-year master's programmes."
+      },
+      "living_allowance": {
+        "covered": true,
+        "monthly_amount": 1200,
+        "currency": "GBP",
+        "notes": "Stipend for accommodation and living costs, varies slightly by city."
+      },
+      "travel": {
+        "covered": true,
+        "round_trip": true,
+        "notes": "One economy-class return airfare to and from the UK."
+      },
+      "health_insurance": {
+        "covered": false,
+        "notes": "Visa application costs and NHS surcharge are the applicant's responsibility."
+      },
+      "books_materials": {
+        "covered": true,
+        "notes": "Includes arrival allowance and thesis grant."
+      }
+    },
+    "total_value": {
+      "min_amount": 30000,
+      "max_amount": 50000,
+      "currency": "GBP",
+      "notes": "Total value varies based on tuition fees."
+    }
+  },
+  "requirements": {
+    "academic": {
+      "min_degree": "bachelors",
+      "uk_equivalent": "upper_second_class",
+      "work_experience_years": 2,
+      "leadership_experience": true
+    },
+    "language": {
+      "ielts": {
+        "required": true,
+        "min_overall": 6.5,
+        "min_components": {
+          "listening": 5.5,
+          "reading": 5.5,
+          "writing": 5.5,
+          "speaking": 5.5
+        }
+      }
+    },
+    "experience": {
+      "work_experience_required": true,
+      "min_work_years": 2,
+      "leadership_examples": 3,
+      "networking_potential": true
+    }
+  },
+  "documents": [
+    {
+      "document_id": "chevening_application",
+      "name": "Chevening Online Application",
+      "description": "Complete online application with essays",
+      "required": true,
+      "format": ["online_form"],
+      "essay_questions": 4,
+      "word_limit_per_essay": 500
+    },
+    {
+      "document_id": "leadership_essay",
+      "name": "Leadership and Influence Essay",
+      "description": "Describe your leadership and influencing skills",
+      "required": true,
+      "word_limit": 500,
+      "examples_required": 3
+    }
+  ],
+  "application_process": {
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Online Application & Essays",
+        "description": "Submit online application with four essays on leadership, networking, study plan, and career goals.",
+        "estimated_time_hours": 20
+      },
+      {
+        "step_number": 2,
+        "title": "Sifting & Shortlisting",
+        "description": "Applications are assessed against eligibility criteria by independent reading committees.",
+        "estimated_time_hours": 0
+      },
+      {
+        "step_number": 3,
+        "title": "Interview",
+        "description": "Shortlisted candidates are invited for an in-person interview at the local British embassy or high commission.",
+        "estimated_time_hours": 10
+      },
+      {
+        "step_number": 4,
+        "title": "Conditional Offer",
+        "description": "Successful interviewees receive a conditional offer and must secure an unconditional offer from a UK university.",
+        "estimated_time_hours": 0
+      }
+    ],
+    "interview_required": true,
+    "interview_format": "in_person",
+    "selection_process": [
+      "Eligibility check",
+      "Essay assessment",
+      "Interview",
+      "Final selection"
+    ]
+  },
+  "urls": {
+    "official_website": "https://www.chevening.org/",
+    "application_portal": "https://chevening.smartsimpleuk.com/",
+    "guidelines": "https://www.chevening.org/scholarships/guidance/",
+    "faq": "https://www.chevening.org/scholarships/faqs/",
+    "contact": "https://www.chevening.org/contact-us/"
+  },
+  "template_id": "chevening_masters",
+  "success_tips": [
+    "Demonstrate clear leadership potential with concrete examples",
+    "Show strong networking abilities and social impact",
+    "Connect your career goals with UK-Indonesia relations",
+    "Prepare for competency-based interview questions",
+    "Research UK universities and programs thoroughly"
+  ],
+  "common_mistakes": [
+    "Failing to provide specific examples in essays (using the STAR method helps).",
+    "Not meeting the minimum work experience requirement.",
+    "Choosing university courses that are not eligible for Chevening funding.",
+    "A weak or generic career plan."
+  ],
+  "statistics": {
+    "indonesian_recipients_2024": 60,
+    "top_fields": ["International Relations", "Public Policy", "Finance", "Law"],
+    "average_gpa": 3.65,
+    "average_ielts": 7.0,
+    "average_age": 28,
+    "gender_distribution": {
+      "male": 45,
+      "female": 55
+    }
+  },
+  "meta": {
+    "created_at": "2024-12-15T10:00:00Z",
+    "updated_at": "2025-01-10T10:00:00Z",
+    "verified_date": "2025-01-10T10:00:00Z",
+    "source": "official_website",
+    "verification_status": "verified",
+    "tags": ["uk", "leadership", "networking", "competitive"],
+    "difficulty_level": "very_high",
+    "preparation_time_weeks": 20,
+    "is_active": true
+  }
+}

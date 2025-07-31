@@ -95,3 +95,39 @@ Theming: All colors, text styles, and widget themes must be defined in and sourc
 Reusable Widgets: If you create a widget that could potentially be used on more than one screen (e.g., a custom card or text field), place it in lib/core/widgets/. This promotes code reuse and a consistent UI.
 
 Responsiveness: While the initial target is mobile, build UI in a way that can adapt to different screen sizes. Use LayoutBuilder and avoid fixed pixel widths/heights where possible.
+
+## Visual Hierarchy & Typography
+To ensure a consistent and professional look, all developers must adhere to the following typography hierarchy. All styles refer to the TextTheme defined in lib/core/theme/app_typography.dart.
+
+1. Screen Titles: For main titles in an AppBar.
+Style: headlineSmall or headlineMedium
+
+2. Card / Section Titles: For the title of any Card or a header for a section of content.
+Style: titleMedium
+
+
+3. Body Content: For the main, readable text within a component.
+
+Style: bodyLarge or bodyMedium
+
+4. Metadata & Captions: For less important text like dates, status tags, or field descriptions.
+
+Style: bodySmall or labelMedium
+
+Button Text:
+
+Style: labelLarge
+
+Example: In the "Academic Profile" card, the title "Academic Profile" must use titleMedium. The text "Universitas Indonesia" should use bodyMedium. The label "GPA" should use bodySmall.
+
+
+## Domain-Specific Business Logic
+Complex business logic that is specific to the Saku Beasiswa domain should be handled cleanly within the application layer.
+
+Example: "Match Score" Calculation:
+
+The logic to calculate a scholarship's match score based on a user's profile is a core piece of business logic.
+
+This calculation must not happen in the UI layer or the database layer.
+
+It should be a method within a Riverpod Notifier or service in the application layer. This method will take the UserProfile and Scholarship domain models as input and return the calculated score. This keeps the logic pure, testable, and decoupled from the UI and data fetching.

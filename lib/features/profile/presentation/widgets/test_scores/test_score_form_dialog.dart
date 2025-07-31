@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../domain/models/test_score.dart';
 import 'test_type_config.dart';
+import 'form_components/test_type_selector.dart';
+import 'form_components/score_input_section.dart';
+import 'form_components/date_input_section.dart';
+import 'form_components/certificate_input_section.dart';
+import 'form_components/form_action_buttons.dart';
 
 class TestScoreFormDialog extends StatefulWidget {
   final String title;
@@ -31,6 +35,7 @@ class _TestScoreFormDialogState extends State<TestScoreFormDialog> {
   DateTime? _selectedTestDate;
   DateTime? _selectedExpiryDate;
   String? _selectedTestType;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -107,173 +112,159 @@ class _TestScoreFormDialogState extends State<TestScoreFormDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.title),
-      content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Test Type Dropdown
-              DropdownButtonFormField<String>(
-                value:
-                    _selectedTestType != null &&
-                        testTypes.containsKey(_selectedTestType)
-                    ? _selectedTestType
-                    : null,
-                decoration: const InputDecoration(labelText: 'Test Type *'),
-                items: testTypes.entries
-                    .map(
-                      (entry) => DropdownMenuItem(
-                        value: entry.key,
-                        child: Row(
-                          children: [
-                            Text(entry.value.emoji),
-                            const SizedBox(width: 8),
-                            Text(entry.value.name),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedTestType = value;
-                    if (value != null) {
-                      _setupSkillControllers(value);
-                      // Auto-calculate expiry date when test type changes
-                      if (_selectedTestDate != null) {
-                        final testType = testTypes[value];
-                        if (testType != null) {
-                          _selectedExpiryDate = _selectedTestDate!.add(
-                            testType.validityPeriod,
-                          );
-                        }
-                      }
-                    }
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a test type';
-                  }
-                  return null;
-                },
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(16),
+      child: Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+          maxWidth: 600,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header with improved styling
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
               ),
-              const SizedBox(height: 16),
-
-              // Overall Score
-              TextFormField(
-                controller: _overallScoreController,
-                decoration: InputDecoration(
-                  labelText: 'Overall Score *',
-                  hintText: _selectedTestType != null
-                      ? 'Max: ${testTypes[_selectedTestType!]?.maxScore ?? ''}'
-                      : 'Enter your overall score',
-                ),
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Score cannot be empty';
-                  }
-                  final score = double.tryParse(value.trim());
-                  if (score == null) {
-                    return 'Please enter a valid number';
-                  }
-                  if (_selectedTestType != null) {
-                    final maxScore =
-                        testTypes[_selectedTestType!]?.maxScore ??
-                        double.infinity;
-                    if (score > maxScore) {
-                      return 'Score cannot exceed $maxScore';
-                    }
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Skill-specific scores
-              if (_selectedTestType != null &&
-                  _skillControllers.isNotEmpty) ...[
-                Text(
-                  'Skill Breakdown (optional)',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 8),
-                ...testTypes[_selectedTestType!]!.skillNames.map((skill) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: TextFormField(
-                      controller: _skillControllers[skill],
-                      decoration: InputDecoration(
-                        labelText: skill,
-                        hintText: 'Enter $skill score',
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.quiz,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                  );
-                }),
-                const SizedBox(height: 16),
-              ],
-
-              // Test Date
-              ListTile(
-                title: Text(
-                  _selectedTestDate == null
-                      ? 'Select Test Date *'
-                      : 'Test Date: ${DateFormat('MMM dd, yyyy').format(_selectedTestDate!)}',
-                ),
-                leading: const Icon(Icons.calendar_today),
-                onTap: () => _selectTestDate(),
-                contentPadding: EdgeInsets.zero,
-              ),
-
-              // Expiry Date
-              if (_selectedExpiryDate != null)
-                ListTile(
-                  title: Text(
-                    'Expires: ${DateFormat('MMM dd, yyyy').format(_selectedExpiryDate!)}',
                   ),
-                  leading: const Icon(Icons.schedule),
-                  trailing: TextButton(
-                    onPressed: () => _selectExpiryDate(),
-                    child: const Text('Change'),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(
+                      Icons.close,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
-                  contentPadding: EdgeInsets.zero,
-                ),
-
-              const SizedBox(height: 16),
-
-              // Certificate URL
-              TextFormField(
-                controller: _certificateUrlController,
-                decoration: const InputDecoration(
-                  labelText: 'Certificate URL (optional)',
-                  hintText: 'https://example.com/certificate.pdf',
-                  prefixIcon: Icon(Icons.link),
-                ),
-                keyboardType: TextInputType.url,
+                ],
               ),
-            ],
-          ),
+            ),
+
+            // Form content with proper scrolling
+            Flexible(
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Test Type Selection
+                      TestTypeSelector(
+                        selectedTestType: _selectedTestType,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedTestType = value;
+                            if (value != null) {
+                              _setupSkillControllers(value);
+                              // Auto-calculate expiry date when test type changes
+                              if (_selectedTestDate != null) {
+                                final testType = testTypes[value];
+                                if (testType != null) {
+                                  _selectedExpiryDate = _selectedTestDate!.add(
+                                    testType.validityPeriod,
+                                  );
+                                }
+                              }
+                            }
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select a test type';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // Score Input Section
+                      ScoreInputSection(
+                        overallScoreController: _overallScoreController,
+                        selectedTestType: _selectedTestType,
+                        skillControllers: _skillControllers,
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // Date Input Section
+                      DateInputSection(
+                        selectedTestDate: _selectedTestDate,
+                        selectedExpiryDate: _selectedExpiryDate,
+                        onSelectTestDate: _selectTestDate,
+                        onSelectExpiryDate: _selectExpiryDate,
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // Certificate Input Section
+                      CertificateInputSection(
+                        certificateUrlController: _certificateUrlController,
+                      ),
+
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Action buttons
+            FormActionButtons(
+              onCancel: () => Navigator.of(context).pop(),
+              onSave: _saveTestScore,
+              saveButtonText: widget.existingScore == null ? 'Add Test Score' : 'Update Score',
+              isLoading: _isLoading,
+            ),
+          ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _saveTestScore,
-          child: Text(widget.existingScore == null ? 'Add' : 'Update'),
-        ),
-      ],
     );
   }
 

@@ -51,7 +51,8 @@ class ExistingTestCard extends StatelessWidget {
                   child: Text(
                     testType.name,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -147,7 +148,9 @@ class ExistingTestCard extends StatelessWidget {
               children: [
                 Text(
                   'Overall Score: ',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 Text(
                   testScore.overallScore.toString(),
@@ -167,10 +170,18 @@ class ExistingTestCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
                     children: [
-                      Text('• ${entry.key}: '),
+                      Text(
+                        '• ${entry.key}: ',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                       Text(
                         entry.value,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
@@ -179,18 +190,22 @@ class ExistingTestCard extends StatelessWidget {
               const SizedBox(height: 8),
             ],
 
-            // Test Date
+            // Test Date - Metadata
             Text(
               'Test Date: ${dateFormat.format(testScore.testDate)}',
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
 
-            // Expiry Date with status
+            // Expiry Date with status - Metadata
             Row(
               children: [
                 Text(
                   'Expires: ${dateFormat.format(expiryDate)}',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 if (isExpired)

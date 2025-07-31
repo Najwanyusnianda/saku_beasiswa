@@ -1,0 +1,309 @@
+{
+  "id": "fulbright_masters_2025",
+  "title": "Fulbright Masters Program",
+  "provider": "Fulbright Commission (AMINEF)",
+  "provider_country": "USA",
+  "provider_logo": "https://cdn.sakubeasiswa.com/logos/fulbright.png",
+  "basic_info": {
+    "description": "The Fulbright Program is the flagship international educational exchange program sponsored by the U.S. government and is designed to increase mutual understanding between the people of the United States and the people of other countries.",
+    "funding_type": "full",
+    "scholarship_type": "government",
+    "target_countries": ["USA"],
+    "target_degree_levels": ["masters", "phd"],
+    "target_fields": [
+      "Engineering",
+      "Computer Science",
+      "Business",
+      "Social Sciences",
+      "Arts",
+      "Natural Sciences"
+    ],
+    "excluded_fields": ["Medicine", "Dentistry"],
+    "duration_months": 24,
+    "annual_awards": 200,
+    "total_applicants": 2000,
+    "acceptance_rate": 10
+  },
+  "dates": {
+    "application_deadline": "2025-10-15",
+    "program_start_date": "2026-08-15",
+    "announcement_date": "2025-12-15",
+    "application_opens": "2025-05-01",
+    "interview_period": {
+      "start": "2025-11-01",
+      "end": "2025-11-30"
+    }
+  },
+  "financial_details": {
+    "coverage": {
+      "tuition": {
+        "covered": true,
+        "max_amount": null,
+        "notes": "Full tuition coverage"
+      },
+      "living_allowance": {
+        "covered": true,
+        "monthly_amount": 2500,
+        "currency": "USD",
+        "notes": "Monthly stipend for living expenses"
+      },
+      "travel": {
+        "covered": true,
+        "round_trip": true,
+        "max_amount": 3000,
+        "currency": "USD"
+      },
+      "health_insurance": {
+        "covered": true,
+        "notes": "Comprehensive health insurance (ASPE)"
+      },
+      "books_materials": {
+        "covered": true,
+        "annual_amount": 1000,
+        "currency": "USD"
+      }
+    },
+    "total_value": {
+      "min_amount": 75000,
+      "max_amount": 150000,
+      "currency": "USD",
+      "notes": "Total value depends on program and university"
+    }
+  },
+  "requirements": {
+    "academic": {
+      "min_gpa": 3.5,
+      "gpa_scale": 4.0,
+      "education_level": ["bachelors"],
+      "fields": ["any"],
+      "degree_equivalency": "US_bachelor",
+      "transcript_required": true,
+      "transcript_translation": true
+    },
+    "language": {
+      "ielts": {
+        "required": true,
+        "min_overall": 6.5,
+        "min_components": {
+          "listening": 6.0,
+          "reading": 6.0,
+          "writing": 6.0,
+          "speaking": 6.0
+        }
+      },
+      "toefl": {
+        "required": true,
+        "min_overall": 80,
+        "min_components": {
+          "reading": 20,
+          "listening": 20,
+          "speaking": 20,
+          "writing": 20
+        }
+      },
+      "alternative_accepted": false,
+      "validity_years": 2
+    },
+    "personal": {
+      "min_age": 18,
+      "max_age": 35,
+      "nationality": ["Indonesia"],
+      "citizenship_requirement": "Indonesian citizen",
+      "gender": null,
+      "marital_status": null
+    },
+    "experience": {
+      "work_experience_required": false,
+      "min_work_years": 0,
+      "leadership_experience": true,
+      "volunteer_experience": true,
+      "research_experience": false,
+      "publications_required": false
+    },
+    "financial": {
+      "family_income_limit": null,
+      "financial_need_assessment": false,
+      "sponsor_prohibition": false
+    },
+    "commitments": {
+      "return_obligation": true,
+      "service_years": 2,
+      "bond_amount": null,
+      "work_restrictions": []
+    }
+  },
+  "documents": [
+    {
+      "document_id": "academic_transcript",
+      "name": "Official Academic Transcript",
+      "description": "Complete academic transcript from all universities attended",
+      "required": true,
+      "format": ["PDF"],
+      "language": "English",
+      "translation_required": true,
+      "notarization_required": true,
+      "max_size_mb": 10,
+      "notes": "Must be translated by sworn translator"
+    },
+    {
+      "document_id": "personal_statement",
+      "name": "Personal Statement",
+      "description": "Essay describing your academic and professional background, study objectives, and career goals",
+      "required": true,
+      "format": ["PDF", "DOC", "DOCX"],
+      "max_pages": 2,
+      "word_limit": 1000,
+      "font_requirements": {
+        "font_family": "Times New Roman",
+        "font_size": 12,
+        "line_spacing": "double"
+      },
+      "template_available": true,
+      "ai_assistance": true
+    },
+    {
+      "document_id": "recommendation_letters",
+      "name": "Letters of Recommendation",
+      "description": "Three letters of recommendation from academic or professional references",
+      "required": true,
+      "count": 3,
+      "types": ["academic", "academic", "professional"],
+      "format": ["PDF"],
+      "direct_submission": true,
+      "deadline_buffer_days": 30,
+      "notes": "Recommenders submit directly through online system"
+    },
+    {
+      "document_id": "cv_resume",
+      "name": "Curriculum Vitae",
+      "description": "Comprehensive CV highlighting academic and professional achievements",
+      "required": true,
+      "format": ["PDF"],
+      "max_pages": 3,
+      "template_available": true
+    },
+    {
+      "document_id": "study_objectives",
+      "name": "Study Objectives",
+      "description": "Detailed description of your proposed study program and research interests",
+      "required": true,
+      "format": ["PDF", "DOC", "DOCX"],
+      "max_pages": 3,
+      "word_limit": 1500,
+      "template_available": true
+    },
+    {
+      "document_id": "passport_copy",
+      "name": "Passport Copy",
+      "description": "Copy of valid Indonesian passport",
+      "required": true,
+      "format": ["PDF", "JPG", "PNG"],
+      "validity_months": 18,
+      "notes": "Must be valid for at least 18 months from application date"
+    },
+    {
+      "document_id": "english_test_score",
+      "name": "English Proficiency Test Score",
+      "description": "Official IELTS or TOEFL score report",
+      "required": true,
+      "format": ["PDF"],
+      "validity_years": 2,
+      "direct_score_send": true
+    }
+  ],
+  "application_process": {
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Online Registration",
+        "description": "Create account on Fulbright application portal",
+        "estimated_time_hours": 1,
+        "dependencies": []
+      },
+      {
+        "step_number": 2,
+        "title": "Document Preparation",
+        "description": "Gather and prepare all required documents",
+        "estimated_time_hours": 40,
+        "dependencies": ["step_1"]
+      },
+      {
+        "step_number": 3,
+        "title": "Online Application",
+        "description": "Complete online application form",
+        "estimated_time_hours": 8,
+        "dependencies": ["step_2"]
+      },
+      {
+        "step_number": 4,
+        "title": "Document Upload",
+        "description": "Upload all required documents",
+        "estimated_time_hours": 2,
+        "dependencies": ["step_3"]
+      },
+      {
+        "step_number": 5,
+        "title": "Application Review",
+        "description": "Review and submit final application",
+        "estimated_time_hours": 2,
+        "dependencies": ["step_4"]
+      }
+    ],
+    "interview_required": true,
+    "interview_format": "in_person",
+    "selection_process": [
+      "Initial screening",
+      "Document review",
+      "Interview",
+      "Final selection"
+    ]
+  },
+  "urls": {
+    "official_website": "https://www.aminef.or.id/grants-for-indonesians/fulbright-scholarships/fulbright-masters-degree-scholarship/",
+    "application_portal": "https://apply.iie.org/fulbrightusstudent",
+    "guidelines": "https://www.aminef.or.id/grants-for-indonesians/fulbright-scholarships/fulbright-masters-degree-scholarship/",
+    "faq": "https://www.aminef.or.id/faqs/",
+    "contact": "https://www.aminef.or.id/contact-us/"
+  },
+  "template_id": "fulbright_masters",
+  "success_tips": [
+    "Start preparing at least 6 months before deadline",
+    "Tailor your personal statement to US academic culture",
+    "Choose recommenders who know you well academically",
+    "Research specific universities and programs thoroughly",
+    "Demonstrate clear connection between study plans and career goals",
+    "Show cultural awareness and adaptability"
+  ],
+  "common_mistakes": [
+    "Generic personal statements without specific program details",
+    "Not giving recommenders enough time (minimum 6 weeks)",
+    "Overlooking small application requirements",
+    "Poor English language test preparation",
+    "Weak connection between study objectives and career plans"
+  ],
+  "statistics": {
+    "indonesian_recipients_2024": 45,
+    "top_fields": ["Engineering", "Business", "Social Sciences"],
+    "average_gpa": 3.78,
+    "average_ielts": 7.2,
+    "average_age": 26,
+    "gender_distribution": {
+      "male": 60,
+      "female": 40
+    }
+  },
+  "meta": {
+    "created_at": "2024-12-15T10:00:00Z",
+    "updated_at": "2025-01-15T10:00:00Z",
+    "verified_date": "2025-01-15T10:00:00Z",
+    "source": "official_website",
+    "verification_status": "verified",
+    "tags": ["popular", "competitive", "full_funding", "usa"],
+    "difficulty_level": "high",
+    "preparation_time_weeks": 16,
+    "is_active": true,
+    "view_count": 15420,
+    "save_count": 3240,
+    "application_count": 890
+  }
+}

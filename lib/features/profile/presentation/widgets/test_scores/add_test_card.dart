@@ -28,7 +28,8 @@ class AddTestCard extends StatelessWidget {
                     child: Text(
                       testType.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -45,7 +46,7 @@ class AddTestCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Add ${testType.name} Score',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w600,
                     ),
