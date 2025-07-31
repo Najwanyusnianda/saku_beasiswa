@@ -1,0 +1,290 @@
+SAKU BEASISWA: Profile Features Implementation Plan
+Objective: To build the foundational structure and the first core feature (Profile Management) of the Saku Beasiswa application.
+
+
+Guiding Principles & Tech Stack
+This document serves as the single source of truth for the initial development phase. All development must adhere to these principles:
+
+Primary Tech Stack:
+
+Framework: Flutter (for cross-platform UI)
+
+State Management: Riverpod 2.0+ (using AsyncNotifier, StreamProvider, etc.)
+
+Database: Drift (for local SQLite, offline-first persistence)
+
+Navigation: GoRouter (for type-safe, URL-based routing)
+
+Architecture: A strict, feature-first clean architecture as previously defined. This separates UI, business logic, and data layers for maintainability.
+
+UI/UX Design Philosophy:
+
+Modern & Clean: Use a minimalist aesthetic with ample white space, clear typography, and a consistent color palette.
+
+Professional: The app should feel like a serious productivity tool, not a toy.
+
+Motivational: Incorporate visual cues of progress (e.g., progress bars, checkmarks) to keep users engaged.
+
+Layout: Prefer card-based layouts for organizing information.
+
+Week 1: Project Foundation & Database Core (Estimated Time: 2-3 Days)
+The goal this week is to create a stable, well-structured project that everyone can build upon.
+
+Step 1: Project Initialization
+Action: Create the Flutter project.
+
+Command: flutter create saku_beasiswa
+
+Action: Replace the contents of pubspec.yaml with the code from the saku_beasiswa_architecture_v1 artifact.
+
+Action: Install all dependencies.
+
+Command: flutter pub get
+
+Action: Create the complete folder structure as defined in the architecture document (lib/core/..., lib/features/profile/..., etc.). This is a manual process.
+
+Step 2: Database and Core Setup (Modular Approach)
+Action: Define the Users table.
+
+File to Create: lib/core/db/tables/users.dart
+
+Content: Define the Drift table for user profiles.
+
+import 'package:drift/drift.dart';
+
+class Users extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get fullName => text()();
+  TextColumn get email => text().unique()();
+  TextColumn get currentEducationLevel => text()();
+  TextColumn get institution => text()();
+  TextColumn get majorField => text()();
+  RealColumn get currentGpa => real().nullable()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+Action: Define the TestScores table.
+
+File to Create: lib/core/db/tables/test_scores.dart
+
+Content: Define the Drift table for test scores.
+
+import 'package:drift/drift.dart';
+
+class TestScores extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userId => integer().references(Users, #id, onDelete: KeyAction.cascade)();
+  TextColumn get testType => text()(); // e.g., 'ielts', 'toefl'
+  RealColumn get overallScore => real()();
+  DateTimeColumn get testDate => dateTime()();
+  TextColumn get detailedScores => text().nullable()(); // JSON string for sub-scores
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+Action: Assemble the main database class.
+
+File to Create: lib/core/db/app_database.dart
+
+Content: This file will bring all the table definitions together and set up the database connection.
+
+import 'dart:io';
+
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+
+// Import table definitions
+import 'tables/users.dart';
+import 'tables/test_scores.dart';
+
+part 'app_database.g.dart';
+
+@DriftDatabase(tables: [Users, TestScores])
+class AppDatabase extends _$AppDatabase {
+  AppDatabase() : super(_openConnection());
+
+  @override
+  int get schemaVersion => 1;
+}
+
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    return NativeDatabase(file);
+  });
+}
+
+Action: Run the code generator for the first time.
+
+Command: flutter pub run build_runner build --delete-conflicting-outputs
+
+Expected Result: An app_database.g.dart file is created, containing the generated code for your database.
+
+Step 3: App Entry Point & Navigation Setup
+Action: Configure the main application entry point.
+
+File to Create: lib/main.dart
+
+Content:
+
+Set up the ProviderScope for Riverpod.
+
+Initialize a basic MaterialApp structure.
+
+Action: Create the initial router configuration.
+
+File to Create: lib/core/navigation/app_router.dart
+
+Content:
+
+Define a GoRouter instance.
+
+Create the first route: a root route / that points to a placeholder screen (e.g., ProfileSetupScreen).
+
+Action: Link the router to the main app.
+
+File to Edit: lib/main.dart
+
+Content: Use MaterialApp.router and pass the configuration from your app_router.dart file.
+
+Week 2-3: Feature Implementation - Profile Management (Estimated Time: 5-7 Days)
+The goal is to build a fully functional vertical slice of the app where a user can create and manage their academic profile.
+
+Step 4: Profile Data Models (Domain Layer)
+Action: Create the data model for the user profile.
+
+File to Create: lib/features/profile/domain/models/user_profile.dart
+
+Content: Define a UserProfile class using the @freezed annotation. The fields should match the columns in the Users database table.
+
+Action: Create the data model for test scores.
+
+File to Create: lib/features/profile/domain/models/test_score.dart
+
+Content: Define a TestScore class using @freezed, matching the TestScores database table.
+
+Action: Run the code generator.
+
+Command: flutter pub run build_runner build --delete-conflicting-outputs
+
+Expected Result: .freezed.dart and .g.dart files are generated for your models.
+
+Step 5: Profile UI (Presentation Layer)
+Action: Build the main profile setup screen.
+
+File to Create: lib/features/profile/presentation/screens/profile_setup_screen.dart
+
+Content:
+
+Create a ConsumerWidget.
+
+Use a Scaffold with a clean AppBar.
+
+The body should be a ListView or SingleChildScrollView containing a Form.
+
+Use TextFormField for each field, styled according to our modern UI philosophy (e.g., using InputDecoration with rounded borders and clear hint text).
+
+Implement basic validation (e.g., "Name cannot be empty").
+
+Add a "Save Profile" button at the bottom. Initially, this button will not have any logic.
+
+Action: Build the test score management screen.
+
+File to Create: lib/features/profile/presentation/screens/test_scores_screen.dart
+
+Content: Create a UI that can display a list of test scores in Card widgets and has a floating action button to "Add New Score".
+
+Step 6: Connecting UI to Database (Application & Infrastructure Layers)
+Action: Define the repository interface.
+
+File to Create: lib/features/profile/domain/repositories/i_profile_repository.dart
+
+Content: Create an abstract class IProfileRepository with methods like Future<void> saveUserProfile(UserProfile profile) and Stream<UserProfile> watchUserProfile().
+
+Action: Implement the repository.
+
+File to Create: lib/features/profile/infrastructure/repositories/profile_repository.dart
+
+Content: Create a ProfileRepository class that implements IProfileRepository. It will take the Drift database instance as a dependency and contain the actual database query logic.
+
+Action: Create the Riverpod provider for the service.
+
+File to Create: lib/features/profile/application/profile_service.dart
+
+Content:
+
+Create a profileRepositoryProvider.
+
+Create an AsyncNotifierProvider called profileServiceProvider that uses the repository to fetch and save the user's profile.
+
+Action: Connect the UI to the state management.
+
+File to Edit: lib/features/profile/presentation/screens/profile_setup_screen.dart
+
+Content:
+
+Use ref.watch(profileServiceProvider) to get the user's profile data and display it in the text fields.
+
+In the onPressed callback of the "Save Profile" button, use ref.read(profileServiceProvider.notifier).saveUserProfile(...) to save the data from the form.
+
+By the end of this phase, the team will have a working application with a solid architecture and one complete, persistent feature. This will serve as a template for building all subsequent features.
+
+
+
+this is main screen profile wire frame. you can create placeholder or print log for all sub screen we currently not defined in profile : 
+Main Screen: User Profile & Settings
+Design Philosophy: Modern settings app with comprehensive profile management and premium features showcase
+Screen Features:
+┌─────────────────────────────────────┐
+│ Profile Header                      │
+│ ┌─────────────────────────────────┐ │
+│ │ 👤 [Profile Photo]              │ │
+│ │ Sarah Putri                     │ │
+│ │ Computer Science Student        │ │
+│ │ Universitas Indonesia           │ │
+│ │ [Edit Profile]                  │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ Quick Stats                         │
+│ ┌─────────────────────────────────┐ │
+│ │ 📊 Your Scholarship Journey     │ │
+│ │ ┌───────┬───────┬───────┐      │ │
+│ │ │  12   │   3   │  67%  │      │ │
+│ │ │Saved  │Active │Success│      │ │
+│ │ │Schols │Apps   │Rate   │      │ │
+│ │ └───────┴───────┴───────┘      │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ Academic Profile                    │
+│ ┌─────────────────────────────────┐ │
+│ │ 🎓 Academic Information         │ │
+│ │ • Bachelor's in Computer Sci    │ │
+│ │ • University of Indonesia       │ │
+│ │ • GPA: 3.85/4.00               │ │
+│ │ • Expected graduation: 2025     │ │
+│ │ [Update Details →]              │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ Test Scores                         │
+│ ┌─────────────────────────────────┐ │
+│ │ 📝 Test Scores                  │ │
+│ │ • IELTS: 7.5 (expires Mar 2026)│ │
+│ │ • GRE: Not taken                │ │
+│ │ • TOEFL: Not taken              │ │
+│ │ [Add/Update Scores →]           │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ Settings & More                     │
+│ ┌─────────────────────────────────┐ │
+│ │ ⚙️ Settings                     │ │
+│ │ 🔔 Notifications                │ │
+│ │ 📞 Help & Support               │ │
+│ │ ❓ About                        │ │
+│ └─────────────────────────────────┘ │
+└─────────────────────────────────────┘
+
+
+Please write your implementation adn  Ask my  confirmation before start implementing the  code

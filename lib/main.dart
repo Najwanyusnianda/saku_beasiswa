@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:saku_beasiswa/core/config/app_router.dart';
-import 'package:saku_beasiswa/core/constants/app_theme.dart';
+import 'package:saku_beasiswa/core/navigation/app_router.dart';
+import 'package:saku_beasiswa/core/theme/app_theme.dart';
 
 void main() {
   runApp(
