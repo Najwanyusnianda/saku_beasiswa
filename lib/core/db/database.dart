@@ -8,15 +8,17 @@ import 'package:path/path.dart' as p;
 // Import table definitions
 import 'tables/users_table.dart';
 import 'tables/test_scores_table.dart';
+import 'tables/scholarships_table.dart';
+import 'tables/user_saved_scholarships_table.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Users, TestScores])
+@DriftDatabase(tables: [Users, TestScores, Scholarships, UserSavedScholarships])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -32,6 +34,11 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(users, users.city);
           await m.addColumn(users, users.expectedGraduation);
           await m.addColumn(users, users.profilePhotoPath);
+        }
+        if (from < 3) {
+          // Migration from version 2 to 3: Add scholarship discovery feature
+          await m.createTable(scholarships);
+          await m.createTable(userSavedScholarships);
         }
       },
     );

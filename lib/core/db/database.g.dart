@@ -1357,16 +1357,1226 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
   }
 }
 
+class $ScholarshipsTable extends Scholarships
+    with TableInfo<$ScholarshipsTable, Scholarship> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ScholarshipsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _jsonIdMeta = const VerificationMeta('jsonId');
+  @override
+  late final GeneratedColumn<String> jsonId = GeneratedColumn<String>(
+    'json_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _providerMeta = const VerificationMeta(
+    'provider',
+  );
+  @override
+  late final GeneratedColumn<String> provider = GeneratedColumn<String>(
+    'provider',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _providerCountryMeta = const VerificationMeta(
+    'providerCountry',
+  );
+  @override
+  late final GeneratedColumn<String> providerCountry = GeneratedColumn<String>(
+    'provider_country',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _applicationDeadlineMeta =
+      const VerificationMeta('applicationDeadline');
+  @override
+  late final GeneratedColumn<DateTime> applicationDeadline =
+      GeneratedColumn<DateTime>(
+        'application_deadline',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _fundingTypeMeta = const VerificationMeta(
+    'fundingType',
+  );
+  @override
+  late final GeneratedColumn<String> fundingType = GeneratedColumn<String>(
+    'funding_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetDegreeLevelsMeta =
+      const VerificationMeta('targetDegreeLevels');
+  @override
+  late final GeneratedColumn<String> targetDegreeLevels =
+      GeneratedColumn<String>(
+        'target_degree_levels',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _subjectAreasMeta = const VerificationMeta(
+    'subjectAreas',
+  );
+  @override
+  late final GeneratedColumn<String> subjectAreas = GeneratedColumn<String>(
+    'subject_areas',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _studyCountriesMeta = const VerificationMeta(
+    'studyCountries',
+  );
+  @override
+  late final GeneratedColumn<String> studyCountries = GeneratedColumn<String>(
+    'study_countries',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _minGpaMeta = const VerificationMeta('minGpa');
+  @override
+  late final GeneratedColumn<double> minGpa = GeneratedColumn<double>(
+    'min_gpa',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _languageRequirementsMeta =
+      const VerificationMeta('languageRequirements');
+  @override
+  late final GeneratedColumn<String> languageRequirements =
+      GeneratedColumn<String>(
+        'language_requirements',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _fullDataMeta = const VerificationMeta(
+    'fullData',
+  );
+  @override
+  late final GeneratedColumn<String> fullData = GeneratedColumn<String>(
+    'full_data',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    jsonId,
+    title,
+    provider,
+    providerCountry,
+    applicationDeadline,
+    fundingType,
+    targetDegreeLevels,
+    subjectAreas,
+    studyCountries,
+    minGpa,
+    languageRequirements,
+    fullData,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'scholarships';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Scholarship> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('json_id')) {
+      context.handle(
+        _jsonIdMeta,
+        jsonId.isAcceptableOrUnknown(data['json_id']!, _jsonIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_jsonIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('provider')) {
+      context.handle(
+        _providerMeta,
+        provider.isAcceptableOrUnknown(data['provider']!, _providerMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_providerMeta);
+    }
+    if (data.containsKey('provider_country')) {
+      context.handle(
+        _providerCountryMeta,
+        providerCountry.isAcceptableOrUnknown(
+          data['provider_country']!,
+          _providerCountryMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_providerCountryMeta);
+    }
+    if (data.containsKey('application_deadline')) {
+      context.handle(
+        _applicationDeadlineMeta,
+        applicationDeadline.isAcceptableOrUnknown(
+          data['application_deadline']!,
+          _applicationDeadlineMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_applicationDeadlineMeta);
+    }
+    if (data.containsKey('funding_type')) {
+      context.handle(
+        _fundingTypeMeta,
+        fundingType.isAcceptableOrUnknown(
+          data['funding_type']!,
+          _fundingTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_fundingTypeMeta);
+    }
+    if (data.containsKey('target_degree_levels')) {
+      context.handle(
+        _targetDegreeLevelsMeta,
+        targetDegreeLevels.isAcceptableOrUnknown(
+          data['target_degree_levels']!,
+          _targetDegreeLevelsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_targetDegreeLevelsMeta);
+    }
+    if (data.containsKey('subject_areas')) {
+      context.handle(
+        _subjectAreasMeta,
+        subjectAreas.isAcceptableOrUnknown(
+          data['subject_areas']!,
+          _subjectAreasMeta,
+        ),
+      );
+    }
+    if (data.containsKey('study_countries')) {
+      context.handle(
+        _studyCountriesMeta,
+        studyCountries.isAcceptableOrUnknown(
+          data['study_countries']!,
+          _studyCountriesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('min_gpa')) {
+      context.handle(
+        _minGpaMeta,
+        minGpa.isAcceptableOrUnknown(data['min_gpa']!, _minGpaMeta),
+      );
+    }
+    if (data.containsKey('language_requirements')) {
+      context.handle(
+        _languageRequirementsMeta,
+        languageRequirements.isAcceptableOrUnknown(
+          data['language_requirements']!,
+          _languageRequirementsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('full_data')) {
+      context.handle(
+        _fullDataMeta,
+        fullData.isAcceptableOrUnknown(data['full_data']!, _fullDataMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fullDataMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Scholarship map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Scholarship(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      jsonId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}json_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      provider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}provider'],
+      )!,
+      providerCountry: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}provider_country'],
+      )!,
+      applicationDeadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}application_deadline'],
+      )!,
+      fundingType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}funding_type'],
+      )!,
+      targetDegreeLevels: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_degree_levels'],
+      )!,
+      subjectAreas: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subject_areas'],
+      ),
+      studyCountries: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}study_countries'],
+      ),
+      minGpa: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}min_gpa'],
+      ),
+      languageRequirements: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}language_requirements'],
+      ),
+      fullData: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}full_data'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ScholarshipsTable createAlias(String alias) {
+    return $ScholarshipsTable(attachedDatabase, alias);
+  }
+}
+
+class Scholarship extends DataClass implements Insertable<Scholarship> {
+  /// Primary key
+  final int id;
+
+  /// Unique identifier from the JSON file (e.g., "scholarship_001")
+  final String jsonId;
+
+  /// Scholarship title for quick display and search
+  final String title;
+
+  /// Provider/Organization name (e.g., "University of Melbourne")
+  final String provider;
+
+  /// Provider country for filtering (e.g., "Australia", "United States")
+  final String providerCountry;
+
+  /// Application deadline for sorting and filtering
+  final DateTime applicationDeadline;
+
+  /// Funding type for filtering (e.g., "Full Scholarship", "Partial Funding")
+  final String fundingType;
+
+  /// Target degree levels as JSON array string for filtering
+  /// (e.g., '["Undergraduate", "Master"]')
+  final String targetDegreeLevels;
+
+  /// Subject areas as JSON array string for filtering
+  /// (e.g., '["Engineering", "Computer Science"]')
+  final String? subjectAreas;
+
+  /// Countries where the scholarship can be used
+  /// (e.g., '["Australia", "New Zealand"]')
+  final String? studyCountries;
+
+  /// Minimum GPA requirement for quick filtering
+  final double? minGpa;
+
+  /// Language requirements as JSON string
+  /// (e.g., '{"IELTS": 6.5, "TOEFL": 90}')
+  final String? languageRequirements;
+
+  /// Store the entire JSON object for the detail view
+  /// This contains all the rich, nested data from the original JSON
+  final String fullData;
+
+  /// When this record was created in the database
+  final DateTime createdAt;
+
+  /// When this record was last updated
+  final DateTime updatedAt;
+  const Scholarship({
+    required this.id,
+    required this.jsonId,
+    required this.title,
+    required this.provider,
+    required this.providerCountry,
+    required this.applicationDeadline,
+    required this.fundingType,
+    required this.targetDegreeLevels,
+    this.subjectAreas,
+    this.studyCountries,
+    this.minGpa,
+    this.languageRequirements,
+    required this.fullData,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['json_id'] = Variable<String>(jsonId);
+    map['title'] = Variable<String>(title);
+    map['provider'] = Variable<String>(provider);
+    map['provider_country'] = Variable<String>(providerCountry);
+    map['application_deadline'] = Variable<DateTime>(applicationDeadline);
+    map['funding_type'] = Variable<String>(fundingType);
+    map['target_degree_levels'] = Variable<String>(targetDegreeLevels);
+    if (!nullToAbsent || subjectAreas != null) {
+      map['subject_areas'] = Variable<String>(subjectAreas);
+    }
+    if (!nullToAbsent || studyCountries != null) {
+      map['study_countries'] = Variable<String>(studyCountries);
+    }
+    if (!nullToAbsent || minGpa != null) {
+      map['min_gpa'] = Variable<double>(minGpa);
+    }
+    if (!nullToAbsent || languageRequirements != null) {
+      map['language_requirements'] = Variable<String>(languageRequirements);
+    }
+    map['full_data'] = Variable<String>(fullData);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  ScholarshipsCompanion toCompanion(bool nullToAbsent) {
+    return ScholarshipsCompanion(
+      id: Value(id),
+      jsonId: Value(jsonId),
+      title: Value(title),
+      provider: Value(provider),
+      providerCountry: Value(providerCountry),
+      applicationDeadline: Value(applicationDeadline),
+      fundingType: Value(fundingType),
+      targetDegreeLevels: Value(targetDegreeLevels),
+      subjectAreas: subjectAreas == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subjectAreas),
+      studyCountries: studyCountries == null && nullToAbsent
+          ? const Value.absent()
+          : Value(studyCountries),
+      minGpa: minGpa == null && nullToAbsent
+          ? const Value.absent()
+          : Value(minGpa),
+      languageRequirements: languageRequirements == null && nullToAbsent
+          ? const Value.absent()
+          : Value(languageRequirements),
+      fullData: Value(fullData),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory Scholarship.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Scholarship(
+      id: serializer.fromJson<int>(json['id']),
+      jsonId: serializer.fromJson<String>(json['jsonId']),
+      title: serializer.fromJson<String>(json['title']),
+      provider: serializer.fromJson<String>(json['provider']),
+      providerCountry: serializer.fromJson<String>(json['providerCountry']),
+      applicationDeadline: serializer.fromJson<DateTime>(
+        json['applicationDeadline'],
+      ),
+      fundingType: serializer.fromJson<String>(json['fundingType']),
+      targetDegreeLevels: serializer.fromJson<String>(
+        json['targetDegreeLevels'],
+      ),
+      subjectAreas: serializer.fromJson<String?>(json['subjectAreas']),
+      studyCountries: serializer.fromJson<String?>(json['studyCountries']),
+      minGpa: serializer.fromJson<double?>(json['minGpa']),
+      languageRequirements: serializer.fromJson<String?>(
+        json['languageRequirements'],
+      ),
+      fullData: serializer.fromJson<String>(json['fullData']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'jsonId': serializer.toJson<String>(jsonId),
+      'title': serializer.toJson<String>(title),
+      'provider': serializer.toJson<String>(provider),
+      'providerCountry': serializer.toJson<String>(providerCountry),
+      'applicationDeadline': serializer.toJson<DateTime>(applicationDeadline),
+      'fundingType': serializer.toJson<String>(fundingType),
+      'targetDegreeLevels': serializer.toJson<String>(targetDegreeLevels),
+      'subjectAreas': serializer.toJson<String?>(subjectAreas),
+      'studyCountries': serializer.toJson<String?>(studyCountries),
+      'minGpa': serializer.toJson<double?>(minGpa),
+      'languageRequirements': serializer.toJson<String?>(languageRequirements),
+      'fullData': serializer.toJson<String>(fullData),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  Scholarship copyWith({
+    int? id,
+    String? jsonId,
+    String? title,
+    String? provider,
+    String? providerCountry,
+    DateTime? applicationDeadline,
+    String? fundingType,
+    String? targetDegreeLevels,
+    Value<String?> subjectAreas = const Value.absent(),
+    Value<String?> studyCountries = const Value.absent(),
+    Value<double?> minGpa = const Value.absent(),
+    Value<String?> languageRequirements = const Value.absent(),
+    String? fullData,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => Scholarship(
+    id: id ?? this.id,
+    jsonId: jsonId ?? this.jsonId,
+    title: title ?? this.title,
+    provider: provider ?? this.provider,
+    providerCountry: providerCountry ?? this.providerCountry,
+    applicationDeadline: applicationDeadline ?? this.applicationDeadline,
+    fundingType: fundingType ?? this.fundingType,
+    targetDegreeLevels: targetDegreeLevels ?? this.targetDegreeLevels,
+    subjectAreas: subjectAreas.present ? subjectAreas.value : this.subjectAreas,
+    studyCountries: studyCountries.present
+        ? studyCountries.value
+        : this.studyCountries,
+    minGpa: minGpa.present ? minGpa.value : this.minGpa,
+    languageRequirements: languageRequirements.present
+        ? languageRequirements.value
+        : this.languageRequirements,
+    fullData: fullData ?? this.fullData,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  Scholarship copyWithCompanion(ScholarshipsCompanion data) {
+    return Scholarship(
+      id: data.id.present ? data.id.value : this.id,
+      jsonId: data.jsonId.present ? data.jsonId.value : this.jsonId,
+      title: data.title.present ? data.title.value : this.title,
+      provider: data.provider.present ? data.provider.value : this.provider,
+      providerCountry: data.providerCountry.present
+          ? data.providerCountry.value
+          : this.providerCountry,
+      applicationDeadline: data.applicationDeadline.present
+          ? data.applicationDeadline.value
+          : this.applicationDeadline,
+      fundingType: data.fundingType.present
+          ? data.fundingType.value
+          : this.fundingType,
+      targetDegreeLevels: data.targetDegreeLevels.present
+          ? data.targetDegreeLevels.value
+          : this.targetDegreeLevels,
+      subjectAreas: data.subjectAreas.present
+          ? data.subjectAreas.value
+          : this.subjectAreas,
+      studyCountries: data.studyCountries.present
+          ? data.studyCountries.value
+          : this.studyCountries,
+      minGpa: data.minGpa.present ? data.minGpa.value : this.minGpa,
+      languageRequirements: data.languageRequirements.present
+          ? data.languageRequirements.value
+          : this.languageRequirements,
+      fullData: data.fullData.present ? data.fullData.value : this.fullData,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Scholarship(')
+          ..write('id: $id, ')
+          ..write('jsonId: $jsonId, ')
+          ..write('title: $title, ')
+          ..write('provider: $provider, ')
+          ..write('providerCountry: $providerCountry, ')
+          ..write('applicationDeadline: $applicationDeadline, ')
+          ..write('fundingType: $fundingType, ')
+          ..write('targetDegreeLevels: $targetDegreeLevels, ')
+          ..write('subjectAreas: $subjectAreas, ')
+          ..write('studyCountries: $studyCountries, ')
+          ..write('minGpa: $minGpa, ')
+          ..write('languageRequirements: $languageRequirements, ')
+          ..write('fullData: $fullData, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    jsonId,
+    title,
+    provider,
+    providerCountry,
+    applicationDeadline,
+    fundingType,
+    targetDegreeLevels,
+    subjectAreas,
+    studyCountries,
+    minGpa,
+    languageRequirements,
+    fullData,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Scholarship &&
+          other.id == this.id &&
+          other.jsonId == this.jsonId &&
+          other.title == this.title &&
+          other.provider == this.provider &&
+          other.providerCountry == this.providerCountry &&
+          other.applicationDeadline == this.applicationDeadline &&
+          other.fundingType == this.fundingType &&
+          other.targetDegreeLevels == this.targetDegreeLevels &&
+          other.subjectAreas == this.subjectAreas &&
+          other.studyCountries == this.studyCountries &&
+          other.minGpa == this.minGpa &&
+          other.languageRequirements == this.languageRequirements &&
+          other.fullData == this.fullData &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ScholarshipsCompanion extends UpdateCompanion<Scholarship> {
+  final Value<int> id;
+  final Value<String> jsonId;
+  final Value<String> title;
+  final Value<String> provider;
+  final Value<String> providerCountry;
+  final Value<DateTime> applicationDeadline;
+  final Value<String> fundingType;
+  final Value<String> targetDegreeLevels;
+  final Value<String?> subjectAreas;
+  final Value<String?> studyCountries;
+  final Value<double?> minGpa;
+  final Value<String?> languageRequirements;
+  final Value<String> fullData;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const ScholarshipsCompanion({
+    this.id = const Value.absent(),
+    this.jsonId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.provider = const Value.absent(),
+    this.providerCountry = const Value.absent(),
+    this.applicationDeadline = const Value.absent(),
+    this.fundingType = const Value.absent(),
+    this.targetDegreeLevels = const Value.absent(),
+    this.subjectAreas = const Value.absent(),
+    this.studyCountries = const Value.absent(),
+    this.minGpa = const Value.absent(),
+    this.languageRequirements = const Value.absent(),
+    this.fullData = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  ScholarshipsCompanion.insert({
+    this.id = const Value.absent(),
+    required String jsonId,
+    required String title,
+    required String provider,
+    required String providerCountry,
+    required DateTime applicationDeadline,
+    required String fundingType,
+    required String targetDegreeLevels,
+    this.subjectAreas = const Value.absent(),
+    this.studyCountries = const Value.absent(),
+    this.minGpa = const Value.absent(),
+    this.languageRequirements = const Value.absent(),
+    required String fullData,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  }) : jsonId = Value(jsonId),
+       title = Value(title),
+       provider = Value(provider),
+       providerCountry = Value(providerCountry),
+       applicationDeadline = Value(applicationDeadline),
+       fundingType = Value(fundingType),
+       targetDegreeLevels = Value(targetDegreeLevels),
+       fullData = Value(fullData);
+  static Insertable<Scholarship> custom({
+    Expression<int>? id,
+    Expression<String>? jsonId,
+    Expression<String>? title,
+    Expression<String>? provider,
+    Expression<String>? providerCountry,
+    Expression<DateTime>? applicationDeadline,
+    Expression<String>? fundingType,
+    Expression<String>? targetDegreeLevels,
+    Expression<String>? subjectAreas,
+    Expression<String>? studyCountries,
+    Expression<double>? minGpa,
+    Expression<String>? languageRequirements,
+    Expression<String>? fullData,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (jsonId != null) 'json_id': jsonId,
+      if (title != null) 'title': title,
+      if (provider != null) 'provider': provider,
+      if (providerCountry != null) 'provider_country': providerCountry,
+      if (applicationDeadline != null)
+        'application_deadline': applicationDeadline,
+      if (fundingType != null) 'funding_type': fundingType,
+      if (targetDegreeLevels != null)
+        'target_degree_levels': targetDegreeLevels,
+      if (subjectAreas != null) 'subject_areas': subjectAreas,
+      if (studyCountries != null) 'study_countries': studyCountries,
+      if (minGpa != null) 'min_gpa': minGpa,
+      if (languageRequirements != null)
+        'language_requirements': languageRequirements,
+      if (fullData != null) 'full_data': fullData,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  ScholarshipsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? jsonId,
+    Value<String>? title,
+    Value<String>? provider,
+    Value<String>? providerCountry,
+    Value<DateTime>? applicationDeadline,
+    Value<String>? fundingType,
+    Value<String>? targetDegreeLevels,
+    Value<String?>? subjectAreas,
+    Value<String?>? studyCountries,
+    Value<double?>? minGpa,
+    Value<String?>? languageRequirements,
+    Value<String>? fullData,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+  }) {
+    return ScholarshipsCompanion(
+      id: id ?? this.id,
+      jsonId: jsonId ?? this.jsonId,
+      title: title ?? this.title,
+      provider: provider ?? this.provider,
+      providerCountry: providerCountry ?? this.providerCountry,
+      applicationDeadline: applicationDeadline ?? this.applicationDeadline,
+      fundingType: fundingType ?? this.fundingType,
+      targetDegreeLevels: targetDegreeLevels ?? this.targetDegreeLevels,
+      subjectAreas: subjectAreas ?? this.subjectAreas,
+      studyCountries: studyCountries ?? this.studyCountries,
+      minGpa: minGpa ?? this.minGpa,
+      languageRequirements: languageRequirements ?? this.languageRequirements,
+      fullData: fullData ?? this.fullData,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (jsonId.present) {
+      map['json_id'] = Variable<String>(jsonId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (provider.present) {
+      map['provider'] = Variable<String>(provider.value);
+    }
+    if (providerCountry.present) {
+      map['provider_country'] = Variable<String>(providerCountry.value);
+    }
+    if (applicationDeadline.present) {
+      map['application_deadline'] = Variable<DateTime>(
+        applicationDeadline.value,
+      );
+    }
+    if (fundingType.present) {
+      map['funding_type'] = Variable<String>(fundingType.value);
+    }
+    if (targetDegreeLevels.present) {
+      map['target_degree_levels'] = Variable<String>(targetDegreeLevels.value);
+    }
+    if (subjectAreas.present) {
+      map['subject_areas'] = Variable<String>(subjectAreas.value);
+    }
+    if (studyCountries.present) {
+      map['study_countries'] = Variable<String>(studyCountries.value);
+    }
+    if (minGpa.present) {
+      map['min_gpa'] = Variable<double>(minGpa.value);
+    }
+    if (languageRequirements.present) {
+      map['language_requirements'] = Variable<String>(
+        languageRequirements.value,
+      );
+    }
+    if (fullData.present) {
+      map['full_data'] = Variable<String>(fullData.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ScholarshipsCompanion(')
+          ..write('id: $id, ')
+          ..write('jsonId: $jsonId, ')
+          ..write('title: $title, ')
+          ..write('provider: $provider, ')
+          ..write('providerCountry: $providerCountry, ')
+          ..write('applicationDeadline: $applicationDeadline, ')
+          ..write('fundingType: $fundingType, ')
+          ..write('targetDegreeLevels: $targetDegreeLevels, ')
+          ..write('subjectAreas: $subjectAreas, ')
+          ..write('studyCountries: $studyCountries, ')
+          ..write('minGpa: $minGpa, ')
+          ..write('languageRequirements: $languageRequirements, ')
+          ..write('fullData: $fullData, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserSavedScholarshipsTable extends UserSavedScholarships
+    with TableInfo<$UserSavedScholarshipsTable, UserSavedScholarship> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserSavedScholarshipsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _scholarshipIdMeta = const VerificationMeta(
+    'scholarshipId',
+  );
+  @override
+  late final GeneratedColumn<int> scholarshipId = GeneratedColumn<int>(
+    'scholarship_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES scholarships (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _savedAtMeta = const VerificationMeta(
+    'savedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> savedAt = GeneratedColumn<DateTime>(
+    'saved_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [userId, scholarshipId, savedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_saved_scholarships';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserSavedScholarship> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('scholarship_id')) {
+      context.handle(
+        _scholarshipIdMeta,
+        scholarshipId.isAcceptableOrUnknown(
+          data['scholarship_id']!,
+          _scholarshipIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scholarshipIdMeta);
+    }
+    if (data.containsKey('saved_at')) {
+      context.handle(
+        _savedAtMeta,
+        savedAt.isAcceptableOrUnknown(data['saved_at']!, _savedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {userId, scholarshipId};
+  @override
+  UserSavedScholarship map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserSavedScholarship(
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      scholarshipId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}scholarship_id'],
+      )!,
+      savedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}saved_at'],
+      )!,
+    );
+  }
+
+  @override
+  $UserSavedScholarshipsTable createAlias(String alias) {
+    return $UserSavedScholarshipsTable(attachedDatabase, alias);
+  }
+}
+
+class UserSavedScholarship extends DataClass
+    implements Insertable<UserSavedScholarship> {
+  /// Reference to the user who saved the scholarship
+  final int userId;
+
+  /// Reference to the saved scholarship
+  final int scholarshipId;
+
+  /// When the user saved this scholarship
+  final DateTime savedAt;
+  const UserSavedScholarship({
+    required this.userId,
+    required this.scholarshipId,
+    required this.savedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['user_id'] = Variable<int>(userId);
+    map['scholarship_id'] = Variable<int>(scholarshipId);
+    map['saved_at'] = Variable<DateTime>(savedAt);
+    return map;
+  }
+
+  UserSavedScholarshipsCompanion toCompanion(bool nullToAbsent) {
+    return UserSavedScholarshipsCompanion(
+      userId: Value(userId),
+      scholarshipId: Value(scholarshipId),
+      savedAt: Value(savedAt),
+    );
+  }
+
+  factory UserSavedScholarship.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserSavedScholarship(
+      userId: serializer.fromJson<int>(json['userId']),
+      scholarshipId: serializer.fromJson<int>(json['scholarshipId']),
+      savedAt: serializer.fromJson<DateTime>(json['savedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'userId': serializer.toJson<int>(userId),
+      'scholarshipId': serializer.toJson<int>(scholarshipId),
+      'savedAt': serializer.toJson<DateTime>(savedAt),
+    };
+  }
+
+  UserSavedScholarship copyWith({
+    int? userId,
+    int? scholarshipId,
+    DateTime? savedAt,
+  }) => UserSavedScholarship(
+    userId: userId ?? this.userId,
+    scholarshipId: scholarshipId ?? this.scholarshipId,
+    savedAt: savedAt ?? this.savedAt,
+  );
+  UserSavedScholarship copyWithCompanion(UserSavedScholarshipsCompanion data) {
+    return UserSavedScholarship(
+      userId: data.userId.present ? data.userId.value : this.userId,
+      scholarshipId: data.scholarshipId.present
+          ? data.scholarshipId.value
+          : this.scholarshipId,
+      savedAt: data.savedAt.present ? data.savedAt.value : this.savedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserSavedScholarship(')
+          ..write('userId: $userId, ')
+          ..write('scholarshipId: $scholarshipId, ')
+          ..write('savedAt: $savedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(userId, scholarshipId, savedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserSavedScholarship &&
+          other.userId == this.userId &&
+          other.scholarshipId == this.scholarshipId &&
+          other.savedAt == this.savedAt);
+}
+
+class UserSavedScholarshipsCompanion
+    extends UpdateCompanion<UserSavedScholarship> {
+  final Value<int> userId;
+  final Value<int> scholarshipId;
+  final Value<DateTime> savedAt;
+  final Value<int> rowid;
+  const UserSavedScholarshipsCompanion({
+    this.userId = const Value.absent(),
+    this.scholarshipId = const Value.absent(),
+    this.savedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserSavedScholarshipsCompanion.insert({
+    required int userId,
+    required int scholarshipId,
+    this.savedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : userId = Value(userId),
+       scholarshipId = Value(scholarshipId);
+  static Insertable<UserSavedScholarship> custom({
+    Expression<int>? userId,
+    Expression<int>? scholarshipId,
+    Expression<DateTime>? savedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (userId != null) 'user_id': userId,
+      if (scholarshipId != null) 'scholarship_id': scholarshipId,
+      if (savedAt != null) 'saved_at': savedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserSavedScholarshipsCompanion copyWith({
+    Value<int>? userId,
+    Value<int>? scholarshipId,
+    Value<DateTime>? savedAt,
+    Value<int>? rowid,
+  }) {
+    return UserSavedScholarshipsCompanion(
+      userId: userId ?? this.userId,
+      scholarshipId: scholarshipId ?? this.scholarshipId,
+      savedAt: savedAt ?? this.savedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (scholarshipId.present) {
+      map['scholarship_id'] = Variable<int>(scholarshipId.value);
+    }
+    if (savedAt.present) {
+      map['saved_at'] = Variable<DateTime>(savedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserSavedScholarshipsCompanion(')
+          ..write('userId: $userId, ')
+          ..write('scholarshipId: $scholarshipId, ')
+          ..write('savedAt: $savedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $UsersTable users = $UsersTable(this);
   late final $TestScoresTable testScores = $TestScoresTable(this);
+  late final $ScholarshipsTable scholarships = $ScholarshipsTable(this);
+  late final $UserSavedScholarshipsTable userSavedScholarships =
+      $UserSavedScholarshipsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [users, testScores];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    users,
+    testScores,
+    scholarships,
+    userSavedScholarships,
+  ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
     WritePropagation(
@@ -1375,6 +2585,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('test_scores', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'users',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('user_saved_scholarships', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'scholarships',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('user_saved_scholarships', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -1431,6 +2655,34 @@ final class $$UsersTableReferences
     ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_testScoresRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $UserSavedScholarshipsTable,
+    List<UserSavedScholarship>
+  >
+  _userSavedScholarshipsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.userSavedScholarships,
+        aliasName: $_aliasNameGenerator(
+          db.users.id,
+          db.userSavedScholarships.userId,
+        ),
+      );
+
+  $$UserSavedScholarshipsTableProcessedTableManager
+  get userSavedScholarshipsRefs {
+    final manager = $$UserSavedScholarshipsTableTableManager(
+      $_db,
+      $_db.userSavedScholarships,
+    ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _userSavedScholarshipsRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -1537,6 +2789,32 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> userSavedScholarshipsRefs(
+    Expression<bool> Function($$UserSavedScholarshipsTableFilterComposer f) f,
+  ) {
+    final $$UserSavedScholarshipsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userSavedScholarships,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserSavedScholarshipsTableFilterComposer(
+                $db: $db,
+                $table: $db.userSavedScholarships,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -1712,6 +2990,32 @@ class $$UsersTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> userSavedScholarshipsRefs<T extends Object>(
+    Expression<T> Function($$UserSavedScholarshipsTableAnnotationComposer a) f,
+  ) {
+    final $$UserSavedScholarshipsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userSavedScholarships,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserSavedScholarshipsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.userSavedScholarships,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -1727,7 +3031,10 @@ class $$UsersTableTableManager
           $$UsersTableUpdateCompanionBuilder,
           (User, $$UsersTableReferences),
           User,
-          PrefetchHooks Function({bool testScoresRefs})
+          PrefetchHooks Function({
+            bool testScoresRefs,
+            bool userSavedScholarshipsRefs,
+          })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
     : super(
@@ -1810,28 +3117,59 @@ class $$UsersTableTableManager
                     (e.readTable(table), $$UsersTableReferences(db, table, e)),
               )
               .toList(),
-          prefetchHooksCallback: ({testScoresRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (testScoresRefs) db.testScores],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (testScoresRefs)
-                    await $_getPrefetchedData<User, $UsersTable, TestScore>(
-                      currentTable: table,
-                      referencedTable: $$UsersTableReferences
-                          ._testScoresRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$UsersTableReferences(db, table, p0).testScoresRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.userId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({testScoresRefs = false, userSavedScholarshipsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (testScoresRefs) db.testScores,
+                    if (userSavedScholarshipsRefs) db.userSavedScholarships,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (testScoresRefs)
+                        await $_getPrefetchedData<User, $UsersTable, TestScore>(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._testScoresRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).testScoresRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (userSavedScholarshipsRefs)
+                        await $_getPrefetchedData<
+                          User,
+                          $UsersTable,
+                          UserSavedScholarship
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._userSavedScholarshipsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userSavedScholarshipsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -1848,7 +3186,10 @@ typedef $$UsersTableProcessedTableManager =
       $$UsersTableUpdateCompanionBuilder,
       (User, $$UsersTableReferences),
       User,
-      PrefetchHooks Function({bool testScoresRefs})
+      PrefetchHooks Function({
+        bool testScoresRefs,
+        bool userSavedScholarshipsRefs,
+      })
     >;
 typedef $$TestScoresTableCreateCompanionBuilder =
     TestScoresCompanion Function({
@@ -2225,6 +3566,916 @@ typedef $$TestScoresTableProcessedTableManager =
       TestScore,
       PrefetchHooks Function({bool userId})
     >;
+typedef $$ScholarshipsTableCreateCompanionBuilder =
+    ScholarshipsCompanion Function({
+      Value<int> id,
+      required String jsonId,
+      required String title,
+      required String provider,
+      required String providerCountry,
+      required DateTime applicationDeadline,
+      required String fundingType,
+      required String targetDegreeLevels,
+      Value<String?> subjectAreas,
+      Value<String?> studyCountries,
+      Value<double?> minGpa,
+      Value<String?> languageRequirements,
+      required String fullData,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+typedef $$ScholarshipsTableUpdateCompanionBuilder =
+    ScholarshipsCompanion Function({
+      Value<int> id,
+      Value<String> jsonId,
+      Value<String> title,
+      Value<String> provider,
+      Value<String> providerCountry,
+      Value<DateTime> applicationDeadline,
+      Value<String> fundingType,
+      Value<String> targetDegreeLevels,
+      Value<String?> subjectAreas,
+      Value<String?> studyCountries,
+      Value<double?> minGpa,
+      Value<String?> languageRequirements,
+      Value<String> fullData,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+
+final class $$ScholarshipsTableReferences
+    extends BaseReferences<_$AppDatabase, $ScholarshipsTable, Scholarship> {
+  $$ScholarshipsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<
+    $UserSavedScholarshipsTable,
+    List<UserSavedScholarship>
+  >
+  _userSavedScholarshipsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.userSavedScholarships,
+        aliasName: $_aliasNameGenerator(
+          db.scholarships.id,
+          db.userSavedScholarships.scholarshipId,
+        ),
+      );
+
+  $$UserSavedScholarshipsTableProcessedTableManager
+  get userSavedScholarshipsRefs {
+    final manager = $$UserSavedScholarshipsTableTableManager(
+      $_db,
+      $_db.userSavedScholarships,
+    ).filter((f) => f.scholarshipId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _userSavedScholarshipsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ScholarshipsTableFilterComposer
+    extends Composer<_$AppDatabase, $ScholarshipsTable> {
+  $$ScholarshipsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get jsonId => $composableBuilder(
+    column: $table.jsonId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get providerCountry => $composableBuilder(
+    column: $table.providerCountry,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetDegreeLevels => $composableBuilder(
+    column: $table.targetDegreeLevels,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subjectAreas => $composableBuilder(
+    column: $table.subjectAreas,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get studyCountries => $composableBuilder(
+    column: $table.studyCountries,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get minGpa => $composableBuilder(
+    column: $table.minGpa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fullData => $composableBuilder(
+    column: $table.fullData,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> userSavedScholarshipsRefs(
+    Expression<bool> Function($$UserSavedScholarshipsTableFilterComposer f) f,
+  ) {
+    final $$UserSavedScholarshipsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userSavedScholarships,
+          getReferencedColumn: (t) => t.scholarshipId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserSavedScholarshipsTableFilterComposer(
+                $db: $db,
+                $table: $db.userSavedScholarships,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ScholarshipsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ScholarshipsTable> {
+  $$ScholarshipsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get jsonId => $composableBuilder(
+    column: $table.jsonId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get providerCountry => $composableBuilder(
+    column: $table.providerCountry,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetDegreeLevels => $composableBuilder(
+    column: $table.targetDegreeLevels,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subjectAreas => $composableBuilder(
+    column: $table.subjectAreas,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get studyCountries => $composableBuilder(
+    column: $table.studyCountries,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get minGpa => $composableBuilder(
+    column: $table.minGpa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fullData => $composableBuilder(
+    column: $table.fullData,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ScholarshipsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ScholarshipsTable> {
+  $$ScholarshipsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get jsonId =>
+      $composableBuilder(column: $table.jsonId, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get provider =>
+      $composableBuilder(column: $table.provider, builder: (column) => column);
+
+  GeneratedColumn<String> get providerCountry => $composableBuilder(
+    column: $table.providerCountry,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get applicationDeadline => $composableBuilder(
+    column: $table.applicationDeadline,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fundingType => $composableBuilder(
+    column: $table.fundingType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetDegreeLevels => $composableBuilder(
+    column: $table.targetDegreeLevels,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get subjectAreas => $composableBuilder(
+    column: $table.subjectAreas,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get studyCountries => $composableBuilder(
+    column: $table.studyCountries,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get minGpa =>
+      $composableBuilder(column: $table.minGpa, builder: (column) => column);
+
+  GeneratedColumn<String> get languageRequirements => $composableBuilder(
+    column: $table.languageRequirements,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fullData =>
+      $composableBuilder(column: $table.fullData, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> userSavedScholarshipsRefs<T extends Object>(
+    Expression<T> Function($$UserSavedScholarshipsTableAnnotationComposer a) f,
+  ) {
+    final $$UserSavedScholarshipsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userSavedScholarships,
+          getReferencedColumn: (t) => t.scholarshipId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserSavedScholarshipsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.userSavedScholarships,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ScholarshipsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ScholarshipsTable,
+          Scholarship,
+          $$ScholarshipsTableFilterComposer,
+          $$ScholarshipsTableOrderingComposer,
+          $$ScholarshipsTableAnnotationComposer,
+          $$ScholarshipsTableCreateCompanionBuilder,
+          $$ScholarshipsTableUpdateCompanionBuilder,
+          (Scholarship, $$ScholarshipsTableReferences),
+          Scholarship,
+          PrefetchHooks Function({bool userSavedScholarshipsRefs})
+        > {
+  $$ScholarshipsTableTableManager(_$AppDatabase db, $ScholarshipsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ScholarshipsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ScholarshipsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ScholarshipsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> jsonId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> provider = const Value.absent(),
+                Value<String> providerCountry = const Value.absent(),
+                Value<DateTime> applicationDeadline = const Value.absent(),
+                Value<String> fundingType = const Value.absent(),
+                Value<String> targetDegreeLevels = const Value.absent(),
+                Value<String?> subjectAreas = const Value.absent(),
+                Value<String?> studyCountries = const Value.absent(),
+                Value<double?> minGpa = const Value.absent(),
+                Value<String?> languageRequirements = const Value.absent(),
+                Value<String> fullData = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ScholarshipsCompanion(
+                id: id,
+                jsonId: jsonId,
+                title: title,
+                provider: provider,
+                providerCountry: providerCountry,
+                applicationDeadline: applicationDeadline,
+                fundingType: fundingType,
+                targetDegreeLevels: targetDegreeLevels,
+                subjectAreas: subjectAreas,
+                studyCountries: studyCountries,
+                minGpa: minGpa,
+                languageRequirements: languageRequirements,
+                fullData: fullData,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String jsonId,
+                required String title,
+                required String provider,
+                required String providerCountry,
+                required DateTime applicationDeadline,
+                required String fundingType,
+                required String targetDegreeLevels,
+                Value<String?> subjectAreas = const Value.absent(),
+                Value<String?> studyCountries = const Value.absent(),
+                Value<double?> minGpa = const Value.absent(),
+                Value<String?> languageRequirements = const Value.absent(),
+                required String fullData,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => ScholarshipsCompanion.insert(
+                id: id,
+                jsonId: jsonId,
+                title: title,
+                provider: provider,
+                providerCountry: providerCountry,
+                applicationDeadline: applicationDeadline,
+                fundingType: fundingType,
+                targetDegreeLevels: targetDegreeLevels,
+                subjectAreas: subjectAreas,
+                studyCountries: studyCountries,
+                minGpa: minGpa,
+                languageRequirements: languageRequirements,
+                fullData: fullData,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ScholarshipsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userSavedScholarshipsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (userSavedScholarshipsRefs) db.userSavedScholarships,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (userSavedScholarshipsRefs)
+                    await $_getPrefetchedData<
+                      Scholarship,
+                      $ScholarshipsTable,
+                      UserSavedScholarship
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ScholarshipsTableReferences
+                          ._userSavedScholarshipsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ScholarshipsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).userSavedScholarshipsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.scholarshipId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ScholarshipsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ScholarshipsTable,
+      Scholarship,
+      $$ScholarshipsTableFilterComposer,
+      $$ScholarshipsTableOrderingComposer,
+      $$ScholarshipsTableAnnotationComposer,
+      $$ScholarshipsTableCreateCompanionBuilder,
+      $$ScholarshipsTableUpdateCompanionBuilder,
+      (Scholarship, $$ScholarshipsTableReferences),
+      Scholarship,
+      PrefetchHooks Function({bool userSavedScholarshipsRefs})
+    >;
+typedef $$UserSavedScholarshipsTableCreateCompanionBuilder =
+    UserSavedScholarshipsCompanion Function({
+      required int userId,
+      required int scholarshipId,
+      Value<DateTime> savedAt,
+      Value<int> rowid,
+    });
+typedef $$UserSavedScholarshipsTableUpdateCompanionBuilder =
+    UserSavedScholarshipsCompanion Function({
+      Value<int> userId,
+      Value<int> scholarshipId,
+      Value<DateTime> savedAt,
+      Value<int> rowid,
+    });
+
+final class $$UserSavedScholarshipsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $UserSavedScholarshipsTable,
+          UserSavedScholarship
+        > {
+  $$UserSavedScholarshipsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _userIdTable(_$AppDatabase db) => db.users.createAlias(
+    $_aliasNameGenerator(db.userSavedScholarships.userId, db.users.id),
+  );
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ScholarshipsTable _scholarshipIdTable(_$AppDatabase db) =>
+      db.scholarships.createAlias(
+        $_aliasNameGenerator(
+          db.userSavedScholarships.scholarshipId,
+          db.scholarships.id,
+        ),
+      );
+
+  $$ScholarshipsTableProcessedTableManager get scholarshipId {
+    final $_column = $_itemColumn<int>('scholarship_id')!;
+
+    final manager = $$ScholarshipsTableTableManager(
+      $_db,
+      $_db.scholarships,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_scholarshipIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$UserSavedScholarshipsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserSavedScholarshipsTable> {
+  $$UserSavedScholarshipsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get savedAt => $composableBuilder(
+    column: $table.savedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ScholarshipsTableFilterComposer get scholarshipId {
+    final $$ScholarshipsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.scholarshipId,
+      referencedTable: $db.scholarships,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipsTableFilterComposer(
+            $db: $db,
+            $table: $db.scholarships,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserSavedScholarshipsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserSavedScholarshipsTable> {
+  $$UserSavedScholarshipsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get savedAt => $composableBuilder(
+    column: $table.savedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ScholarshipsTableOrderingComposer get scholarshipId {
+    final $$ScholarshipsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.scholarshipId,
+      referencedTable: $db.scholarships,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipsTableOrderingComposer(
+            $db: $db,
+            $table: $db.scholarships,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserSavedScholarshipsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserSavedScholarshipsTable> {
+  $$UserSavedScholarshipsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get savedAt =>
+      $composableBuilder(column: $table.savedAt, builder: (column) => column);
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ScholarshipsTableAnnotationComposer get scholarshipId {
+    final $$ScholarshipsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.scholarshipId,
+      referencedTable: $db.scholarships,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScholarshipsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.scholarships,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$UserSavedScholarshipsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserSavedScholarshipsTable,
+          UserSavedScholarship,
+          $$UserSavedScholarshipsTableFilterComposer,
+          $$UserSavedScholarshipsTableOrderingComposer,
+          $$UserSavedScholarshipsTableAnnotationComposer,
+          $$UserSavedScholarshipsTableCreateCompanionBuilder,
+          $$UserSavedScholarshipsTableUpdateCompanionBuilder,
+          (UserSavedScholarship, $$UserSavedScholarshipsTableReferences),
+          UserSavedScholarship,
+          PrefetchHooks Function({bool userId, bool scholarshipId})
+        > {
+  $$UserSavedScholarshipsTableTableManager(
+    _$AppDatabase db,
+    $UserSavedScholarshipsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserSavedScholarshipsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$UserSavedScholarshipsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$UserSavedScholarshipsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> userId = const Value.absent(),
+                Value<int> scholarshipId = const Value.absent(),
+                Value<DateTime> savedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserSavedScholarshipsCompanion(
+                userId: userId,
+                scholarshipId: scholarshipId,
+                savedAt: savedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int userId,
+                required int scholarshipId,
+                Value<DateTime> savedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserSavedScholarshipsCompanion.insert(
+                userId: userId,
+                scholarshipId: scholarshipId,
+                savedAt: savedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserSavedScholarshipsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userId = false, scholarshipId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userId,
+                                referencedTable:
+                                    $$UserSavedScholarshipsTableReferences
+                                        ._userIdTable(db),
+                                referencedColumn:
+                                    $$UserSavedScholarshipsTableReferences
+                                        ._userIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (scholarshipId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.scholarshipId,
+                                referencedTable:
+                                    $$UserSavedScholarshipsTableReferences
+                                        ._scholarshipIdTable(db),
+                                referencedColumn:
+                                    $$UserSavedScholarshipsTableReferences
+                                        ._scholarshipIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$UserSavedScholarshipsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserSavedScholarshipsTable,
+      UserSavedScholarship,
+      $$UserSavedScholarshipsTableFilterComposer,
+      $$UserSavedScholarshipsTableOrderingComposer,
+      $$UserSavedScholarshipsTableAnnotationComposer,
+      $$UserSavedScholarshipsTableCreateCompanionBuilder,
+      $$UserSavedScholarshipsTableUpdateCompanionBuilder,
+      (UserSavedScholarship, $$UserSavedScholarshipsTableReferences),
+      UserSavedScholarship,
+      PrefetchHooks Function({bool userId, bool scholarshipId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2233,4 +4484,8 @@ class $AppDatabaseManager {
       $$UsersTableTableManager(_db, _db.users);
   $$TestScoresTableTableManager get testScores =>
       $$TestScoresTableTableManager(_db, _db.testScores);
+  $$ScholarshipsTableTableManager get scholarships =>
+      $$ScholarshipsTableTableManager(_db, _db.scholarships);
+  $$UserSavedScholarshipsTableTableManager get userSavedScholarships =>
+      $$UserSavedScholarshipsTableTableManager(_db, _db.userSavedScholarships);
 }
