@@ -13,6 +13,7 @@ _TestScore _$TestScoreFromJson(Map<String, dynamic> json) => _TestScore(
   overallScore: (json['overallScore'] as num).toDouble(),
   testDate: DateTime.parse(json['testDate'] as String),
   detailedScores: json['detailedScores'] as String?,
+  certificateUrl: json['certificateUrl'] as String?,
   createdAt: DateTime.parse(json['createdAt'] as String),
 );
 
@@ -24,5 +25,6 @@ Map<String, dynamic> _$TestScoreToJson(_TestScore instance) =>
       'overallScore': instance.overallScore,
       'testDate': instance.testDate.toIso8601String(),
       'detailedScores': instance.detailedScores,
+      'certificateUrl': instance.certificateUrl,
       'createdAt': instance.createdAt.toIso8601String(),
     };

@@ -16,14 +16,8 @@ class AppBarThemes {
       fontWeight: FontWeight.w600,
       color: AppColors.onSurface,
     ),
-    iconTheme: const IconThemeData(
-      color: AppColors.onSurface,
-      size: 24,
-    ),
-    actionsIconTheme: const IconThemeData(
-      color: AppColors.onSurface,
-      size: 24,
-    ),
+    iconTheme: const IconThemeData(color: AppColors.onSurface, size: 24),
+    actionsIconTheme: const IconThemeData(color: AppColors.onSurface, size: 24),
   );
 
   static AppBarTheme get dark => light.copyWith(
@@ -35,13 +29,7 @@ class AppBarThemes {
       fontWeight: FontWeight.w600,
       color: AppColors.surface,
     ),
-    iconTheme: const IconThemeData(
-      color: AppColors.surface,
-      size: 24,
-    ),
-    actionsIconTheme: const IconThemeData(
-      color: AppColors.surface,
-      size: 24,
-    ),
+    iconTheme: const IconThemeData(color: AppColors.surface, size: 24),
+    actionsIconTheme: const IconThemeData(color: AppColors.surface, size: 24),
   );
 }

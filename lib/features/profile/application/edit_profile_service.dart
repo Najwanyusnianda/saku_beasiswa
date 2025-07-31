@@ -27,21 +27,18 @@ class EditProfileNotifier extends _$EditProfileNotifier {
 
   Future<void> loadCurrentProfile() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
-    
+
     try {
       final repository = ref.read(profileRepositoryProvider);
       final profile = await repository.getCurrentProfile();
-      
+
       state = state.copyWith(
         isLoading: false,
         currentProfile: profile,
         formData: profile, // Initialize form with current data
       );
     } catch (error) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: error.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: error.toString());
     }
   }
 
@@ -59,21 +56,22 @@ class EditProfileNotifier extends _$EditProfileNotifier {
     String? profilePhotoPath,
   }) {
     if (state.formData == null) return;
-    
+
     final updatedFormData = state.formData!.copyWith(
       fullName: fullName ?? state.formData!.fullName,
       email: email ?? state.formData!.email,
       phoneNumber: phoneNumber,
       dateOfBirth: dateOfBirth,
       city: city,
-      currentEducationLevel: currentEducationLevel ?? state.formData!.currentEducationLevel,
+      currentEducationLevel:
+          currentEducationLevel ?? state.formData!.currentEducationLevel,
       institution: institution ?? state.formData!.institution,
       majorField: majorField ?? state.formData!.majorField,
       currentGpa: currentGpa,
       expectedGraduation: expectedGraduation,
       profilePhotoPath: profilePhotoPath,
     );
-    
+
     state = state.copyWith(
       formData: updatedFormData,
       hasUnsavedChanges: _hasChanges(state.currentProfile, updatedFormData),
@@ -92,50 +90,47 @@ class EditProfileNotifier extends _$EditProfileNotifier {
 
   Future<void> saveProfile() async {
     if (state.formData == null || !state.isFormValid) return;
-    
+
     state = state.copyWith(isLoading: true, errorMessage: null);
-    
+
     try {
       final repository = ref.read(profileRepositoryProvider);
       await repository.updateUserProfile(state.formData!);
-      
+
       state = state.copyWith(
         isLoading: false,
         hasUnsavedChanges: false,
         currentProfile: state.formData,
       );
     } catch (error) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: error.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: error.toString());
       rethrow;
     }
   }
 
   bool _hasChanges(UserProfile? original, UserProfile? updated) {
     if (original == null || updated == null) return false;
-    
+
     return original.fullName != updated.fullName ||
-           original.email != updated.email ||
-           original.phoneNumber != updated.phoneNumber ||
-           original.dateOfBirth != updated.dateOfBirth ||
-           original.city != updated.city ||
-           original.currentEducationLevel != updated.currentEducationLevel ||
-           original.institution != updated.institution ||
-           original.majorField != updated.majorField ||
-           original.currentGpa != updated.currentGpa ||
-           original.expectedGraduation != updated.expectedGraduation ||
-           original.profilePhotoPath != updated.profilePhotoPath;
+        original.email != updated.email ||
+        original.phoneNumber != updated.phoneNumber ||
+        original.dateOfBirth != updated.dateOfBirth ||
+        original.city != updated.city ||
+        original.currentEducationLevel != updated.currentEducationLevel ||
+        original.institution != updated.institution ||
+        original.majorField != updated.majorField ||
+        original.currentGpa != updated.currentGpa ||
+        original.expectedGraduation != updated.expectedGraduation ||
+        original.profilePhotoPath != updated.profilePhotoPath;
   }
 
   bool _isFormValid(UserProfile? profile) {
     if (profile == null) return false;
-    
+
     return profile.fullName.isNotEmpty &&
-           profile.email.isNotEmpty &&
-           profile.currentEducationLevel.isNotEmpty &&
-           profile.institution.isNotEmpty &&
-           profile.majorField.isNotEmpty;
+        profile.email.isNotEmpty &&
+        profile.currentEducationLevel.isNotEmpty &&
+        profile.institution.isNotEmpty &&
+        profile.majorField.isNotEmpty;
   }
 }

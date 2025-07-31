@@ -26,17 +26,9 @@ class ChipThemes {
     pressElevation: 2,
     shadowColor: AppColors.divider,
     surfaceTintColor: AppColors.primary,
-    side: const BorderSide(
-      color: AppColors.border,
-      width: 1,
-    ),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-    iconTheme: const IconThemeData(
-      color: AppColors.onSurfaceVariant,
-      size: 18,
-    ),
+    side: const BorderSide(color: AppColors.border, width: 1),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    iconTheme: const IconThemeData(color: AppColors.onSurfaceVariant, size: 18),
     deleteIconColor: AppColors.onSurfaceVariant,
     checkmarkColor: AppColors.primary,
     selectedShadowColor: AppColors.divider,

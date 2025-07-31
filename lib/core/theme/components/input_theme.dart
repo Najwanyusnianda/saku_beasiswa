@@ -8,38 +8,23 @@ class InputThemes {
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.border,
-        width: 1,
-      ),
+      borderSide: const BorderSide(color: AppColors.border, width: 1),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.border,
-        width: 1,
-      ),
+      borderSide: const BorderSide(color: AppColors.border, width: 1),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.primary,
-        width: 2,
-      ),
+      borderSide: const BorderSide(color: AppColors.primary, width: 2),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.error,
-        width: 1,
-      ),
+      borderSide: const BorderSide(color: AppColors.error, width: 1),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.error,
-        width: 2,
-      ),
+      borderSide: const BorderSide(color: AppColors.error, width: 2),
     ),
     disabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
@@ -90,12 +75,12 @@ class InputThemes {
       return AppColors.surface;
     }),
     checkColor: MaterialStateProperty.all(AppColors.onPrimary),
-    overlayColor: MaterialStateProperty.all(AppColors.primary.withOpacity(0.12)),
+    overlayColor: MaterialStateProperty.all(
+      AppColors.primary.withOpacity(0.12),
+    ),
     splashRadius: 20,
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(4),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
   );
 
   static RadioThemeData get radio => RadioThemeData(
@@ -105,7 +90,9 @@ class InputThemes {
       }
       return AppColors.onSurfaceVariant;
     }),
-    overlayColor: MaterialStateProperty.all(AppColors.primary.withOpacity(0.12)),
+    overlayColor: MaterialStateProperty.all(
+      AppColors.primary.withOpacity(0.12),
+    ),
     splashRadius: 20,
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );
@@ -123,7 +110,9 @@ class InputThemes {
       }
       return AppColors.surfaceVariant;
     }),
-    overlayColor: MaterialStateProperty.all(AppColors.primary.withOpacity(0.12)),
+    overlayColor: MaterialStateProperty.all(
+      AppColors.primary.withOpacity(0.12),
+    ),
     splashRadius: 20,
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );

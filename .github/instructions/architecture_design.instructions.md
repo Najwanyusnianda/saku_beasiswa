@@ -35,13 +35,15 @@ The primary source code resides in the lib/ directory.
 
 /lib/features: Contains the individual feature modules. Each feature folder has the following internal structure:
 
-/lib/features/application: The business logic layer. This is where Riverpod Notifiers live. This layer orchestrates the flow of data between the UI and the data sources.
+/lib/features/{feature_name}/application: The business logic layer. This is where Riverpod Notifiers live. This layer orchestrates the flow of data between the UI and the data sources.
 
-/lib/features/domain: The core of the feature. Contains the data models (Freezed classes) and the abstract Repository interfaces. This layer has zero dependencies on other layers.
+/lib/features/{feature_name}/domain: The core of the feature. Contains the data models (Freezed classes) and the abstract Repository interfaces. This layer has zero dependencies on other layers.
 
-/lib/features/infrastructure: The implementation layer for data handling. Contains Repository implementations and Drift DAOs. All database and API calls must be made from this layer.
+/lib/features/{feature_name}/infrastructure: The implementation layer for data handling. Contains Repository implementations and Drift DAOs. All database and API calls must be made from this layer.
 
-/lib/features/presentation: The UI layer. Contains the screens and feature-specific widgets. This layer should only talk to the /application layer (Riverpod providers). To keep screen files lean, create a /widgets sub-directory inside /presentation for complex or reusable widgets specific to this feature.
+/lib/features/{feature_name}/presentation: The UI layer. Contains the screens and feature-specific widgets. This layer should only talk to the /application layer (Riverpod providers). To keep screen files lean, create a /widgets or /widgets/{screen_name} sub-directory inside /presentation for complex or reusable widgets specific to this feature or screens.
+
+
 
 ## Coding Standards & Best Practices
 Formatting: All code must be formatted using the default Dart formatter (dart format .). This is non-negotiable and ensures universal code style.

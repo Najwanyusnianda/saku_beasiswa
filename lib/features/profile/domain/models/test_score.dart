@@ -12,6 +12,7 @@ abstract class TestScore with _$TestScore {
     required double overallScore,
     required DateTime testDate,
     String? detailedScores, // JSON string for sub-scores
+    String? certificateUrl, // URL to certificate document
     required DateTime createdAt,
   }) = _TestScore;
 

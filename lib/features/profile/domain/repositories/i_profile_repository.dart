@@ -7,7 +7,7 @@ abstract class IProfileRepository {
   Future<void> saveUserProfile(UserProfile profile);
   Future<void> updateUserProfile(UserProfile profile);
   Stream<UserProfile?> watchUserProfile();
-  
+
   // Test Score methods
   Future<List<TestScore>> getTestScores(int userId);
   Future<void> saveTestScore(TestScore testScore);

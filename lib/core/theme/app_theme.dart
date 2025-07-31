@@ -29,10 +29,10 @@ class AppTheme {
         onSurfaceVariant: AppColors.onSurfaceVariant,
         error: AppColors.error,
       ),
-      
+
       // Typography
       textTheme: AppTypography.lightTextTheme,
-      
+
       // Component Themes
       appBarTheme: AppBarThemes.light,
       cardTheme: CardThemes.light,
@@ -57,7 +57,7 @@ class AppTheme {
       dialogTheme: SheetThemes.dialog,
       timePickerTheme: SheetThemes.timePicker,
       datePickerTheme: SheetThemes.datePicker,
-      
+
       // System UI
       splashColor: AppColors.primary.withOpacity(0.12),
       highlightColor: AppColors.primary.withOpacity(0.08),
@@ -71,13 +71,13 @@ class AppTheme {
       hintColor: AppColors.onSurfaceVariant.withOpacity(0.6),
       disabledColor: AppColors.onSurface.withOpacity(0.38),
       shadowColor: AppColors.divider,
-      
+
       // Platform-specific adaptations
       platform: TargetPlatform.android,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       brightness: Brightness.light,
-      
+
       // Extensions
       extensions: <ThemeExtension<dynamic>>[
         // Add custom theme extensions here if needed
@@ -101,7 +101,7 @@ class AppTheme {
         onSurfaceVariant: AppColors.surfaceVariant,
         error: AppColors.error,
       ),
-      
+
       // Dark theme overrides
       textTheme: AppTypography.darkTextTheme,
       appBarTheme: AppBarThemes.dark,

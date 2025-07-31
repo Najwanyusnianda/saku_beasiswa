@@ -910,6 +910,17 @@ class $TestScoresTable extends TestScores
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _certificateUrlMeta = const VerificationMeta(
+    'certificateUrl',
+  );
+  @override
+  late final GeneratedColumn<String> certificateUrl = GeneratedColumn<String>(
+    'certificate_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -930,6 +941,7 @@ class $TestScoresTable extends TestScores
     overallScore,
     testDate,
     detailedScores,
+    certificateUrl,
     createdAt,
   ];
   @override
@@ -991,6 +1003,15 @@ class $TestScoresTable extends TestScores
         ),
       );
     }
+    if (data.containsKey('certificate_url')) {
+      context.handle(
+        _certificateUrlMeta,
+        certificateUrl.isAcceptableOrUnknown(
+          data['certificate_url']!,
+          _certificateUrlMeta,
+        ),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -1030,6 +1051,10 @@ class $TestScoresTable extends TestScores
         DriftSqlType.string,
         data['${effectivePrefix}detailed_scores'],
       ),
+      certificateUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}certificate_url'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -1050,6 +1075,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
   final double overallScore;
   final DateTime testDate;
   final String? detailedScores;
+  final String? certificateUrl;
   final DateTime createdAt;
   const TestScore({
     required this.id,
@@ -1058,6 +1084,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
     required this.overallScore,
     required this.testDate,
     this.detailedScores,
+    this.certificateUrl,
     required this.createdAt,
   });
   @override
@@ -1070,6 +1097,9 @@ class TestScore extends DataClass implements Insertable<TestScore> {
     map['test_date'] = Variable<DateTime>(testDate);
     if (!nullToAbsent || detailedScores != null) {
       map['detailed_scores'] = Variable<String>(detailedScores);
+    }
+    if (!nullToAbsent || certificateUrl != null) {
+      map['certificate_url'] = Variable<String>(certificateUrl);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -1085,6 +1115,9 @@ class TestScore extends DataClass implements Insertable<TestScore> {
       detailedScores: detailedScores == null && nullToAbsent
           ? const Value.absent()
           : Value(detailedScores),
+      certificateUrl: certificateUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(certificateUrl),
       createdAt: Value(createdAt),
     );
   }
@@ -1101,6 +1134,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
       overallScore: serializer.fromJson<double>(json['overallScore']),
       testDate: serializer.fromJson<DateTime>(json['testDate']),
       detailedScores: serializer.fromJson<String?>(json['detailedScores']),
+      certificateUrl: serializer.fromJson<String?>(json['certificateUrl']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -1114,6 +1148,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
       'overallScore': serializer.toJson<double>(overallScore),
       'testDate': serializer.toJson<DateTime>(testDate),
       'detailedScores': serializer.toJson<String?>(detailedScores),
+      'certificateUrl': serializer.toJson<String?>(certificateUrl),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -1125,6 +1160,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
     double? overallScore,
     DateTime? testDate,
     Value<String?> detailedScores = const Value.absent(),
+    Value<String?> certificateUrl = const Value.absent(),
     DateTime? createdAt,
   }) => TestScore(
     id: id ?? this.id,
@@ -1135,6 +1171,9 @@ class TestScore extends DataClass implements Insertable<TestScore> {
     detailedScores: detailedScores.present
         ? detailedScores.value
         : this.detailedScores,
+    certificateUrl: certificateUrl.present
+        ? certificateUrl.value
+        : this.certificateUrl,
     createdAt: createdAt ?? this.createdAt,
   );
   TestScore copyWithCompanion(TestScoresCompanion data) {
@@ -1149,6 +1188,9 @@ class TestScore extends DataClass implements Insertable<TestScore> {
       detailedScores: data.detailedScores.present
           ? data.detailedScores.value
           : this.detailedScores,
+      certificateUrl: data.certificateUrl.present
+          ? data.certificateUrl.value
+          : this.certificateUrl,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -1162,6 +1204,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
           ..write('overallScore: $overallScore, ')
           ..write('testDate: $testDate, ')
           ..write('detailedScores: $detailedScores, ')
+          ..write('certificateUrl: $certificateUrl, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -1175,6 +1218,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
     overallScore,
     testDate,
     detailedScores,
+    certificateUrl,
     createdAt,
   );
   @override
@@ -1187,6 +1231,7 @@ class TestScore extends DataClass implements Insertable<TestScore> {
           other.overallScore == this.overallScore &&
           other.testDate == this.testDate &&
           other.detailedScores == this.detailedScores &&
+          other.certificateUrl == this.certificateUrl &&
           other.createdAt == this.createdAt);
 }
 
@@ -1197,6 +1242,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
   final Value<double> overallScore;
   final Value<DateTime> testDate;
   final Value<String?> detailedScores;
+  final Value<String?> certificateUrl;
   final Value<DateTime> createdAt;
   const TestScoresCompanion({
     this.id = const Value.absent(),
@@ -1205,6 +1251,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
     this.overallScore = const Value.absent(),
     this.testDate = const Value.absent(),
     this.detailedScores = const Value.absent(),
+    this.certificateUrl = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   TestScoresCompanion.insert({
@@ -1214,6 +1261,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
     required double overallScore,
     required DateTime testDate,
     this.detailedScores = const Value.absent(),
+    this.certificateUrl = const Value.absent(),
     this.createdAt = const Value.absent(),
   }) : userId = Value(userId),
        testType = Value(testType),
@@ -1226,6 +1274,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
     Expression<double>? overallScore,
     Expression<DateTime>? testDate,
     Expression<String>? detailedScores,
+    Expression<String>? certificateUrl,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -1235,6 +1284,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
       if (overallScore != null) 'overall_score': overallScore,
       if (testDate != null) 'test_date': testDate,
       if (detailedScores != null) 'detailed_scores': detailedScores,
+      if (certificateUrl != null) 'certificate_url': certificateUrl,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -1246,6 +1296,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
     Value<double>? overallScore,
     Value<DateTime>? testDate,
     Value<String?>? detailedScores,
+    Value<String?>? certificateUrl,
     Value<DateTime>? createdAt,
   }) {
     return TestScoresCompanion(
@@ -1255,6 +1306,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
       overallScore: overallScore ?? this.overallScore,
       testDate: testDate ?? this.testDate,
       detailedScores: detailedScores ?? this.detailedScores,
+      certificateUrl: certificateUrl ?? this.certificateUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -1280,6 +1332,9 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
     if (detailedScores.present) {
       map['detailed_scores'] = Variable<String>(detailedScores.value);
     }
+    if (certificateUrl.present) {
+      map['certificate_url'] = Variable<String>(certificateUrl.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1295,6 +1350,7 @@ class TestScoresCompanion extends UpdateCompanion<TestScore> {
           ..write('overallScore: $overallScore, ')
           ..write('testDate: $testDate, ')
           ..write('detailedScores: $detailedScores, ')
+          ..write('certificateUrl: $certificateUrl, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -1802,6 +1858,7 @@ typedef $$TestScoresTableCreateCompanionBuilder =
       required double overallScore,
       required DateTime testDate,
       Value<String?> detailedScores,
+      Value<String?> certificateUrl,
       Value<DateTime> createdAt,
     });
 typedef $$TestScoresTableUpdateCompanionBuilder =
@@ -1812,6 +1869,7 @@ typedef $$TestScoresTableUpdateCompanionBuilder =
       Value<double> overallScore,
       Value<DateTime> testDate,
       Value<String?> detailedScores,
+      Value<String?> certificateUrl,
       Value<DateTime> createdAt,
     });
 
@@ -1869,6 +1927,11 @@ class $$TestScoresTableFilterComposer
 
   ColumnFilters<String> get detailedScores => $composableBuilder(
     column: $table.detailedScores,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get certificateUrl => $composableBuilder(
+    column: $table.certificateUrl,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1935,6 +1998,11 @@ class $$TestScoresTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get certificateUrl => $composableBuilder(
+    column: $table.certificateUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -1989,6 +2057,11 @@ class $$TestScoresTableAnnotationComposer
 
   GeneratedColumn<String> get detailedScores => $composableBuilder(
     column: $table.detailedScores,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get certificateUrl => $composableBuilder(
+    column: $table.certificateUrl,
     builder: (column) => column,
   );
 
@@ -2053,6 +2126,7 @@ class $$TestScoresTableTableManager
                 Value<double> overallScore = const Value.absent(),
                 Value<DateTime> testDate = const Value.absent(),
                 Value<String?> detailedScores = const Value.absent(),
+                Value<String?> certificateUrl = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => TestScoresCompanion(
                 id: id,
@@ -2061,6 +2135,7 @@ class $$TestScoresTableTableManager
                 overallScore: overallScore,
                 testDate: testDate,
                 detailedScores: detailedScores,
+                certificateUrl: certificateUrl,
                 createdAt: createdAt,
               ),
           createCompanionCallback:
@@ -2071,6 +2146,7 @@ class $$TestScoresTableTableManager
                 required double overallScore,
                 required DateTime testDate,
                 Value<String?> detailedScores = const Value.absent(),
+                Value<String?> certificateUrl = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => TestScoresCompanion.insert(
                 id: id,
@@ -2079,6 +2155,7 @@ class $$TestScoresTableTableManager
                 overallScore: overallScore,
                 testDate: testDate,
                 detailedScores: detailedScores,
+                certificateUrl: certificateUrl,
                 createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0

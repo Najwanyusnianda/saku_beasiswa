@@ -6,7 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../application/edit_profile_service.dart';
 import '../../application/profile_service.dart';
-import '../widgets/edit_profile_form.dart';
+import '../widgets/edit_profile/edit_profile_form.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -29,22 +29,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Widget build(BuildContext context) {
     final editState = ref.watch(editProfileNotifierProvider);
     final currentProfile = ref.watch(watchProfileProvider);
-    
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
-        
+
         final hasUnsavedChanges = editState.hasUnsavedChanges;
         if (!hasUnsavedChanges) {
-          context.pop();
+          _navigateBack();
           return;
         }
-        
+
         // Show unsaved changes confirmation dialog
         final shouldDiscard = await _showUnsavedChangesDialog();
         if (shouldDiscard == true && context.mounted) {
-          context.pop();
+          _navigateBack();
         }
       },
       child: Scaffold(
@@ -57,16 +57,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               if (editState.hasUnsavedChanges) {
                 final shouldDiscard = await _showUnsavedChangesDialog();
                 if (shouldDiscard == true && context.mounted) {
-                  context.pop();
+                  _navigateBack();
                 }
               } else {
-                context.pop();
+                _navigateBack();
               }
             },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.onSurface,
-            ),
+            icon: Icon(Icons.arrow_back_ios, color: AppColors.onSurface),
           ),
           title: Text(
             'Edit Profile',
@@ -89,7 +86,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 ),
               );
             }
-            
+
             return Column(
               children: [
                 // Form content
@@ -99,12 +96,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     child: EditProfileForm(
                       initialProfile: profile,
                       onFieldChanged: () {
-                        ref.read(editProfileNotifierProvider.notifier).markAsChanged();
+                        ref
+                            .read(editProfileNotifierProvider.notifier)
+                            .markAsChanged();
                       },
                     ),
                   ),
                 ),
-                
+
                 // Save button
                 Container(
                   padding: const EdgeInsets.all(24),
@@ -119,27 +118,29 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                   child: SafeArea(
                     child: editState.isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
+                        ? const Center(child: CircularProgressIndicator())
                         : SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: editState.isFormValid ? () => _saveProfile() : null,
+                              onPressed: editState.isFormValid
+                                  ? () => _saveProfile()
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: AppColors.onPrimary,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                disabledBackgroundColor: AppColors.onSurfaceVariant,
+                                disabledBackgroundColor:
+                                    AppColors.onSurfaceVariant,
                               ),
                               child: Text(
                                 'Save Changes',
-                                style: AppTypography.lightTextTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: AppTypography.lightTextTheme.bodyLarge
+                                    ?.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -148,18 +149,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ],
             );
           },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: AppColors.error,
-                ),
+                Icon(Icons.error_outline, size: 48, color: AppColors.error),
                 const SizedBox(height: 16),
                 Text(
                   'Failed to load profile',
@@ -181,6 +176,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _navigateBack() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      // If we can't pop, navigate to home screen as fallback
+      context.go('/');
+    }
   }
 
   Future<bool?> _showUnsavedChangesDialog() {
@@ -225,12 +229,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   Future<void> _saveProfile() async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     try {
       await ref.read(editProfileNotifierProvider.notifier).saveProfile();
-      
+
       if (context.mounted) {
         // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(
               'Profile updated successfully',
@@ -242,13 +248,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             behavior: SnackBarBehavior.floating,
           ),
         );
-        
+
         // Navigate back
-        context.pop();
+        _navigateBack();
       }
     } catch (error) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text(
               'Failed to save profile: $error',

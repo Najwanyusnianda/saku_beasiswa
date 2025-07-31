@@ -21,7 +21,7 @@ class TestScoreNotifier extends _$TestScoreNotifier {
     try {
       final repository = ref.read(profileRepositoryProvider);
       await repository.saveTestScore(testScore);
-      
+
       // Refresh the list
       final updatedScores = await repository.getTestScores(testScore.userId);
       state = AsyncValue.data(updatedScores);
@@ -35,7 +35,7 @@ class TestScoreNotifier extends _$TestScoreNotifier {
     try {
       final repository = ref.read(profileRepositoryProvider);
       await repository.updateTestScore(testScore);
-      
+
       // Refresh the list
       final updatedScores = await repository.getTestScores(testScore.userId);
       state = AsyncValue.data(updatedScores);
@@ -49,7 +49,7 @@ class TestScoreNotifier extends _$TestScoreNotifier {
     try {
       final repository = ref.read(profileRepositoryProvider);
       await repository.deleteTestScore(testScoreId);
-      
+
       // Refresh the list
       final updatedScores = await repository.getTestScores(userId);
       state = AsyncValue.data(updatedScores);

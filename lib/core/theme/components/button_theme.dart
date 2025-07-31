@@ -18,9 +18,7 @@ class ButtonThemes {
         letterSpacing: 0.1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
   );
 
@@ -28,10 +26,7 @@ class ButtonThemes {
     style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.primary,
       disabledForegroundColor: AppColors.onSurface.withOpacity(0.38),
-      side: const BorderSide(
-        color: AppColors.border,
-        width: 1,
-      ),
+      side: const BorderSide(color: AppColors.border, width: 1),
       textStyle: const TextStyle(
         fontFamily: 'Nunito',
         fontSize: 14,
@@ -39,9 +34,7 @@ class ButtonThemes {
         letterSpacing: 0.1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
   );
 
@@ -56,23 +49,19 @@ class ButtonThemes {
         letterSpacing: 0.1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
   );
 
   static FloatingActionButtonThemeData get floatingActionButton =>
       FloatingActionButtonThemeData(
-    backgroundColor: AppColors.primary,
-    foregroundColor: AppColors.onPrimary,
-    elevation: 6,
-    focusElevation: 8,
-    hoverElevation: 8,
-    highlightElevation: 12,
-    disabledElevation: 0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-    ),
-  );
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.onPrimary,
+        elevation: 6,
+        focusElevation: 8,
+        hoverElevation: 8,
+        highlightElevation: 12,
+        disabledElevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      );
 }

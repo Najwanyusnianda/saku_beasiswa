@@ -137,33 +137,21 @@ class AppTypography {
       headlineSmall: lightTextTheme.headlineSmall?.copyWith(
         color: AppColors.surface,
       ),
-      titleLarge: lightTextTheme.titleLarge?.copyWith(
-        color: AppColors.surface,
-      ),
+      titleLarge: lightTextTheme.titleLarge?.copyWith(color: AppColors.surface),
       titleMedium: lightTextTheme.titleMedium?.copyWith(
         color: AppColors.surface,
       ),
-      titleSmall: lightTextTheme.titleSmall?.copyWith(
-        color: AppColors.surface,
-      ),
-      bodyLarge: lightTextTheme.bodyLarge?.copyWith(
-        color: AppColors.surface,
-      ),
-      bodyMedium: lightTextTheme.bodyMedium?.copyWith(
-        color: AppColors.surface,
-      ),
+      titleSmall: lightTextTheme.titleSmall?.copyWith(color: AppColors.surface),
+      bodyLarge: lightTextTheme.bodyLarge?.copyWith(color: AppColors.surface),
+      bodyMedium: lightTextTheme.bodyMedium?.copyWith(color: AppColors.surface),
       bodySmall: lightTextTheme.bodySmall?.copyWith(
         color: AppColors.surfaceVariant,
       ),
-      labelLarge: lightTextTheme.labelLarge?.copyWith(
-        color: AppColors.surface,
-      ),
+      labelLarge: lightTextTheme.labelLarge?.copyWith(color: AppColors.surface),
       labelMedium: lightTextTheme.labelMedium?.copyWith(
         color: AppColors.surface,
       ),
-      labelSmall: lightTextTheme.labelSmall?.copyWith(
-        color: AppColors.surface,
-      ),
+      labelSmall: lightTextTheme.labelSmall?.copyWith(color: AppColors.surface),
     );
   }
 }

@@ -4,22 +4,22 @@ import '../app_colors.dart';
 class NavigationThemes {
   static BottomNavigationBarThemeData get bottomNavigation =>
       BottomNavigationBarThemeData(
-    backgroundColor: AppColors.surface,
-    selectedItemColor: AppColors.primary,
-    unselectedItemColor: AppColors.onSurfaceVariant,
-    selectedLabelStyle: const TextStyle(
-      fontFamily: 'Nunito',
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
-    ),
-    unselectedLabelStyle: const TextStyle(
-      fontFamily: 'Nunito',
-      fontSize: 12,
-      fontWeight: FontWeight.w400,
-    ),
-    type: BottomNavigationBarType.fixed,
-    elevation: 8,
-  );
+        backgroundColor: AppColors.surface,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.onSurfaceVariant,
+        selectedLabelStyle: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+        ),
+        type: BottomNavigationBarType.fixed,
+        elevation: 8,
+      );
 
   static NavigationBarThemeData get navigationBar => NavigationBarThemeData(
     backgroundColor: AppColors.surface,
@@ -44,15 +44,9 @@ class NavigationThemes {
     }),
     iconTheme: MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.selected)) {
-        return const IconThemeData(
-          color: AppColors.primary,
-          size: 24,
-        );
+        return const IconThemeData(color: AppColors.primary, size: 24);
       }
-      return const IconThemeData(
-        color: AppColors.onSurfaceVariant,
-        size: 24,
-      );
+      return const IconThemeData(color: AppColors.onSurfaceVariant, size: 24);
     }),
     indicatorColor: AppColors.primary.withOpacity(0.12),
     indicatorShape: const RoundedRectangleBorder(
@@ -75,7 +69,9 @@ class NavigationThemes {
       fontSize: 14,
       fontWeight: FontWeight.w400,
     ),
-    overlayColor: MaterialStateProperty.all(AppColors.primary.withOpacity(0.12)),
+    overlayColor: MaterialStateProperty.all(
+      AppColors.primary.withOpacity(0.12),
+    ),
     splashFactory: InkRipple.splashFactory,
   );
 
@@ -85,17 +81,13 @@ class NavigationThemes {
     elevation: 16,
     width: 304,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.horizontal(
-        right: Radius.circular(16),
-      ),
+      borderRadius: BorderRadius.horizontal(right: Radius.circular(16)),
     ),
   );
 
   static ListTileThemeData get listTile => ListTileThemeData(
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     tileColor: AppColors.surface,
     selectedTileColor: AppColors.primary.withOpacity(0.12),
     selectedColor: AppColors.primary,

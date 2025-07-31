@@ -8,14 +8,10 @@ class SheetThemes {
     elevation: 8,
     modalElevation: 16,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(20),
-      ),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     clipBehavior: Clip.antiAlias,
-    constraints: const BoxConstraints(
-      maxWidth: double.infinity,
-    ),
+    constraints: const BoxConstraints(maxWidth: double.infinity),
   );
 
   static DialogThemeData get dialog => DialogThemeData(
