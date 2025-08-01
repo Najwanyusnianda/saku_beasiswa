@@ -5,15 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ScholarshipDetailScreen extends ConsumerWidget {
   final String scholarshipId;
 
-  const ScholarshipDetailScreen({
-    super.key,
-    required this.scholarshipId,
-  });
+  const ScholarshipDetailScreen({super.key, required this.scholarshipId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -41,39 +38,39 @@ class ScholarshipDetailScreen extends ConsumerWidget {
             // Header
             _buildHeader(theme),
             const SizedBox(height: 24),
-            
+
             // Quick stats
             _buildQuickStats(theme),
             const SizedBox(height: 24),
-            
+
             // Description
             _buildSection(
               theme,
               'About this Scholarship',
               'The Fulbright Program is the flagship international educational exchange program sponsored by the U.S. government and is designed to increase mutual understanding between the people of the United States and the people of other countries.',
             ),
-            
+
             // Benefits
             _buildSection(
               theme,
               'Benefits',
               '• Full tuition coverage\n• Monthly living stipend\n• Health insurance\n• Round-trip airfare\n• Pre-academic English training',
             ),
-            
+
             // Eligibility
             _buildSection(
               theme,
               'Eligibility Requirements',
               '• Bachelor\'s degree or equivalent\n• GPA 3.5 or higher\n• English proficiency (TOEFL/IELTS)\n• Leadership potential\n• Commitment to cultural exchange',
             ),
-            
+
             // Application process
             _buildSection(
               theme,
               'How to Apply',
               'Applications are submitted through the online portal. Required documents include personal statement, study objective, letters of recommendation, and academic transcripts.',
             ),
-            
+
             const SizedBox(height: 80), // Space for floating button
           ],
         ),
@@ -137,7 +134,10 @@ class ScholarshipDetailScreen extends ConsumerWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -145,11 +145,7 @@ class ScholarshipDetailScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.star,
-                      size: 16,
-                      color: Colors.white,
-                    ),
+                    const Icon(Icons.star, size: 16, color: Colors.white),
                     const SizedBox(width: 4),
                     Text(
                       '95% Match',
@@ -228,11 +224,7 @@ class ScholarshipDetailScreen extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: color,
-            size: 24,
-          ),
+          Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
           Text(
             value,
@@ -265,12 +257,7 @@ class ScholarshipDetailScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(
-          content,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            height: 1.5,
-          ),
-        ),
+        Text(content, style: theme.textTheme.bodyMedium?.copyWith(height: 1.5)),
         const SizedBox(height: 24),
       ],
     );

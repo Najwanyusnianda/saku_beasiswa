@@ -24,7 +24,8 @@ abstract class MatchReason with _$MatchReason {
   const factory MatchReason({
     required MatchCriteria criteria,
     required String description,
-    required double weight, // How much this reason contributes to the overall score
+    required double
+    weight, // How much this reason contributes to the overall score
     required double score, // 0.0 to 1.0 for this specific criterion
   }) = _MatchReason;
 }
@@ -58,7 +59,7 @@ enum MatchCriteria {
 @freezed
 abstract class ScholarshipCardData with _$ScholarshipCardData {
   const ScholarshipCardData._(); // Private constructor required for getters
-  
+
   const factory ScholarshipCardData({
     required String id,
     required String title,
@@ -73,7 +74,9 @@ abstract class ScholarshipCardData with _$ScholarshipCardData {
     required bool isSaved,
     @Default(false) bool isInApplicationPlan,
     required String scholarshipEmoji, // 📍 or other relevant emoji
-    List<String>? quickTags, // ['Full Funding', 'No GPA Limit']
+    @Default([]) List<String> quickTags, // ['Full Funding', 'No GPA Limit']
+    @Default([])
+    List<String> subjectAreas, // ['Engineering', 'Science', 'Technology']
   }) = _ScholarshipCardData;
 
   /// Helper to get formatted match percentage
@@ -83,7 +86,7 @@ abstract class ScholarshipCardData with _$ScholarshipCardData {
   String get deadlineFormatted {
     final now = DateTime.now();
     final difference = applicationDeadline.difference(now).inDays;
-    
+
     if (difference < 0) {
       return 'Deadline passed';
     } else if (difference == 0) {
@@ -104,7 +107,7 @@ abstract class ScholarshipCardData with _$ScholarshipCardData {
   DeadlineUrgency get urgencyLevel {
     final now = DateTime.now();
     final difference = applicationDeadline.difference(now).inDays;
-    
+
     if (difference < 0) {
       return DeadlineUrgency.expired;
     } else if (difference <= 7) {
@@ -119,8 +122,8 @@ abstract class ScholarshipCardData with _$ScholarshipCardData {
 
 /// Deadline urgency levels for UI styling
 enum DeadlineUrgency {
-  normal,   // Green/neutral
-  soon,     // Yellow/warning
-  urgent,   // Orange/urgent
-  expired,  // Red/danger
+  normal, // Green/neutral
+  soon, // Yellow/warning
+  urgent, // Orange/urgent
+  expired, // Red/danger
 }

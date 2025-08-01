@@ -47,7 +47,7 @@ class CertificateInputSection extends StatelessWidget {
             ),
           ],
         ),
-        
+
         const SizedBox(height: 8),
         Text(
           'Add a link to your official certificate or score report',
@@ -55,16 +55,18 @@ class CertificateInputSection extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         TextFormField(
           controller: certificateUrlController,
           decoration: InputDecoration(
             labelText: 'Certificate URL',
             hintText: 'https://example.com/certificate.pdf',
             hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withOpacity(0.7),
               fontSize: 14,
             ),
             prefixIcon: Icon(
@@ -75,9 +77,7 @@ class CertificateInputSection extends StatelessWidget {
               horizontal: 16,
               vertical: 16,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             helperText: 'Link to PDF, image, or online score report',
             helperStyle: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,

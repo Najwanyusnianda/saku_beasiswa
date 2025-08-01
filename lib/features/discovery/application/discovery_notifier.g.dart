@@ -6,7 +6,7 @@ part of 'discovery_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$discoveryNotifierHash() => r'5684d5cfba559ae0850829f9016a06b17a9e75b0';
+String _$discoveryNotifierHash() => r'3631d94f1d4c28d537fb6079dcc01d1f7f31dfcb';
 
 /// Notifier for managing scholarship discovery state
 /// This is the main business logic controller for the discovery feature

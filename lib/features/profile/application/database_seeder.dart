@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/models/user_profile.dart';
 import '../domain/models/test_score.dart';
-import '../domain/repositories/i_profile_repository.dart';
+import '../domain/i_profile_repository.dart';
 import 'profile_service.dart';
 
 part 'database_seeder.g.dart';

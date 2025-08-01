@@ -27,9 +27,11 @@ class TestTypeSelector extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        
+
         DropdownButtonFormField<String>(
-          value: selectedTestType != null && testTypes.containsKey(selectedTestType)
+          value:
+              selectedTestType != null &&
+                  testTypes.containsKey(selectedTestType)
               ? selectedTestType
               : null,
           decoration: InputDecoration(
@@ -43,9 +45,7 @@ class TestTypeSelector extends StatelessWidget {
               horizontal: 16,
               vertical: 16,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           items: testTypes.entries
               .map(
@@ -61,9 +61,7 @@ class TestTypeSelector extends StatelessWidget {
                       Expanded(
                         child: Text(
                           entry.value.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -77,17 +75,21 @@ class TestTypeSelector extends StatelessWidget {
           isExpanded: true,
           dropdownColor: Theme.of(context).colorScheme.surface,
         ),
-        
+
         // Show description for selected test type
         if (selectedTestType != null && testTypes[selectedTestType] != null)
           Container(
             margin: const EdgeInsets.only(top: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+                color: Theme.of(
+                  context,
+                ).colorScheme.outline.withValues(alpha: 0.2),
               ),
             ),
             child: Row(

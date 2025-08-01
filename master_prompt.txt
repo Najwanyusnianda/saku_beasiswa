@@ -1,0 +1,29 @@
+Based on the folder structure I provide below, please identify:
+
+
+
+I need you to perform a focused audit on the `domain` and `infrastructure` folders below.
+
+**Primary Goal:** Analyze the structure and then, upon my confirmation, refactor it to align with our established Clean Architecture rules.
+
+**1. Analysis Phase:**
+Based on the file structure provided, identify and report on the following in a concise, actionable list:
+
+*   **Violations of instructions or dependency rule.
+*   **Misplaced Files:** Pinpoint any files that are in the wrong layer.
+*   **Redundancy:** Identify any redundant files or folders that can be consolidated or removed.
+
+For each point in your list, briefly explain **WHAT** the issue is and **WHY** it's a problem.
+
+**2. Confirmation Phase:**
+After presenting your analysis, you MUST ask for my explicit confirmation (e.g., "Do you want me to proceed with these changes?") before taking any action.
+
+**3. Action Phase:**
+If I confirm, apply all the recommended changes. This includes:
+*   **Moving** misplaced files to their correct layers.
+*   **Deleting** redundant files and folder
+*   **Refactor** and Improved code if needed
+
+Here is the structure for my domain and infrastructure folders:
+lib\features\discovery\domain
+lib\features\discovery\infrastructure

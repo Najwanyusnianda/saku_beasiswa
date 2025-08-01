@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/models/test_score.dart';
-import '../domain/repositories/i_profile_repository.dart';
+import '../domain/i_profile_repository.dart';
 import 'profile_service.dart';
 
 part 'test_score_service.g.dart';

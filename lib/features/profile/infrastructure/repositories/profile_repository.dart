@@ -1,7 +1,7 @@
-import '../../domain/repositories/i_profile_repository.dart';
+import '../../domain/i_profile_repository.dart';
 import '../../domain/models/user_profile.dart';
 import '../../domain/models/test_score.dart';
-import '../daos/profile_dao.dart';
+import '../data_sources/profile_dao.dart';
 
 class ProfileRepository implements IProfileRepository {
   final ProfileDao _dao;

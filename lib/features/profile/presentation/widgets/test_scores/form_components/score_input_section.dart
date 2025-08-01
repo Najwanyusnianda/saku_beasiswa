@@ -15,8 +15,10 @@ class ScoreInputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final testType = selectedTestType != null ? testTypes[selectedTestType!] : null;
-    
+    final testType = selectedTestType != null
+        ? testTypes[selectedTestType!]
+        : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,18 +37,20 @@ class ScoreInputSection extends StatelessWidget {
           controller: overallScoreController,
           decoration: InputDecoration(
             labelText: 'Overall Score',
-            helperText: testType != null 
-                ? 'Required • Maximum: ${testType.maxScore}' 
+            helperText: testType != null
+                ? 'Required • Maximum: ${testType.maxScore}'
                 : 'Required field',
             helperStyle: TextStyle(
               color: Theme.of(context).colorScheme.error,
               fontSize: 12,
             ),
-            hintText: testType != null 
+            hintText: testType != null
                 ? 'Enter score (0 - ${testType.maxScore})'
                 : 'Enter your overall score',
             hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withOpacity(0.7),
               fontSize: 14,
             ),
             prefixIcon: Icon(
@@ -57,11 +61,11 @@ class ScoreInputSection extends StatelessWidget {
               horizontal: 16,
               vertical: 16,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+            fillColor: Theme.of(
+              context,
+            ).colorScheme.surfaceVariant.withOpacity(0.3),
           ),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           validator: (value) {
@@ -85,14 +89,14 @@ class ScoreInputSection extends StatelessWidget {
         // Skill breakdown section with improved design
         if (selectedTestType != null && skillControllers.isNotEmpty) ...[
           const SizedBox(height: 24),
-          
+
           // Divider for visual separation
           Divider(
             color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
             thickness: 1,
           ),
           const SizedBox(height: 16),
-          
+
           Row(
             children: [
               Icon(
@@ -126,7 +130,7 @@ class ScoreInputSection extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 8),
           Text(
             'Break down your ${testType?.name ?? 'test'} score by individual skills',
@@ -134,22 +138,26 @@ class ScoreInputSection extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Skill input fields in a grid layout for better organization
           ...testType!.skillNames.asMap().entries.map((entry) {
             final index = entry.key;
             final skill = entry.value;
             return Padding(
-              padding: EdgeInsets.only(bottom: index < testType.skillNames.length - 1 ? 16 : 0),
+              padding: EdgeInsets.only(
+                bottom: index < testType.skillNames.length - 1 ? 16 : 0,
+              ),
               child: TextFormField(
                 controller: skillControllers[skill],
                 decoration: InputDecoration(
                   labelText: skill,
                   hintText: 'Enter $skill score',
                   hintStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurfaceVariant.withOpacity(0.7),
                     fontSize: 14,
                   ),
                   prefixIcon: Icon(
@@ -165,7 +173,9 @@ class ScoreInputSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
                     final score = double.tryParse(value.trim());

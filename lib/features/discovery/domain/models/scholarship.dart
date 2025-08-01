@@ -15,14 +15,17 @@ abstract class Scholarship with _$Scholarship {
     @JsonKey(name: 'basic_info') required BasicInfo basicInfo,
     required Dates dates,
     required Requirements requirements,
-    @JsonKey(name: 'financial_details') required FinancialDetails financialDetails,
-    @JsonKey(name: 'application_process') required ApplicationProcess applicationProcess,
+    @JsonKey(name: 'financial_details')
+    required FinancialDetails financialDetails,
+    @JsonKey(name: 'application_process')
+    required ApplicationProcess applicationProcess,
     required Contact contact,
     @Default([]) List<String> tags,
     @JsonKey(name: 'additional_info') AdditionalInfo? additionalInfo,
   }) = _Scholarship;
 
-  factory Scholarship.fromJson(Map<String, dynamic> json) => _$ScholarshipFromJson(json);
+  factory Scholarship.fromJson(Map<String, dynamic> json) =>
+      _$ScholarshipFromJson(json);
 }
 
 /// Basic information about the scholarship
@@ -31,14 +34,16 @@ abstract class BasicInfo with _$BasicInfo {
   const factory BasicInfo({
     required String description,
     @JsonKey(name: 'funding_type') required String fundingType,
-    @JsonKey(name: 'target_degree_levels') required List<String> targetDegreeLevels,
+    @JsonKey(name: 'target_degree_levels')
+    required List<String> targetDegreeLevels,
     @JsonKey(name: 'subject_areas') List<String>? subjectAreas,
     @JsonKey(name: 'study_countries') List<String>? studyCountries,
     @JsonKey(name: 'scholarship_duration') String? scholarshipDuration,
     @JsonKey(name: 'number_of_awards') int? numberOfAwards,
   }) = _BasicInfo;
 
-  factory BasicInfo.fromJson(Map<String, dynamic> json) => _$BasicInfoFromJson(json);
+  factory BasicInfo.fromJson(Map<String, dynamic> json) =>
+      _$BasicInfoFromJson(json);
 }
 
 /// Important dates for the scholarship
@@ -61,10 +66,12 @@ abstract class Requirements with _$Requirements {
     required Academic academic,
     @JsonKey(name: 'personal_criteria') PersonalCriteria? personalCriteria,
     @JsonKey(name: 'application_documents') List<String>? applicationDocuments,
-    @JsonKey(name: 'additional_requirements') List<String>? additionalRequirements,
+    @JsonKey(name: 'additional_requirements')
+    List<String>? additionalRequirements,
   }) = _Requirements;
 
-  factory Requirements.fromJson(Map<String, dynamic> json) => _$RequirementsFromJson(json);
+  factory Requirements.fromJson(Map<String, dynamic> json) =>
+      _$RequirementsFromJson(json);
 }
 
 /// Academic requirements
@@ -73,12 +80,14 @@ abstract class Academic with _$Academic {
   const factory Academic({
     @JsonKey(name: 'minimum_gpa') dynamic minimumGpa, // Can be double or string
     @JsonKey(name: 'education_level') String? educationLevel,
-    @JsonKey(name: 'language_requirements') Map<String, dynamic>? languageRequirements,
+    @JsonKey(name: 'language_requirements')
+    Map<String, dynamic>? languageRequirements,
     @JsonKey(name: 'academic_field') List<String>? academicField,
     @JsonKey(name: 'institution_requirements') String? institutionRequirements,
   }) = _Academic;
 
-  factory Academic.fromJson(Map<String, dynamic> json) => _$AcademicFromJson(json);
+  factory Academic.fromJson(Map<String, dynamic> json) =>
+      _$AcademicFromJson(json);
 }
 
 /// Personal criteria requirements
@@ -86,12 +95,14 @@ abstract class Academic with _$Academic {
 abstract class PersonalCriteria with _$PersonalCriteria {
   const factory PersonalCriteria({
     @JsonKey(name: 'age_limit') String? ageLimit,
-    @JsonKey(name: 'nationality_restrictions') List<String>? nationalityRestrictions,
+    @JsonKey(name: 'nationality_restrictions')
+    List<String>? nationalityRestrictions,
     @JsonKey(name: 'work_experience') String? workExperience,
     @JsonKey(name: 'other_criteria') List<String>? otherCriteria,
   }) = _PersonalCriteria;
 
-  factory PersonalCriteria.fromJson(Map<String, dynamic> json) => _$PersonalCriteriaFromJson(json);
+  factory PersonalCriteria.fromJson(Map<String, dynamic> json) =>
+      _$PersonalCriteriaFromJson(json);
 }
 
 /// Financial details of the scholarship
@@ -104,7 +115,8 @@ abstract class FinancialDetails with _$FinancialDetails {
     @JsonKey(name: 'funding_duration') String? fundingDuration,
   }) = _FinancialDetails;
 
-  factory FinancialDetails.fromJson(Map<String, dynamic> json) => _$FinancialDetailsFromJson(json);
+  factory FinancialDetails.fromJson(Map<String, dynamic> json) =>
+      _$FinancialDetailsFromJson(json);
 }
 
 /// Application process information
@@ -118,7 +130,8 @@ abstract class ApplicationProcess with _$ApplicationProcess {
     @JsonKey(name: 'application_tips') List<String>? applicationTips,
   }) = _ApplicationProcess;
 
-  factory ApplicationProcess.fromJson(Map<String, dynamic> json) => _$ApplicationProcessFromJson(json);
+  factory ApplicationProcess.fromJson(Map<String, dynamic> json) =>
+      _$ApplicationProcessFromJson(json);
 }
 
 /// Contact information
@@ -132,7 +145,8 @@ abstract class Contact with _$Contact {
     @JsonKey(name: 'contact_person') String? contactPerson,
   }) = _Contact;
 
-  factory Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
+  factory Contact.fromJson(Map<String, dynamic> json) =>
+      _$ContactFromJson(json);
 }
 
 /// Additional information
@@ -145,5 +159,6 @@ abstract class AdditionalInfo with _$AdditionalInfo {
     @JsonKey(name: 'external_links') List<String>? externalLinks,
   }) = _AdditionalInfo;
 
-  factory AdditionalInfo.fromJson(Map<String, dynamic> json) => _$AdditionalInfoFromJson(json);
+  factory AdditionalInfo.fromJson(Map<String, dynamic> json) =>
+      _$AdditionalInfoFromJson(json);
 }

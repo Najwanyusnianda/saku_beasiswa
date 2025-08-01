@@ -3,8 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/db/database.dart';
 import '../domain/models/user_profile.dart';
-import '../domain/repositories/i_profile_repository.dart';
-import '../infrastructure/daos/profile_dao.dart';
+import '../domain/i_profile_repository.dart';
+import '../infrastructure/data_sources/profile_dao.dart';
 import '../infrastructure/repositories/profile_repository.dart';
 
 part 'profile_service.g.dart';

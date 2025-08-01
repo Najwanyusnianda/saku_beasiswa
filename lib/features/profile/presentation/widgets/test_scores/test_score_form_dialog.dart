@@ -138,7 +138,9 @@ class _TestScoreFormDialogState extends State<TestScoreFormDialog> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.surfaceVariant.withOpacity(0.3),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -162,10 +164,11 @@ class _TestScoreFormDialogState extends State<TestScoreFormDialog> {
                   Expanded(
                     child: Text(
                       widget.title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                     ),
                   ),
                   IconButton(
@@ -259,7 +262,9 @@ class _TestScoreFormDialogState extends State<TestScoreFormDialog> {
             FormActionButtons(
               onCancel: () => Navigator.of(context).pop(),
               onSave: _saveTestScore,
-              saveButtonText: widget.existingScore == null ? 'Add Test Score' : 'Update Score',
+              saveButtonText: widget.existingScore == null
+                  ? 'Add Test Score'
+                  : 'Update Score',
               isLoading: _isLoading,
             ),
           ],

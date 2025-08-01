@@ -18,7 +18,7 @@ class DateInputSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat('MMM dd, yyyy');
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,7 +39,9 @@ class DateInputSection extends StatelessWidget {
               color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
             ),
             borderRadius: BorderRadius.circular(12),
-            color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+            color: Theme.of(
+              context,
+            ).colorScheme.surfaceVariant.withOpacity(0.3),
           ),
           child: InkWell(
             onTap: onSelectTestDate,
@@ -60,30 +62,40 @@ class DateInputSection extends StatelessWidget {
                       children: [
                         Text(
                           'Test Date',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           selectedTestDate == null
                               ? 'Select test date'
                               : dateFormat.format(selectedTestDate!),
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: selectedTestDate == null 
-                                ? FontWeight.normal 
-                                : FontWeight.w500,
-                            color: selectedTestDate == null
-                                ? Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7)
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                fontWeight: selectedTestDate == null
+                                    ? FontWeight.normal
+                                    : FontWeight.w500,
+                                color: selectedTestDate == null
+                                    ? Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant
+                                          .withOpacity(0.7)
+                                    : Theme.of(context).colorScheme.onSurface,
+                              ),
                         ),
                       ],
                     ),
                   ),
                   if (selectedTestDate == null)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.error,
                         borderRadius: BorderRadius.circular(8),
@@ -135,16 +147,18 @@ class DateInputSection extends StatelessWidget {
                       children: [
                         Text(
                           'Expires',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           dateFormat.format(selectedExpiryDate!),
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -167,7 +181,9 @@ class DateInputSection extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                       ),
                     ),

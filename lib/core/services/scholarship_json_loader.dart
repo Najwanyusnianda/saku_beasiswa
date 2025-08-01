@@ -5,7 +5,7 @@ import '../../features/discovery/domain/models/scholarship.dart';
 /// Service for loading scholarship data from JSON assets
 class ScholarshipJsonLoader {
   static const String _basePath = 'assets/scholarships/';
-  
+
   /// Get list of available scholarship JSON files
   static List<String> get availableScholarshipFiles => [
     'fulbright_masters_2025.json',
@@ -14,7 +14,9 @@ class ScholarshipJsonLoader {
   ];
 
   /// Load a single scholarship from JSON file
-  static Future<Map<String, dynamic>?> loadScholarshipJson(String filename) async {
+  static Future<Map<String, dynamic>?> loadScholarshipJson(
+    String filename,
+  ) async {
     try {
       final String content = await rootBundle.loadString('$_basePath$filename');
       return jsonDecode(content) as Map<String, dynamic>;
@@ -27,14 +29,14 @@ class ScholarshipJsonLoader {
   /// Load all available scholarships
   static Future<List<Map<String, dynamic>>> loadAllScholarships() async {
     final List<Map<String, dynamic>> scholarships = [];
-    
+
     for (final filename in availableScholarshipFiles) {
       final scholarshipData = await loadScholarshipJson(filename);
       if (scholarshipData != null) {
         scholarships.add(scholarshipData);
       }
     }
-    
+
     return scholarships;
   }
 

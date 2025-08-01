@@ -309,7 +309,8 @@ mixin _$ScholarshipCardData {
 
  String get id; String get title; String get provider; String get providerCountry; String get countryFlag;// Emoji flag for the country
  String get fundingType; String get fundingAmount; String get degreeLevel; DateTime get applicationDeadline; double get matchScore; bool get isSaved; bool get isInApplicationPlan; String get scholarshipEmoji;// 📍 or other relevant emoji
- List<String>? get quickTags;
+ List<String> get quickTags;// ['Full Funding', 'No GPA Limit']
+ List<String> get subjectAreas;
 /// Create a copy of ScholarshipCardData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -320,16 +321,16 @@ $ScholarshipCardDataCopyWith<ScholarshipCardData> get copyWith => _$ScholarshipC
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScholarshipCardData&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerCountry, providerCountry) || other.providerCountry == providerCountry)&&(identical(other.countryFlag, countryFlag) || other.countryFlag == countryFlag)&&(identical(other.fundingType, fundingType) || other.fundingType == fundingType)&&(identical(other.fundingAmount, fundingAmount) || other.fundingAmount == fundingAmount)&&(identical(other.degreeLevel, degreeLevel) || other.degreeLevel == degreeLevel)&&(identical(other.applicationDeadline, applicationDeadline) || other.applicationDeadline == applicationDeadline)&&(identical(other.matchScore, matchScore) || other.matchScore == matchScore)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.isInApplicationPlan, isInApplicationPlan) || other.isInApplicationPlan == isInApplicationPlan)&&(identical(other.scholarshipEmoji, scholarshipEmoji) || other.scholarshipEmoji == scholarshipEmoji)&&const DeepCollectionEquality().equals(other.quickTags, quickTags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScholarshipCardData&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerCountry, providerCountry) || other.providerCountry == providerCountry)&&(identical(other.countryFlag, countryFlag) || other.countryFlag == countryFlag)&&(identical(other.fundingType, fundingType) || other.fundingType == fundingType)&&(identical(other.fundingAmount, fundingAmount) || other.fundingAmount == fundingAmount)&&(identical(other.degreeLevel, degreeLevel) || other.degreeLevel == degreeLevel)&&(identical(other.applicationDeadline, applicationDeadline) || other.applicationDeadline == applicationDeadline)&&(identical(other.matchScore, matchScore) || other.matchScore == matchScore)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.isInApplicationPlan, isInApplicationPlan) || other.isInApplicationPlan == isInApplicationPlan)&&(identical(other.scholarshipEmoji, scholarshipEmoji) || other.scholarshipEmoji == scholarshipEmoji)&&const DeepCollectionEquality().equals(other.quickTags, quickTags)&&const DeepCollectionEquality().equals(other.subjectAreas, subjectAreas));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,provider,providerCountry,countryFlag,fundingType,fundingAmount,degreeLevel,applicationDeadline,matchScore,isSaved,isInApplicationPlan,scholarshipEmoji,const DeepCollectionEquality().hash(quickTags));
+int get hashCode => Object.hash(runtimeType,id,title,provider,providerCountry,countryFlag,fundingType,fundingAmount,degreeLevel,applicationDeadline,matchScore,isSaved,isInApplicationPlan,scholarshipEmoji,const DeepCollectionEquality().hash(quickTags),const DeepCollectionEquality().hash(subjectAreas));
 
 @override
 String toString() {
-  return 'ScholarshipCardData(id: $id, title: $title, provider: $provider, providerCountry: $providerCountry, countryFlag: $countryFlag, fundingType: $fundingType, fundingAmount: $fundingAmount, degreeLevel: $degreeLevel, applicationDeadline: $applicationDeadline, matchScore: $matchScore, isSaved: $isSaved, isInApplicationPlan: $isInApplicationPlan, scholarshipEmoji: $scholarshipEmoji, quickTags: $quickTags)';
+  return 'ScholarshipCardData(id: $id, title: $title, provider: $provider, providerCountry: $providerCountry, countryFlag: $countryFlag, fundingType: $fundingType, fundingAmount: $fundingAmount, degreeLevel: $degreeLevel, applicationDeadline: $applicationDeadline, matchScore: $matchScore, isSaved: $isSaved, isInApplicationPlan: $isInApplicationPlan, scholarshipEmoji: $scholarshipEmoji, quickTags: $quickTags, subjectAreas: $subjectAreas)';
 }
 
 
@@ -340,7 +341,7 @@ abstract mixin class $ScholarshipCardDataCopyWith<$Res>  {
   factory $ScholarshipCardDataCopyWith(ScholarshipCardData value, $Res Function(ScholarshipCardData) _then) = _$ScholarshipCardDataCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String provider, String providerCountry, String countryFlag, String fundingType, String fundingAmount, String degreeLevel, DateTime applicationDeadline, double matchScore, bool isSaved, bool isInApplicationPlan, String scholarshipEmoji, List<String>? quickTags
+ String id, String title, String provider, String providerCountry, String countryFlag, String fundingType, String fundingAmount, String degreeLevel, DateTime applicationDeadline, double matchScore, bool isSaved, bool isInApplicationPlan, String scholarshipEmoji, List<String> quickTags, List<String> subjectAreas
 });
 
 
@@ -357,7 +358,7 @@ class _$ScholarshipCardDataCopyWithImpl<$Res>
 
 /// Create a copy of ScholarshipCardData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? provider = null,Object? providerCountry = null,Object? countryFlag = null,Object? fundingType = null,Object? fundingAmount = null,Object? degreeLevel = null,Object? applicationDeadline = null,Object? matchScore = null,Object? isSaved = null,Object? isInApplicationPlan = null,Object? scholarshipEmoji = null,Object? quickTags = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? provider = null,Object? providerCountry = null,Object? countryFlag = null,Object? fundingType = null,Object? fundingAmount = null,Object? degreeLevel = null,Object? applicationDeadline = null,Object? matchScore = null,Object? isSaved = null,Object? isInApplicationPlan = null,Object? scholarshipEmoji = null,Object? quickTags = null,Object? subjectAreas = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -372,8 +373,9 @@ as DateTime,matchScore: null == matchScore ? _self.matchScore : matchScore // ig
 as double,isSaved: null == isSaved ? _self.isSaved : isSaved // ignore: cast_nullable_to_non_nullable
 as bool,isInApplicationPlan: null == isInApplicationPlan ? _self.isInApplicationPlan : isInApplicationPlan // ignore: cast_nullable_to_non_nullable
 as bool,scholarshipEmoji: null == scholarshipEmoji ? _self.scholarshipEmoji : scholarshipEmoji // ignore: cast_nullable_to_non_nullable
-as String,quickTags: freezed == quickTags ? _self.quickTags : quickTags // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as String,quickTags: null == quickTags ? _self.quickTags : quickTags // ignore: cast_nullable_to_non_nullable
+as List<String>,subjectAreas: null == subjectAreas ? _self.subjectAreas : subjectAreas // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -384,7 +386,7 @@ as List<String>?,
 
 
 class _ScholarshipCardData extends ScholarshipCardData {
-  const _ScholarshipCardData({required this.id, required this.title, required this.provider, required this.providerCountry, required this.countryFlag, required this.fundingType, required this.fundingAmount, required this.degreeLevel, required this.applicationDeadline, required this.matchScore, required this.isSaved, this.isInApplicationPlan = false, required this.scholarshipEmoji, final  List<String>? quickTags}): _quickTags = quickTags,super._();
+  const _ScholarshipCardData({required this.id, required this.title, required this.provider, required this.providerCountry, required this.countryFlag, required this.fundingType, required this.fundingAmount, required this.degreeLevel, required this.applicationDeadline, required this.matchScore, required this.isSaved, this.isInApplicationPlan = false, required this.scholarshipEmoji, final  List<String> quickTags = const [], final  List<String> subjectAreas = const []}): _quickTags = quickTags,_subjectAreas = subjectAreas,super._();
   
 
 @override final  String id;
@@ -402,14 +404,21 @@ class _ScholarshipCardData extends ScholarshipCardData {
 @override@JsonKey() final  bool isInApplicationPlan;
 @override final  String scholarshipEmoji;
 // 📍 or other relevant emoji
- final  List<String>? _quickTags;
+ final  List<String> _quickTags;
 // 📍 or other relevant emoji
-@override List<String>? get quickTags {
-  final value = _quickTags;
-  if (value == null) return null;
+@override@JsonKey() List<String> get quickTags {
   if (_quickTags is EqualUnmodifiableListView) return _quickTags;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
+  return EqualUnmodifiableListView(_quickTags);
+}
+
+// ['Full Funding', 'No GPA Limit']
+ final  List<String> _subjectAreas;
+// ['Full Funding', 'No GPA Limit']
+@override@JsonKey() List<String> get subjectAreas {
+  if (_subjectAreas is EqualUnmodifiableListView) return _subjectAreas;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_subjectAreas);
 }
 
 
@@ -423,16 +432,16 @@ _$ScholarshipCardDataCopyWith<_ScholarshipCardData> get copyWith => __$Scholarsh
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScholarshipCardData&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerCountry, providerCountry) || other.providerCountry == providerCountry)&&(identical(other.countryFlag, countryFlag) || other.countryFlag == countryFlag)&&(identical(other.fundingType, fundingType) || other.fundingType == fundingType)&&(identical(other.fundingAmount, fundingAmount) || other.fundingAmount == fundingAmount)&&(identical(other.degreeLevel, degreeLevel) || other.degreeLevel == degreeLevel)&&(identical(other.applicationDeadline, applicationDeadline) || other.applicationDeadline == applicationDeadline)&&(identical(other.matchScore, matchScore) || other.matchScore == matchScore)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.isInApplicationPlan, isInApplicationPlan) || other.isInApplicationPlan == isInApplicationPlan)&&(identical(other.scholarshipEmoji, scholarshipEmoji) || other.scholarshipEmoji == scholarshipEmoji)&&const DeepCollectionEquality().equals(other._quickTags, _quickTags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScholarshipCardData&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.provider, provider) || other.provider == provider)&&(identical(other.providerCountry, providerCountry) || other.providerCountry == providerCountry)&&(identical(other.countryFlag, countryFlag) || other.countryFlag == countryFlag)&&(identical(other.fundingType, fundingType) || other.fundingType == fundingType)&&(identical(other.fundingAmount, fundingAmount) || other.fundingAmount == fundingAmount)&&(identical(other.degreeLevel, degreeLevel) || other.degreeLevel == degreeLevel)&&(identical(other.applicationDeadline, applicationDeadline) || other.applicationDeadline == applicationDeadline)&&(identical(other.matchScore, matchScore) || other.matchScore == matchScore)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.isInApplicationPlan, isInApplicationPlan) || other.isInApplicationPlan == isInApplicationPlan)&&(identical(other.scholarshipEmoji, scholarshipEmoji) || other.scholarshipEmoji == scholarshipEmoji)&&const DeepCollectionEquality().equals(other._quickTags, _quickTags)&&const DeepCollectionEquality().equals(other._subjectAreas, _subjectAreas));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,provider,providerCountry,countryFlag,fundingType,fundingAmount,degreeLevel,applicationDeadline,matchScore,isSaved,isInApplicationPlan,scholarshipEmoji,const DeepCollectionEquality().hash(_quickTags));
+int get hashCode => Object.hash(runtimeType,id,title,provider,providerCountry,countryFlag,fundingType,fundingAmount,degreeLevel,applicationDeadline,matchScore,isSaved,isInApplicationPlan,scholarshipEmoji,const DeepCollectionEquality().hash(_quickTags),const DeepCollectionEquality().hash(_subjectAreas));
 
 @override
 String toString() {
-  return 'ScholarshipCardData(id: $id, title: $title, provider: $provider, providerCountry: $providerCountry, countryFlag: $countryFlag, fundingType: $fundingType, fundingAmount: $fundingAmount, degreeLevel: $degreeLevel, applicationDeadline: $applicationDeadline, matchScore: $matchScore, isSaved: $isSaved, isInApplicationPlan: $isInApplicationPlan, scholarshipEmoji: $scholarshipEmoji, quickTags: $quickTags)';
+  return 'ScholarshipCardData(id: $id, title: $title, provider: $provider, providerCountry: $providerCountry, countryFlag: $countryFlag, fundingType: $fundingType, fundingAmount: $fundingAmount, degreeLevel: $degreeLevel, applicationDeadline: $applicationDeadline, matchScore: $matchScore, isSaved: $isSaved, isInApplicationPlan: $isInApplicationPlan, scholarshipEmoji: $scholarshipEmoji, quickTags: $quickTags, subjectAreas: $subjectAreas)';
 }
 
 
@@ -443,7 +452,7 @@ abstract mixin class _$ScholarshipCardDataCopyWith<$Res> implements $Scholarship
   factory _$ScholarshipCardDataCopyWith(_ScholarshipCardData value, $Res Function(_ScholarshipCardData) _then) = __$ScholarshipCardDataCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String provider, String providerCountry, String countryFlag, String fundingType, String fundingAmount, String degreeLevel, DateTime applicationDeadline, double matchScore, bool isSaved, bool isInApplicationPlan, String scholarshipEmoji, List<String>? quickTags
+ String id, String title, String provider, String providerCountry, String countryFlag, String fundingType, String fundingAmount, String degreeLevel, DateTime applicationDeadline, double matchScore, bool isSaved, bool isInApplicationPlan, String scholarshipEmoji, List<String> quickTags, List<String> subjectAreas
 });
 
 
@@ -460,7 +469,7 @@ class __$ScholarshipCardDataCopyWithImpl<$Res>
 
 /// Create a copy of ScholarshipCardData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? provider = null,Object? providerCountry = null,Object? countryFlag = null,Object? fundingType = null,Object? fundingAmount = null,Object? degreeLevel = null,Object? applicationDeadline = null,Object? matchScore = null,Object? isSaved = null,Object? isInApplicationPlan = null,Object? scholarshipEmoji = null,Object? quickTags = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? provider = null,Object? providerCountry = null,Object? countryFlag = null,Object? fundingType = null,Object? fundingAmount = null,Object? degreeLevel = null,Object? applicationDeadline = null,Object? matchScore = null,Object? isSaved = null,Object? isInApplicationPlan = null,Object? scholarshipEmoji = null,Object? quickTags = null,Object? subjectAreas = null,}) {
   return _then(_ScholarshipCardData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -475,8 +484,9 @@ as DateTime,matchScore: null == matchScore ? _self.matchScore : matchScore // ig
 as double,isSaved: null == isSaved ? _self.isSaved : isSaved // ignore: cast_nullable_to_non_nullable
 as bool,isInApplicationPlan: null == isInApplicationPlan ? _self.isInApplicationPlan : isInApplicationPlan // ignore: cast_nullable_to_non_nullable
 as bool,scholarshipEmoji: null == scholarshipEmoji ? _self.scholarshipEmoji : scholarshipEmoji // ignore: cast_nullable_to_non_nullable
-as String,quickTags: freezed == quickTags ? _self._quickTags : quickTags // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as String,quickTags: null == quickTags ? _self._quickTags : quickTags // ignore: cast_nullable_to_non_nullable
+as List<String>,subjectAreas: null == subjectAreas ? _self._subjectAreas : subjectAreas // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

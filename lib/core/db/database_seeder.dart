@@ -28,9 +28,10 @@ class DatabaseSeeder {
 
       // Find all scholarship JSON files in the assets directory
       final scholarshipPaths = manifestMap.keys
-          .where((String key) => 
-              key.contains('assets/scholarships/') && 
-              key.endsWith('.json'))
+          .where(
+            (String key) =>
+                key.contains('assets/scholarships/') && key.endsWith('.json'),
+          )
           .toList();
 
       print('Found ${scholarshipPaths.length} scholarship files to process');
@@ -49,7 +50,9 @@ class DatabaseSeeder {
         }
       }
 
-      print('Scholarship seeding completed. Success: $successCount, Errors: $errorCount');
+      print(
+        'Scholarship seeding completed. Success: $successCount, Errors: $errorCount',
+      );
     } catch (e) {
       print('Failed to seed scholarships: $e');
       rethrow;
@@ -80,13 +83,16 @@ class DatabaseSeeder {
         try {
           applicationDeadline = DateTime.parse(deadlineStr);
         } catch (e) {
-          print('Warning: Could not parse deadline for ${data['id']}: $deadlineStr');
+          print(
+            'Warning: Could not parse deadline for ${data['id']}: $deadlineStr',
+          );
         }
       }
 
       // Extract language requirements
       final academic = requirements['academic'] as Map<String, dynamic>? ?? {};
-      final languageReq = academic['language_requirements'] as Map<String, dynamic>?;
+      final languageReq =
+          academic['language_requirements'] as Map<String, dynamic>?;
       String? languageRequirementsJson;
       if (languageReq != null) {
         languageRequirementsJson = json.encode(languageReq);
@@ -109,18 +115,22 @@ class DatabaseSeeder {
         title: data['title']?.toString() ?? '',
         provider: data['provider']?.toString() ?? '',
         providerCountry: data['provider_country']?.toString() ?? '',
-        applicationDeadline: applicationDeadline ?? DateTime.now().add(const Duration(days: 365)),
+        applicationDeadline:
+            applicationDeadline ??
+            DateTime.now().add(const Duration(days: 365)),
         fundingType: basicInfo['funding_type']?.toString() ?? '',
-        targetDegreeLevels: json.encode(basicInfo['target_degree_levels'] ?? []),
+        targetDegreeLevels: json.encode(
+          basicInfo['target_degree_levels'] ?? [],
+        ),
         subjectAreas: Value.absentIfNull(
-          basicInfo['subject_areas'] != null 
-              ? json.encode(basicInfo['subject_areas']) 
-              : null
+          basicInfo['subject_areas'] != null
+              ? json.encode(basicInfo['subject_areas'])
+              : null,
         ),
         studyCountries: Value.absentIfNull(
-          basicInfo['study_countries'] != null 
-              ? json.encode(basicInfo['study_countries']) 
-              : null
+          basicInfo['study_countries'] != null
+              ? json.encode(basicInfo['study_countries'])
+              : null,
         ),
         minGpa: Value.absentIfNull(minGpa),
         languageRequirements: Value.absentIfNull(languageRequirementsJson),
@@ -129,7 +139,6 @@ class DatabaseSeeder {
 
       // Insert into database
       await db.into(db.scholarships).insert(companion);
-      
     } catch (e) {
       print('Error in _processScholarshipFile for $assetPath: $e');
       rethrow;

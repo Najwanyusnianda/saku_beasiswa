@@ -1,0 +1,99 @@
+{
+  "scholarships": [
+    {
+      "id": "fulbright_masters_2025",
+      "title": "Fulbright Foreign Student Program",
+      "provider": "U.S. Department of State",
+      "provider_country": "United States",
+      "country_flag": "🇺🇸",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "Full Coverage",
+      "degree_levels": ["Master's", "PhD"],
+      "application_deadline": "2025-10-15",
+      "quick_tags": ["Full Funding", "Research Focus"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["All Fields", "Science", "Technology"],
+      "match_score": 0.85
+    },
+    {
+      "id": "chevening_2025",
+      "title": "Chevening Scholarships",
+      "provider": "UK Government",
+      "provider_country": "United Kingdom",
+      "country_flag": "🇬🇧",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "£18,000/year + Tuition",
+      "degree_levels": ["Master's"],
+      "application_deadline": "2025-11-02",
+      "quick_tags": ["Leadership Track", "Full Funding"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["All Fields", "Business", "Politics"],
+      "match_score": 0.78
+    },
+    {
+      "id": "lpdp_s2_2025",
+      "title": "LPDP Master's Scholarship",
+      "provider": "Indonesian Government",
+      "provider_country": "Indonesia",
+      "country_flag": "🇮🇩",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "Full Coverage + Living",
+      "degree_levels": ["Master's"],
+      "application_deadline": "2025-09-30",
+      "quick_tags": ["Government Backed", "No GPA Limit"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["Engineering", "Medicine", "Economics"],
+      "match_score": 0.92
+    },
+    {
+      "id": "australia_awards_2025",
+      "title": "Australia Awards Scholarship",
+      "provider": "Australian Government",
+      "provider_country": "Australia",
+      "country_flag": "🇦🇺",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "AUD $47,600/year",
+      "degree_levels": ["Master's", "PhD"],
+      "application_deadline": "2025-04-30",
+      "quick_tags": ["Full Funding", "Development Focus"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["Development", "Engineering", "Agriculture"],
+      "match_score": 0.73
+    },
+    {
+      "id": "daad_germany_2025",
+      "title": "DAAD Graduate School Scholarship",
+      "provider": "German Academic Exchange Service",
+      "provider_country": "Germany",
+      "country_flag": "🇩🇪",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "€1,200/month + Tuition",
+      "degree_levels": ["Master's", "PhD"],
+      "application_deadline": "2025-10-31",
+      "quick_tags": ["Research Focus", "Full Funding"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["Science", "Technology", "Engineering"],
+      "match_score": 0.81
+    },
+    {
+      "id": "swedish_institute_2025",
+      "title": "Swedish Institute Scholarships",
+      "provider": "Swedish Institute",
+      "provider_country": "Sweden",
+      "country_flag": "🇸🇪",
+      "funding_type": "Full Scholarship",
+      "funding_amount": "SEK 15,000/month + Tuition",
+      "degree_levels": ["Master's"],
+      "application_deadline": "2025-02-20",
+      "quick_tags": ["Sustainability Focus", "Full Funding"],
+      "scholarship_emoji": "🎓",
+      "subject_areas": ["Sustainability", "Technology", "Health"],
+      "match_score": 0.69
+    }
+  ],
+  "metadata": {
+    "total_count": 6,
+    "last_updated": "2025-08-01T00:00:00Z",
+    "version": "1.0"
+  }
+}

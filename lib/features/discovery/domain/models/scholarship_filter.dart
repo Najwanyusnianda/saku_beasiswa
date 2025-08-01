@@ -10,35 +10,33 @@ abstract class ScholarshipFilter with _$ScholarshipFilter {
   const factory ScholarshipFilter({
     // Search query
     @Default('') String searchQuery,
-    
+
     // Education level filters
     @Default([]) List<String> educationLevels, // ['S1', 'S2', 'S3']
-    
     // Target countries
     @Default([]) List<String> targetCountries, // ['USA', 'UK', 'Australia']
-    
     // Subject areas/fields of study
-    @Default([]) List<String> subjectAreas, // ['Engineering', 'Computer Science']
-    
+    @Default([])
+    List<String> subjectAreas, // ['Engineering', 'Computer Science']
     // Funding type filter
     FundingTypeFilter? fundingType,
-    
+
     // Deadline filter
     DeadlineFilter? deadlineFilter,
-    
+
     // GPA range
     double? minGpa,
     double? maxGpa,
-    
+
     // Language requirements
     @Default([]) List<String> languageRequirements, // ['IELTS', 'TOEFL']
-    
     // Sort options
     @Default(SortOption.matchScore) SortOption sortBy,
     @Default(SortDirection.descending) SortDirection sortDirection,
   }) = _ScholarshipFilter;
 
-  factory ScholarshipFilter.fromJson(Map<String, dynamic> json) => _$ScholarshipFilterFromJson(json);
+  factory ScholarshipFilter.fromJson(Map<String, dynamic> json) =>
+      _$ScholarshipFilterFromJson(json);
 }
 
 /// Funding type filter options
@@ -97,7 +95,8 @@ abstract class QuickFilter with _$QuickFilter {
     String? value, // The actual filter value
   }) = _QuickFilter;
 
-  factory QuickFilter.fromJson(Map<String, dynamic> json) => _$QuickFilterFromJson(json);
+  factory QuickFilter.fromJson(Map<String, dynamic> json) =>
+      _$QuickFilterFromJson(json);
 }
 
 /// Types of quick filters

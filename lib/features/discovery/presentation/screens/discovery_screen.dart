@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../application/discovery_notifier.dart';
+import '../../application/dtos/scholarship_filter_dto.dart';
 import '../../domain/models/scholarship_filter.dart';
-import '../widgets/discovery_search_bar.dart';
-import '../widgets/quick_filter_chips.dart';
-import '../widgets/scholarship_card.dart';
+import '../widgets/discovery_screen/discovery_search_bar.dart';
+import '../widgets/discovery_screen/quick_filter_chips.dart';
+import '../widgets/shared/scholarship_card.dart';
 
 /// Main scholarship discovery screen with Instagram-like feed
 class DiscoveryScreen extends ConsumerStatefulWidget {
-  const DiscoveryScreen({super.key});
+  const DiscoveryScreen({super.key, this.onNavigateToDetail});
+
+  /// Callback for navigation to detail screen
+  /// This abstracts away the navigation implementation from the UI
+  final void Function(String scholarshipId)? onNavigateToDetail;
 
   @override
   ConsumerState<DiscoveryScreen> createState() => _DiscoveryScreenState();
@@ -22,7 +26,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     // Load initial scholarships
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(discoveryNotifierProvider.notifier).loadScholarships();
@@ -30,7 +34,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
     // Setup infinite scroll
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= 
+      if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
         ref.read(discoveryNotifierProvider.notifier).loadMoreScholarships();
       }
@@ -49,7 +53,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
     final theme = Theme.of(context);
     final discoveryState = ref.watch(discoveryNotifierProvider);
     final discoveryNotifier = ref.read(discoveryNotifierProvider.notifier);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -85,7 +89,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
             onFilterTap: () => _showAdvancedFilters(context),
             hasActiveFilters: _hasActiveFilters(discoveryState.filter),
           ),
-          
+
           // Quick filter chips
           QuickFilterChips(
             filters: QuickFilters.defaultFilters,
@@ -94,16 +98,18 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
               discoveryNotifier.toggleQuickFilter(filter);
             },
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Scholarship feed
           Expanded(
-            child: discoveryState.isLoading && discoveryState.scholarships.isEmpty
+            child:
+                discoveryState.isLoading && discoveryState.scholarships.isEmpty
                 ? _buildLoadingState()
-                : discoveryState.error != null && discoveryState.scholarships.isEmpty
-                    ? _buildErrorState(discoveryState.error!)
-                    : _buildScholarshipFeed(discoveryState.scholarships),
+                : discoveryState.error != null &&
+                      discoveryState.scholarships.isEmpty
+                ? _buildErrorState(discoveryState.error!)
+                : _buildScholarshipFeed(discoveryState.scholarships),
           ),
         ],
       ),
@@ -117,7 +123,9 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
     return RefreshIndicator(
       onRefresh: () async {
-        await ref.read(discoveryNotifierProvider.notifier).refreshScholarships();
+        await ref
+            .read(discoveryNotifierProvider.notifier)
+            .refreshScholarships();
       },
       child: ListView.builder(
         controller: _scrollController,
@@ -127,9 +135,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
             // Loading indicator for pagination
             return const Padding(
               padding: EdgeInsets.all(16),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: Center(child: CircularProgressIndicator()),
             );
           }
 
@@ -224,23 +230,23 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
     );
   }
 
-  bool _hasActiveFilters(ScholarshipFilter filter) {
+  bool _hasActiveFilters(ScholarshipFilterDto filter) {
     return filter.searchQuery.isNotEmpty ||
-           filter.educationLevels.isNotEmpty ||
-           filter.targetCountries.isNotEmpty ||
-           filter.subjectAreas.isNotEmpty ||
-           filter.fundingType != null ||
-           filter.deadlineFilter != null ||
-           filter.minGpa != null ||
-           filter.maxGpa != null;
+        filter.educationLevels.isNotEmpty ||
+        filter.targetCountries.isNotEmpty ||
+        filter.subjectAreas.isNotEmpty ||
+        filter.fundingType != null;
   }
 
   void _navigateToDetail(String scholarshipId) {
-    context.push('/scholarship/$scholarshipId');
+    // Use the abstracted navigation callback
+    widget.onNavigateToDetail?.call(scholarshipId);
   }
 
   void _toggleSave(String scholarshipId) {
-    ref.read(discoveryNotifierProvider.notifier).toggleSavedStatus(scholarshipId);
+    ref
+        .read(discoveryNotifierProvider.notifier)
+        .toggleSavedStatus(scholarshipId);
   }
 
   void _shareScholarship(dynamic scholarship) {
